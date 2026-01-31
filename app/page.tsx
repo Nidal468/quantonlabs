@@ -12,14 +12,11 @@ import {
   ChevronUp,
   Menu,
   X,
-  Play,
   Star,
   Calendar,
   Mail,
   FileText,
-  BarChart3,
   Settings,
-  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DemoModal from "@/components/demoModal";
@@ -27,7 +24,6 @@ import DemoModal from "@/components/demoModal";
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [backToTopVisible, setBackToTopVisible] = useState(false);
-  const [activeDemoTab, setActiveDemoTab] = useState("editor");
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   useEffect(() => {
@@ -202,72 +198,6 @@ export default function HomePage() {
     </section>
   );
 
-  // Interactive Demo Component
-  const DemoSection = () => (
-    <Section id="interactive-demo" className="bg-linear-to-br from-blue-900/20 to-purple-900/20 backdrop-blur-sm">
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Interactive AI Workflow Demo</h2>
-        <p className="text-lg text-slate-300 max-w-3xl mx-auto mb-8">
-          See Quanton OS in action with our interactive workflow builder.
-          Experience how AI can automate your Google Workspace tools.
-        </p>
-
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button
-            onClick={() => setShowDemoModal(true)}
-            className="bg-linear-to-r from-blue-600 to-purple-600 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-          >
-            <Play className="mr-2 w-4 h-4" />
-            Try the Demo
-          </Button>
-
-          <Button variant="outline">
-            <Download className="mr-2 w-4 h-4" />
-            Download Workflow Template
-          </Button>
-        </div>
-      </div>
-
-      {/* Preview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {[
-          {
-            title: "Workflow Builder",
-            description: "Design AI workflows with drag-and-drop interface",
-            icon: <Settings className="w-5 h-5" />
-          },
-          {
-            title: "Real-time Execution",
-            description: "Watch your workflow run across Google tools",
-            icon: <Zap className="w-5 h-5" />
-          },
-          {
-            title: "Performance Analytics",
-            description: "View logs and metrics of each step",
-            icon: <BarChart3 className="w-5 h-5" />
-          }
-        ].map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
-          >
-            <div className="flex items-center mb-3">
-              <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-            </div>
-            <p className="text-slate-300 leading-relaxed">{item.description}</p>
-          </motion.div>
-        ))}
-      </div>
-    </Section>
-  );
-
   // New Sections
   const FeaturesSection = () => (
     <Section id="features" className="bg-[#041227]/50">
@@ -302,7 +232,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
           >
             <div className="flex items-center mb-3">
               <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
@@ -393,7 +323,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
           >
             <h3 className="font-semibold text-lg mb-2">{faq.question}</h3>
             <p className="text-slate-300">{faq.answer}</p>
@@ -436,7 +366,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
           >
             <div className="flex items-center mb-4">
               {[...Array(5)].map((_, i) => (
@@ -449,35 +379,6 @@ export default function HomePage() {
               <div className="mx-2 text-slate-500">•</div>
               <div className="text-sm text-slate-400">{testimonial.role}</div>
             </div>
-          </motion.div>
-        ))}
-      </div>
-    </Section>
-  );
-
-  const PartnersSection = () => (
-    <Section id="partners" className="bg-[#041227]/50">
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Partners</h2>
-        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-          Trusted by innovative companies across industries.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-8 max-w-6xl mx-auto justify-items-center">
-        {["No partners"].map((partner, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
-          >
-            <div className="h-20 flex items-center justify-center">
-              <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16" />
-            </div>
-            <p className="text-slate-300 mt-2">{partner}</p>
           </motion.div>
         ))}
       </div>
@@ -512,7 +413,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
           >
             <h3 className="font-semibold text-lg mb-2">{article.title}</h3>
             <p className="text-slate-300 mb-3">{article.excerpt}</p>
@@ -580,7 +481,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
           >
             <div className="flex items-center mb-3">
               <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
@@ -674,7 +575,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
           >
             <div className="flex items-center mb-3">
               <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
@@ -692,8 +593,453 @@ export default function HomePage() {
     </Section>
   );
 
+  const ProductUpdates = () => (
+    <Section id="product-updates" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Product Updates</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Stay informed about the latest features and improvements.
+        </p>
+      </div>
+
+      <div className="max-w-3xl mx-auto space-y-6">
+        {[
+          {
+            title: "AI Agent Enhancements",
+            date: "June 15, 2025",
+            summary: "New capabilities for intelligent decision making and automated workflows."
+          },
+          {
+            title: "Enhanced Analytics Dashboard",
+            date: "May 30, 2025",
+            summary: "Real-time metrics with predictive insights for better business decisions."
+          }
+        ].map((update, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+          >
+            <div className="flex justify-between items-start">
+              <h3 className="font-semibold text-lg mb-1">{update.title}</h3>
+              <span className="text-sm text-slate-400 whitespace-nowrap">{update.date}</span>
+            </div>
+            <p className="text-slate-300">{update.summary}</p>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+
+  const Integrations = () => (
+    <Section id="integrations" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Integrations</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Seamlessly connect with your existing tools and platforms.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        {[
+          "Google Workspace",
+          "Slack",
+          "Zapier",
+          "Notion"
+        ].map((integration, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+          >
+            <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mb-3" />
+            <p className="text-slate-300">{integration}</p>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+
+  const EnterpriseSolutions = () => (
+    <Section id="enterprise-solutions" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Enterprise Solutions</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Custom enterprise-grade options for large organizations.
+        </p>
+      </div>
+
+      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {[
+          {
+            title: "SLA Guarantee",
+            description: "Enterprise-level service level agreements with guaranteed uptime and response times."
+          },
+          {
+            title: "On-Premise Deployment",
+            description: "Fully customizable on-premise installations for compliance requirements."
+          },
+          {
+            title: "Custom Development",
+            description: "Tailored features built specifically to match your business workflows."
+          },
+          {
+            title: "Dedicated Support",
+            description: "24/7 dedicated account managers and technical support specialists."
+          }
+        ].map((solution, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+          >
+            <h3 className="font-semibold text-lg mb-2">{solution.title}</h3>
+            <p className="text-slate-300">{solution.description}</p>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="max-w-md mx-auto mt-10">
+        <Button variant="outline" className="w-full">
+          Contact for Enterprise Pricing
+        </Button>
+      </div>
+    </Section>
+  );
+
+  const CaseStudyCarousel = () => (
+    <Section id="case-study-carousel" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          See how companies have transformed their operations with Quanton OS.
+        </p>
+      </div>
+
+      <div className="max-w-5xl mx-auto">
+        {[
+          {
+            title: "Operational Reset",
+            description: "Rebuilt the operating system for a multi location services company so leadership could see capacity, margin, and execution risk in a single view.",
+            quote: "Quanton OS gave us the clarity we needed to scale confidently."
+          },
+          {
+            title: "From Tools To Operating System",
+            description: "Consolidated scattered tools into Quanton OS, turning dashboards, workflows, and agents into one governed architecture instead of a collection of apps.",
+            quote: "We went from chaos to control in just 3 months."
+          }
+        ].map((caseStudy, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 mb-8 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+          >
+            <h3 className="font-semibold text-xl mb-3">{caseStudy.title}</h3>
+            <p className="text-slate-300 mb-4">{caseStudy.description}</p>
+            <div className="flex items-center">
+              <svg className="w-6 h-6 text-blue-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14.017 21v-7.391c0-5.704 3.731-8.099 7.532-8.099 3.316 0 5.772 2.605 5.772 6.037v7.391h-11.54z" />
+                <path d="M14.018 21v-7.391c0-5.704 3.731-8.099 7.532-8.099 3.316 0 5.772 2.605 5.772 6.037v7.391h-11.54z" />
+              </svg>
+              <p className="text-slate-300 italic">"{caseStudy.quote}"</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="flex justify-center mt-8">
+        <Button variant="outline" className="px-6 py-2">
+          View All Case Studies
+        </Button>
+      </div>
+    </Section>
+  );
+
+  const CustomerSupport = () => (
+    <Section id="customer-support" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Customer Support</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Get help when you need it with our comprehensive support channels.
+        </p>
+      </div>
+
+      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {[
+          {
+            title: "Live Chat",
+            description: "Instant support during business hours",
+            icon: (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.251-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            )
+          },
+          {
+            title: "Email Support",
+            description: "Response within 2 hours during business days",
+            icon: (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            )
+          },
+          {
+            title: "Phone Support",
+            description: "Direct line for urgent issues",
+            icon: (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+            )
+          },
+          {
+            title: "Knowledge Base",
+            description: "Comprehensive documentation and tutorials",
+            icon: (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5s1.332.477 2.5 1.253" />
+              </svg>
+            )
+          }
+        ].map((support, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300 flex items-center"
+          >
+            <div className="p-3 bg-blue-500/10 rounded-lg mr-4 text-blue-400">
+              {support.icon}
+            </div>
+            <div>
+              <h3 className="font-semibold mb-1">{support.title}</h3>
+              <p className="text-slate-300 text-sm">{support.description}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+
+  const EventsWebinars = () => (
+    <Section id="events-webinars" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Events & Webinars</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Join our upcoming events to learn more about Quanton OS.
+        </p>
+      </div>
+
+      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {[
+          {
+            title: "AI in Business Operations",
+            date: "June 20, 2025",
+            time: "10:00 AM PST",
+            description: "Learn how AI is transforming day-to-day business operations."
+          },
+          {
+            title: "Implementing Quanton OS",
+            date: "July 5, 2025",
+            time: "2:00 PM EST",
+            description: "A hands-on workshop for implementing Quanton OS in your organization."
+          }
+        ].map((event, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+          >
+            <div className="flex items-center mb-3">
+              <Calendar className="w-5 h-5 text-blue-400 mr-2" />
+              <h3 className="font-semibold">{event.title}</h3>
+            </div>
+            <p className="text-slate-300 mb-2 flex items-center">
+              <span className="mr-2">📅</span> {event.date}
+            </p>
+            <p className="text-slate-300 mb-4 flex items-center">
+              <span className="mr-2">⏰</span> {event.time}
+            </p>
+            <p className="text-slate-300">{event.description}</p>
+            <Button variant="outline" size="sm" className="mt-4 w-full">
+              Register
+            </Button>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+
+  const WhitepapersEbooks = () => (
+    <Section id="whitepapers-ebooks" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Whitepapers & Resources</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Download our comprehensive resources to deepen your understanding.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {[
+          {
+            title: "AI Operations Playbook",
+            description: "A practical guide to implementing AI in your business operations.",
+            icon: <FileText className="w-5 h-5" />
+          },
+          {
+            title: "Scaling Business Systems",
+            description: "How to build architectures that grow with your company.",
+            icon: <BookOpen className="w-5 h-5" />
+          }
+        ].map((resource, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300 flex items-start"
+          >
+            <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
+              {resource.icon}
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-2">{resource.title}</h3>
+              <p className="text-slate-300 mb-3">{resource.description}</p>
+              <Button variant="outline" size="sm">
+                Download PDF
+              </Button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+
+  const Careers = () => (
+    <Section id="careers" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Careers</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Join our team building the future of business operations.
+        </p>
+      </div>
+
+      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {[
+          {
+            title: "Senior Software Engineer",
+            location: "Remote",
+            description: "Help us build the next generation of AI-powered business tools."
+          },
+          {
+            title: "Product Manager",
+            location: "San Francisco, CA",
+            description: "Lead product development for our enterprise solutions."
+          }
+        ].map((job, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+          >
+            <h3 className="font-semibold text-lg mb-2">{job.title}</h3>
+            <p className="text-blue-400 text-sm mb-2">{job.location}</p>
+            <p className="text-slate-300 mb-4">{job.description}</p>
+            <Button variant="outline" size="sm">
+              Apply Now
+            </Button>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="max-w-md mx-auto mt-10 text-center">
+        <p className="text-slate-300 mb-4">Want to hear from us about opportunities?</p>
+        <Button variant="outline" className="w-full">
+          Join Our Talent Network
+        </Button>
+      </div>
+    </Section>
+  );
+
+  // Add this section before the Company section in your return JSX
+  const FounderSection = () => (
+    <Section id="founder" className="bg-[#041227]/50">
+      <div className="max-w-4xl mx-auto text-center mb-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Founder & Managing Director</h2>
+        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          Ryan Remington
+        </p>
+      </div>
+
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Image Container */}
+        <div className="flex justify-center">
+          <div className="relative w-full max-w-md h-[500px] rounded-xl overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-slate-700" />
+            <img
+              src={'/images/founder.png'}
+              alt="Ryan Remington - Founder & Managing Director of Quanton Labs"
+              className="absolute inset-0 w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Bio Content */}
+        <div className="prose prose-invert max-w-none">
+          <h3 className="text-2xl font-semibold mb-6 text-white">Ryan Remington</h3>
+          <div className="space-y-4">
+            <p className="text-slate-300 leading-relaxed">
+              Ryan Remington is the founder and Managing Director of Quanton Labs, where he drives the strategic vision and oversees the development of Quanton OS. He identified a recurring challenge in growing small and mid-sized businesses: as organizations expand, leaders struggle with fragmented systems, context switching, time pressures, and information overload. More technology and automation often add complexity rather than clarity.
+            </p>
+            <p className="text-slate-300 leading-relaxed">
+              Through hands-on operational experience and strategic consulting with service-based and luxury businesses, Ryan realized the core issue was the absence of a structured operating system to align strategy, execution, and intelligence. Quanton Labs addresses this gap by delivering cohesive operating environments that prioritize disciplined execution, decision clarity, and scalable growth.
+            </p>
+            <p className="text-slate-300 leading-relaxed">
+              Ryan holds an MBA from The Citadel and a BSc in Organizational Leadership and Communication with Honors from Marist College. A dual UK-US citizen and fluent in Spanish, he brings a global perspective to domestic operational challenges.
+            </p>
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+
   return (
     <div className="min-h-screen bg-[#041227] text-white">
+      <video
+        src="/video/bg.mp4"
+        className="w-full h-screen absolute z-0 object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+
       {/* Header */}
       <header className="fixed top-0 z-50 w-full backdrop-blur-xl bg-[#041227]/80 border-b border-white/10">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
@@ -708,7 +1054,6 @@ export default function HomePage() {
             <div className="w-12 h-12 flex items-center justify-center">
               <img src="/images/icon.png" className="w-full" />
             </div>
-            <span className="font-bold text-lg">Quanton Labs</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -821,7 +1166,7 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden bg-black/20">
         <div className="absolute inset-0 z-0 bg-linear-to-b from-blue-900/30 to-purple-900/30"></div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -831,13 +1176,13 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <p className="text-sm font-medium tracking-wider uppercase text-blue-400 mb-4">
+            <p className="text-sm font-medium tracking-wider uppercase text-blue-300 mb-4">
               The Architecture of Intelligent Business
             </p>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6 bg-linear-to-r from-white to-blue-200 bg-clip-text text-transparent">
               Scale Faster with AI-Powered Operating System
             </h1>
-            <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-100 max-w-3xl mx-auto mb-8 leading-relaxed">
               Quanton OS integrates strategy, platforms, operations, and growth into one governed architecture.
               AI is woven through the execution layer, not bolted on as another app.
             </p>
@@ -858,7 +1203,7 @@ export default function HomePage() {
               </Button>
             </div>
 
-            <p className="text-sm text-slate-400 max-w-2xl mx-auto">
+            <p className="text-sm text-slate-300 max-w-2xl mx-auto">
               Built for <span className="font-semibold text-white">growth-stage operators</span> who need an operating system that scales
               faster than headcount and makes AI part of the way the business runs.
             </p>
@@ -870,7 +1215,7 @@ export default function HomePage() {
       <Section id="who-we-serve" className="bg-[#041227]/50">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Who We Serve</h2>
-          <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          <p className="text-lg text-slate-200 max-w-3xl mx-auto">
             Quanton OS is built for owner led, growth stage companies generating roughly one to twenty
             million in annual revenue that need an operating system, not more disconnected tools.
           </p>
@@ -897,7 +1242,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border shadow-slate-800 hover:shadow-xl border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
             >
               <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed">{item.description}</p>
@@ -910,7 +1255,7 @@ export default function HomePage() {
       <Section id="growth-os" className="bg-[#041227]/50">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">What Is Quanton OS</h2>
-          <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+          <p className="text-lg text-slate-200 max-w-3xl mx-auto">
             Quanton OS is a deployable business operating system that integrates strategy,
             automation, and intelligence into a single governed infrastructure built on your
             existing platforms.
@@ -938,7 +1283,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
             >
               <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed">{item.description}</p>
@@ -982,7 +1327,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
             >
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
@@ -1022,7 +1367,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
             >
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
@@ -1068,7 +1413,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
             >
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
@@ -1079,16 +1424,27 @@ export default function HomePage() {
 
       {/* New Sections */}
       {FeaturesSection()}
+      {FounderSection()}
       {TeamSection()}
       {FAQSection()}
       {TestimonialsSection()}
-      {PartnersSection()}
       {BlogSection()}
       {NewsletterSection()}
       {ContactSection()}
       {RoadmapSection()}
       {ResourcesSection()}
-      {DemoSection()}
+
+      {/* Brand new sections */}
+      <ProductUpdates />
+      <Integrations />
+      <EnterpriseSolutions />
+      <CaseStudyCarousel />
+      <CustomerSupport />
+      <EventsWebinars />
+      <WhitepapersEbooks />
+      <Careers />
+
+
 
       {/* Company */}
       <Section id="company" className="bg-[#041227]/50">
@@ -1144,7 +1500,7 @@ export default function HomePage() {
       )}
 
       {/* Demo Modal */}
-      <DemoModal showDemoModal={showDemoModal} setShowDemoModal={setShowDemoModal}/>
+      <DemoModal showDemoModal={showDemoModal} setShowDemoModal={setShowDemoModal} />
     </div>
   );
 }
