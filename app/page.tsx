@@ -17,9 +17,11 @@ import {
   Mail,
   FileText,
   Settings,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DemoModal from "@/components/demoModal";
+import ContactSection from "@/components/landingpage/ContactSection";
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -232,7 +234,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <div className="flex items-center mb-3">
               <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
@@ -259,32 +261,33 @@ export default function HomePage() {
       <div className="flex items-center justify-center max-w-6xl mx-auto gap-20">
         {[
           {
-            name: "Ryan Remington",
-            role: "CEO & Founder",
-            bio: "Former CEO of 3 tech startups, with a focus on scalable business architecture."
+            "name": "Abu Saleh",
+            "role": "Lead Software Engineer",
+            "bio": "AI systems architect with experience in enterprise automation platforms and software development."
           },
           {
-            name: "Abu Saleh",
-            role: "Lead Software Engineer",
-            bio: "AI systems architect with experience in enterprise automation platforms and software development."
+            "name": "Abu Saeed",
+            "role": "Graphics Designer",
+            "bio": "Creative designer specializing in digital graphics, branding, and visual storytelling."
           }
-        ].map((member, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="text-center"
-          >
-            <div className="mx-auto w-32 h-32 rounded-full bg-linear-to-br from-blue-500 to-purple-600 mb-4 overflow-hidden">
-              <img src={'/images/space.png'} className="w-full h-full object-cover object-center" />
-            </div>
-            <h3 className="text-lg font-semibold">{member.name}</h3>
-            <p className="text-blue-400 text-sm">{member.role}</p>
-            <p className="text-slate-400 text-sm mt-2 max-w-[250px]">{member.bio}</p>
-          </motion.div>
-        ))}
+        ]
+          .map((member, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="text-center"
+            >
+              <div className="mx-auto w-32 h-32 rounded-full bg-linear-to-br from-blue-500 to-purple-600 mb-4 overflow-hidden">
+                <img src={'/images/space.png'} className="w-full h-full object-cover object-center" />
+              </div>
+              <h3 className="text-lg font-semibold">{member.name}</h3>
+              <p className="text-blue-400 text-sm">{member.role}</p>
+              <p className="text-slate-400 text-sm mt-2 max-w-[250px]">{member.bio}</p>
+            </motion.div>
+          ))}
       </div>
     </Section>
   );
@@ -323,7 +326,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <h3 className="font-semibold text-lg mb-2">{faq.question}</h3>
             <p className="text-slate-300">{faq.answer}</p>
@@ -345,42 +348,43 @@ export default function HomePage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {[
           {
-            quote: "Quanton OS transformed how we operate. We've seen 40% faster execution times and clearer performance metrics.",
-            author: "Sarah Johnson",
-            role: "CTO, TechSolutions Inc."
+            "quote": "Quanton OS transformed how we operate. We've seen 40% faster execution times and clearer performance metrics.",
+            "author": "Sarah Johnson",
+            "role": "CTO, NovaAITech Solutions"
           },
           {
-            quote: "The AI orchestration has saved us countless hours each week. It's not just automation - it's intelligent intelligence.",
-            author: "Michael Chen",
-            role: "Operations Director, GrowthCo"
+            "quote": "The AI orchestration has saved us countless hours each week. It's not just automation - it's intelligent intelligence.",
+            "author": "Michael Chen",
+            "role": "Operations Director, AIHyperGrowth Labs"
           },
           {
-            quote: "Our team could never have achieved this level of operational clarity without Quanton OS. It's truly the difference between chaos and control.",
-            author: "Elena Rodriguez",
-            role: "CEO, ScaleUp Corp"
+            "quote": "Our team could never have achieved this level of operational clarity without Quanton OS. It's truly the difference between chaos and control.",
+            "author": "Elena Rodriguez",
+            "role": "CEO, ApexAIScale Dynamics"
           }
-        ].map((testimonial, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
-          >
-            <div className="flex items-center mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-              ))}
-            </div>
-            <p className="text-slate-300 italic mb-4">"{testimonial.quote}"</p>
-            <div className="flex items-center">
-              <div className="font-semibold">{testimonial.author}</div>
-              <div className="mx-2 text-slate-500">•</div>
-              <div className="text-sm text-slate-400">{testimonial.role}</div>
-            </div>
-          </motion.div>
-        ))}
+        ]
+          .map((testimonial, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
+            >
+              <div className="flex items-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-slate-300 italic mb-4">"{testimonial.quote}"</p>
+              <div className="flex items-center">
+                <div className="font-semibold">{testimonial.author}</div>
+                <div className="mx-2 text-slate-500">•</div>
+                <div className="text-sm text-slate-400">{testimonial.role}</div>
+              </div>
+            </motion.div>
+          ))}
       </div>
     </Section>
   );
@@ -413,7 +417,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <h3 className="font-semibold text-lg mb-2">{article.title}</h3>
             <p className="text-slate-300 mb-3">{article.excerpt}</p>
@@ -449,55 +453,6 @@ export default function HomePage() {
             Subscribe
           </Button>
         </div>
-      </div>
-    </Section>
-  );
-
-  const ContactSection = () => (
-    <Section id="contact" className="bg-[#041227]/50">
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
-        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-          Have questions about Quanton OS? Our team is ready to help.
-        </p>
-      </div>
-
-      <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        {[
-          {
-            title: "Email Us",
-            description: "We typically respond within 24 hours",
-            icon: <Mail className="w-5 h-5" />
-          },
-          {
-            title: "Book a Demo",
-            description: "Schedule time with our team to see Quanton OS in action",
-            icon: <Calendar className="w-5 h-5" />
-          }
-        ].map((contact, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
-          >
-            <div className="flex items-center mb-3">
-              <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
-                {contact.icon}
-              </div>
-              <h3 className="text-xl font-semibold">{contact.title}</h3>
-            </div>
-            <p className="text-slate-300">{contact.description}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="max-w-md mx-auto mt-8">
-        <Button variant="outline" className="w-full">
-          View Contact Form
-        </Button>
       </div>
     </Section>
   );
@@ -575,7 +530,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <div className="flex items-center mb-3">
               <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
@@ -621,7 +576,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <div className="flex justify-between items-start">
               <h3 className="font-semibold text-lg mb-1">{update.title}</h3>
@@ -656,7 +611,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mb-3" />
             <p className="text-slate-300">{integration}</p>
@@ -700,7 +655,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <h3 className="font-semibold text-lg mb-2">{solution.title}</h3>
             <p className="text-slate-300">{solution.description}</p>
@@ -744,15 +699,12 @@ export default function HomePage() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 mb-8 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 mb-8 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <h3 className="font-semibold text-xl mb-3">{caseStudy.title}</h3>
             <p className="text-slate-300 mb-4">{caseStudy.description}</p>
-            <div className="flex items-center">
-              <svg className="w-6 h-6 text-blue-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-8.099 7.532-8.099 3.316 0 5.772 2.605 5.772 6.037v7.391h-11.54z" />
-                <path d="M14.018 21v-7.391c0-5.704 3.731-8.099 7.532-8.099 3.316 0 5.772 2.605 5.772 6.037v7.391h-11.54z" />
-              </svg>
+            <div className="flex items-center gap-2">
+              <MessageCircle size={14}/>
               <p className="text-slate-300 italic">"{caseStudy.quote}"</p>
             </div>
           </motion.div>
@@ -821,7 +773,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300 flex items-center"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300 flex items-center"
           >
             <div className="p-3 bg-blue-500/10 rounded-lg mr-4 text-blue-400">
               {support.icon}
@@ -866,7 +818,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <div className="flex items-center mb-3">
               <Calendar className="w-5 h-5 text-blue-400 mr-2" />
@@ -916,7 +868,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300 flex items-start"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300 flex items-start"
           >
             <div className="p-2 bg-blue-500/10 rounded-lg mr-3 text-blue-400">
               {resource.icon}
@@ -962,7 +914,7 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
             <h3 className="font-semibold text-lg mb-2">{job.title}</h3>
             <p className="text-blue-400 text-sm mb-2">{job.location}</p>
@@ -1197,10 +1149,6 @@ export default function HomePage() {
                 Book Consultation
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-
-              <Button variant="outline" className="px-6 py-3 text-zinc-800">
-                Explore Quanton OS
-              </Button>
             </div>
 
             <p className="text-sm text-slate-300 max-w-2xl mx-auto">
@@ -1242,7 +1190,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border shadow-slate-800 hover:shadow-xl border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border shadow-slate-800 hover:shadow-2xl border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
             >
               <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed">{item.description}</p>
@@ -1283,7 +1231,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed">{item.description}</p>
@@ -1327,7 +1275,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
@@ -1367,7 +1315,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
@@ -1376,7 +1324,7 @@ export default function HomePage() {
         </div>
 
         <div className="flex justify-center">
-          <Button variant="default" className="bg-linear-to-r from-blue-600 to-purple-600">
+          <Button variant="default" className="bg-linear-to-r from-blue-600 to-purple-600" onClick={() => window.location.href = "https://calendly.com/quantonlabs/30min"}>
             Discuss an Implementation
           </Button>
         </div>
@@ -1413,7 +1361,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-xl transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
             >
               <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
               <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
@@ -1492,7 +1440,7 @@ export default function HomePage() {
       {backToTopVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-linear-to-br from-blue-500/90 to-purple-600 flex items-center justify-center text-white shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+          className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-linear-to-br from-blue-500/90 to-purple-600 flex items-center justify-center text-white shadow-lg hover:shadow-2xl transition-all duration-300 z-50"
           aria-label="Back to top"
         >
           <ChevronUp className="w-5 h-5" />
