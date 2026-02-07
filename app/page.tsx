@@ -1222,19 +1222,22 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {caseStudies.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
-                onClick={() => window.location.href = `/cases/${index}`}
-              >
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between gap-4"
+
+            >
+              <div>
                 <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
                 <p className="text-slate-300 leading-relaxed text-sm">{item.subtitle}</p>
-              </motion.div>
-            ))}
+              </div>
+              <Link href={`/cases/${index}`} className="underline">Read more</Link>
+            </motion.div>
+          ))}
         </div>
       </Section>
 
@@ -1249,19 +1252,21 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {blogPosts.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
-                onClick={() => window.location.href = `/blogs/${index}`}
-              >
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between gap-4"
+            >
+              <div>
                 <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
                 <p className="text-slate-300 leading-relaxed text-sm">{item.introduction}</p>
-              </motion.div>
-            ))}
+              </div>
+              <Link href={`/blogs/${index}`} className="underline">Read more</Link>
+            </motion.div>
+          ))}
         </div>
       </Section>
 
