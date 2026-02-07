@@ -23,6 +23,8 @@ import { Button } from "@/components/ui/button";
 import DemoModal from "@/components/demoModal";
 import ContactSection from "@/components/landingpage/ContactSection";
 import HeaderL from "@/components/landingpage/header";
+import { blogPosts } from "@/db/blogs";
+import { caseStudies } from "@/db/caseStudy";
 
 export default function HomePage() {
   const [backToTopVisible, setBackToTopVisible] = useState(false);
@@ -1219,29 +1221,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {[
-            {
-              "title": "Local Moving Company (Marketing Execution)",
-              "description": "Before: Rapid inbound demand from social media led to no standardized content workflow, inconsistent tone, and owner frustration. AI-generated posts were deployed prematurely (Pattern 2.1), causing engagement decline. After: Quanton OS introduced defined content workflow stages, brand rules, owner validation, and weekly review cadence. Result: AI became a drafting accelerator within controlled processes. KPIs: publish consistency, engagement rate stability, lead quality, time-to-publish, revision rate."
-            },
-            {
-              "title": "Aesthetics Spa (Lead Tracking and Follow-Up)",
-              "description": "Before: Automated lead capture and responses across channels but lacked unified definitions, leading to data ambiguity and contested metrics (Pattern 2.2). Dashboards contradicted bookings and trust eroded. After: Quanton OS enforced single owner for lead definitions, consistent metrics, decision rights, and weekly funnel reviews. Result: AI supports prioritization and response sequencing based on governed definitions. KPIs: response time, qualification rate, consult-to-book conversion, channel ROI, lead SLA compliance."
-            },
-            {
-              "title": "Manufacturing and Distribution Company (Complex Assemblies)",
-              "description": "Before: AI produced operational insights but no accountable owner existed, causing insight accumulation and trust loss (Pattern 2.3). After: Quanton OS integrated e-commerce, ERP, and dashboards with named owners and defined operational stages. Result: Real-time visibility and enforced accountability converted insights into controlled action. KPIs: order cycle time, on-time fulfillment, inventory accuracy, backlog aging, rework frequency."
-            },
-            {
-              "title": "HVAC Company (Dispatch and Scheduling Automation)",
-              "description": "Before: Automated scheduling and routing failed due to inconsistent service categories and unstable exception handling, triggering Automation-induced complexity (Pattern 2.4). After: Quanton OS standardized workflows, defined exception protocols, assigned governance, and weekly reviews. Result: Automation deployed into a stable process, reducing exceptions and preserving control. KPIs: first-time fix rate, schedule accuracy, exception rate, reschedule rate, customer complaint volume."
-            },
-            {
-              "title": "Automotive Shop (Estimates, Summaries, and Service Recommendations)",
-              "description": "Before: AI-generated estimates and summaries created misplaced trust, degraded review discipline, and triggered False confidence pattern (Pattern 2.5). After: Quanton OS introduced validation checkpoints, acceptance criteria, named decision owners, and corrective audit loops. Result: AI supports speed without replacing verification; errors are caught early. KPIs: estimate-to-actual variance, gross margin stability, rework frequency, approval cycle time, audit findings rate."
-            }
-          ]
-            .map((item, index) => (
+          {caseStudies.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 30 }}
@@ -1252,11 +1232,39 @@ export default function HomePage() {
                 onClick={() => window.location.href = `/cases/${index}`}
               >
                 <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
-                <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
+                <p className="text-slate-300 leading-relaxed text-sm">{item.subtitle}</p>
               </motion.div>
             ))}
         </div>
       </Section>
+
+      <Section id="blogs" className="bg-[#041227]/50">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Blogs</h2>
+          <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+            Selected articles exploring how Quanton OS can be deployed to create clarity, control,
+            and compound growth in real businesses.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {blogPosts.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
+                onClick={() => window.location.href = `/blogs/${index}`}
+              >
+                <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
+                <p className="text-slate-300 leading-relaxed text-sm">{item.introduction}</p>
+              </motion.div>
+            ))}
+        </div>
+      </Section>
+
 
       {/* New Sections */}
       {FeaturesSection()}
