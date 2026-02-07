@@ -22,9 +22,9 @@ import {
 import { Button } from "@/components/ui/button";
 import DemoModal from "@/components/demoModal";
 import ContactSection from "@/components/landingpage/ContactSection";
+import HeaderL from "@/components/landingpage/header";
 
 export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [backToTopVisible, setBackToTopVisible] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
@@ -704,7 +704,7 @@ export default function HomePage() {
             <h3 className="font-semibold text-xl mb-3">{caseStudy.title}</h3>
             <p className="text-slate-300 mb-4">{caseStudy.description}</p>
             <div className="flex items-center gap-2">
-              <MessageCircle size={14}/>
+              <MessageCircle size={14} />
               <p className="text-slate-300 italic">"{caseStudy.quote}"</p>
             </div>
           </motion.div>
@@ -949,7 +949,7 @@ export default function HomePage() {
         {/* Image Container */}
         <div className="flex justify-center">
           <div className="relative w-full max-w-md h-[500px] rounded-xl overflow-hidden shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-slate-700" />
+            <div className="absolute inset-0 bg-linear-to-br from-blue-900/30 to-purple-900/30 rounded-xl border border-slate-700" />
             <img
               src={'/images/founder.png'}
               alt="Ryan Remington - Founder & Managing Director of Quanton Labs"
@@ -993,129 +993,7 @@ export default function HomePage() {
       />
 
       {/* Header */}
-      <header className="fixed top-0 z-50 w-full backdrop-blur-xl bg-[#041227]/80 border-b border-white/10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-          <Link
-            href="#"
-            className="flex items-center space-x-2"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            <div className="w-12 h-12 flex items-center justify-center">
-              <img src="/images/icon.png" className="w-full" />
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link href="#quanton-os" className="text-sm font-medium hover:text-blue-400 transition-colors">
-              Quanton OS
-            </Link>
-            <Link href="#solutions" className="text-sm font-medium hover:text-blue-400 transition-colors">
-              Solutions
-            </Link>
-            <Link href="#how-it-works" className="text-sm font-medium hover:text-blue-400 transition-colors">
-              How It Works
-            </Link>
-            <Link href="#who-we-serve" className="text-sm font-medium hover:text-blue-400 transition-colors">
-              Who We Serve
-            </Link>
-            <Link href="#case-studies" className="text-sm font-medium hover:text-blue-400 transition-colors">
-              Case Studies
-            </Link>
-            <Link href="#company" className="text-sm font-medium hover:text-blue-400 transition-colors">
-              Company
-            </Link>
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg bg-[#041227]/50 hover:bg-white/10 transition-colors"
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-
-          {/* CTA Button */}
-          <Link
-            href="https://calendly.com/quantonlabs/30min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-flex items-center px-4 py-2 rounded-full bg-linear-to-r from-blue-600 to-purple-600 text-sm font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"
-          >
-            Book Consultation
-          </Link>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden bg-[#041227]/95 backdrop-blur-xl border-t border-white/10"
-          >
-            <div className="container mx-auto px-4 py-4 flex flex-col space-y-3">
-              <Link
-                href="#quanton-os"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium hover:text-blue-400 transition-colors py-2"
-              >
-                Quanton OS
-              </Link>
-              <Link
-                href="#solutions"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium hover:text-blue-400 transition-colors py-2"
-              >
-                Solutions
-              </Link>
-              <Link
-                href="#how-it-works"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium hover:text-blue-400 transition-colors py-2"
-              >
-                How It Works
-              </Link>
-              <Link
-                href="#who-we-serve"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium hover:text-blue-400 transition-colors py-2"
-              >
-                Who We Serve
-              </Link>
-              <Link
-                href="#case-studies"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium hover:text-blue-400 transition-colors py-2"
-              >
-                Case Studies
-              </Link>
-              <Link
-                href="#company"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-medium hover:text-blue-400 transition-colors py-2"
-              >
-                Company
-              </Link>
-              <Link
-                href="https://calendly.com/quantonlabs/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsMenuOpen(false)}
-                className="inline-flex items-center px-4 py-2 rounded-full bg-linear-to-r from-blue-600 to-purple-600 text-sm font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 mt-2"
-              >
-                Book Consultation
-              </Link>
-            </div>
-          </motion.div>
-        )}
-      </header>
+      <HeaderL />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden bg-black/20">
@@ -1343,30 +1221,40 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             {
-              title: "Operational Reset",
-              description: "Rebuilt the operating system for a multi location services company so leadership could see capacity, margin, and execution risk in a single view."
+              "title": "Local Moving Company (Marketing Execution)",
+              "description": "Before: Rapid inbound demand from social media led to no standardized content workflow, inconsistent tone, and owner frustration. AI-generated posts were deployed prematurely (Pattern 2.1), causing engagement decline. After: Quanton OS introduced defined content workflow stages, brand rules, owner validation, and weekly review cadence. Result: AI became a drafting accelerator within controlled processes. KPIs: publish consistency, engagement rate stability, lead quality, time-to-publish, revision rate."
             },
             {
-              title: "From Tools To Operating System",
-              description: "Consolidated scattered tools into Quanton OS, turning dashboards, workflows, and agents into one governed architecture instead of a collection of apps."
+              "title": "Aesthetics Spa (Lead Tracking and Follow-Up)",
+              "description": "Before: Automated lead capture and responses across channels but lacked unified definitions, leading to data ambiguity and contested metrics (Pattern 2.2). Dashboards contradicted bookings and trust eroded. After: Quanton OS enforced single owner for lead definitions, consistent metrics, decision rights, and weekly funnel reviews. Result: AI supports prioritization and response sequencing based on governed definitions. KPIs: response time, qualification rate, consult-to-book conversion, channel ROI, lead SLA compliance."
             },
             {
-              title: "Intelligence Layer On Top Of ERP",
-              description: "Layered Quanton OS on top of an existing ERP so the executive team could run strategy, performance, and growth from a single intelligent control layer."
+              "title": "Manufacturing and Distribution Company (Complex Assemblies)",
+              "description": "Before: AI produced operational insights but no accountable owner existed, causing insight accumulation and trust loss (Pattern 2.3). After: Quanton OS integrated e-commerce, ERP, and dashboards with named owners and defined operational stages. Result: Real-time visibility and enforced accountability converted insights into controlled action. KPIs: order cycle time, on-time fulfillment, inventory accuracy, backlog aging, rework frequency."
+            },
+            {
+              "title": "HVAC Company (Dispatch and Scheduling Automation)",
+              "description": "Before: Automated scheduling and routing failed due to inconsistent service categories and unstable exception handling, triggering Automation-induced complexity (Pattern 2.4). After: Quanton OS standardized workflows, defined exception protocols, assigned governance, and weekly reviews. Result: Automation deployed into a stable process, reducing exceptions and preserving control. KPIs: first-time fix rate, schedule accuracy, exception rate, reschedule rate, customer complaint volume."
+            },
+            {
+              "title": "Automotive Shop (Estimates, Summaries, and Service Recommendations)",
+              "description": "Before: AI-generated estimates and summaries created misplaced trust, degraded review discipline, and triggered False confidence pattern (Pattern 2.5). After: Quanton OS introduced validation checkpoints, acceptance criteria, named decision owners, and corrective audit loops. Result: AI supports speed without replacing verification; errors are caught early. KPIs: estimate-to-actual variance, gross margin stability, rework frequency, approval cycle time, audit findings rate."
             }
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
-            >
-              <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
-              <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
-            </motion.div>
-          ))}
+          ]
+            .map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
+                onClick={() => window.location.href = `/cases/${index}`}
+              >
+                <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
+                <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
+              </motion.div>
+            ))}
         </div>
       </Section>
 
