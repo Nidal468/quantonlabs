@@ -1,6 +1,5 @@
 'use client'
 
-import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
@@ -13,8 +12,6 @@ import { Separator } from '@/components/ui/separator'
 import { caseStudies } from '@/db/caseStudy'
 
 export default function CaseStudyPage() {
-  const [activeTab, setActiveTab] = useState<'before' | 'after'>('before')
-  const [isBookmarked, setIsBookmarked] = useState(false)
   const [showShareModal, setShowShareModal] = useState(false)
   const [caseStudyId, setCaseStudyId] = useState(0)
 
@@ -42,15 +39,6 @@ export default function CaseStudyPage() {
         <h1>Go back</h1>
       </div>
     )
-  }
-
-  const getFailurePatternColor = (pattern: string): string => {
-    if (pattern.includes('2.1')) return 'bg-pink-900 text-white'
-    if (pattern.includes('2.2')) return 'bg-indigo-400/30 text-indigo-600'
-    if (pattern.includes('2.3')) return 'bg-emerald-400/30 text-emerald-600'
-    if (pattern.includes('2.4')) return 'bg-orange-400/30 text-orange-600'
-    if (pattern.includes('2.5')) return 'bg-purple-400/30 text-purple-600'
-    return 'bg-slate-400/30 text-slate-600'
   }
 
   const renderContentSection = (
@@ -90,7 +78,7 @@ export default function CaseStudyPage() {
             asChild
             className="gap-2 text-zinc-600 hover:text-zinc-900 border-slate-700"
           >
-            <Link href="/cases" >
+            <Link href="/#case-studies" >
               <ChevronLeft className="h-4 w-4 text-zinc-700" />
               Back to All Cases
             </Link>
