@@ -18,6 +18,7 @@ import {
   FileText,
   Settings,
   MessageCircle,
+  MessageSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DemoModal from "@/components/demoModal";
@@ -499,6 +500,16 @@ export default function HomePage() {
     </Section>
   );
 
+  const handleDownload = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
   const ResourcesSection = () => (
     <Section id="resources" className="bg-[#041227]/50">
       <div className="max-w-4xl mx-auto text-center mb-16">
@@ -512,18 +523,21 @@ export default function HomePage() {
         {[
           {
             title: "Implementation Guide",
-            description: "Step-by-step guide for deploying Quanton OS",
-            icon: <BookOpen className="w-5 h-5" />
+            description: "A step-by-step guide for installing, configuring, and deploying Quanton OS in production.",
+            icon: <BookOpen className="w-5 h-5" />,
+            link: "/pdf/Quanton OS Implementation Guide.docx.pdf"
           },
           {
-            title: "API Documentation",
-            description: "Complete reference for our integration endpoints",
-            icon: <FileText className="w-5 h-5" />
+            title: "Agent Architecture",
+            description: "A detailed breakdown of Quanton OS agent design, components, and communication flow.",
+            icon: <FileText className="w-5 h-5" />,
+            link: "/pdf/Agent Architecture Reference.pdf"
           },
           {
-            title: "Workflow Templates",
-            description: "Ready-to-use templates for common business processes",
-            icon: <Settings className="w-5 h-5" />
+            title: "Architecture",
+            description: "An overview of the Quanton OS system architecture, including core services and data flow.",
+            icon: <Settings className="w-5 h-5" />,
+            link: "/pdf/quanton_os_architecture_brief.docx.pdf"
           }
         ].map((resource, index) => (
           <motion.div
@@ -541,7 +555,12 @@ export default function HomePage() {
               <h3 className="text-xl font-semibold">{resource.title}</h3>
             </div>
             <p className="text-slate-300 mb-3">{resource.description}</p>
-            <Button variant="outline" size="sm" className="w-full">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full"
+              onClick={() => handleDownload(resource.link)}
+            >
               Download
             </Button>
           </motion.div>
@@ -591,6 +610,26 @@ export default function HomePage() {
     </Section>
   );
 
+  const integrations = [
+    {
+      name: "Google Workspace",
+      icon: <img src="/images/assets/landingpage/google.png" className="w-10 h-10 rounded-md" />
+    },
+    {
+      name: "Slack",
+      icon: <img src="/images/assets/landingpage/slack.png" className="w-10 h-10 rounded-md" />
+    },
+    {
+      name: "Zapier",
+      icon: <img src="/images/assets/landingpage/zapier.png" className="w-10 h-10 rounded-md" />
+    },
+    {
+      name: "N8N",
+      icon: <img src="/images/assets/landingpage/n8n.png" className="w-10 h-10 rounded-md" />
+    }
+  ];
+
+
   const Integrations = () => (
     <Section id="integrations" className="bg-[#041227]/50">
       <div className="max-w-4xl mx-auto text-center mb-16">
@@ -601,12 +640,7 @@ export default function HomePage() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-        {[
-          "Google Workspace",
-          "Slack",
-          "Zapier",
-          "Notion"
-        ].map((integration, index) => (
+        {integrations.map((integration, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, scale: 0.8 }}
@@ -615,11 +649,16 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
           >
-            <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mb-3" />
-            <p className="text-slate-300">{integration}</p>
+            <div className="w-16 h-16 mb-3 flex items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
+              {integration.icon}
+            </div>
+            <p className="text-slate-300 text-sm font-medium">
+              {integration.name}
+            </p>
           </motion.div>
         ))}
       </div>
+
     </Section>
   );
 
@@ -668,54 +707,6 @@ export default function HomePage() {
       <div className="max-w-md mx-auto mt-10">
         <Button variant="outline" className="w-full">
           Contact for Enterprise Pricing
-        </Button>
-      </div>
-    </Section>
-  );
-
-  const CaseStudyCarousel = () => (
-    <Section id="case-study-carousel" className="bg-[#041227]/50">
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
-        <p className="text-lg text-slate-300 max-w-3xl mx-auto">
-          See how companies have transformed their operations with Quanton OS.
-        </p>
-      </div>
-
-      <div className="max-w-5xl mx-auto">
-        {[
-          {
-            title: "Operational Reset",
-            description: "Rebuilt the operating system for a multi location services company so leadership could see capacity, margin, and execution risk in a single view.",
-            quote: "Quanton OS gave us the clarity we needed to scale confidently."
-          },
-          {
-            title: "From Tools To Operating System",
-            description: "Consolidated scattered tools into Quanton OS, turning dashboards, workflows, and agents into one governed architecture instead of a collection of apps.",
-            quote: "We went from chaos to control in just 3 months."
-          }
-        ].map((caseStudy, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 mb-8 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
-          >
-            <h3 className="font-semibold text-xl mb-3">{caseStudy.title}</h3>
-            <p className="text-slate-300 mb-4">{caseStudy.description}</p>
-            <div className="flex items-center gap-2">
-              <MessageCircle size={14} />
-              <p className="text-slate-300 italic">"{caseStudy.quote}"</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="flex justify-center mt-8">
-        <Button variant="outline" className="px-6 py-2">
-          View All Case Studies
         </Button>
       </div>
     </Section>
@@ -854,14 +845,22 @@ export default function HomePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
         {[
           {
-            title: "AI Operations Playbook",
-            description: "A practical guide to implementing AI in your business operations.",
-            icon: <FileText className="w-5 h-5" />
+            title: "AI Adoption Pathways",
+            description: "An in-depth analysis of why enterprise AI initiatives fail—and the strategic pathways that lead to real adoption and impact.",
+            icon: <FileText className="w-5 h-5" />,
+            link: "/pdf/whitepaper/AI Adoption Pathways_ Why Enterprise AI Initiatives Fail and What Separates Success from Stagnation.pdf"
           },
           {
             title: "Scaling Business Systems",
-            description: "How to build architectures that grow with your company.",
-            icon: <BookOpen className="w-5 h-5" />
+            description: "A practical guide to designing business systems and architectures that scale reliably as organizations grow.",
+            icon: <BookOpen className="w-5 h-5" />,
+            link: "/pdf/whitepaper/Scaling Business Systems.pdf"
+          },
+          {
+            title: "The Operating System Imperative",
+            description: "Why modern enterprises need an operating system layer—and how it reshapes coordination, automation, and execution.",
+            icon: <BookOpen className="w-5 h-5" />,
+            link: "/pdf/whitepaper/The Operating System Imperative.pdf"
           }
         ].map((resource, index) => (
           <motion.div
@@ -878,7 +877,7 @@ export default function HomePage() {
             <div>
               <h3 className="text-xl font-semibold mb-2">{resource.title}</h3>
               <p className="text-slate-300 mb-3">{resource.description}</p>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => handleDownload(resource.link)}>
                 Download PDF
               </Button>
             </div>
@@ -1287,7 +1286,6 @@ export default function HomePage() {
       <ProductUpdates />
       <Integrations />
       <EnterpriseSolutions />
-      <CaseStudyCarousel />
       <CustomerSupport />
       <EventsWebinars />
       <WhitepapersEbooks />

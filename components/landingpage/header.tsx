@@ -25,8 +25,8 @@ export default function HeaderL() {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center space-x-8">
-                    <Link href="#quanton-os" className="text-sm font-medium hover:text-blue-400 transition-colors">
-                        Quanton OS
+                    <Link href="#blogs" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                        Blogs
                     </Link>
                     <Link href="#solutions" className="text-sm font-medium hover:text-blue-400 transition-colors">
                         Solutions
@@ -40,8 +40,8 @@ export default function HeaderL() {
                     <Link href="#case-studies" className="text-sm font-medium hover:text-blue-400 transition-colors">
                         Case Studies
                     </Link>
-                    <Link href="#company" className="text-sm font-medium hover:text-blue-400 transition-colors">
-                        Company
+                    <Link href="#resources" className="text-sm font-medium hover:text-blue-400 transition-colors">
+                        Resources
                     </Link>
                 </nav>
 
