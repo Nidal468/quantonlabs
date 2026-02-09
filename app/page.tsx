@@ -1028,6 +1028,13 @@ export default function HomePage() {
                 Book Consultation
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
+              <Button variant={'secondary'} className="py-5 px-8">
+                <Link
+                  href="/assessment"
+                >
+                  Take an Assessment
+                </Link>
+              </Button>
             </div>
 
             <p className="text-sm text-slate-300 max-w-2xl mx-auto">
