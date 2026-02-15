@@ -39,6 +39,7 @@ import { TeamSection } from "@/components/landingpage/teamSection";
 import { TestimonialsSection } from "@/components/landingpage/testimonialsSection";
 import { WhitepapersEbooks } from "@/components/landingpage/whitepapersSection";
 import HeroSection from "@/components/landingpage/heroSection";
+import { industryContentMap } from "@/db/solutions";
 
 export default function HomePage() {
   const [backToTopVisible, setBackToTopVisible] = useState(false);
@@ -212,6 +213,9 @@ export default function HomePage() {
     document.body.removeChild(link);
   };
 
+  const industryArray = Object.entries(industryContentMap);
+
+
   return (
     <div className="min-h-screen bg-[#041227] text-white">
       <video
@@ -227,7 +231,7 @@ export default function HomePage() {
       <HeaderL />
 
       {/* Hero Section */}
-      <HeroSection/>
+      <HeroSection />
 
       {/* Who We Serve */}
       <Section id="who-we-serve" className="bg-[#041227]/50">
@@ -321,36 +325,28 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-          {[
-            {
-              title: "Strategy System",
-              description: "Aligns vision, objectives, and KPIs. Runs diagnostics, planning cycles, and performance reviews so every initiative ties back to measurable outcomes."
-            },
-            {
-              title: "Platform System",
-              description: "Connects project management, CRM, data, and brand assets into a single architecture that supports automation, reporting, and decision velocity."
-            },
-            {
-              title: "Operations System",
-              description: "Governs day-to-day delivery, compliance, and quality control through standardized workflows, SOP references, and review cadences."
-            },
-            {
-              title: "Growth System",
-              description: "Drives revenue and visibility with structured campaigns, conversion optimization, and feedback loops that create compounding momentum."
-            }
-          ].map((item, index) => (
+          {industryArray.map(([slug, industry], index) => (
             <motion.div
-              key={index}
+              key={slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300"
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="bg-white/5 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-blue-400/30 shadow-slate-800 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between gap-2"
             >
-              <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
-              <p className="text-slate-300 leading-relaxed text-sm">{item.description}</p>
+              <div>
+                <h3 className="text-lg font-semibold mb-3">
+                  {industry.title}
+                </h3>
+
+                <p className="text-slate-300 leading-relaxed text-sm">
+                  {industry.subtitle}
+                </p>
+              </div>
+              <Link href={`/solutions/${slug}`} className="underline">Read more</Link>
             </motion.div>
           ))}
+
         </div>
       </Section>
 
