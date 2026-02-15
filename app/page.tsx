@@ -425,7 +425,7 @@ export default function HomePage() {
                 <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
                 <p className="text-slate-300 leading-relaxed text-sm">{item.subtitle}</p>
               </div>
-              <Link href={`/cases/${index}`} className="underline">Read more</Link>
+              <Link href={`/case-studies/${index}`} className="underline">Read more</Link>
             </motion.div>
           ))}
         </div>
@@ -433,7 +433,7 @@ export default function HomePage() {
 
       <Section id="blogs" className="bg-[#041227]/50">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Blogs</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Insights</h2>
           <p className="text-lg text-slate-300 max-w-3xl mx-auto">
             Selected articles exploring how Quanton OS can be deployed to create clarity, control,
             and compound growth in real businesses.
@@ -454,7 +454,7 @@ export default function HomePage() {
                 <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
                 <p className="text-slate-300 leading-relaxed text-sm">{item.introduction}</p>
               </div>
-              <Link href={`/blogs/${index}`} className="underline">Read more</Link>
+              <Link href={`/insights/${index}`} className="underline">Read more</Link>
             </motion.div>
           ))}
         </div>

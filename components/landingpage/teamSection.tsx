@@ -33,7 +33,7 @@ export const TeamSection = () => (
               className="text-center"
             >
               <div className="mx-auto w-32 h-32 rounded-full bg-linear-to-br from-blue-500 to-purple-600 mb-4 overflow-hidden">
-                <img src={'/images/space.png'} className="w-full h-full object-cover object-center" />
+                <img src={'/images/space.png'} className="w-full h-full object-cover object-center" alt={member.name}/>
               </div>
               <h3 className="text-lg font-semibold">{member.name}</h3>
               <p className="text-blue-400 text-sm">{member.role}</p>

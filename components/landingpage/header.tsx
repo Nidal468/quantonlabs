@@ -52,7 +52,7 @@ export default function HeaderL() {
           }}
         >
           <div className="w-12 h-12 flex items-center justify-center">
-            <img src="/images/icon.png" alt="Quanton Labs Logo" className="w-full" />
+            <img src="/images/assets/seo/logo.png" alt="Quanton Labs Logo" className="w-full" />
           </div>
         </Link>
 
