@@ -94,7 +94,7 @@ export default function Home() {
                                 This is not scale. This is survival.
                             </h2>
                             <p className="text-xl text-slate-600/90 max-w-2xl mx-auto">
-                                Quanton OS removes the noise and installs coordination.
+                                Quanton OS does not add more tools to the stack. It deploys the infrastructure that makes the existing stack function as a single, coordinated operation
                             </p>
                         </div>
 
@@ -212,7 +212,12 @@ export default function Home() {
                             <ul className="space-y-2">
                                 <li>
                                     <a href="mailto:Growth@QuantonLabs.com" className="text-slate-400/90 hover:text-white text-sm transition-colors">
-                                        support@quantonlabs.com
+                                        Growth@QuantonLabs.com
+                                    </a>
+                                </li>
+                                <li>
+                                    <a className="text-slate-400/90 hover:text-white text-sm transition-colors">
+                                         +1 929-298-2162
                                     </a>
                                 </li>
                                 <li>
