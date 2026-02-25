@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 const productionUrl = "https://quantonlabs.com"; // ← replace with actual production domain
-const ogImage = "/images/assets/seo/logo.png"; // 1200x630 image placed in /public
+const ogImage = "/images/assets/seo/ql_logo.png"; // 1200x630 image placed in /public
 
 export const metadata: Metadata = {
   metadataBase: new URL(productionUrl),
@@ -61,7 +61,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[#041227] text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f1f9ff]`}
       >
         {children}
       </body>
