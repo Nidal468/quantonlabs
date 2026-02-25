@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 export default function Home() {
     return (
         <div className="w-full min-h-screen flex flex-col pt-20">
-            <Navbar />
+            
             <div className="w-full h-[600px] flex flex-col items-center justify-center p-20">
                 {/* 🔵 BLUE BLOB */}
                 <motion.div
