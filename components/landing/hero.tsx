@@ -43,7 +43,9 @@ export function HeroSection() {
                     {/* CTA Buttons */}
                     <div className="flex items-center gap-6">
                         <Link
-                            href="/"
+                            href="https://calendly.com/quantonlabs/30min"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="px-8 py-4 rounded-xl bg-slate-900 text-white text-sm font-medium shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                         >
                             Request a Demo
