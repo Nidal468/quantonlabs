@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export default function GoverningAgent() {
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8">
+    <section id="what-gets-deployed" className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Governing Agent Block */}
         <motion.div
