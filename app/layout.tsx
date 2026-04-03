@@ -30,9 +30,9 @@ export const metadata: Metadata = {
   },
   icons: ogImage,
   openGraph: {
-    title: "Quanton Labs | The Architecture of Intelligent Business",
+    title: "Quanton OS | AI Operating System for Growth-Stage Businesses",
     description:
-      "Quanton OS integrates strategy, automation, and intelligence into a single governed architecture. Built for owner-led businesses generating $1M-$20M that need an operating system, not more tools.",
+      "Eight coordinated AI agents. One governing intelligence layer. Complete business infrastructure deployed on your existing systems without migration.",
     url: productionUrl,
     siteName: "Quanton Labs",
     images: [
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Quanton Labs | The Architecture of Intelligent Business",
+    title: "Quanton OS | AI Operating System for Growth-Stage Businesses",
     description:
       "Quanton OS integrates strategy, automation, and intelligence into a single governed architecture. Built for owner-led businesses generating $1M-$20M that need an operating system, not more tools.",
     images: [ogImage],
