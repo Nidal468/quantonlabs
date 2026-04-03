@@ -19,13 +19,13 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 
           <div className="flex items-center gap-4">
             <Link
-              href="/"
+              href="/#what-gets-deployed"
               className="text-sm font-medium text-slate-600 hover:text-slate-900 duration-200"
             >
               Solutions
             </Link>
             <Link
-              href="/"
+              href="/#insights"
               className="text-sm font-medium text-slate-600 hover:text-slate-900 duration-200"
             >
               Resources
