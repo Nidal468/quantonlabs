@@ -32,7 +32,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
             </Link>
           </div>
         </div>
-        <Link href={'/dashboard'} className="px-6 py-2 bg-linear-to-r from-blue-600 to-purple-600 rounded-full text-white font-medium text-[12px]">Check it out</Link>
+        <Link href={'/dashboard'} className="px-6 py-2 bg-linear-to-r from-blue-600 to-purple-600 rounded-full text-white font-medium text-[12px]">Sign In</Link>
       </div>
     </div>
   );
