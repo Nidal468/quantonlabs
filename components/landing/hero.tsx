@@ -136,7 +136,7 @@ export function HeroSection() {
                                                                                         {item.text}
                                                                                         </p>
                                                                   </div>
-                                                </motion.div>motion.div>
+                                                </motion.div>
                                               );
               })}
                                 
@@ -151,8 +151,8 @@ export function HeroSection() {
                 {/* Bottom Blog Cards */}
                       <div id="insights" className="w-full">
                                 <div className="px-6 mb-4">
-                                            <p className="text-xs font-semibold tracking-[0.08em] uppercase mb-3" style={{ color: "#4655EB", fontFamily: "Manrope, sans-serif" }}>INSIGHTS</p>p>
-                                            <h2 className="text-2xl font-bold" style={{ color: "#1F2937", fontFamily: "Manrope, sans-serif" }}>Thinking on Business Systems and Operational Architecture</h2>h2>
+                                            <p className="text-xs font-semibold tracking-[0.08em] uppercase mb-3" style={{ color: "#4655EB", fontFamily: "Manrope, sans-serif" }}>INSIGHTS</p>
+                                            <h2 className="text-2xl font-bold" style={{ color: "#1F2937", fontFamily: "Manrope, sans-serif" }}>Thinking on Business Systems and Operational Architecture</h2>
                                 </div>
                                 <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
                                   {[
@@ -227,7 +227,7 @@ export function HeroSection() {
                                                                                                   Read article →
                                                                               </Link>
                                                             </div>
-                                            </motion.div>motion.div>
+                                            </motion.div>
                                           ))}
                                 </div>
                       </div>
