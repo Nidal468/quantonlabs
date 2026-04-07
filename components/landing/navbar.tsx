@@ -59,7 +59,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                                     style={{
                                                   background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
                                                   borderRadius: "8px",
-                                                  fontFamily: "Manrope, sans-serif",
+                                                   fontFamily: "Manrope, sans-serif",
                                                   fontWeight: 600,
                                                   border: "none",
                                     }}
