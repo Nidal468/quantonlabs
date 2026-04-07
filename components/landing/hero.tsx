@@ -220,7 +220,7 @@ export function HeroSection() {
                       margin: 0,
                     }}
                   >
-                    {notification.name}
+                    {notification.text}
                   </p>
                 </motion.div>
               ))}
