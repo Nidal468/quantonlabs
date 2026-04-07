@@ -157,7 +157,7 @@ export default function Features() {
                                                       }}
                                                     >
                                       {os.description}
-                                    </p>p>
+                                    </p>
                                     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                                       {os.chips.map((chip) => (
                                                         <span key={chip} className="os-chip">
