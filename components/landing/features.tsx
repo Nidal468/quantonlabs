@@ -81,7 +81,6 @@ export default function Features() {
   className="os-card"
   style={{ borderTop: `3px solid ${os.borderColor}` }}
 >
-        >
           <h2
             style={{
               background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
