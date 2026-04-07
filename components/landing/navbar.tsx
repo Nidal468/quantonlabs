@@ -21,14 +21,18 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
       <div className="flex items-center justify-between container mx-auto h-full px-6">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center">
-            <Image
-              src="/images/assets/QL_QUANTON_LABS_LOGO_WHITE_TRANSPARENT_v1.0.png"
-              width={160}
-              height={40}
-              alt="Quanton Labs"
-              priority
-              style={{ width: "160px", height: "auto" }}
-            />
+           <Image
+  src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
+  width={200}
+  height={60}
+  alt="Quanton Labs"
+  priority
+  style={{ 
+    width: "200px", 
+    height: "auto",
+    mixBlendMode: "screen"
+  }}
+/>
           </Link>
 
           <div className="flex items-center gap-4">
