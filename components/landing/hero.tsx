@@ -145,31 +145,33 @@ export function HeroSection() {
                 Assess Your Business
               </Link>
 
-              <Link
-                href="https://calendly.com/quantonlabs/30min"
-                style={{
-                  background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
-                  color: "white",
-                  fontFamily: "Manrope, sans-serif",
-                  fontWeight: 600,
-                  fontSize: "16px",
-                  padding: "14px 28px",
-                  borderRadius: "8px",
-                  border: "none",
-                  display: "inline-block",
-                  transition: "opacity 0.2s ease, transform 0.2s ease",
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.opacity = "0.88";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.opacity = "1";
-                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                }}
-              >
-                Book a Discovery Call
-              </Link>
+           <Link
+  href="https://calendly.com/quantonlabs/30min"
+  style={{
+    background: "transparent",
+    color: "#1F2937",
+    fontFamily: "Manrope, sans-serif",
+    fontWeight: 600,
+    fontSize: "16px",
+    padding: "14px 28px",
+    borderRadius: "8px",
+    border: "1.5px solid #1F2937",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "8px",
+    transition: "opacity 0.2s ease, transform 0.2s ease",
+  }}
+  onMouseEnter={e => {
+    (e.currentTarget as HTMLElement).style.opacity = "0.7";
+    (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+  }}
+  onMouseLeave={e => {
+    (e.currentTarget as HTMLElement).style.opacity = "1";
+    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+  }}
+>
+  Book a Discovery Call <span>→</span>
+</Link>
             </div>
           </div>
 
