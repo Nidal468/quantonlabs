@@ -47,4 +47,4 @@ export function HeroSection() {
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
-                fontFamily: "Manrope
+                fontFamily: "Manrope, sans-serif",
