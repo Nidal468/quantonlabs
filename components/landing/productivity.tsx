@@ -568,100 +568,10 @@ export default function GoverningAgent() {
             padding: "80px 48px",
           }}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "64px",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "14px",
-                  background: "linear-gradient(135deg, #7341EA, #8B37EA)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "24px",
-                }}
-              >
-                <BarChart2 size={28} color="white" />
-              </div>
-              <h3
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "Manrope, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "28px",
-                  marginBottom: "16px",
-                }}
-              >
-                Intelligence
-              </h3>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.70)",
-                  fontFamily: "Manrope, sans-serif",
-                  fontSize: "16px",
-                  lineHeight: 1.7,
-                }}
-              >
-                Every agent action, exception, and resolution is captured and synthesised into the leadership dashboard in real time. The owner sees the full operational picture without assembling it manually.
-              </p>
-            </div>
-
-            <div
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                borderRadius: "12px",
-                border: "1px solid rgba(255,255,255,0.08)",
-                padding: "24px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-              }}
-            >
-              {[
-                { label: "Pipeline activity", width: "70%" },
-                { label: "Escalation rate", width: "45%" },
-                { label: "Agent efficiency", width: "88%" },
-              ].map((row, i) => (
-                <div key={i}>
-                  <div
-                    style={{
-                      color: "rgba(255,255,255,0.50)",
-                      fontFamily: "Manrope, sans-serif",
-                      fontSize: "12px",
-                      marginBottom: "6px",
-                    }}
-                  >
-                    {row.label}
-                  </div>
-                  <div
-                    style={{
-                      height: "6px",
-                      borderRadius: "3px",
-                      background: "rgba(255,255,255,0.08)",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: row.width,
-                        height: "100%",
-                        borderRadius: "3px",
-                        background: "linear-gradient(to right, #2B60EB, #8B37EA)",
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <button className="hidden items-center justify-center px-6 py-3 text-base font-medium rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors duration-200 shadow-lg hover:shadow-xl">
+            Explore the Governing Agent
+            <ChevronRight className="ml-2" size={20} />
+          </button>
         </motion.div>
 
       </div>

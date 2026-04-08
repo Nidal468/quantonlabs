@@ -35,7 +35,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 />
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="hidden items-center gap-4">
             <Link
               href="/#governing-agent"
               className="text-sm font-medium duration-200"
@@ -56,28 +56,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
             </Link>
           </div>
         </div>
-
-        <Link
-          href="/dashboard"
-          className="px-6 py-2 text-white text-[12px] font-semibold transition-all duration-200"
-          style={{
-            background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
-            borderRadius: "8px",
-            fontFamily: "Manrope, sans-serif",
-            fontWeight: 600,
-            border: "none",
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.opacity = "0.88";
-            (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.opacity = "1";
-            (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-          }}
-        >
-          Sign In
-        </Link>
+        <Link href={'/dashboard'} className="px-6 py-2 bg-linear-to-r from-blue-600 to-purple-600 rounded-full text-white font-medium text-[12px]">Sign in</Link>
       </div>
     </div>
   );
