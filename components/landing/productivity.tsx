@@ -8,7 +8,7 @@ const gradientText = {
   background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
   WebkitBackgroundClip: "text" as const,
   WebkitTextFillColor: "transparent" as const,
-  backgroundClip: "text" as const,
+  backgroundClip: "text" as const,h
 };
 
 const agentIcons = [Send, TrendingUp, MessageSquare, Users, Cpu, Truck, BarChart2];
@@ -346,36 +346,6 @@ export default function GoverningAgent() {
   </svg>
 </div>
 
-              {/* Agent nodes */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  padding: "0 6px",
-                }}
-              >
-                {agentIcons.map((IconComp, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "12px",
-                      background: "rgba(255,255,255,0.08)",
-                      border: "1px solid rgba(255,255,255,0.18)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IconComp size={18} color="rgba(255,255,255,0.85)" />
-                  </div>
-                ))}
-              </div>
             </div>
 
             {/* Stat line */}
