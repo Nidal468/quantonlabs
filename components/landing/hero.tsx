@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { notifications } from "@/db/landingPage";
 import { IntelligentGridBackground } from "../animated/bg_grid";
 
@@ -11,6 +11,64 @@ export function HeroSection() {
     const shuffled = [...notifications].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 4);
   }, []);
+
+  const [emailText, setEmailText] = useState("");
+  const [passwordText, setPasswordText] = useState("");
+  const [buttonState, setButtonState] = useState<"default" | "signing">("default");
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleSignIn = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setButtonState("default");
+    setEmailText("");
+    setPasswordText("");
+
+    const email = "meridian@quantonlabs.com";
+    let emailIndex = 0;
+
+    const typeEmail = () => {
+      if (emailIndex < email.length) {
+        const i = emailIndex;
+        emailIndex++;
+        setTimeout(() => {
+          setEmailText(email.slice(0, i + 1));
+          typeEmail();
+        }, 40);
+      } else {
+        typePassword();
+      }
+    };
+
+    const typePassword = () => {
+      const totalDots = 12;
+      let dotIndex = 0;
+      const typeDot = () => {
+        if (dotIndex < totalDots) {
+          const d = dotIndex;
+          dotIndex++;
+          setTimeout(() => {
+            setPasswordText("•".repeat(d + 1));
+            typeDot();
+          }, 60);
+        } else {
+          setButtonState("signing");
+          setTimeout(() => {
+            document.getElementById("dashboard-demo")?.scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
+              setEmailText("");
+              setPasswordText("");
+              setButtonState("default");
+              setIsAnimating(false);
+            }, 2000);
+          }, 1200);
+        }
+      };
+      typeDot();
+    };
+
+    typeEmail();
+  };
 
   const bubbleGradients = [
     {
@@ -145,37 +203,37 @@ export function HeroSection() {
                 Assess Your Business
               </Link>
 
-           <Link
-  href="https://calendly.com/quantonlabs/30min"
-  style={{
-    background: "transparent",
-    color: "#1F2937",
-    fontFamily: "Manrope, sans-serif",
-    fontWeight: 600,
-    fontSize: "16px",
-    padding: "14px 28px",
-    borderRadius: "8px",
-    border: "1.5px solid #1F2937",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "8px",
-    transition: "opacity 0.2s ease, transform 0.2s ease",
-  }}
-  onMouseEnter={e => {
-    (e.currentTarget as HTMLElement).style.opacity = "0.7";
-    (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-  }}
-  onMouseLeave={e => {
-    (e.currentTarget as HTMLElement).style.opacity = "1";
-    (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-  }}
->
-  Book a Discovery Call <span>→</span>
-</Link>
+              <Link
+                href="https://calendly.com/quantonlabs/30min"
+                style={{
+                  background: "transparent",
+                  color: "#1F2937",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: 600,
+                  fontSize: "16px",
+                  padding: "14px 28px",
+                  borderRadius: "8px",
+                  border: "1.5px solid #1F2937",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  transition: "opacity 0.2s ease, transform 0.2s ease",
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.opacity = "0.7";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.opacity = "1";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                }}
+              >
+                Book a Discovery Call <span>→</span>
+              </Link>
             </div>
           </div>
 
-          {/* Right Content — notifications and mockup */}
+          {/* Right Content — notifications and login card */}
           <div className="hidden md:flex flex-col items-center justify-center relative w-full max-w-2xl">
 
             {/* Notification bubbles */}
@@ -228,20 +286,105 @@ export function HeroSection() {
               ))}
             </div>
 
-            {/* Dashboard mockup */}
+            {/* Floating login card */}
             <div
               style={{
                 borderRadius: "16px",
-                border: "1px solid rgba(255,255,255,0.08)",
+                border: "1px solid rgba(43,96,235,0.15)",
                 boxShadow: "0 0 80px rgba(43,96,235,0.18)",
-                overflow: "hidden",
+                background: "rgba(255,255,255,0.97)",
+                padding: "32px 28px",
+                width: "320px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                fontFamily: "Manrope, sans-serif",
               }}
             >
-              <img
-                src="/images/mockups/3.png"
-                alt="Quanton OS Dashboard"
-                style={{ width: "100%", display: "block" }}
-              />
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "#6B7280",
+                  margin: 0,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase" as const,
+                }}
+              >
+                Quanton OS
+              </p>
+              <p
+                style={{
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  color: "#1F2937",
+                  margin: 0,
+                }}
+              >
+                Sign in to your workspace
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151" }}>
+                  Email
+                </label>
+                <input
+                  type="text"
+                  readOnly
+                  value={emailText}
+                  placeholder="you@company.com"
+                  style={{
+                    border: "1px solid rgba(43,96,235,0.25)",
+                    borderRadius: "8px",
+                    padding: "10px 12px",
+                    fontSize: "14px",
+                    color: "#1F2937",
+                    fontFamily: "Manrope, sans-serif",
+                    outline: "none",
+                    background: "#F9FAFB",
+                  }}
+                />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151" }}>
+                  Password
+                </label>
+                <input
+                  type="text"
+                  readOnly
+                  value={passwordText}
+                  placeholder="••••••••"
+                  style={{
+                    border: "1px solid rgba(43,96,235,0.25)",
+                    borderRadius: "8px",
+                    padding: "10px 12px",
+                    fontSize: "14px",
+                    color: "#1F2937",
+                    fontFamily: "Manrope, sans-serif",
+                    letterSpacing: "0.15em",
+                    outline: "none",
+                    background: "#F9FAFB",
+                  }}
+                />
+              </div>
+              <button
+                onClick={handleSignIn}
+                disabled={isAnimating}
+                style={{
+                  background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+                  color: "white",
+                  fontFamily: "Manrope, sans-serif",
+                  fontWeight: 600,
+                  fontSize: "15px",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: isAnimating ? "default" : "pointer",
+                  opacity: isAnimating ? 0.85 : 1,
+                  animation: buttonState === "signing" ? "pulse-opacity 0.5s ease-in-out infinite alternate" : "none",
+                }}
+              >
+                {buttonState === "signing" ? "Signing in..." : "Sign in to Quanton OS"}
+              </button>
             </div>
           </div>
         </div>
@@ -260,6 +403,12 @@ export function HeroSection() {
           zIndex: 4,
         }}
       />
+      <style>{`
+        @keyframes pulse-opacity {
+          from { opacity: 1; }
+          to { opacity: 0.5; }
+        }
+      `}</style>
     </div>
   );
 }
