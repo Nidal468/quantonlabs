@@ -560,7 +560,7 @@ export default function GoverningAgent() {
             </div>
           </div>
         </motion.div>
-
+</>h
         {/* Block 3 — Intelligence */}
         <motion.div
           ref={intelRef}
