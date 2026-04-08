@@ -212,7 +212,7 @@ export function HeroSection() {
                 <input
                   type="text"
                   readOnly
-                  value={emailText}
+                  value={""}
                   placeholder="you@company.com"
                   style={{
                     border: "1px solid rgba(43,96,235,0.25)",
@@ -233,7 +233,7 @@ export function HeroSection() {
                 <input
                   type="text"
                   readOnly
-                  value={passwordText}
+                  value={""}
                   placeholder="••••••••"
                   style={{
                     border: "1px solid rgba(43,96,235,0.25)",
@@ -249,8 +249,8 @@ export function HeroSection() {
                 />
               </div>
               <button
-                onClick={handleSignIn}
-                disabled={isAnimating}
+                
+               
                 style={{
                   background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
                   color: "white",
@@ -260,38 +260,12 @@ export function HeroSection() {
                   padding: "12px 24px",
                   borderRadius: "8px",
                   border: "none",
-                  cursor: isAnimating ? "default" : "pointer",
-                  opacity: isAnimating ? 0.85 : 1,
-                  animation: buttonState === "signing" ? "pulse-opacity 0.5s ease-in-out infinite alternate" : "none",
+                  
                 }}
               >
-                {buttonState === "signing" ? "Signing in..." : "Sign in to Quanton OS"}
+                
               </button>
             </div>
           </div>
-        </div>
     )
-}
-
-      {/* Bottom fade */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "120px",
-          background: "linear-gradient(to bottom, transparent, #ffffff)",
-          pointerEvents: "none",
-          zIndex: 4,
-        }}
-      />
-      <style>{`
-        @keyframes pulse-opacity {
-          from { opacity: 1; }
-          to { opacity: 0.5; }
-        }
-      `}</style>
-    </div>
-  );
 }
