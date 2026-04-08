@@ -8,7 +8,7 @@ const gradientText = {
   background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
   WebkitBackgroundClip: "text" as const,
   WebkitTextFillColor: "transparent" as const,
-  backgroundClip: "text" as const,h
+  backgroundClip: "text" as const,
 };
 
 const agentIcons = [Send, TrendingUp, MessageSquare, Users, Cpu, Truck, BarChart2];
@@ -297,55 +297,53 @@ export default function GoverningAgent() {
               </div>
             </div>
 
-           {/* Connection lines + agent nodes — unified SVG */}
-<div style={{ width: "100%", marginBottom: "16px" }}>
-  <svg
-    width="100%"
-    viewBox="0 0 420 130"
-    preserveAspectRatio="xMidYMid meet"
-  >
-    {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-      const x = 24 + i * 56;
-      return (
-        <line
-          key={i}
-          x1="210"
-          y1="0"
-          x2={x + 20}
-          y2="82"
-          stroke="rgba(43,96,235,0.45)"
-          strokeWidth="1.5"
-        />
-      );
-    })}
-    {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-      const x = 24 + i * 56;
-      return (
-        <g key={i}>
-          <rect
-            x={x}
-            y={82}
-            width={40}
-            height={40}
-            rx={10}
-            fill="rgba(255,255,255,0.08)"
-            stroke="rgba(255,255,255,0.18)"
-            strokeWidth={1}
-          />
-        </g>
-      );
-    })}
-    {[{ Icon: Send }, { Icon: TrendingUp }, { Icon: MessageSquare }, { Icon: Users }, { Icon: Cpu }, { Icon: Truck }, { Icon: BarChart2 }].map(({ Icon }, i) => {
-      const x = 24 + i * 56 + 20;
-      return (
-        <foreignObject key={i} x={x - 9} y={96} width={18} height={18}>
-          <Icon size={18} color="rgba(255,255,255,0.85)" />
-        </foreignObject>
-      );
-    })}
-  </svg>
-</div>
-
+            {/* Connection lines + agent nodes — unified SVG */}
+            <div style={{ width: "100%", marginBottom: "16px" }}>
+              <svg
+                width="100%"
+                viewBox="0 0 420 130"
+                preserveAspectRatio="xMidYMid meet"
+              >
+                {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+                  const x = 24 + i * 56;
+                  return (
+                    <line
+                      key={i}
+                      x1="210"
+                      y1="0"
+                      x2={x + 20}
+                      y2="82"
+                      stroke="rgba(43,96,235,0.45)"
+                      strokeWidth="1.5"
+                    />
+                  );
+                })}
+                {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+                  const x = 24 + i * 56;
+                  return (
+                    <g key={i}>
+                      <rect
+                        x={x}
+                        y={82}
+                        width={40}
+                        height={40}
+                        rx={10}
+                        fill="rgba(255,255,255,0.08)"
+                        stroke="rgba(255,255,255,0.18)"
+                        strokeWidth={1}
+                      />
+                    </g>
+                  );
+                })}
+                {[{ Icon: Send }, { Icon: TrendingUp }, { Icon: MessageSquare }, { Icon: Users }, { Icon: Cpu }, { Icon: Truck }, { Icon: BarChart2 }].map(({ Icon }, i) => {
+                  const x = 24 + i * 56 + 20;
+                  return (
+                    <foreignObject key={i} x={x - 9} y={96} width={18} height={18}>
+                      <Icon size={18} color="rgba(255,255,255,0.85)" />
+                    </foreignObject>
+                  );
+                })}
+              </svg>
             </div>
 
             {/* Stat line */}
@@ -361,6 +359,7 @@ export default function GoverningAgent() {
             >
               8 agents. 1 governing layer. Zero fragmentation.
             </div>
+
           </div>
         </motion.div>
       </div>
@@ -517,7 +516,7 @@ export default function GoverningAgent() {
             </div>
 
             <div>
-            <div
+              <div
                 style={{
                   width: "64px",
                   height: "64px",
@@ -555,6 +554,7 @@ export default function GoverningAgent() {
             </div>
           </div>
         </motion.div>
+
         {/* Block 3 — Intelligence */}
         <motion.div
           ref={intelRef}
