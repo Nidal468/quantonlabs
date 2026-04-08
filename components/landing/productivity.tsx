@@ -297,30 +297,54 @@ export default function GoverningAgent() {
               </div>
             </div>
 
-            {/* Connection lines SVG */}
-            <div style={{ position: "relative", width: "100%", height: "80px", marginBottom: "8px" }}>
-              <svg
-                width="100%"
-                height="100%"
-                viewBox="0 0 420 80"
-                preserveAspectRatio="xMidYMid meet"
-                style={{ position: "absolute", top: 0, left: 0 }}
-              >
-                {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-                  const x = 30 + i * 60;
-                  return (
-                    <line
-                      key={i}
-                      x1="210"
-                      y1="0"
-                      x2={x}
-                      y2="72"
-                      stroke="rgba(43,96,235,0.45)"
-                      strokeWidth="1.5"
-                    />
-                  );
-                })}
-              </svg>
+           {/* Connection lines + agent nodes — unified SVG */}
+<div style={{ width: "100%", marginBottom: "16px" }}>
+  <svg
+    width="100%"
+    viewBox="0 0 420 130"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+      const x = 24 + i * 56;
+      return (
+        <line
+          key={i}
+          x1="210"
+          y1="0"
+          x2={x + 20}
+          y2="82"
+          stroke="rgba(43,96,235,0.45)"
+          strokeWidth="1.5"
+        />
+      );
+    })}
+    {[0, 1, 2, 3, 4, 5, 6].map((i) => {
+      const x = 24 + i * 56;
+      return (
+        <g key={i}>
+          <rect
+            x={x}
+            y={82}
+            width={40}
+            height={40}
+            rx={10}
+            fill="rgba(255,255,255,0.08)"
+            stroke="rgba(255,255,255,0.18)"
+            strokeWidth={1}
+          />
+        </g>
+      );
+    })}
+    {[{ Icon: Send }, { Icon: TrendingUp }, { Icon: MessageSquare }, { Icon: Users }, { Icon: Cpu }, { Icon: Truck }, { Icon: BarChart2 }].map(({ Icon }, i) => {
+      const x = 24 + i * 56 + 20;
+      return (
+        <foreignObject key={i} x={x - 9} y={96} width={18} height={18}>
+          <Icon size={18} color="rgba(255,255,255,0.85)" />
+        </foreignObject>
+      );
+    })}
+  </svg>
+</div>
 
               {/* Agent nodes */}
               <div
