@@ -198,7 +198,6 @@ function AgentPanel({ agent }: { agent: (typeof agents)[0] }) {
       className="agent-panel-shimmer"
     >
       <div className="agent-panel-inner">
-        {/* Header */}
         <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
           <div
             style={{
@@ -242,10 +241,8 @@ function AgentPanel({ agent }: { agent: (typeof agents)[0] }) {
           </div>
         </div>
 
-        {/* Divider */}
         <div style={{ height: "1px", background: "#E5E7EB" }} />
 
-        {/* Description */}
         <p
           style={{
             fontFamily: "Manrope, sans-serif",
@@ -259,7 +256,6 @@ function AgentPanel({ agent }: { agent: (typeof agents)[0] }) {
           {agent.description}
         </p>
 
-        {/* Gradient chips */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "4px" }}>
           {agent.chips.map(chip => (
             <span
@@ -297,7 +293,6 @@ export default function Agents() {
       <StyleInjector />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Section intro */}
         <motion.div
           ref={sectionRef}
           initial={{ opacity: 0, y: 32 }}
@@ -319,75 +314,42 @@ export default function Agents() {
           </p>
         </motion.div>
 
-        {/* Tabbed layout */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap items-center justify-center gap-8"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "220px 1fr",
+            gap: "20px",
+            alignItems: "start",
+            maxWidth: "960px",
+            margin: "0 auto",
+          }}
         >
-          {/* Marketing and Content Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">Marketing and Content Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Growth System</p>
-            <p className="text-slate-600 leading-relaxed">
-              Plans, creates, and distributes content across every active channel. Manages the editorial calendar, enforces brand voice across all agent-generated output, tracks content performance, and delivers campaign context and lead signals to the Sales Agent.
-            </p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "4px",
+              position: "sticky",
+              top: "100px",
+            }}
+          >
+            {agents.map((agent, index) => (
+              <TabButton
+                key={agent.name}
+                agent={agent}
+                isActive={activeIndex === index}
+                onClick={() => setActiveIndex(index)}
+              />
+            ))}
           </div>
 
-          {/* Sales Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">Sales Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Growth System</p>
-            <p className="text-slate-600 leading-relaxed">
-              Manages the full lead lifecycle from first contact through close. Handles lead intake and response, qualification scoring, proposal generation, multi-step follow-up sequences, pipeline reporting, and CRM hygiene. Passes closed-client context to the Customer Experience Agent on conversion.
-            </p>
-          </div>
-
-          {/* Customer Experience Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">Customer Experience Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Operations and Growth Systems</p>
-            <p className="text-slate-600 leading-relaxed">
-              Manages the post-conversion client relationship. Handles client onboarding sequences, inbound inquiry classification and routing, scheduling, complaint escalation, post-service follow-up, and client satisfaction tracking. Maintains client profiles in shared state for cross-agent visibility.
-            </p>
-          </div>
-
-          {/* People and Team Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">People and Team Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Operations System</p>
-            <p className="text-slate-600 leading-relaxed">
-              Manages the full talent and team lifecycle. Covers job posting, candidate screening and scoring, interview scheduling, new hire onboarding, performance review preparation, certification tracking, and compliance deadline monitoring.
-            </p>
-          </div>
-
-          {/* Operations Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">Operations Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Operations and Platform Systems</p>
-            <p className="text-slate-600 leading-relaxed">
-              Governs day-to-day operational execution. Assigns and tracks tasks across the team and agent domains, creates and maintains versioned SOPs, monitors process compliance, coordinates vendor communications, and surfaces operational dependencies and blockers to the Governing Agent.
-            </p>
-          </div>
-
-          {/* Inventory and Supply Chain Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">Inventory and Supply Chain Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Operations System</p>
-            <p className="text-slate-600 leading-relaxed">
-              Monitors stock levels against configured thresholds, triggers reorder events, generates purchase orders, manages supplier communications, tracks inbound shipments, flags delivery delays and stockout risks to the Governing Agent, and produces supply chain performance reports for the leadership dashboard.
-            </p>
-          </div>
-
-          {/* Finance Agent */}
-          <div className="w-full md:w-md glass rounded-2xl p-8 backdrop-blur-xl bg-white/30 border border-white/40 shadow-xl hover:bg-white/40 transition-all duration-300">
-            <h3 className="text-xl font-semibold text-slate-800 mb-2">Finance Agent</h3>
-            <p className="text-sm font-medium text-slate-600 mb-4">Operations System</p>
-            <p className="text-slate-600 leading-relaxed">
-              Manages the financial operations layer. Generates invoices on trigger from Sales and Customer Experience agents, tracks receivables, categorises expenses against the chart of accounts, produces financial reports on a configured schedule, monitors compliance deadlines, and flags budget variances to the Governing Agent.
-            </p>
+          <div style={{ position: "relative", minHeight: "340px" }}>
+            <AnimatePresence mode="wait">
+              <AgentPanel key={activeIndex} agent={agents[activeIndex]} />
+            </AnimatePresence>
           </div>
         </motion.div>
       </div>
