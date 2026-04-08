@@ -599,16 +599,6 @@ export default function QuantonDashboard() {
       margin: "0 auto",
     }}>
       {/* Window chrome dots */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
-      background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
-      borderRadius: 24,
-      padding: "32px 24px",
-      boxShadow: "0 8px 48px rgba(43,96,235,0.10), 0 2px 12px rgba(0,0,0,0.06)",
-      border: "1px solid rgba(43,96,235,0.08)",
-      maxWidth: 1080,
-      margin: "0 auto",
-    }}>
-      {/* Window chrome dots */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#F87171" }} />
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FBBF24" }} />
