@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Activity, Cpu, BarChart2, Send, TrendingUp, MessageSquare, Users, Truck } from "lucide-react";
+import { Activity, Cpu, BarChart2, Send, TrendingUp, MessageSquare, Users, Truck,ChevronRight
+  
+} from "lucide-react";
 
 const gradientText = {
   background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
