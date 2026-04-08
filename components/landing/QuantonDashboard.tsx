@@ -567,19 +567,30 @@ export default function QuantonDashboard() {
   const AGENT_ORDER = ["governing", "people", "sales", "cx", "finance", "ops", "marketing", "inventory"];
 
   return (
-    <>
-      <style>{SHIMMER_CSS}</style>
-      {/* Section window wrapper */}
-      <div style={{
-        background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
-        borderRadius: 24,
-        padding: "32px 24px",
-        boxShadow: "0 8px 48px rgba(43,96,235,0.10), 0 2px 12px rgba(0,0,0,0.06)",
-        border: "1px solid rgba(43,96,235,0.08)",
-        maxWidth: 1080,
-        margin: "0 auto",
-      }}>
-        {/* Window chrome dots */}
+  <>
+    <style>{SHIMMER_CSS}</style>
+
+    {/* Bridge copy */}
+    <div style={{ textAlign: "center", padding: "48px 24px 32px", fontFamily: "Manrope, sans-serif" }}>
+      <h2 style={{ fontSize: 32, fontWeight: 700, color: "#1F2937", margin: "0 0 10px", letterSpacing: "-0.5px" }}>
+        Eight agents. One coordinated system.
+      </h2>
+      <p style={{ fontSize: 16, fontWeight: 400, color: "#6B7280", margin: 0, lineHeight: 1.6 }}>
+        Not a workflow. Not a tool. An operating system.
+      </p>
+    </div>
+
+    {/* Section window wrapper */}
+    <div style={{
+      background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
+      borderRadius: 24,
+      padding: "32px 24px",
+      boxShadow: "0 8px 48px rgba(43,96,235,0.10), 0 2px 12px rgba(0,0,0,0.06)",
+      border: "1px solid rgba(43,96,235,0.08)",
+      maxWidth: 1080,
+      margin: "0 auto",
+    }}>
+      {/* Window chrome dots */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#F87171" }} />
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FBBF24" }} />
