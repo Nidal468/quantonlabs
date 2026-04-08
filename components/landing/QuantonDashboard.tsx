@@ -572,15 +572,33 @@ export default function QuantonDashboard() {
 
     {/* Bridge copy */}
     <div style={{ textAlign: "center", padding: "48px 24px 32px", fontFamily: "Manrope, sans-serif" }}>
-      <h2 style={{ fontSize: 32, fontWeight: 700, color: "#1F2937", margin: "0 0 10px", letterSpacing: "-0.5px" }}>
-        Eight agents. One coordinated system.
+      <h2 style={{
+        fontSize: 14, fontWeight: 700, margin: "0 0 10px", letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+        WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+      }}>
+        Quanton OS
       </h2>
+      <p style={{ fontSize: 32, fontWeight: 700, color: "#1F2937", margin: "0 0 10px", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
+        Eight agents. One coordinated system.
+      </p>
       <p style={{ fontSize: 16, fontWeight: 400, color: "#6B7280", margin: 0, lineHeight: 1.6 }}>
         Not a workflow. Not a tool. An operating system.
       </p>
     </div>
 
     {/* Section window wrapper */}
+    <div style={{
+      background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
+      borderRadius: 24,
+      padding: "32px 24px",
+      boxShadow: "0 8px 48px rgba(43,96,235,0.10), 0 2px 12px rgba(0,0,0,0.06)",
+      border: "1px solid rgba(43,96,235,0.08)",
+      maxWidth: 1080,
+      margin: "0 auto",
+    }}>
+      {/* Window chrome dots */}
     <div style={{
       background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
       borderRadius: 24,
