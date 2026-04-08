@@ -392,6 +392,7 @@ export default function QuantonDashboard() {
   const [badgeCards, setBadgeCards] = useState<Record<string, boolean>>({});
   const [approvalVisible, setApprovalVisible] = useState(false);
   const [rewardVisible, setRewardVisible] = useState(false);
+  const [hasEntered, setHasEntered] = useState(false);
   const clockRef = useRef({ h: 6, m: 35, s: 0 });
   const dwellTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const dashboardRef = useRef<HTMLDivElement>(null);
@@ -535,10 +536,16 @@ export default function QuantonDashboard() {
 
   // IntersectionObserver — track whether dashboard is in viewport
   useEffect(() => {
+    useEffect(() => {
     const el = dashboardRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => { isInViewRef.current = entry.isIntersecting; },
+      ([entry]) => {
+        isInViewRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          setHasEntered(true);
+        }
+      },
       { threshold: 0.2 }
     );
     observer.observe(el);
