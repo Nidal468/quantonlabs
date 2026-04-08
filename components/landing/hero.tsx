@@ -37,7 +37,7 @@ export function HeroSection() {
 
   return (
     <div
-      className="w-full relative overflow-hidden pt-20 md:pt-[80px]"
+      className="w-full relative overflow-hidden pt-16 md:pt-[80px]"
       style={{
         backgroundImage: `
           radial-gradient(ellipse 80% 60% at 50% 0%, rgba(43, 96, 235, 0.06) 0%, transparent 60%),
