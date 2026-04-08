@@ -679,17 +679,13 @@ export default function QuantonDashboard() {
           </div>
         </div>
 
-        {/* Footer */}
-        <div style={{ background: "#071830", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <img
-            src={`data:image/png;base64,${LOGO_B64}`}
-            alt="Quanton Labs"
-            style={{ height: 44, width: "auto", mixBlendMode: "screen", opacity: 0.95 }}
-          />
-          <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, fontWeight: 600, color: "#60A5FA", fontFamily: "Manrope, sans-serif" }}>
-            <span className="ql-footer-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ADE80" }} />
-            All systems operational
-          </span>
+    {/* Footer */}
+<div style={{ background: "#071830", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+  <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 10, fontWeight: 600, color: "#60A5FA", fontFamily: "Manrope, sans-serif" }}>
+    <span className="ql-footer-dot" style={{ width: 6, height: 6, borderRadius: "50%", background: "#4ADE80" }} />
+    All systems operational
+  </span>
+</div>
      </div>
       </div>
       </div>
