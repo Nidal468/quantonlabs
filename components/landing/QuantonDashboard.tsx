@@ -685,7 +685,6 @@ export default function QuantonDashboard() {
      </div>
       </div>
       </div>
-      </div>
     </>
   );
 }
