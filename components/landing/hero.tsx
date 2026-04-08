@@ -148,10 +148,7 @@ export function HeroSection() {
               setIsAnimating(false);
               if (!clickedRef.current) {
                 startPulse();
-                repeatTimerRef.current = setTimeout(
-                  fireCursorSequence,
-                  7000
-                );
+                repeatTimerRef.current = setTimeout(fireCursorSequence, 7000);
               }
             }, 2000);
           }, 1200);
@@ -201,27 +198,19 @@ export function HeroSection() {
       } else if (e < moveDuration + hoverDuration) {
         ctx.globalAlpha = 1;
         drawModernCursor(ctx, endX, endY, 1);
-     } else if (e < moveDuration + hoverDuration + pressDuration) {
-          ctx.globalAlpha = 1;
+      } else if (e < moveDuration + hoverDuration + pressDuration) {
+        ctx.globalAlpha = 1;
         drawModernCursor(ctx, endX, endY, 0.84);
         if (!clickFired) {
           clickFired = true;
           onClickReached();
         }
-      } else if (
-        e 
-        moveDuration + hoverDuration + pressDuration + releaseDuration
-      ) {
+      } else if (e < moveDuration + hoverDuration + pressDuration + releaseDuration) {
         ctx.globalAlpha = 1;
         drawModernCursor(ctx, endX, endY, 1);
       } else {
         const fadeT = Math.min(
-          (e -
-            moveDuration -
-            hoverDuration -
-            pressDuration -
-            releaseDuration) /
-            fadeDuration,
+          (e - moveDuration - hoverDuration - pressDuration - releaseDuration) / fadeDuration,
           1
         );
         ctx.globalAlpha = 1 - fadeT;
@@ -296,13 +285,11 @@ export function HeroSection() {
         }
       `}</style>
 
-      {/* Top gradient bar */}
       <div
         className="absolute top-0 left-0 w-full"
         style={{
           height: "3px",
-          background:
-            "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+          background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
         }}
       />
 
@@ -311,7 +298,6 @@ export function HeroSection() {
 
         <div className="flex items-center justify-between w-full">
 
-          {/* Left Content */}
           <div className="flex flex-col items-start justify-center text-center md:text-left max-w-xl p-6">
 
             <p
@@ -347,8 +333,7 @@ export function HeroSection() {
                 lineHeight: 1.7,
               }}
             >
-              You built a business. Now the business runs you. Quanton OS is
-              the infrastructure that changes that.
+              You built a business. Now the business runs you. Quanton OS is the infrastructure that changes that.
             </p>
 
             <p
@@ -360,16 +345,14 @@ export function HeroSection() {
                 lineHeight: 1.7,
               }}
             >
-              Eight coordinated AI agents. One governing intelligence layer.
-              Built for businesses that have outgrown how they operate.
+              Eight coordinated AI agents. One governing intelligence layer. Built for businesses that have outgrown how they operate.
             </p>
 
             <div className="flex gap-4 flex-wrap">
               <Link
                 href="/assessment"
                 style={{
-                  background:
-                    "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+                  background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
                   color: "white",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: 600,
@@ -382,13 +365,11 @@ export function HeroSection() {
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.opacity = "0.88";
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "translateY(-1px)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.opacity = "1";
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "translateY(0)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
                 }}
               >
                 Assess Your Business
@@ -412,13 +393,11 @@ export function HeroSection() {
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.opacity = "0.7";
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "translateY(-1px)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={e => {
                   (e.currentTarget as HTMLElement).style.opacity = "1";
-                  (e.currentTarget as HTMLElement).style.transform =
-                    "translateY(0)";
+                  (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
                 }}
               >
                 Book a Discovery Call <span>→</span>
@@ -426,7 +405,6 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content — floating login card */}
           <div className="hidden md:flex flex-col items-center justify-center relative w-full max-w-2xl">
             <div style={{ position: "relative", width: "320px" }}>
               <canvas
@@ -475,16 +453,8 @@ export function HeroSection() {
                 >
                   Sign in to your workspace
                 </p>
-                <div
-                  style={{ display: "flex", flexDirection: "column", gap: "8px" }}
-                >
-                  <label
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      color: "#374151",
-                    }}
-                  >
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151" }}>
                     Email
                   </label>
                   <input
@@ -504,16 +474,8 @@ export function HeroSection() {
                     }}
                   />
                 </div>
-                <div
-                  style={{ display: "flex", flexDirection: "column", gap: "8px" }}
-                >
-                  <label
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      color: "#374151",
-                    }}
-                  >
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151" }}>
                     Password
                   </label>
                   <input
@@ -539,8 +501,7 @@ export function HeroSection() {
                   onClick={handleSignIn}
                   disabled={isAnimating}
                   style={{
-                    background:
-                      "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+                    background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
                     color: "white",
                     fontFamily: "Manrope, sans-serif",
                     fontWeight: 600,
@@ -550,16 +511,13 @@ export function HeroSection() {
                     border: "none",
                     cursor: isAnimating ? "default" : "pointer",
                     opacity: isAnimating ? 0.85 : 1,
-                    animation:
-                      buttonState === "signing"
-                        ? "signingPulse 0.5s ease-in-out infinite alternate"
-                        : undefined,
+                    animation: buttonState === "signing"
+                      ? "signingPulse 0.5s ease-in-out infinite alternate"
+                      : undefined,
                     width: "100%",
                   }}
                 >
-                  {buttonState === "signing"
-                    ? "Signing in..."
-                    : "Sign in to Quanton OS"}
+                  {buttonState === "signing" ? "Signing in..." : "Sign in to Quanton OS"}
                 </button>
               </div>
             </div>
@@ -567,7 +525,6 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Bottom fade */}
       <div
         style={{
           position: "absolute",
