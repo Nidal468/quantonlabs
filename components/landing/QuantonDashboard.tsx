@@ -574,11 +574,11 @@ export default function QuantonDashboard() {
   const AGENT_ORDER = ["governing", "people", "sales", "cx", "finance", "ops", "marketing", "inventory"];
 
   return (
-  <>
+  <div id="dashboard-demo">
     <style>{SHIMMER_CSS}</style>
 
     {/* Bridge copy */}
-    <div style={{ textAlign: "center", padding: "48px 24px 32px", fontFamily: "Manrope, sans-serif" }}>
+    <div style={{ textAlign: "center", padding: "24px 24px 16px", fontFamily: "Manrope, sans-serif" }}>
     <h2 style={{
         fontSize: 48, fontWeight: 800, margin: "0 0 12px",
         background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
@@ -688,6 +688,6 @@ export default function QuantonDashboard() {
 </div>
      </div>
       </div>
-    </>
+    </div>
   );
 }
