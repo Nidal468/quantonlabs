@@ -2,9 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Activity, Cpu, BarChart2, Send, TrendingUp, MessageSquare, Users, Truck,ChevronRight
-  
-} from "lucide-react";
+import { BarChart2, Send, TrendingUp, MessageSquare, Users, Cpu, Truck, Activity, CpuIcon,} from "lucide-react";
 
 const gradientText = {
   background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
@@ -12,8 +10,6 @@ const gradientText = {
   WebkitTextFillColor: "transparent" as const,
   backgroundClip: "text" as const,
 };
-
-const agentIcons = [Send, TrendingUp, MessageSquare, Users, Cpu, Truck, BarChart2];
 
 export default function GoverningAgent() {
   const sectionRef = useRef(null);
@@ -31,7 +27,7 @@ export default function GoverningAgent() {
   return (
     <section
       id="governing-agent"
-      style={{ backgroundColor: "#041227", padding: "140px 0" }}
+      style={{ backgroundColor: "#041227", padding: "60px 0" }}
     >
       <style>{`
         @keyframes pulse-ring-ga {
@@ -89,8 +85,8 @@ export default function GoverningAgent() {
               ...gradientText,
               fontFamily: "Manrope, sans-serif",
               fontWeight: 600,
-              fontSize: "12px",
-              letterSpacing: "0.1em",
+              fontSize: "16px",
+              letterSpacing: "0.08em",
               textTransform: "uppercase",
               marginBottom: "20px",
             }}
@@ -361,222 +357,9 @@ export default function GoverningAgent() {
             >
               8 agents. 1 governing layer. Zero fragmentation.
             </div>
-
           </div>
         </motion.div>
       </div>
-
-      {/* COORDINATION / DECISION / INTELLIGENCE STACKED BLOCKS */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "24px",
-          maxWidth: "1200px",
-          margin: "80px auto 0",
-          padding: "0 48px",
-        }}
-      >
-
-        {/* Block 1 — Coordination */}
-        <motion.div
-          ref={coordRef}
-          initial={{ opacity: 0, x: -50 }}
-          animate={coordInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{
-            background: "rgba(43,96,235,0.08)",
-            borderRadius: "20px",
-            border: "1px solid rgba(43,96,235,0.15)",
-            padding: "80px 48px",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "64px",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "14px",
-                  background: "linear-gradient(135deg, #2B60EB, #4655EB)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "24px",
-                }}
-              >
-                <Activity size={28} color="white" />
-              </div>
-              <h3
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "Manrope, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "28px",
-                  marginBottom: "16px",
-                }}
-              >
-                Coordination
-              </h3>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.70)",
-                  fontFamily: "Manrope, sans-serif",
-                  fontSize: "16px",
-                  lineHeight: 1.7,
-                }}
-              >
-                All seven agents operate from a unified shared state. The Governing Agent detects cross-functional conflicts, resolves coordination gaps, and ensures every domain is working from the same picture of the business.
-              </p>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "160px", position: "relative" }}>
-              <svg width="280" height="160" viewBox="0 0 280 160">
-                <line x1="20" y1="20" x2="140" y2="80" stroke="#2B60EB" strokeWidth="2" strokeOpacity="0.7" />
-                <line x1="140" y1="20" x2="140" y2="80" stroke="#584DEB" strokeWidth="2" strokeOpacity="0.7" />
-                <line x1="260" y1="20" x2="140" y2="80" stroke="#8B37EA" strokeWidth="2" strokeOpacity="0.7" />
-                <circle cx="20" cy="20" r="6" fill="#2B60EB" fillOpacity="0.8" />
-                <circle cx="140" cy="20" r="6" fill="#584DEB" fillOpacity="0.8" />
-                <circle cx="260" cy="20" r="6" fill="#8B37EA" fillOpacity="0.8" />
-                <circle cx="140" cy="80" r="14" fill="none" stroke="rgba(43,96,235,0.50)" strokeWidth="2" />
-                <circle cx="140" cy="80" r="8" fill="#2B60EB" fillOpacity="0.9" />
-                <line x1="140" y1="94" x2="140" y2="140" stroke="rgba(43,96,235,0.40)" strokeWidth="1" strokeDasharray="4 3" />
-                <rect x="110" y="140" width="60" height="16" rx="4" fill="rgba(43,96,235,0.15)" stroke="rgba(43,96,235,0.30)" strokeWidth="1" />
-              </svg>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Block 2 — Decision */}
-        <motion.div
-          ref={decisionRef}
-          initial={{ opacity: 0, x: 50 }}
-          animate={decisionInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{
-            background: "rgba(88,77,235,0.08)",
-            borderRadius: "20px",
-            border: "1px solid rgba(88,77,235,0.15)",
-            padding: "80px 48px",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "64px",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "180px", position: "relative" }}>
-              <style>{`
-                @keyframes travel {
-                  0% { offset-distance: 0%; opacity: 0; }
-                  10% { opacity: 1; }
-                  90% { opacity: 1; }
-                  100% { offset-distance: 100%; opacity: 0; }
-                }
-              `}</style>
-              <svg width="280" height="160" viewBox="0 0 280 160" style={{ overflow: "visible" }}>
-                <line x1="20" y1="20" x2="140" y2="80" stroke="#2B60EB" strokeWidth="2" strokeOpacity="0.7" />
-                <line x1="140" y1="20" x2="140" y2="80" stroke="#584DEB" strokeWidth="2" strokeOpacity="0.7" />
-                <line x1="260" y1="20" x2="140" y2="80" stroke="#8B37EA" strokeWidth="2" strokeOpacity="0.7" />
-                <circle cx="20" cy="20" r="7" fill="#2B60EB" fillOpacity="0.8" />
-                <circle cx="140" cy="20" r="7" fill="#584DEB" fillOpacity="0.8" />
-                <circle cx="260" cy="20" r="7" fill="#8B37EA" fillOpacity="0.8" />
-                <circle cx="140" cy="80" r="10" fill="none" stroke="rgba(43,96,235,0.50)" strokeWidth="2" />
-                <circle cx="140" cy="80" r="10" fill="#2B60EB" fillOpacity="0.9" />
-                <line x1="140" y1="96" x2="140" y2="148" stroke="rgba(43,96,235,0.40)" strokeWidth="1" strokeDasharray="4 3" />
-                <rect x="108" y="148" width="64" height="18" rx="4" fill="rgba(43,96,235,0.15)" stroke="rgba(43,96,235,0.30)" strokeWidth="1" />
-              </svg>
-              <div style={{
-                position: "absolute",
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: "linear-gradient(to right, #2B60EB, #8B37EA)",
-                offsetPath: "path('M 20 20 L 140 80')",
-                animation: "travel 1.8s ease-in-out infinite",
-              }} />
-              <div style={{
-                position: "absolute",
-                width: "8px",
-                height: "8px",
-                borderRadius: "50%",
-                background: "linear-gradient(to right, #584DEB, #2B60EB)",
-                offsetPath: "path('M 140 20 L 140 80')",
-                animation: "travel 1.8s ease-in-out infinite",
-                animationDelay: "0.9s",
-              }} />
-            </div>
-
-            <div>
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "14px",
-                  background: "linear-gradient(135deg, #584DEB, #7341EA)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "24px",
-                }}
-              >
-                <Cpu size={28} color="white" />
-              </div>
-              <h3
-                style={{
-                  color: "#FFFFFF",
-                  fontFamily: "Manrope, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "28px",
-                  marginBottom: "16px",
-                }}
-              >
-                Decision
-              </h3>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.70)",
-                  fontFamily: "Manrope, sans-serif",
-                  fontSize: "16px",
-                  lineHeight: 1.7,
-                }}
-              >
-                The Governing Agent decides within its configured operating boundary without requiring human input on every action. Decisions that exceed the boundary are escalated immediately, with full context, to the appropriate decision-maker.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Block 3 — Intelligence */}
-        <motion.div
-          ref={intelRef}
-          initial={{ opacity: 0, x: -50 }}
-          animate={intelInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{
-            background: "rgba(115,65,234,0.08)",
-            borderRadius: "20px",
-            border: "1px solid rgba(115,65,234,0.15)",
-            padding: "80px 48px",
-          }}
-        >
-          <button className="hidden items-center justify-center px-6 py-3 text-base font-medium rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors duration-200 shadow-lg hover:shadow-xl">
-            Explore the Governing Agent
-            <ChevronRight className="ml-2" size={20} />
-          </button>
-        </motion.div>
-
-      </div>
-    </section>
-  );
-}
+      </section>
+    );
+  }

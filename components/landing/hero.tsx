@@ -9,15 +9,15 @@ export function HeroSection() {
   const [passwordText, setPasswordText] = useState("");
   const [buttonState, setButtonState] = useState<"default" | "signing">("default");
   const [isAnimating, setIsAnimating] = useState(false);
-  const [clicked, setClicked] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const animFrameRef = useRef<number>(0);
   const repeatTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const clickedRef = useRef(false);
+  const manualClickedRef = useRef(false);
   const animatingRef = useRef(false);
+  const cursorActiveRef = useRef(false);
 
   const easeInOut = (t: number) =>
     t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -84,7 +84,7 @@ export function HeroSection() {
   };
 
   const triggerShake = () => {
-    if (clickedRef.current || !btnRef.current) return;
+    if (manualClickedRef.current || !btnRef.current) return;
     const btn = btnRef.current;
     const frames = [0, -4, 4, -3, 3, -2, 2, -1, 1, 0, 0, 0];
     let i = 0;
@@ -137,20 +137,29 @@ export function HeroSection() {
         } else {
           setButtonState("signing");
           setTimeout(() => {
-            document
-              .getElementById("dashboard-demo")
-              ?.scrollIntoView({ behavior: "smooth" });
+            const el = document.getElementById("dashboard-demo");
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 80;
+              window.scrollTo({ top, behavior: "smooth" });
+            }
+            setTimeout(() => {
+              const el2 = document.getElementById("dashboard-demo");
+              if (el2) {
+                const top2 = el2.getBoundingClientRect().top + window.scrollY + 140;
+                window.scrollTo({ top: top2, behavior: "smooth" });
+              }
+            }, 3000);
             setTimeout(() => {
               setEmailText("");
               setPasswordText("");
               setButtonState("default");
               animatingRef.current = false;
               setIsAnimating(false);
-              if (!clickedRef.current) {
+              if (!manualClickedRef.current) {
                 startPulse();
                 repeatTimerRef.current = setTimeout(fireCursorSequence, 7000);
               }
-            }, 2000);
+            }, 5500);
           }, 1200);
         }
       };
@@ -160,31 +169,33 @@ export function HeroSection() {
     typeEmail();
   };
 
-  const animateCursor = (onClickReached: () => void) => {
+  const animateCursor = (onCursorClick: () => void) => {
     const canvas = canvasRef.current;
-    if (!canvas || clickedRef.current) return;
+    if (!canvas || manualClickedRef.current) return;
     sizeCanvas();
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    cursorActiveRef.current = true;
     const target = getBtnCenter();
     const startX = canvas.width - 20;
     const startY = 10;
     const endX = target.x;
     const endY = target.y;
 
-    const moveDuration = 1600;
-    const hoverDuration = 400;
+    const moveDuration = 1800;
+    const hoverDuration = 500;
     const pressDuration = 200;
-    const releaseDuration = 150;
-    const fadeDuration = 400;
+    const releaseDuration = 200;
+    const fadeDuration = 500;
 
     const start = performance.now();
     let clickFired = false;
 
     const step = (now: number) => {
-      if (clickedRef.current && clickFired) {
+      if (manualClickedRef.current) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        cursorActiveRef.current = false;
         return;
       }
       const e = now - start;
@@ -203,7 +214,7 @@ export function HeroSection() {
         drawModernCursor(ctx, endX, endY, 0.84);
         if (!clickFired) {
           clickFired = true;
-          onClickReached();
+          onCursorClick();
         }
       } else if (e < moveDuration + hoverDuration + pressDuration + releaseDuration) {
         ctx.globalAlpha = 1;
@@ -217,6 +228,10 @@ export function HeroSection() {
         drawModernCursor(ctx, endX, endY, 1);
         if (fadeT >= 1) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          cursorActiveRef.current = false;
+          if (!manualClickedRef.current && !animatingRef.current) {
+            repeatTimerRef.current = setTimeout(fireCursorSequence, 4000);
+          }
           return;
         }
       }
@@ -228,23 +243,28 @@ export function HeroSection() {
   };
 
   const fireCursorSequence = () => {
-    if (clickedRef.current || animatingRef.current) return;
+    if (manualClickedRef.current || animatingRef.current) return;
     triggerShake();
-    setTimeout(() => animateCursor(runFillSequence), 700);
+    setTimeout(() => {
+      animateCursor(() => {
+        // cursor click is visual only — does nothing
+      });
+    }, 700);
   };
 
   const handleSignIn = () => {
-    if (clickedRef.current || animatingRef.current) return;
-    clickedRef.current = true;
-    setClicked(true);
-    if (repeatTimerRef.current) clearTimeout(repeatTimerRef.current);
-    cancelAnimationFrame(animFrameRef.current);
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    if (animatingRef.current) return;
+    if (!cursorActiveRef.current) {
+      manualClickedRef.current = true;
+      if (repeatTimerRef.current) clearTimeout(repeatTimerRef.current);
+      cancelAnimationFrame(animFrameRef.current);
+      const canvas = canvasRef.current;
+      if (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      stopPulse();
     }
-    stopPulse();
     runFillSequence();
   };
 
@@ -253,8 +273,28 @@ export function HeroSection() {
     window.addEventListener("resize", sizeCanvas);
     startPulse();
     const timer = setTimeout(fireCursorSequence, 2500);
+
+    const handleScroll = () => {
+      const hero = document.getElementById("hero-section");
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        if (repeatTimerRef.current) clearTimeout(repeatTimerRef.current);
+        cancelAnimationFrame(animFrameRef.current);
+        const canvas = canvasRef.current;
+        if (canvas) {
+          const ctx = canvas.getContext("2d");
+          ctx?.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        stopPulse();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("resize", sizeCanvas);
+      window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
       if (repeatTimerRef.current) clearTimeout(repeatTimerRef.current);
       cancelAnimationFrame(animFrameRef.current);
@@ -263,7 +303,8 @@ export function HeroSection() {
 
   return (
     <div
-      className="w-full relative overflow-hidden pt-16 md:pt-[80px]"
+      id="hero-section"
+      className="w-full relative overflow-hidden pt-16 md:pt-20"
       style={{
         backgroundImage: `
           radial-gradient(ellipse 80% 60% at 50% 0%, rgba(43, 96, 235, 0.06) 0%, transparent 60%),
@@ -422,8 +463,8 @@ export function HeroSection() {
                 style={{
                   borderRadius: "16px",
                   border: "1px solid rgba(43,96,235,0.15)",
-                  boxShadow: "0 0 80px rgba(43,96,235,0.18)",
-                  background: "rgba(255,255,255,0.97)",
+                  boxShadow: "0 8px 48px rgba(43,96,235,0.18), 0 2px 12px rgba(0,0,0,0.06)",
+                  background: "#ffffff",
                   padding: "32px 28px",
                   display: "flex",
                   flexDirection: "column",

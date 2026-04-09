@@ -123,7 +123,7 @@ function TabButton({
     <button
       onClick={() => {
         setPressed(true);
-        setTimeout(() => setPressed(false), 150);
+        setTimeout(() => setPressed(false), 80);
         onClick();
       }}
       style={{
