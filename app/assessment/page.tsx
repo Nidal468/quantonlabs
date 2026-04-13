@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DOMAINS, Lead, Profile, TaskResponse } from '@/db/assessments';
 import Navbar from '@/components/landing/navbar';
@@ -8,6 +8,15 @@ import RenderProfileStep from '@/components/assessment/profileStep';
 import RenderAssessmentStep from '@/components/assessment/renderAssessment';
 import RenderLeadCapture from '@/components/assessment/leadCapture';
 import RenderResults from '@/components/assessment/results';
+
+const PAIN_POINT_DOMAIN_ORDER: Record<string, string[]> = {
+  marketing: ['marketing_content', 'sales', 'customer_experience', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
+  sales: ['sales', 'marketing_content', 'customer_experience', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
+  customers: ['customer_experience', 'sales', 'marketing_content', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
+  finance: ['finance', 'operations', 'sales', 'customer_experience', 'marketing_content', 'people_team', 'delivery_projects', 'inventory_supply'],
+  team: ['operations', 'people_team', 'sales', 'customer_experience', 'marketing_content', 'delivery_projects', 'inventory_supply', 'finance'],
+  everything: ['marketing_content', 'sales', 'customer_experience', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
+};
 
 export default function AIAgentAssessment() {
   const [currentStep, setCurrentStep] = useState<'profile' | 'assessment' | 'lead' | 'results'>('profile');
@@ -23,26 +32,22 @@ export default function AIAgentAssessment() {
       const triggerPoint = window.innerHeight * 0.3;
       setIsScrolled(window.scrollY > triggerPoint);
     };
-
     handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  // Initialize from localStorage if available
+
   useEffect(() => {
     const savedProfile = localStorage.getItem('aiAssessment_profile');
     const savedResponses = localStorage.getItem('aiAssessment_responses');
-
     if (savedProfile) setProfile(JSON.parse(savedProfile));
     if (savedResponses) setTaskResponses(JSON.parse(savedResponses));
   }, []);
 
-  // Save to localStorage on change
   useEffect(() => {
     localStorage.setItem('aiAssessment_profile', JSON.stringify(profile));
     localStorage.setItem('aiAssessment_responses', JSON.stringify(taskResponses));
   }, [profile, taskResponses]);
-
 
   const handleResponseSelect = (taskId: string, responseValue: 'not_doing' | 'manual' | 'loose_ai' | 'structured') => {
     setTaskResponses(prev => ({
@@ -61,45 +66,47 @@ export default function AIAgentAssessment() {
     }));
   };
 
-  // Get the visible domains based on industry and company size
   const getVisibleDomains = () => {
     const isMicro = profile.company_size === 'micro';
-    const isVisible = (domainKey: string) => {
-      if (isMicro && domainKey === 'people_team') return false;
 
-      const domainVisibility: any = {
-        marketing_content: true,
-        sales: true,
-        customer_experience: true,
-        operations: true,
-        inventory_supply: true,
-        finance: true
-      };
-
-      // Apply conditional visibility rules based on industry vertical and company size
-      if (profile.industry_vertical === 'professional_services') domainVisibility.marketing_content = true;
-      if (profile.industry_vertical === 'automotive' && !isMicro) domainVisibility.inventory_supply = true;
-      if (profile.industry_vertical === 'retail' && !isMicro) domainVisibility.inventory_supply = true;
-      if (profile.industry_vertical === 'financial_services') domainVisibility.marketing_content = true;
-      if (profile.industry_vertical === 'healthcare') domainVisibility.marketing_content = true;
-      if (profile.industry_vertical === 'beauty_aesthetics' && !isMicro) {
-        domainVisibility.inventory_supply = false; // Reduced task set
-      }
-      if (profile.industry_vertical === 'home_services') domainVisibility.marketing_content = true;
-      if (profile.industry_vertical === 'saas') domainVisibility.marketing_content = true;
-
-      return domainVisibility[domainKey] !== undefined ? domainVisibility[domainKey] : false;
+    const domainVisibility: Record<string, boolean> = {
+      marketing_content: true,
+      sales: true,
+      customer_experience: true,
+      people_team: !isMicro,
+      operations: true,
+      delivery_projects:
+        profile.industry_vertical === 'professional_services' ||
+        profile.industry_vertical === 'home_services' ||
+        profile.industry_vertical === 'saas',
+      inventory_supply: true,
+      finance: true,
     };
 
-    return Object.keys(DOMAINS).filter((domain) => isVisible(domain));
+    if (
+      profile.industry_vertical === 'professional_services' ||
+      profile.industry_vertical === 'financial_services'
+    ) {
+      domainVisibility.inventory_supply = false;
+    }
+
+    // Get preferred order based on pain point
+    const painPoint = profile.primary_pain_point as string;
+    const preferredOrder = PAIN_POINT_DOMAIN_ORDER[painPoint] || Object.keys(DOMAINS);
+
+    // Filter to only visible domains, preserving preferred order
+    return preferredOrder.filter(domain => domainVisibility[domain] === true);
   };
 
-  // Get tasks for current domain
   const getCurrentDomainTasks = () => {
     const visibleDomains = getVisibleDomains();
     if (currentDomain >= visibleDomains.length) return [];
 
     const selectedDomainKey = visibleDomains[currentDomain];
+    const isSmall = profile.company_size === 'small';
+    const isMediumOrLarge =
+      profile.company_size === 'medium' || profile.company_size === 'large';
+
     switch (selectedDomainKey) {
       case 'marketing_content':
         return ['1.1', '1.2', '1.3', '1.4', '1.5'];
@@ -107,30 +114,21 @@ export default function AIAgentAssessment() {
         return ['2.1', '2.2', '2.3', '2.4', '2.5'];
       case 'customer_experience':
         return ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6'];
-      case 'people_team': {
-        const isSmall = profile.company_size === 'small';
-        if (isSmall) return ['4.1', '4.2', '4.5'];
-        else return ['4.1', '4.2', '4.3', '4.4', '4.5'];
-      }
+      case 'people_team':
+        return isSmall
+          ? ['4.1', '4.2', '4.5']
+          : ['4.1', '4.2', '4.3', '4.4', '4.5'];
       case 'operations':
-        const isMediumOrLarge = profile.company_size === 'medium' || profile.company_size === 'large';
-        if (isMediumOrLarge) {
-          return ['5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7'];
-        } else {
-          return ['5.1', '5.2', '5.3', '5.4', '5.5'];
-        }
+        return isMediumOrLarge
+          ? ['5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7']
+          : ['5.1', '5.2', '5.3', '5.4', '5.5'];
       case 'delivery_projects':
-        if (profile.industry_vertical === 'professional_services' || profile.industry_vertical === 'home_services' || profile.industry_vertical === 'saas') {
-          return ['6.1', '6.2', '6.3'];
-        } else {
-          return [];
-        }
+        return ['6.1', '6.2', '6.3'];
       case 'inventory_supply':
-        if (profile.industry_vertical === 'healthcare' || profile.industry_vertical === 'beauty_aesthetics') {
-          return ['7.1', '7.2'];
-        } else {
-          return ['7.1', '7.2', '7.3', '7.4'];
-        }
+        return profile.industry_vertical === 'healthcare' ||
+          profile.industry_vertical === 'beauty_aesthetics'
+          ? ['7.1', '7.2']
+          : ['7.1', '7.2', '7.3', '7.4'];
       case 'finance':
         return ['8.1', '8.2', '8.3', '8.4', '8.5'];
       default:
@@ -138,31 +136,24 @@ export default function AIAgentAssessment() {
     }
   };
 
-  const handleNextPage = () => {
-    setCurrentPage(prev => prev + 1);
-  };
+  const handleNextPage = () => setCurrentPage(prev => prev + 1);
+  const handlePrevPage = () => setCurrentPage(prev => Math.max(0, prev - 1));
 
-  const handlePrevPage = () => {
-    setCurrentPage(prev => Math.max(0, prev - 1));
-  };
-
-  // Get current tasks for display
-  const displayedTasks = getCurrentDomainTasks().slice(currentPage * 1, (currentPage + 1) * 1);
   const visibleDomains = getVisibleDomains();
   const allTasks = getCurrentDomainTasks();
-  // Handle form submission
-  const handleSubmit = () => {
+  const displayedTasks = allTasks.slice(currentPage, currentPage + 1);
 
-    if (!profile.industry_vertical || !profile.company_size || !profile.revenue_range || !profile.ai_usage_level || !profile.primary_pain_point) return;
-
+const handleSubmit = () => {
+    if (
+      !profile.industry_vertical ||
+      !profile.company_size ||
+      !profile.revenue_range ||
+      !profile.primary_pain_point
+    ) return;
     setCurrentStep('assessment');
     setCurrentDomain(0);
     setCurrentPage(0);
   };
-
-  console.log(profile)
-  console.log(taskResponses)
-  console.log(leadInfo)
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -170,27 +161,59 @@ export default function AIAgentAssessment() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="min-h-screen bg-linear-to-b from-slate-100 to-slate-400 relative flex items-center justify-center"
+        className="min-h-screen bg-white relative"
       >
+        {/* Shared background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-100/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-100/30 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+          <div className="absolute top-1/3 right-1/3 w-80 h-80 bg-indigo-100/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        </div>
+
         <Navbar isScrolled={isScrolled} />
-        {currentStep === 'profile' && <RenderProfileStep setProfile={setProfile} profile={profile} handleSubmit={handleSubmit} />}
-        {currentStep === 'assessment' && <RenderAssessmentStep
-          handleNextPage={handleNextPage}
-          handlePrevPage={handlePrevPage}
-          handleResponseSelect={handleResponseSelect}
-          handleGovernanceToggle={handleGovernanceToggle}
-          visibleDomains={visibleDomains}
-          allTasks={allTasks}
-          displayedTasks={displayedTasks}
-          currentDomain={currentDomain}
-          currentPage={currentPage}
-          setCurrentDomain={setCurrentDomain}
-          setCurrentPage={setCurrentPage}
-          setCurrentStep={setCurrentStep}
-          taskResponses={taskResponses}
-        />}
-        {currentStep === 'lead' && <RenderLeadCapture setCurrentStep={setCurrentStep} leadInfo={leadInfo} setLeadInfo={setLeadInfo} />}
-        {currentStep === 'results' && <RenderResults taskResponses={taskResponses} profile={profile} leadInfo={leadInfo}/>}
+
+        {/* Content pushed below fixed navbar */}
+        <div className="pt-[70px] flex items-center justify-center min-h-screen">
+          {currentStep === 'profile' && (
+            <RenderProfileStep
+              setProfile={setProfile}
+              profile={profile}
+              handleSubmit={handleSubmit}
+            />
+          )}
+          {currentStep === 'assessment' && (
+            <RenderAssessmentStep
+              handleNextPage={handleNextPage}
+              handlePrevPage={handlePrevPage}
+              handleResponseSelect={handleResponseSelect}
+              handleGovernanceToggle={handleGovernanceToggle}
+              visibleDomains={visibleDomains}
+              allTasks={allTasks}
+              displayedTasks={displayedTasks}
+              currentDomain={currentDomain}
+              currentPage={currentPage}
+              setCurrentDomain={setCurrentDomain}
+              setCurrentPage={setCurrentPage}
+              setCurrentStep={setCurrentStep}
+              taskResponses={taskResponses}
+              profile={profile}
+            />
+          )}
+          {currentStep === 'lead' && (
+            <RenderLeadCapture
+              setCurrentStep={setCurrentStep}
+              leadInfo={leadInfo}
+              setLeadInfo={setLeadInfo}
+            />
+          )}
+          {currentStep === 'results' && (
+            <RenderResults
+              taskResponses={taskResponses}
+              profile={profile}
+              leadInfo={leadInfo}
+            />
+          )}
+        </div>
       </motion.div>
     </AnimatePresence>
   );
