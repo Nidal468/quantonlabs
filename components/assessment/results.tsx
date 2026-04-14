@@ -1,467 +1,645 @@
 import { Profile, TaskResponse, Lead } from "@/db/assessments";
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { useEffect, useState } from "react";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle} from "@/components/ui/dialog";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
-export default function RenderResults({ profile, taskResponses, leadInfo }: { profile: Partial<Profile>, taskResponses: Record<string, TaskResponse>, leadInfo: Partial<Lead> }) {
-    const [data, setData] = useState({
-        coveragePercentage: 0,
-        totalTasks: 0,
-        notDoing: 0,
-        manual: 0,
-        looseAI: 0,
-        estimatedHoursLow: 0,
-        estimatedHoursHigh: 0,
-        structured: 0,
-    });
-    const [airesponse, setAiresponse] = useState("");
-    const [isloading, setIsloading] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
+const gradientStyle = {
+  background: 'linear-gradient(to right, #2B60EB, #8B37EA)',
+};
 
-    useEffect(() => {
-        const get = async () => {
-            const formdata = {
-                taskResponses,
-                leadInfo,
-                profile
-            }
-            const res = await fetch('/api/assessment', {
-                method: "POST",
-                body: JSON.stringify(formdata),
-                cache: 'no-store'
-            });
-            if (res.ok) {
-                const result = await res.json()
-                setData(result);
-            }
+export default function RenderResults({
+  profile,
+  taskResponses,
+  leadInfo
+}: {
+  profile: Partial<Profile>,
+  taskResponses: Record<string, TaskResponse>,
+  leadInfo: Partial<Lead>
+}) {
+  const [data, setData] = useState({
+    coveragePercentage: 0,
+    totalTasks: 0,
+    notDoing: 0,
+    manual: 0,
+    looseAI: 0,
+    estimatedHoursLow: 0,
+    estimatedHoursHigh: 0,
+    structured: 0,
+  });
 
-        };
-        get()
-    }, []);
+  useEffect(() => {
+    const get = async () => {
+      const formdata = { taskResponses, leadInfo, profile };
+      const res = await fetch('/api/assessment', {
+        method: "POST",
+        body: JSON.stringify(formdata),
+        cache: 'no-store'
+      });
+      if (res.ok) {
+        const result = await res.json();
+        setData(result);
+      }
+    };
+    get();
+  }, []);
 
-    const handleViewAiresponse = async () => {
-        setIsloading(true)
-        setOpenModal(true);
-        const res = await fetch("/api/public/ai", {
-            method: "POST",
-            body: JSON.stringify({ profile, taskResponses, leadInfo }),
-            cache: "no-store"
-        });
-        if (res.ok) {
-            setIsloading(false);
-            const result = await res.json();
-            setAiresponse(result);
-        }
-    }
+  // Derive AI maturity from actual task responses
+  const totalResponses = Object.keys(taskResponses).length;
+  const structuredCount = Object.values(taskResponses).filter(r => r.response === 'structured').length;
+  const looseAICount = Object.values(taskResponses).filter(r => r.response === 'loose_ai').length;
+  const structuredRatio = totalResponses > 0 ? structuredCount / totalResponses : 0;
+  const looseRatio = totalResponses > 0 ? looseAICount / totalResponses : 0;
 
-    return (
-        <div className="w-full max-w-6xl mx-auto pt-30">
-            <div className="w-full px-4 py-8 sm:py-12 relative z-10">
-                {/* Results Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-12"
-                >
-                    <h1 className="text-4xl font-bold text-slate-900 mb-4">AI Agent Coverage Report</h1>
-                    <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-                        Personalized insights on your current AI coverage and gaps
-                    </p>
-                </motion.div>
+  const derivedMaturityCopy = structuredRatio >= 0.4
+    ? "Your operation is more mature than most. The question is whether your current architecture provides unified visibility, cross-functional coordination, and governance enforcement across every domain."
+    : looseRatio >= 0.3
+    ? "You have invested in AI tools and automations, but your results suggest they are not working as a coordinated system. Disconnected automations create fragility and limit the compounding value that a governed architecture produces."
+    : data.coveragePercentage > 30
+    ? "You have started using AI in parts of your business. There is a significant difference between isolated tools and a coordinated operating system where agents work together across every function."
+    : "Your business is operating largely on manual effort. Every domain in this assessment can be supported by a coordinated AI agent with defined governance and human oversight at every decision point.";
 
-                {/* Main Dashboard */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                    {/* Coverage Summary Card */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="lg:col-span-2"
-                    >
-                        <Card className="backdrop-blur-xl bg-white/80 border border-slate-200 shadow-lg hover:bg-slate-50 transition-all duration-300 rounded-xl">
-                            <CardContent className="p-6">
-                                <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
-                                    <div className="text-center md:text-left">
-                                        <h2 className="text-2xl font-semibold text-slate-900 mb-2">Coverage Overview</h2>
-                                        <p className="text-slate-600">
-                                            {data.coveragePercentage <= 20 ? 'Your business is running almost entirely on manual processes.' :
-                                                data.coveragePercentage <= 40 ? 'You have started using AI, but most operations remain manual.' :
-                                                    data.coveragePercentage <= 60 ? 'You have moderate AI coverage with significant gaps in core functions.' :
-                                                        data.coveragePercentage <= 80 ? 'Your AI usage is above average, but disconnected tools limit your returns.' :
-                                                            'Your operations are well-covered. The question is whether your systems work together.'}
-                                        </p>
-                                    </div>
-                                    <motion.div
-                                        whileHover={{ scale: 1.05 }}
-                                        className="w-32 h-32 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 font-bold text-2xl border-4 border-slate-200"
-                                    >
-                                        {data.coveragePercentage}%
-                                    </motion.div>
-                                </div>
+  const coverageLabel =
+    data.coveragePercentage <= 20 ? 'Your business is running almost entirely on manual processes.' :
+    data.coveragePercentage <= 40 ? 'You have started using AI, but most operations remain manual.' :
+    data.coveragePercentage <= 60 ? 'You have moderate AI coverage with significant gaps in core functions.' :
+    data.coveragePercentage <= 80 ? 'Your AI usage is above average, but disconnected tools limit your returns.' :
+    'Your operations are well-covered. The question is whether your systems work together.';
 
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div className="backdrop-blur-sm bg-slate-50 p-4 rounded-lg text-center border border-slate-200">
-                                        <p className="text-2xl font-bold text-slate-900">{data.totalTasks}</p>
-                                        <p className="text-sm text-slate-500">Total Tasks</p>
-                                    </div>
-                                    <div className="backdrop-blur-sm bg-slate-50 p-4 rounded-lg text-center border border-slate-200">
-                                        <p className="text-2xl font-bold text-slate-900">{data.notDoing + data.manual}</p>
-                                        <p className="text-sm text-slate-500">Manual Tasks</p>
-                                    </div>
-                                    <div className="backdrop-blur-sm bg-slate-50 p-4 rounded-lg text-center border border-slate-200">
-                                        <p className="text-2xl font-bold text-slate-900">{data.looseAI}</p>
-                                        <p className="text-sm text-slate-500">Disconnected AI</p>
-                                    </div>
-                                </div>
+  const recommendationLabel =
+    data.coveragePercentage > 80
+      ? "Your AI implementation is strong. The next priority is coordination and governance across functions."
+      : data.coveragePercentage > 60
+      ? "You have meaningful AI activity. The gaps are in structure and cross-functional visibility."
+      : "Most of your operations are running on manual effort. A coordinated infrastructure will have immediate impact.";
 
-                                {data.estimatedHoursLow > 0 && data.estimatedHoursHigh > 0 && (
-                                    <div className="mt-6 p-4 backdrop-blur-sm bg-slate-100/50 rounded-lg border border-slate-200">
-                                        <p className="font-semibold text-slate-900">Manual Hours at Risk</p>
-                                        <p className="text-slate-700">{Math.round(data.estimatedHoursLow)}–{Math.round(data.estimatedHoursHigh)} hours per week</p>
-                                    </div>
-                                )}
-                            </CardContent>
-                        </Card>
-                    </motion.div>
+  const ctaSubtext =
+    profile.revenue_range === 'under_1m'
+      ? "Quanton OS is designed for businesses generating $1M or more annually. If you are approaching that threshold, we would be glad to hear from you."
+      : profile.revenue_range === 'over_20m'
+      ? "Your organisation may benefit from Quanton OS at an enterprise configuration level. Contact us to discuss your requirements."
+      : "";
 
-                    {/* Quick Stats */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="space-y-6"
-                    >
-                        <Card className="backdrop-blur-xl bg-white/80 border border-slate-200 shadow-lg hover:bg-slate-50 transition-all duration-300 rounded-xl">
-                            <CardHeader>
-                                <CardTitle className="text-slate-900">Response Distribution</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-slate-700">Not Doing</span>
-                                        <Badge variant="secondary" className="bg-slate-200 text-slate-800">{data.notDoing}</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-slate-700">Manual</span>
-                                        <Badge variant="secondary" className="bg-slate-200 text-slate-800">{data.manual}</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-slate-700">Loose AI</span>
-                                        <Badge variant="secondary" className="bg-slate-200 text-slate-800">{data.looseAI}</Badge>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-slate-700">Structured</span>
-                                        <Badge variant="secondary" className="bg-slate-200 text-slate-800">{data.structured}</Badge>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+  const isTargetSegment = profile.revenue_range !== 'under_1m' && profile.revenue_range !== 'over_20m';
 
-                        <Card className="backdrop-blur-xl bg-white/80 border border-slate-200 shadow-lg hover:bg-slate-50 transition-all duration-300 rounded-xl">
-                            <CardHeader>
-                                <CardTitle className="text-slate-900">Recommendation</CardTitle>
-                            </CardHeader>
-                            <CardContent className="p-6">
-                                <p className="text-slate-700 mb-4">
-                                    {data.coveragePercentage > 80
-                                        ? "Your AI implementation is strong. Focus on integration and optimization."
-                                        : data.coveragePercentage > 60
-                                            ? "You're making progress. Identify key areas for improvement."
-                                            : "Immediate attention needed. Prioritize high-impact AI implementations."}
-                                </p>
-                                <Button className="w-full bg-slate-900 text-white hover:bg-slate-800" onClick={handleViewAiresponse}>
-                                    View Detailed Analysis
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                </div>
+  return (
+    <div className="w-full max-w-6xl mx-auto pt-24 pb-16 px-4">
 
-                {/* Agent Map Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="mb-12"
-                >
-                    <Card className="backdrop-blur-xl bg-white/80 border border-slate-200 shadow-lg hover:bg-slate-50 transition-all duration-300 rounded-xl">
-                        <CardHeader>
-                            <CardTitle className="text-slate-900">The Agent Map</CardTitle>
-                            <CardDescription className="text-slate-600">
-                                How each agent is mapping to your business functions
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {/* Marketing and Content Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center bg-slate-50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Marketing and Content Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Growth</p>
-                                    <p className="text-sm text-slate-700 mb-3">Plans, creates, distributes, and optimizes content across all channels.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Social Media</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Long-form Content</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Email Campaigns</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Content Repurposing</Badge>
-                                    </div>
-                                </div>
+      {/* Results header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-12"
+      >
+        <div
+          className="inline-block text-xs font-semibold tracking-wide uppercase px-3 py-1 rounded-full mb-4 text-white"
+          style={gradientStyle}
+        >
+          Operational Readiness Report
+        </div>
+        <h1 className="text-3xl font-bold text-slate-900 mb-3">
+          {leadInfo.full_name
+            ? `${leadInfo.full_name.split(' ')[0]}'s AI Coverage Analysis`
+            : 'Your AI Coverage Analysis'}
+        </h1>
+        <p className="text-base text-slate-500 max-w-2xl mx-auto">
+          A domain-by-domain breakdown of how your business currently operates and where a coordinated AI operating system will have the greatest impact.
+        </p>
+      </motion.div>
 
-                                {/* Sales Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center bg-slate-50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Sales Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Growth</p>
-                                    <p className="text-sm text-slate-700 mb-3">Manages the revenue pipeline from inbound lead to closed deal.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Lead Response</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Proposal Generation</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Follow-up Sequences</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Pipeline Tracking</Badge>
-                                    </div>
-                                </div>
+      {/* Main dashboard */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
-                                {/* Customer Experience Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center bg-slate-50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Customer Experience Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Operations + Growth</p>
-                                    <p className="text-sm text-slate-700 mb-3">Manages post-acquisition service and retention.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">FAQ Handling</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Booking Scheduling</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Complaint Routing</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Onboarding</Badge>
-                                    </div>
-                                </div>
-
-                                {/* People and Team Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center md:col-span-3 bg-slate-100/50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">People and Team Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Operations</p>
-                                    <p className="text-sm text-slate-800 mb-3">Manages the employee lifecycle and team performance infrastructure.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Job Posting</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Candidate Screening</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Interview Scheduling</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Onboarding Workflows</Badge>
-                                    </div>
-                                </div>
-
-                                {/* Operations Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center bg-slate-50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Operations Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Operations</p>
-                                    <p className="text-sm text-slate-700 mb-3">Controls internal execution infrastructure.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Task Assignment</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">SOP Creation</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Vendor Coordination</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Meeting Management</Badge>
-                                    </div>
-                                </div>
-
-                                {/* Inventory and Supply Chain Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center bg-slate-50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Inventory and Supply Chain Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Operations</p>
-                                    <p className="text-sm text-slate-700 mb-3">Manages stock and supplier systems.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Stock Monitoring</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Low Stock Alerts</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Automated Reorders</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Supplier Communication</Badge>
-                                    </div>
-                                </div>
-
-                                {/* Finance Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center bg-slate-50 hover:bg-slate-100 transition-colors">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Finance Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Operations</p>
-                                    <p className="text-sm text-slate-700 mb-3">Handles financial execution and compliance infrastructure.</p>
-                                    <div className="flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Invoice Generation</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Payment Reminders</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Expense Categorization</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Financial Reporting</Badge>
-                                    </div>
-                                </div>
-
-                                {/* Governing Agent */}
-                                <div className="backdrop-blur-sm border border-slate-200 rounded-lg p-4 text-center md:col-span-3 bg-slate-100/50 hover:bg-slate-100 transition-all">
-                                    <h4 className="font-semibold mb-2 text-slate-900">Governing Agent</h4>
-                                    <p className="text-sm text-slate-600 mb-3">Domain: Strategy</p>
-                                    <p className="text-sm text-slate-800">
-                                        The orchestration and intelligence layer that unifies the system.
-                                    </p>
-                                    <div className="mt-3 flex flex-wrap justify-center gap-1">
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Cross-agent Coordination</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Exception Management</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">KPI Monitoring</Badge>
-                                        <Badge variant="secondary" className="bg-slate-200/50 text-slate-700 text-xs">Leadership Dashboard</Badge>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </motion.div>
-
-                {/* Gap Quantification */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="mb-12"
-                >
-                    <Card className="backdrop-blur-xl bg-white/80 border border-slate-200 shadow-lg hover:bg-slate-50 transition-all duration-300 rounded-xl">
-                        <CardHeader>
-                            <CardTitle className="text-slate-900">Gap Quantification</CardTitle>
-                            <CardDescription className="text-slate-600">
-                                Measurable insights into your current AI coverage gaps
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-6">
-                                <div className="p-5 backdrop-blur-sm bg-slate-50 rounded-lg border border-slate-200">
-                                    <h4 className="font-semibold text-slate-900 mb-2">Manual Hours at Risk</h4>
-                                    <p className="text-slate-700">{Math.round(data.estimatedHoursLow)}–{Math.round(data.estimatedHoursHigh)} hours per week</p>
-                                    <p className="text-sm text-slate-600 mt-2">
-                                        Based on your responses, your team is spending an estimated {Math.round(data.estimatedHoursLow)}–{Math.round(data.estimatedHoursHigh)} hours per week on tasks that could be automated.
-                                    </p>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="p-5 backdrop-blur-sm bg-slate-50 rounded-lg border border-slate-200">
-                                        <h4 className="font-semibold text-slate-900 mb-2">Uncovered Functions</h4>
-                                        <p className="text-slate-700">{data.notDoing} core business functions are not being performed at all.</p>
-                                        <p className="text-sm text-slate-600 mt-2">
-                                            These represent blind spots in your operations that could benefit from AI implementation.
-                                        </p>
-                                    </div>
-
-                                    <div className="p-5 backdrop-blur-sm bg-slate-50 rounded-lg border border-slate-200">
-                                        <h4 className="font-semibold text-slate-900 mb-2">Fragmented AI</h4>
-                                        <p className="text-slate-700">{data.looseAI} tasks are using AI without a defined process.</p>
-                                        <p className="text-sm text-slate-600 mt-2">
-                                            Disconnected AI usage increases inconsistency and creates dependencies on individual judgment.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {data.structured > 0 && (
-                                    <div className="p-5 backdrop-blur-sm bg-slate-50 rounded-lg border border-slate-200">
-                                        <h4 className="font-semibold text-slate-900 mb-2">Governance Insight</h4>
-                                        <p className="text-slate-700">{data.structured} structured workflows depend on one person's judgment rather than system-level governance.</p>
-                                        <p className="text-sm text-slate-600 mt-2">
-                                            The Governing Agent eliminates single points of failure by enforcing system-level oversight across all agents.
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
-                </motion.div>
-
-                {/* CTA Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="backdrop-blur-xl bg-slate-50 rounded-xl p-8 mb-12 border border-slate-200"
-                >
-                    <div className="max-w-3xl mx-auto text-center">
-                        <h3 className="text-2xl font-bold mb-4 text-slate-900">Next Steps for Your AI Transformation</h3>
-
-                        <p className="mb-6 text-slate-700">
-                            {profile.ai_usage_level === 'none'
-                                ? "Your business is operating entirely on manual effort. Every function in this assessment can be supported by a coordinated AI agent with human oversight."
-                                : profile.ai_usage_level === 'casual'
-                                    ? "You have started experimenting with AI, but there is a significant difference between asking ChatGPT occasional questions and deploying a coordinated operating system."
-                                    : profile.ai_usage_level === 'fragmented'
-                                        ? "You have invested in AI tools and automations, but your results suggest they are not working as a system. Disconnected automations create fragility."
-                                        : "Your operation is more mature than most. The question is whether your current architecture provides unified visibility."}
-
-                        </p>
-
-                        <div className="flex flex-wrap justify-center gap-4">
-                            {profile.revenue_range === 'under_1m' && (
-                                <Button className="bg-slate-900 text-white hover:bg-slate-800 px-6 py-3 rounded-lg">
-                                    Request a Scaling Architecture Call
-                                </Button>
-                            )}
-
-                            {(profile.revenue_range === '1m_5m' || profile.revenue_range === '5m_10m' ||
-                                profile.revenue_range === '10m_20m') && (
-                                    <Button className="bg-slate-900 text-white hover:bg-slate-800 px-6 py-3 rounded-lg">
-                                        Book a Readiness Consultation
-                                    </Button>
-                                )}
-
-                            {profile.revenue_range === 'over_20m' && (
-                                <Button className="bg-slate-900 text-white hover:bg-slate-800 px-6 py-3 rounded-lg">
-                                    Discuss Enterprise Configuration
-                                </Button>
-                            )}
-
-                            <Button variant="outline" className="border-slate-300 text-slate-700 bg-transparent hover:bg-slate-100 px-6 py-3 rounded-lg">
-                                Read the Full White Paper
-                            </Button>
-                        </div>
-
-                        <p className="mt-6 text-sm opacity-80 text-slate-600">
-                            {profile.revenue_range === 'under_1m'
-                                ? "Quanton OS is designed for businesses generating $1M–$20M annually. If you are approaching that threshold, a conversation about operational infrastructure can help you scale without the chaos that typically accompanies growth."
-                                : profile.revenue_range === 'over_20m'
-                                    ? "Your organization may benefit from Quanton OS at the enterprise deployment level. Our standard implementation is designed for $1M–$20M businesses, but the operating principles and agent architecture scale. Contact us to discuss enterprise configuration."
-                                    : ""}
-                        </p>
-                    </div>
-                </motion.div>
-
-                <footer className="text-center text-slate-600 text-sm py-6">
-                    © 2026 Quanton Labs. All rights reserved.
-                </footer>
+        {/* Coverage summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="lg:col-span-2"
+        >
+          <div style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: 16,
+            boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+            padding: 24,
+            height: '100%',
+          }}>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
+              <div>
+                <h2 style={{ fontSize: 18, fontWeight: 600, color: '#0f172a', marginBottom: 8 }}>
+                  Coverage Overview
+                </h2>
+                <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.6, maxWidth: 340 }}>
+                  {coverageLabel}
+                </p>
+              </div>
+              <div
+                style={{
+                  width: 112,
+                  height: 112,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#ffffff',
+                  fontWeight: 700,
+                  fontSize: 24,
+                  flexShrink: 0,
+                  ...gradientStyle,
+                }}
+              >
+                {data.coveragePercentage}%
+              </div>
             </div>
 
-            {/* Modal for AI Response */}
-            <Dialog open={openModal} onOpenChange={setOpenModal}>
-                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                        <DialogTitle className="text-xl font-bold">
-                            AI Analysis Report
-                        </DialogTitle>
-                    </DialogHeader>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { label: 'Tasks Reviewed', value: data.totalTasks },
+                { label: 'Manual Tasks', value: data.notDoing + data.manual },
+                { label: 'Disconnected AI', value: data.looseAI },
+              ].map(item => (
+                <div key={item.label} style={{
+                  background: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 10,
+                  padding: 16,
+                  textAlign: 'center',
+                }}>
+                  <p style={{ fontSize: 22, fontWeight: 700, color: '#0f172a' }}>{item.value}</p>
+                  <p style={{ fontSize: 12, color: '#64748b', marginTop: 4 }}>{item.label}</p>
+                </div>
+              ))}
+            </div>
 
-                    {isloading ? (
-                        <div className="flex items-center justify-center py-8">
-                            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-900"></div>
-                        </div>
-                    ) : (
-                        <div className="mt-4 prose prose-slate max-w-none">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {airesponse}
-                            </ReactMarkdown>
-                        </div>
-                    )}
+            {data.estimatedHoursLow > 0 && data.estimatedHoursHigh > 0 && (
+              <div style={{
+                marginTop: 16,
+                padding: 16,
+                background: '#eff6ff',
+                border: '1px solid #bfdbfe',
+                borderRadius: 10,
+              }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#1e293b', marginBottom: 4 }}>
+                  Estimated Manual Hours at Risk
+                </p>
+                <p style={{ fontSize: 20, fontWeight: 700, color: '#2B60EB', marginBottom: 4 }}>
+                  {Math.round(data.estimatedHoursLow)}–{Math.round(data.estimatedHoursHigh)} hours per week
+                </p>
+                <p style={{ fontSize: 12, color: '#475569', lineHeight: 1.5 }}>
+                  Based on your responses, this is the estimated time your team spends on tasks that a coordinated agent system would handle consistently without manual effort.
+                </p>
+              </div>
+            )}
+          </div>
+        </motion.div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-200">
-                        <Button variant="outline" onClick={() => setOpenModal(false)}>
-                            Close
-                        </Button>
+        {/* Right rail */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="space-y-4"
+        >
+          {/* Response distribution */}
+          <div style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: 16,
+            boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+            padding: 20,
+          }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', marginBottom: 16 }}>
+              Response Distribution
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {[
+                { label: 'Not Doing', value: data.notDoing, color: '#e2e8f0' },
+                { label: 'Manual Only', value: data.manual, color: '#cbd5e1' },
+                { label: 'Loose AI', value: data.looseAI, color: '#93c5fd' },
+                { label: 'Structured', value: data.structured, color: '#2B60EB' },
+              ].map(item => (
+                <div key={item.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div style={{ width: 10, height: 10, borderRadius: '50%', background: item.color }} />
+                    <span style={{ fontSize: 13, color: '#475569' }}>{item.label}</span>
+                  </div>
+                  <span style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: '#374151',
+                    background: '#f1f5f9',
+                    padding: '2px 8px',
+                    borderRadius: 20,
+                  }}>
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
 
-                        <Button className="bg-slate-900 text-white hover:bg-slate-800">
-                            Book a Demo
-                        </Button>
-                    </div>
-                </DialogContent>
-            </Dialog>
+          {/* What this means + CTA */}
+          <div style={{
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: 16,
+            boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+            padding: 20,
+          }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', marginBottom: 10 }}>
+              What This Means
+            </p>
+            <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.6, marginBottom: 16 }}>
+              {recommendationLabel}
+            </p>
+
+            {isTargetSegment && (
+              <button
+                onClick={() => window.open('https://calendly.com/quantonlabs/30min', '_blank')}
+                style={{
+                  width: '100%',
+                  padding: '10px 16px',
+                  borderRadius: 8,
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  ...gradientStyle,
+                }}
+              >
+                Book Your Qualification Call
+              </button>
+            )}
+
+            {profile.revenue_range === 'under_1m' && (
+              <p style={{ fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>
+                Quanton OS is designed for businesses generating $1M or more annually. If you are approaching that threshold,{' '}
+                <a href="mailto:growth@quantonlabs.com" style={{ color: '#2B60EB', textDecoration: 'underline' }}>
+                  we would be glad to hear from you.
+                </a>
+              </p>
+            )}
+
+            {profile.revenue_range === 'over_20m' && (
+              <button
+                onClick={() => window.location.href = 'mailto:growth@quantonlabs.com'}
+                style={{
+                  width: '100%',
+                  padding: '10px 16px',
+                  borderRadius: 8,
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  ...gradientStyle,
+                }}
+              >
+                Contact Us to Discuss Your Requirements
+              </button>
+            )}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Agent map */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="mb-8"
+      >
+        <div style={{
+          background: '#ffffff',
+          border: '1px solid #e2e8f0',
+          borderRadius: 16,
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+          padding: 24,
+        }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#0f172a', marginBottom: 4 }}>
+            The Agent Map
+          </h2>
+          <p style={{ fontSize: 13, color: '#64748b', marginBottom: 20 }}>
+            How Quanton OS maps to your business functions across all eight domains.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              {
+                name: 'Marketing and Content Agent',
+                system: 'Growth System',
+                description: 'Plans, creates, distributes, and optimises content across all channels.',
+                tags: ['Social Media', 'Long-form Content', 'Email Campaigns', 'Content Repurposing']
+              },
+              {
+                name: 'Sales Agent',
+                system: 'Growth System',
+                description: 'Manages the revenue pipeline from inbound lead to closed deal.',
+                tags: ['Lead Response', 'Proposal Generation', 'Follow-up Sequences', 'Pipeline Tracking']
+              },
+              {
+                name: 'Customer Experience Agent',
+                system: 'Operations and Growth Systems',
+                description: 'Manages post-acquisition service, scheduling, and retention.',
+                tags: ['FAQ Handling', 'Booking and Scheduling', 'Complaint Routing', 'Client Onboarding']
+              },
+              {
+                name: 'People and Team Agent',
+                system: 'Operations System',
+                description: 'Manages the employee lifecycle and team performance infrastructure.',
+                tags: ['Job Posting', 'Candidate Screening', 'Interview Scheduling', 'Onboarding Workflows']
+              },
+              {
+                name: 'Operations Agent',
+                system: 'Operations and Platform Systems',
+                description: 'Controls internal execution infrastructure and process compliance.',
+                tags: ['Task Assignment', 'SOP Creation', 'Vendor Coordination', 'Process Compliance']
+              },
+              {
+                name: 'Inventory and Supply Chain Agent',
+                system: 'Operations System',
+                description: 'Manages stock levels, reorder triggers, and supplier systems.',
+                tags: ['Stock Monitoring', 'Low Stock Alerts', 'Automated Reorders', 'Supplier Communication']
+              },
+              {
+                name: 'Finance Agent',
+                system: 'Operations System',
+                description: 'Handles financial execution, reporting, and compliance infrastructure.',
+                tags: ['Invoice Generation', 'Payment Reminders', 'Expense Categorisation', 'Financial Reporting']
+              },
+            ].map(agent => (
+              <div
+                key={agent.name}
+                style={{
+                  border: '1px solid #e2e8f0',
+                  borderRadius: 10,
+                  padding: 16,
+                  background: '#f8fafc',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = '#ffffff';
+                  el.style.boxShadow = '0 2px 12px rgba(0,0,0,0.06)';
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = '#f8fafc';
+                  el.style.boxShadow = 'none';
+                }}
+              >
+                <h4 style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>
+                  {agent.name}
+                </h4>
+                <p style={{ fontSize: 11, color: '#94a3b8', marginBottom: 8 }}>{agent.system}</p>
+                <p style={{ fontSize: 12, color: '#475569', lineHeight: 1.5, marginBottom: 10 }}>
+                  {agent.description}
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                  {agent.tags.map(tag => (
+                    <span
+                      key={tag}
+                      style={{
+                        fontSize: 11,
+                        padding: '2px 8px',
+                        borderRadius: 20,
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        color: '#475569',
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Governing Agent — full width */}
+            <div
+              className="md:col-span-2 lg:col-span-3"
+              style={{
+                border: '1px solid #e2e8f0',
+                borderRadius: 10,
+                padding: 20,
+                background: '#ffffff',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 12 }}>
+                <div>
+                  <h4 style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>
+                    Governing Agent
+                  </h4>
+                  <p style={{ fontSize: 11, color: '#94a3b8' }}>All Four Operating Systems</p>
+                </div>
+                <div style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  padding: '3px 12px',
+                  borderRadius: 20,
+                  whiteSpace: 'nowrap' as const,
+                  ...gradientStyle,
+                }}>
+                  Central Intelligence Layer
+                </div>
+              </div>
+              <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.6, marginBottom: 12 }}>
+                The coordination, decision, and intelligence layer that unifies the system. Receives structured data and exception flags from all seven functional agents, decides within its configured operating boundary, directs agents to act, escalates what requires human judgment, and feeds the leadership dashboard in real time. Without it, the seven agents are disconnected automations. With it, every function in your business is visible, coordinated, and governed from one view.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {['Cross-agent Coordination', 'Exception Management', 'KPI Monitoring', 'Leadership Dashboard', 'Governance Enforcement'].map(tag => (
+                  <span
+                    key={tag}
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 500,
+                      color: '#ffffff',
+                      padding: '2px 10px',
+                      borderRadius: 20,
+                      ...gradientStyle,
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-    );
-};
+      </motion.div>
+
+      {/* Gap quantification */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="mb-8"
+      >
+        <div style={{
+          background: '#ffffff',
+          border: '1px solid #e2e8f0',
+          borderRadius: 16,
+          boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+          padding: 24,
+        }}>
+          <h2 style={{ fontSize: 18, fontWeight: 600, color: '#0f172a', marginBottom: 4 }}>
+            Gap Quantification
+          </h2>
+          <p style={{ fontSize: 13, color: '#64748b', marginBottom: 20 }}>
+            Measurable insights into your current operational coverage gaps.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{
+              padding: 20,
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              borderRadius: 10,
+            }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#1e293b', marginBottom: 6 }}>
+                Manual Hours at Risk
+              </p>
+              <p style={{ fontSize: 22, fontWeight: 700, color: '#2B60EB', marginBottom: 6 }}>
+                {Math.round(data.estimatedHoursLow)}–{Math.round(data.estimatedHoursHigh)} hours per week
+              </p>
+              <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+                Based on your responses, your team is spending an estimated {Math.round(data.estimatedHoursLow)}–{Math.round(data.estimatedHoursHigh)} hours per week on tasks that a coordinated agent system would handle consistently without manual effort.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div style={{
+                padding: 20,
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: 10,
+              }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#1e293b', marginBottom: 6 }}>
+                  Uncovered Functions
+                </p>
+                <p style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>
+                  {data.notDoing} functions
+                </p>
+                <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+                  These are core business functions that are not currently being performed. Each represents a structural gap in your operational coverage.
+                </p>
+              </div>
+
+              <div style={{
+                padding: 20,
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: 10,
+              }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#1e293b', marginBottom: 6 }}>
+                  Fragmented AI Usage
+                </p>
+                <p style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', marginBottom: 6 }}>
+                  {data.looseAI} tasks
+                </p>
+                <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+                  Tasks using AI without a defined process or governance. Disconnected AI usage produces inconsistent outputs and creates dependencies on individual judgment rather than system-level structure.
+                </p>
+              </div>
+            </div>
+
+            {data.structured > 0 && (
+              <div style={{
+                padding: 20,
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: 10,
+              }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#1e293b', marginBottom: 6 }}>
+                  Governance Insight
+                </p>
+                <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+                  You have {data.structured} structured workflows in place. The Governing Agent evaluates whether these run at the system level or remain dependent on individual judgment, and enforces governance across all agent domains to eliminate single points of failure.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* CTA section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="mb-8"
+      >
+        <div style={{
+          background: '#f8fafc',
+          border: '1px solid #e2e8f0',
+          borderRadius: 16,
+          padding: 40,
+          textAlign: 'center',
+        }}>
+          <h3 style={{ fontSize: 20, fontWeight: 700, color: '#0f172a', marginBottom: 12 }}>
+            Next Steps
+          </h3>
+          <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.7, maxWidth: 560, margin: '0 auto 24px' }}>
+            {derivedMaturityCopy}
+          </p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 12 }}>
+            {isTargetSegment && (
+              <button
+                onClick={() => window.open('https://calendly.com/quantonlabs/30min', '_blank')}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  padding: '12px 28px',
+                  borderRadius: 8,
+                  border: 'none',
+                  cursor: 'pointer',
+                  ...gradientStyle,
+                }}
+              >
+                Book Your Qualification Call
+              </button>
+            )}
+
+            {profile.revenue_range === 'under_1m' && (
+              <p style={{ fontSize: 13, color: '#64748b', maxWidth: 420, lineHeight: 1.6 }}>
+                Quanton OS is designed for businesses generating $1M or more annually. If you are approaching that threshold,{' '}
+                <a href="mailto:growth@quantonlabs.com" style={{ color: '#2B60EB', textDecoration: 'underline' }}>
+                  we would be glad to hear from you.
+                </a>
+              </p>
+            )}
+
+            {profile.revenue_range === 'over_20m' && (
+              <button
+                onClick={() => window.location.href = 'mailto:growth@quantonlabs.com'}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  padding: '12px 28px',
+                  borderRadius: 8,
+                  border: 'none',
+                  cursor: 'pointer',
+                  ...gradientStyle,
+                }}
+              >
+                Contact Us to Discuss Your Requirements
+              </button>
+            )}
+          </div>
+
+          {ctaSubtext && (
+            <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 16, maxWidth: 480, margin: '16px auto 0' }}>
+              {ctaSubtext}
+            </p>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
