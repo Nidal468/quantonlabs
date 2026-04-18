@@ -439,7 +439,7 @@ export default function MobileDemo() {
             fontFamily: "Manrope, sans-serif", background: "#F9FAFB",
             marginTop: "6px", marginBottom: "16px", minHeight: "42px",
           }}>
-            {emailText || "you@company.com"}
+            {emailText || "name@yourcompany.com"}
           </div>
 
           <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151", fontFamily: "Manrope, sans-serif" }}>Password</label>

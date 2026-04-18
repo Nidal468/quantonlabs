@@ -34,7 +34,9 @@ return (
       <div className="fixed z-0 bg-slate-400/10 w-[500px] h-[500px] blur-3xl -bottom-80 left-80 animate-bounce pointer-events-none"></div>
       <Navbar isScrolled={isScrolled} />
       <HeroSection />
+{/* FOUR SYSTEMS SECTION — hidden, revisit if needed
       <Features />
+      */}
       <Productivity />
       <Agents />
       <GoverningAgentCTA />

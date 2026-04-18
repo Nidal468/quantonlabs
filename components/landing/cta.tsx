@@ -6,22 +6,20 @@ import Link from "next/link";
 
 export default function CTA() {
     return (
-        <section className="relative w-full py-40 overflow-hidden">
+        <section className="relative w-full pt-20 pb-24 overflow-hidden">
 
             <div className="container mx-auto px-6 relative z-10 flex justify-center">
 
-                <motion.div
-                    initial={{ opacity: 0, y: 60 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7 }}
-                    className="max-w-4xl w-full text-center glass rounded-3xl backdrop-blur-xl bg-white/40 border border-white/40 shadow-2xl p-16"
-                >
-
-                    {/* Heading */}
-                    <h2 className="text-3xl md:text-5xl font-semibold leading-[1.1] bg-linear-to-r from-slate-900 via-slate-700 to-slate-500 bg-clip-text text-transparent">
-                        See where your operations stand before anything else.
-                    </h2>
+   <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="max-w-4xl w-full text-center glass rounded-3xl backdrop-blur-xl bg-white/40 border border-white/40 shadow-2xl pt-14 pb-16 px-16"
+    >
+        {/* Heading */}
+<h2 className="text-3xl md:text-5xl font-semibold leading-[1.35] bg-linear-to-r from-slate-900 via-slate-700 to-slate-500 bg-clip-text text-transparent">            See where your operations stand before anything else.
+        </h2>
 
                     {/* Subtext */}
                     <p className="text-slate-600 mt-6 text-md md:text-lg max-w-2xl mx-auto">

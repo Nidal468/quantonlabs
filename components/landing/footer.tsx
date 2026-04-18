@@ -209,17 +209,22 @@ export default function Footer() {
                   Terms
                 </Link>
               </div>
-              <Image
-                src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
-                width={160}
-                height={48}
-                alt="Quanton Labs"
-                style={{
-                  width: "160px",
-                  height: "auto",
-                  mixBlendMode: "screen",
-                }}
-              />
+         <Link 
+  href="/" 
+  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+>
+  <Image
+    src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
+    width={160}
+    height={48}
+    alt="Quanton Labs"
+    style={{
+      width: "160px",
+      height: "auto",
+      mixBlendMode: "screen",
+    }}
+  />
+</Link>
             </div>
           </div>
 

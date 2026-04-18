@@ -282,7 +282,7 @@ function AgentPanel({ agent }: { agent: (typeof agents)[0] }) {
 
 export default function Agents() {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, margin: "-80px" });
+  const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (

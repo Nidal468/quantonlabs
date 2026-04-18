@@ -108,7 +108,7 @@ export function HeroSection() {
     setPasswordText("");
     setButtonState("default");
 
-    const email = "hello@meridianlogistics.com";
+    const email = "name@yourcompany.com";
     let ei = 0;
 
     const typeEmail = () => {
@@ -502,7 +502,7 @@ export function HeroSection() {
                     type="text"
                     readOnly
                     value={emailText}
-                    placeholder="you@company.com"
+                    placeholder="name@yourcompany.com"
                     style={{
                       border: "1px solid rgba(43,96,235,0.25)",
                       borderRadius: "8px",

@@ -37,6 +37,10 @@ const SHIMMER_CSS = `
   70% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(43,96,235,0.5); }
+  50%       { box-shadow: 0 0 0 12px rgba(43,96,235,0); }
+}
 .ql-card::before {
   content: '';
   position: absolute;
@@ -50,6 +54,9 @@ const SHIMMER_CSS = `
   background: linear-gradient(to right, #EF4444, #F97316, #EF4444);
   background-size: 300% 100%;
   animation: bsh 3s ease infinite;
+}
+.ql-card.cursor-hidden * {
+  cursor: none !important;
 }
 .ql-pdot {
   animation: lp 2s ease-in-out infinite;
@@ -277,6 +284,15 @@ function AgentCard({
   const isGov = agentKey === "governing";
   const isInv = agentKey === "inventory";
   const dwellRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Approval cursor animation refs
+  const approvalCanvasRef = useRef<HTMLCanvasElement>(null);
+  const approvalAnimFrameRef = useRef<number>(0);
+  const approvalRepeatRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const approvalManualRef = useRef(false);
+  const approvalBtnRef = useRef<HTMLButtonElement>(null);
+  const approvalCursorActiveRef = useRef(false);
 
   const gridColSpan: Record<string, string> = {
     governing: "span 4", people: "span 2", sales: "span 2",
@@ -284,8 +300,192 @@ function AgentCard({
     marketing: "span 3", inventory: "span 3",
   };
 
+  const easeInOut = (t: number) =>
+    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  const drawCursor = (ctx: CanvasRenderingContext2D, x: number, y: number, scale: number) => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(scale, scale);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, 17);
+    ctx.lineTo(3.5, 12.5);
+    ctx.lineTo(6, 19);
+    ctx.lineTo(8, 18);
+    ctx.lineTo(5.5, 12);
+    ctx.lineTo(11, 12);
+    ctx.closePath();
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.strokeStyle = "#1a1a2e";
+    ctx.lineWidth = 1.2 / scale;
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.stroke();
+    ctx.restore();
+  };
+
+  const sizeApprovalCanvas = () => {
+    const canvas = approvalCanvasRef.current;
+    const card = cardRef.current;
+    if (!canvas || !card) return;
+    canvas.width = card.offsetWidth;
+    canvas.height = card.offsetHeight;
+  };
+
+  const getApprovalBtnCenter = () => {
+    const btn = approvalBtnRef.current;
+    const canvas = approvalCanvasRef.current;
+    if (!btn || !canvas) return { x: 60, y: (canvas?.height ?? 200) - 40 };
+    const btnRect = btn.getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
+    return {
+      x: btnRect.left - canvasRect.left + btnRect.width / 2 - 6,
+      y: btnRect.top - canvasRect.top + btnRect.height / 2 - 4,
+    };
+  };
+
+  const stopApprovalPulse = () => {
+    if (!approvalBtnRef.current) return;
+    approvalBtnRef.current.style.animation = "none";
+    approvalBtnRef.current.style.boxShadow = "none";
+    approvalBtnRef.current.style.transform = "none";
+  };
+
+  const startApprovalPulse = () => {
+    if (!approvalBtnRef.current) return;
+    approvalBtnRef.current.style.animation = "btnGlow 2s ease-in-out infinite";
+  };
+
+  const triggerApprovalShake = () => {
+    if (approvalManualRef.current || !approvalBtnRef.current) return;
+    const btn = approvalBtnRef.current;
+    const frames = [0, -4, 4, -3, 3, -2, 2, -1, 1, 0, 0, 0];
+    let i = 0;
+    const shake = setInterval(() => {
+      btn.style.transform = `translateX(${frames[i]}px)`;
+      i++;
+      if (i >= frames.length) {
+        clearInterval(shake);
+        btn.style.transform = "none";
+      }
+    }, 55);
+  };
+
+ const animateApprovalCursor = (onCursorClick: () => void) => {
+  const canvas = approvalCanvasRef.current;
+  if (!canvas || approvalManualRef.current) return;
+  sizeApprovalCanvas();
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  approvalCursorActiveRef.current = true;
+  cardRef.current?.classList.add("cursor-hidden");
+
+  const target = getApprovalBtnCenter();
+  const startX = canvas.width * 0.3;
+  const startY = canvas.height * 0.25;
+  const endX = target.x;
+  const endY = target.y;
+
+  const moveDuration = 1200;
+  const hoverDuration = 400;
+  const pressDuration = 180;
+  const releaseDuration = 180;
+  const fadeDuration = 400;
+
+  const start = performance.now();
+  let clickFired = false;
+
+  const step = (now: number) => {
+    if (approvalManualRef.current) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      approvalCursorActiveRef.current = false;
+      cardRef.current?.classList.remove("cursor-hidden");
+      return;
+    }
+    const e = now - start;
+
+    if (e < moveDuration) {
+      const t = easeInOut(e / moveDuration);
+      ctx.globalAlpha = Math.min(e / 200, 1);
+      drawCursor(ctx, startX + (endX - startX) * t, startY + (endY - startY) * t, 1);
+    } else if (e < moveDuration + hoverDuration) {
+      ctx.globalAlpha = 1;
+      drawCursor(ctx, endX, endY, 1);
+    } else if (e < moveDuration + hoverDuration + pressDuration) {
+      ctx.globalAlpha = 1;
+      drawCursor(ctx, endX, endY, 0.84);
+      if (!clickFired) {
+        clickFired = true;
+        onCursorClick();
+      }
+    } else if (e < moveDuration + hoverDuration + pressDuration + releaseDuration) {
+      ctx.globalAlpha = 1;
+      drawCursor(ctx, endX, endY, 1);
+    } else {
+      const fadeT = Math.min(
+        (e - moveDuration - hoverDuration - pressDuration - releaseDuration) / fadeDuration,
+        1
+      );
+      ctx.globalAlpha = 1 - fadeT;
+      drawCursor(ctx, endX, endY, 1);
+      if (fadeT >= 1) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        approvalCursorActiveRef.current = false;
+        cardRef.current?.classList.remove("cursor-hidden");
+        if (!approvalManualRef.current) {
+          approvalRepeatRef.current = setTimeout(fireApprovalSequence, 3500);
+        }
+        return;
+      }
+    }
+    approvalAnimFrameRef.current = requestAnimationFrame(step);
+  };
+
+  approvalAnimFrameRef.current = requestAnimationFrame(step);
+};
+
+  const fireApprovalSequence = () => {
+    if (approvalManualRef.current) return;
+    triggerApprovalShake();
+    setTimeout(() => {
+      animateApprovalCursor(() => {});
+    }, 700);
+  };
+
+useEffect(() => {
+  if (!isGov) return;
+
+  if (!approvalVisible || rewardVisible) {
+    approvalManualRef.current = false;
+    cancelAnimationFrame(approvalAnimFrameRef.current);
+    if (approvalRepeatRef.current) clearTimeout(approvalRepeatRef.current);
+    const canvas = approvalCanvasRef.current;
+    if (canvas) {
+      const ctx = canvas.getContext("2d");
+      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    stopApprovalPulse();
+    cardRef.current?.classList.remove("cursor-hidden");
+    return;
+  }
+
+  sizeApprovalCanvas();
+  startApprovalPulse();
+  approvalRepeatRef.current = setTimeout(fireApprovalSequence, 2000);
+
+  return () => {
+    cancelAnimationFrame(approvalAnimFrameRef.current);
+    if (approvalRepeatRef.current) clearTimeout(approvalRepeatRef.current);
+    cardRef.current?.classList.remove("cursor-hidden");
+  };
+}, [approvalVisible, rewardVisible]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div
+      ref={cardRef}
       className={`ql-card${alertCard ? " alert-card" : ""}`}
       style={{
         gridColumn: gridColSpan[agentKey],
@@ -314,6 +514,20 @@ function AgentCard({
       }}
     >
       <div ref={dwellRef} className="dwell-bar" />
+
+      {isGov && (
+        <canvas
+          ref={approvalCanvasRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 20,
+            pointerEvents: "none",
+            borderRadius: 10,
+          }}
+        />
+      )}
 
       {badge && (
         <div className="notif-badge" style={{ position: "absolute", top: 8, right: 8, fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 10, background: "#EF4444", color: "#fff", transform: "scale(0)" }}>
@@ -346,7 +560,20 @@ function AgentCard({
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <button
-              onClick={onApprove}
+              ref={approvalBtnRef}
+              onClick={() => {
+                approvalManualRef.current = true;
+                cancelAnimationFrame(approvalAnimFrameRef.current);
+                if (approvalRepeatRef.current) clearTimeout(approvalRepeatRef.current);
+                const canvas = approvalCanvasRef.current;
+                if (canvas) {
+                  const ctx = canvas.getContext("2d");
+                  ctx?.clearRect(0, 0, canvas.width, canvas.height);
+                }
+                cardRef.current?.classList.remove("cursor-hidden");
+                stopApprovalPulse();
+                if (onApprove) onApprove();
+              }}
               style={{ fontFamily: "Manrope, sans-serif", fontSize: 11, fontWeight: 700, padding: "7px 16px", borderRadius: 6, border: "none", background: GRADIENT, color: "#fff", cursor: "pointer" }}
             >
               Approve plan
@@ -370,7 +597,7 @@ function AgentCard({
             rel="noopener noreferrer"
             style={{ fontFamily: "Manrope, sans-serif", fontSize: 11, fontWeight: 700, padding: "8px 16px", borderRadius: 6, border: "none", background: GRADIENT, color: "#fff", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: 6, textDecoration: "none" }}
           >
-            Assess your business →
+            Assess your business &#8594;
           </a>
         </div>
       )}
@@ -617,7 +844,7 @@ export default function QuantonDashboard() {
 
         {/* Top bar */}
         <div style={{ background: "#041227", padding: "9px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", fontFamily: "Manrope, sans-serif" }}>Meridian Logistics</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", fontFamily: "Manrope, sans-serif" }}>Your Company Dashboard</div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ fontSize: 11, fontWeight: 600, color: "#CBD5E1", fontFamily: "Manrope, sans-serif", letterSpacing: "0.06em", background: "rgba(255,255,255,0.07)", padding: "4px 9px", borderRadius: 5, border: "0.5px solid rgba(255,255,255,0.12)" }}>
               {clockStr}
