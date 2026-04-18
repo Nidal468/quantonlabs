@@ -449,23 +449,41 @@ export default function HealthWellness() {
             </div>
           </motion.div>
 
-          {/* ── VIDEO PLACEHOLDER ── */}
-          <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.25, ease: "easeOut" }} style={{ marginTop: "64px" }}>
-            <Link href="https://www.youtube.com/@QuantonLabsOfficial" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}
-              onMouseEnter={() => setVideoHovered(true)} onMouseLeave={() => setVideoHovered(false)}>
-              <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", border: videoHovered ? "1px solid rgba(43,96,235,0.35)" : "1px solid #E5E7EB", boxShadow: videoHovered ? "0 20px 60px rgba(43,96,235,0.14)" : "0 8px 32px rgba(0,0,0,0.08)", transition: "border-color 0.25s ease, box-shadow 0.25s ease", aspectRatio: "16 / 9", background: "linear-gradient(135deg, #F9FAFB 0%, #EFF2FF 50%, #F5F3FF 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px", cursor: "pointer" }}>
-                <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(43,96,235,0.07) 1px, transparent 1px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
-                <div style={{ position: "relative", width: "72px", height: "72px", borderRadius: "50%", background: GRADIENT, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 32px rgba(43,96,235,0.35)", transform: videoHovered ? "scale(1.08)" : "scale(1)", transition: "transform 0.25s ease" }}>
-                  <Play size={28} color="white" fill="white" style={{ marginLeft: "3px" }} />
-                </div>
-                <div style={{ position: "relative", textAlign: "center" }}>
-                  <div style={{ fontFamily: "Manrope, sans-serif", fontWeight: 700, fontSize: "17px", color: "#1F2937", marginBottom: "6px" }}>See Quanton OS in action</div>
-                  <div style={{ fontFamily: "Manrope, sans-serif", fontSize: "13px", color: "#9CA3AF" }}>Video coming soon</div>
-                </div>
-              </div>
-            </Link>
+       {/* ── VIDEO EMBED ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.25, ease: "easeOut" }}
+            style={{ marginTop: "64px" }}
+          >
+            <div
+              style={{
+                position: "relative",
+                borderRadius: "16px",
+                overflow: "hidden",
+                border: "1px solid #E5E7EB",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                aspectRatio: "16 / 9",
+                background: "#000000",
+              }}
+            >
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/q4rrOg3G3lQ?rel=0&modestbranding=1"
+title="Fragmented Tools Cost Your Wellness Practice | AI Fix | Quanton Labs"                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  border: "none",
+                }}
+              />
+            </div>
           </motion.div>
-        </div>
+            </div>
       </section>
 
       {/* ── PAIN POINTS ── */}

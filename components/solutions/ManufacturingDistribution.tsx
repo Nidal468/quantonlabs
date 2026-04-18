@@ -452,21 +452,40 @@ export default function ManufacturingDistribution() {
             </div>
           </motion.div>
 
-          {/* ── VIDEO PLACEHOLDER ── */}
-          <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.25, ease: "easeOut" }} style={{ marginTop: "64px" }}>
-            <Link href="https://www.youtube.com/@QuantonLabsOfficial" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}
-              onMouseEnter={() => setVideoHovered(true)} onMouseLeave={() => setVideoHovered(false)}>
-              <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", border: videoHovered ? "1px solid rgba(43,96,235,0.35)" : "1px solid #E5E7EB", boxShadow: videoHovered ? "0 20px 60px rgba(43,96,235,0.14)" : "0 8px 32px rgba(0,0,0,0.08)", transition: "border-color 0.25s ease, box-shadow 0.25s ease", aspectRatio: "16 / 9", background: "linear-gradient(135deg, #F9FAFB 0%, #EFF2FF 50%, #F5F3FF 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "20px", cursor: "pointer" }}>
-                <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(43,96,235,0.07) 1px, transparent 1px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
-                <div style={{ position: "relative", width: "72px", height: "72px", borderRadius: "50%", background: GRADIENT, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 32px rgba(43,96,235,0.35)", transform: videoHovered ? "scale(1.08)" : "scale(1)", transition: "transform 0.25s ease" }}>
-                  <Play size={28} color="white" fill="white" style={{ marginLeft: "3px" }} />
-                </div>
-                <div style={{ position: "relative", textAlign: "center" }}>
-                  <div style={{ fontFamily: "Manrope, sans-serif", fontWeight: 700, fontSize: "17px", color: "#1F2937", marginBottom: "6px" }}>See Quanton OS in action</div>
-                  <div style={{ fontFamily: "Manrope, sans-serif", fontSize: "13px", color: "#9CA3AF" }}>Video coming soon</div>
-                </div>
-              </div>
-            </Link>
+          {/* ── VIDEO EMBED ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.25, ease: "easeOut" }}
+            style={{ marginTop: "64px" }}
+          >
+            <div
+              style={{
+                position: "relative",
+                borderRadius: "16px",
+                overflow: "hidden",
+                border: "1px solid #E5E7EB",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                aspectRatio: "16 / 9",
+                background: "#000000",
+              }}
+            >
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/r5OfSZdXOmM?rel=0&modestbranding=1"
+                title="Production Delays Are Killing Your Margin. AI Infrastructure Is the Fix | Quanton Labs"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  border: "none",
+                }}
+              />
+            </div>
           </motion.div>
         </div>
       </section>
@@ -596,38 +615,39 @@ export default function ManufacturingDistribution() {
         </div>
       </section>
 
-      {/* ── TESTIMONIAL ── */}
-{/* ── TESTIMONIAL ── (hidden until real testimonials are available)
-      <section ref={testimonialRef} style={{ backgroundColor: "#F9FAFB", padding: "80px 24px", borderTop: "1px solid #E5E7EB", borderBottom: "1px solid #E5E7EB" }}>        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={testimonialInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.55, ease: "easeOut" }} style={{ textAlign: "center", marginBottom: "40px" }}>
-            <div style={{ fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", ...GRADIENT_TEXT }}>Client results</div>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 28 }} animate={testimonialInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }} style={{ background: "#ffffff", borderRadius: "20px", border: "1px solid #E5E7EB", overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
-            <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", background: "linear-gradient(135deg, #EFF2FF 0%, #F5F3FF 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", borderBottom: "1px solid #E5E7EB" }}>
-              <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(43,96,235,0.07) 1px, transparent 1px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
-              <div style={{ position: "relative", width: "60px", height: "60px", borderRadius: "50%", background: GRADIENT, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 24px rgba(43,96,235,0.3)" }}>
-                <Play size={22} color="white" fill="white" style={{ marginLeft: "3px" }} />
-              </div>
-              <div style={{ position: "relative", fontFamily: "Manrope, sans-serif", fontSize: "13px", color: "#9CA3AF", fontWeight: 500 }}>Video testimonial coming soon</div>
-            </div>
-            <div style={{ padding: "36px 40px" }}>
-              <div style={{ fontFamily: "Manrope, sans-serif", fontSize: "18px", fontWeight: 500, color: "#374151", lineHeight: 1.7, fontStyle: "italic", marginBottom: "24px" }}>
-                "We were managing production schedules in spreadsheets and finding out about materials shortages when the floor stopped. Quanton OS gave us visibility we never had before and our on-time fulfillment rate has improved significantly since deployment."
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: GRADIENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <TrendingUp size={16} color="white" />
+     {/* ── TESTIMONIAL (hidden until real testimonials are available) ── */}
+      {false && (
+        <section ref={testimonialRef} style={{ backgroundColor: "#F9FAFB", padding: "80px 24px", borderTop: "1px solid #E5E7EB", borderBottom: "1px solid #E5E7EB" }}>
+          <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={testimonialInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.55, ease: "easeOut" }} style={{ textAlign: "center", marginBottom: "40px" }}>
+              <div style={{ fontFamily: "Manrope, sans-serif", fontWeight: 600, fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", ...GRADIENT_TEXT }}>Client results</div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 28 }} animate={testimonialInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.55, delay: 0.1, ease: "easeOut" }} style={{ background: "#ffffff", borderRadius: "20px", border: "1px solid #E5E7EB", overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.06)" }}>
+              <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 9", background: "linear-gradient(135deg, #EFF2FF 0%, #F5F3FF 100%)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px", borderBottom: "1px solid #E5E7EB" }}>
+                <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(43,96,235,0.07) 1px, transparent 1px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
+                <div style={{ position: "relative", width: "60px", height: "60px", borderRadius: "50%", background: GRADIENT, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 24px rgba(43,96,235,0.3)" }}>
+                  <Play size={22} color="white" fill="white" style={{ marginLeft: "3px" }} />
                 </div>
-                <div>
-                  <div style={{ fontFamily: "Manrope, sans-serif", fontWeight: 700, fontSize: "14px", color: "#1F2937", marginBottom: "2px" }}>Operations Director</div>
-                  <div style={{ fontFamily: "Manrope, sans-serif", fontSize: "13px", color: "#9CA3AF" }}>Manufacturing Business — testimonial forthcoming</div>
+                <div style={{ position: "relative", fontFamily: "Manrope, sans-serif", fontSize: "13px", color: "#9CA3AF", fontWeight: 500 }}>Video testimonial coming soon</div>
+              </div>
+              <div style={{ padding: "36px 40px" }}>
+                <div style={{ fontFamily: "Manrope, sans-serif", fontSize: "18px", fontWeight: 500, color: "#374151", lineHeight: 1.7, fontStyle: "italic", marginBottom: "24px" }}>
+                  &quot;We were managing production schedules in spreadsheets and finding out about materials shortages when the floor stopped. Quanton OS gave us visibility we never had before and our on-time fulfillment rate has improved significantly since deployment.&quot;
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                  <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: GRADIENT, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <TrendingUp size={16} color="white" />
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "Manrope, sans-serif", fontWeight: 700, fontSize: "14px", color: "#1F2937", marginBottom: "2px" }}>Operations Director</div>
+                    <div style={{ fontFamily: "Manrope, sans-serif", fontSize: "13px", color: "#9CA3AF" }}>Manufacturing Business — testimonial forthcoming</div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
+            </motion.div>
+          </div>
+        </section>
+      )}
       {/* ── CTA ── */}
       <section ref={ctaRef} style={{ backgroundColor: "#ffffff", padding: "80px 24px 120px" }}>
         <motion.div initial={{ opacity: 0, y: 30 }} animate={ctaInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, ease: "easeOut" }} style={{ maxWidth: "760px", margin: "0 auto", textAlign: "center", background: "#F9FAFB", borderRadius: "24px", border: "1px solid #E5E7EB", padding: "64px 48px", boxShadow: "0 8px 40px rgba(43,96,235,0.08)" }}>
