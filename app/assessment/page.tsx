@@ -1,220 +1,287 @@
-'use client';
+// Property of Remington Enterprises LLC
+// Quanton OS Proprietary Orchestration Layer
+// Stage 1 Assessment — Wizard Orchestrator
+// Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { DOMAINS, Lead, Profile, TaskResponse } from '@/db/assessments';
-import Navbar from '@/components/landing/navbar';
-import RenderProfileStep from '@/components/assessment/profileStep';
-import RenderAssessmentStep from '@/components/assessment/renderAssessment';
-import RenderLeadCapture from '@/components/assessment/leadCapture';
-import RenderResults from '@/components/assessment/results';
+"use client";
 
-const PAIN_POINT_DOMAIN_ORDER: Record<string, string[]> = {
-  marketing: ['marketing_content', 'sales', 'customer_experience', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
-  sales: ['sales', 'marketing_content', 'customer_experience', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
-  customers: ['customer_experience', 'sales', 'marketing_content', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
-  finance: ['finance', 'operations', 'sales', 'customer_experience', 'marketing_content', 'people_team', 'delivery_projects', 'inventory_supply'],
-  team: ['operations', 'people_team', 'sales', 'customer_experience', 'marketing_content', 'delivery_projects', 'inventory_supply', 'finance'],
-  everything: ['marketing_content', 'sales', 'customer_experience', 'people_team', 'operations', 'delivery_projects', 'inventory_supply', 'finance'],
-};
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
 
-export default function AIAgentAssessment() {
-  const [currentStep, setCurrentStep] = useState<'profile' | 'assessment' | 'lead' | 'results'>('profile');
-  const [profile, setProfile] = useState<Partial<Profile>>({});
-  const [taskResponses, setTaskResponses] = useState<Record<string, TaskResponse>>({});
-  const [currentDomain, setCurrentDomain] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [leadInfo, setLeadInfo] = useState<Partial<Lead>>({});
+import SectionAComponent from "@/components/assessment/sectionA";
+import SectionBComponent from "@/components/assessment/sectionB";
+import SectionCComponent from "@/components/assessment/sectionC";
+import SectionDComponent from "@/components/assessment/sectionD";
+import ResultsComponent from "@/components/assessment/results";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const triggerPoint = window.innerHeight * 0.3;
-      setIsScrolled(window.scrollY > triggerPoint);
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+import type {
+  AssessmentSubmission,
+  ScoredPayload,
+  SectionA,
+  SectionB,
+  SectionC,
+  SectionD,
+} from "@/lib/stage1";
 
-  useEffect(() => {
-    const savedProfile = localStorage.getItem('aiAssessment_profile');
-    const savedResponses = localStorage.getItem('aiAssessment_responses');
-    if (savedProfile) setProfile(JSON.parse(savedProfile));
-    if (savedResponses) setTaskResponses(JSON.parse(savedResponses));
-  }, []);
+// ============================================================
+// TYPES
+// ============================================================
 
-  useEffect(() => {
-    localStorage.setItem('aiAssessment_profile', JSON.stringify(profile));
-    localStorage.setItem('aiAssessment_responses', JSON.stringify(taskResponses));
-  }, [profile, taskResponses]);
+type WizardStep = "a" | "b" | "c" | "d" | "results";
 
-  const handleResponseSelect = (taskId: string, responseValue: 'not_doing' | 'manual' | 'loose_ai' | 'structured') => {
-    setTaskResponses(prev => ({
-      ...prev,
-      [taskId]: { response: responseValue }
-    }));
+interface ApiResponse {
+  submission_id: string;
+  report_url: string;
+  pdf_url: string;
+  scored: ScoredPayload;
+}
+
+// ============================================================
+// COMPONENT
+// ============================================================
+
+export default function AssessmentPage() {
+  const [step, setStep] = useState<WizardStep>("a");
+
+  const [sectionA, setSectionA] = useState<SectionA | null>(null);
+  const [sectionB, setSectionB] = useState<SectionB | null>(null);
+  const [sectionC, setSectionC] = useState<SectionC | null>(null);
+  const [sectionD, setSectionD] = useState<SectionD | null>(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
+
+  const handleSectionAComplete = (data: SectionA) => {
+    setSectionA(data);
+    setStep("b");
+    scrollToTop();
   };
 
-  const handleGovernanceToggle = (taskId: string, flag: 'system_governed' | 'person_dependent') => {
-    setTaskResponses(prev => ({
-      ...prev,
-      [taskId]: {
-        ...prev[taskId],
-        governance_flag: flag
+  const handleSectionBComplete = (data: SectionB) => {
+    const normalized = { ...data };
+    setSectionB(normalized);
+    setStep("c");
+    scrollToTop();
+  };
+
+  const handleSectionCComplete = (data: SectionC) => {
+    setSectionC(data);
+    setStep("d");
+    scrollToTop();
+  };
+
+  const handleSectionDComplete = async (data: SectionD) => {
+    setSectionD(data);
+    await submitAssessment(data);
+  };
+
+  const handleBackFromB = () => { setStep("a"); scrollToTop(); };
+  const handleBackFromC = () => { setStep("b"); scrollToTop(); };
+  const handleBackFromD = () => { setStep("c"); scrollToTop(); };
+
+  const submitAssessment = async (dData: SectionD) => {
+    if (!sectionA || !sectionB || !sectionC) {
+      setSubmitError("Missing section data. Please refresh and try again.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const payload: AssessmentSubmission = {
+      section_a: sectionA,
+      section_b: sectionB,
+      section_c: sectionC,
+      section_d: dData,
+    };
+
+    try {
+      const response = await fetch("/api/assessment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error ?? `Submission failed (${response.status})`);
       }
-    }));
-  };
 
-  const getVisibleDomains = () => {
-    const isMicro = profile.company_size === 'micro';
-
-    const domainVisibility: Record<string, boolean> = {
-      marketing_content: true,
-      sales: true,
-      customer_experience: true,
-      people_team: !isMicro,
-      operations: true,
-      delivery_projects:
-        profile.industry_vertical === 'professional_services' ||
-        profile.industry_vertical === 'home_services' ||
-        profile.industry_vertical === 'saas',
-      inventory_supply: true,
-      finance: true,
-    };
-
-    if (
-      profile.industry_vertical === 'professional_services' ||
-      profile.industry_vertical === 'financial_services'
-    ) {
-      domainVisibility.inventory_supply = false;
-    }
-
-    // Get preferred order based on pain point
-    const painPoint = profile.primary_pain_point as string;
-    const preferredOrder = PAIN_POINT_DOMAIN_ORDER[painPoint] || Object.keys(DOMAINS);
-
-    // Filter to only visible domains, preserving preferred order
-    return preferredOrder.filter(domain => domainVisibility[domain] === true);
-  };
-
-  const getCurrentDomainTasks = () => {
-    const visibleDomains = getVisibleDomains();
-    if (currentDomain >= visibleDomains.length) return [];
-
-    const selectedDomainKey = visibleDomains[currentDomain];
-    const isSmall = profile.company_size === 'small';
-    const isMediumOrLarge =
-      profile.company_size === 'medium' || profile.company_size === 'large';
-
-    switch (selectedDomainKey) {
-      case 'marketing_content':
-        return ['1.1', '1.2', '1.3', '1.4', '1.5'];
-      case 'sales':
-        return ['2.1', '2.2', '2.3', '2.4', '2.5'];
-      case 'customer_experience':
-        return ['3.1', '3.2', '3.3', '3.4', '3.5', '3.6'];
-      case 'people_team':
-        return isSmall
-          ? ['4.1', '4.2', '4.5']
-          : ['4.1', '4.2', '4.3', '4.4', '4.5'];
-      case 'operations':
-        return isMediumOrLarge
-          ? ['5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7']
-          : ['5.1', '5.2', '5.3', '5.4', '5.5'];
-      case 'delivery_projects':
-        return ['6.1', '6.2', '6.3'];
-      case 'inventory_supply':
-        return profile.industry_vertical === 'healthcare' ||
-          profile.industry_vertical === 'beauty_aesthetics'
-          ? ['7.1', '7.2']
-          : ['7.1', '7.2', '7.3', '7.4'];
-      case 'finance':
-        return ['8.1', '8.2', '8.3', '8.4', '8.5'];
-      default:
-        return [];
+      const data: ApiResponse = await response.json();
+      setApiResponse(data);
+      setStep("results");
+      scrollToTop();
+    } catch (err) {
+      console.error("[Assessment submission]", err);
+      setSubmitError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleNextPage = () => setCurrentPage(prev => prev + 1);
-  const handlePrevPage = () => setCurrentPage(prev => Math.max(0, prev - 1));
-
-  const visibleDomains = getVisibleDomains();
-  const allTasks = getCurrentDomainTasks();
-  const displayedTasks = allTasks.slice(currentPage, currentPage + 1);
-
-const handleSubmit = () => {
-    if (
-      !profile.industry_vertical ||
-      !profile.company_size ||
-      !profile.revenue_range ||
-      !profile.primary_pain_point
-    ) return;
-    setCurrentStep('assessment');
-    setCurrentDomain(0);
-    setCurrentPage(0);
+  const scrollToTop = () => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
+
+  const progress = computeProgress(step);
+
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={currentStep}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        className="min-h-screen bg-white relative"
-      >
-        {/* Shared background blobs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-100/40 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-100/30 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-          <div className="absolute top-1/3 right-1/3 w-80 h-80 bg-indigo-100/30 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        </div>
+    <div className="min-h-screen bg-white relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(70, 85, 235, 0.15) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+            opacity: 0.3,
+          }}
+        />
+      </div>
 
-        <Navbar isScrolled={isScrolled} />
-
-        {/* Content pushed below fixed navbar */}
-        <div className="pt-[70px] flex items-center justify-center min-h-screen">
-          {currentStep === 'profile' && (
-            <RenderProfileStep
-              setProfile={setProfile}
-              profile={profile}
-              handleSubmit={handleSubmit}
+      <header className="relative z-10 w-full" style={{ background: "#041227" }}>
+        <div
+          style={{
+            height: "2px",
+            width: "100%",
+            background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+          }}
+        />
+        <div className="flex items-center justify-between container mx-auto h-[66px] px-6">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
+              width={200}
+              height={60}
+              alt="Quanton Labs"
+              priority
+              style={{ width: "200px", height: "auto", mixBlendMode: "screen" }}
             />
-          )}
-          {currentStep === 'assessment' && (
-            <RenderAssessmentStep
-              handleNextPage={handleNextPage}
-              handlePrevPage={handlePrevPage}
-              handleResponseSelect={handleResponseSelect}
-              handleGovernanceToggle={handleGovernanceToggle}
-              visibleDomains={visibleDomains}
-              allTasks={allTasks}
-              displayedTasks={displayedTasks}
-              currentDomain={currentDomain}
-              currentPage={currentPage}
-              setCurrentDomain={setCurrentDomain}
-              setCurrentPage={setCurrentPage}
-              setCurrentStep={setCurrentStep}
-              taskResponses={taskResponses}
-              profile={profile}
-            />
-          )}
-          {currentStep === 'lead' && (
-            <RenderLeadCapture
-              setCurrentStep={setCurrentStep}
-              leadInfo={leadInfo}
-              setLeadInfo={setLeadInfo}
-            />
-          )}
-          {currentStep === 'results' && (
-            <RenderResults
-              taskResponses={taskResponses}
-              profile={profile}
-              leadInfo={leadInfo}
-            />
+          </Link>
+          {step !== "results" && (
+            <Link
+              href="/"
+              className="text-sm font-medium duration-200"
+              style={{ color: "rgba(255,255,255,0.70)" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+            >
+              Exit
+            </Link>
           )}
         </div>
-      </motion.div>
-    </AnimatePresence>
+        {step !== "results" && (
+          <div className="container mx-auto px-6 pb-3">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
+                <motion.div
+                  className="h-full"
+                  style={{ background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)" }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                />
+              </div>
+              <span className="text-xs font-medium whitespace-nowrap" style={{ color: "rgba(255,255,255,0.50)" }}>
+                Section {stepLabel(step)} of 4
+              </span>
+            </div>
+          </div>
+        )}
+      </header>
+
+      <main className="relative z-10 px-6 py-16 md:py-20">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.3 }}
+          >
+            {step === "a" && (
+              <SectionAComponent
+                initialValue={sectionA ?? undefined}
+                onComplete={handleSectionAComplete}
+              />
+            )}
+            {step === "b" && sectionA && (
+              <SectionBComponent
+                sectionA={sectionA}
+                initialValue={sectionB ?? undefined}
+                onComplete={handleSectionBComplete}
+                onBack={handleBackFromB}
+              />
+            )}
+            {step === "c" && sectionA && sectionB && (
+              <SectionCComponent
+                sectionA={sectionA}
+                sectionB={sectionB}
+                initialValue={sectionC ?? undefined}
+                onComplete={handleSectionCComplete}
+                onBack={handleBackFromC}
+              />
+            )}
+            {step === "d" && (
+              <SectionDComponent
+                initialValue={sectionD ?? undefined}
+                onComplete={handleSectionDComplete}
+                onBack={handleBackFromD}
+                isSubmitting={isSubmitting}
+              />
+            )}
+            {step === "results" && apiResponse && sectionD && (
+              <ResultsComponent
+                scored={apiResponse.scored}
+                reportUrl={apiResponse.report_url}
+                pdfUrl={apiResponse.pdf_url}
+                firstName={sectionD.first_name}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {submitError && step === "d" && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-3xl mx-auto mt-8 p-4 rounded-lg border-2 border-red-200 bg-red-50"
+          >
+            <p className="text-sm font-semibold text-red-800 mb-1">Submission failed</p>
+            <p className="text-sm text-red-700">{submitError}</p>
+          </motion.div>
+        )}
+      </main>
+    </div>
   );
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+
+function computeProgress(step: WizardStep): number {
+  switch (step) {
+    case "a": return 15;
+    case "b": return 45;
+    case "c": return 70;
+    case "d": return 90;
+    case "results": return 100;
+  }
+}
+
+function stepLabel(step: WizardStep): string {
+  switch (step) {
+    case "a": return "A";
+    case "b": return "B";
+    case "c": return "C";
+    case "d": return "D";
+    default: return "";
+  }
 }
