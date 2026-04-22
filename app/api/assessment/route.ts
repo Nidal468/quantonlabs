@@ -71,7 +71,8 @@ export async function POST(req: NextRequest) {
 
     // 3. Identifiers
     const submissionId = generateSubmissionId();
-    const submittedAt = new Date().toISOString();
+    const now = new Date();
+const submittedAt = `${now.getUTCDate().toString().padStart(2,'0')}/${(now.getUTCMonth()+1).toString().padStart(2,'0')}/${now.getUTCFullYear()} ${now.getUTCHours().toString().padStart(2,'0')}:${now.getUTCMinutes().toString().padStart(2,'0')} UTC`;
 
     // 4. Render HTML report (needed for both the client response and PDF)
     const html = renderReport(submission, scoredPayload, submissionId);

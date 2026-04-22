@@ -362,11 +362,18 @@ function renderBrief(profile: Stage2Profile, stage2Id: string): string {
     margin-top: 16px;
   }
   .footer {
-    background: #041227;
+    background: #ffffff;
+    border-top: 1px solid #E5E7EB;
     color: #6B7280;
     text-align: center;
-    padding: 32px 40px;
+    padding: 16px 40px;
     font-size: 12px;
+    margin-top: 40px;
+  }
+  .footer a {
+    color: #4655EB;
+    text-decoration: none;
+  }
   }
   .footer a {
     color: #60A5FA;
@@ -519,8 +526,9 @@ function renderBrief(profile: Stage2Profile, stage2Id: string): string {
 </div>
 
 <div class="footer">
-  <p>Quanton Labs &nbsp;&middot;&nbsp; The Architecture of Intelligent Business &nbsp;&middot;&nbsp; <a href="https://quantonlabs.com">quantonlabs.com</a></p>
-  <p style="margin-top:8px;">This brief is confidential and prepared exclusively for the recipient.</p>
+  <img src="https://eru8zvxsrt6fabfe.public.blob.vercel-storage.com/QL%20LOGO%20BLACK%20VERSION%20WITH%20TAGLINE%20v1.0%20Feb2026.png" alt="Quanton Labs" style="width:120px;height:auto;margin-bottom:8px;" />
+  <p>The Architecture of Intelligent Business &nbsp;&middot;&nbsp; <a href="https://quantonlabs.com">quantonlabs.com</a></p>
+  <p style="margin-top:4px;">This brief is confidential and prepared exclusively for the recipient.</p>
 </div>
 
 </body>

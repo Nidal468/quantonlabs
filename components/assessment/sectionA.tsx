@@ -111,7 +111,7 @@ export default function SectionAComponent({
         className="mb-12"
       >
         <p className="text-sm font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
-          Section A of 4
+          Section A, 1 of 4
         </p>
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
           Structural Qualifiers
