@@ -24,7 +24,17 @@ export const metadata: Metadata = {
     canonical: productionUrl,
   },
   icons: {
-    icon: "/images/assets/QL favicon transparent.svg",
+    icon: [
+      { url: "/images/assets/QL favicon transparent.svg", type: "image/svg+xml" },
+      { url: "/images/assets/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/assets/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/images/assets/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "mask-icon", url: "/images/assets/QL favicon transparent.svg" },
+    ],
   },
   openGraph: {
     title: "Quanton OS | AI Operating System for Growth-Stage Businesses",
@@ -49,6 +59,48 @@ export const metadata: Metadata = {
   },
 };
 
+const schemaOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Quanton Labs",
+  url: "https://quantonlabs.com",
+  logo: "https://quantonlabs.com/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png",
+  description:
+    "Quanton Labs deploys Quanton OS, a governed AI operating system for growth-stage businesses generating $1M to $20M annually.",
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+1-929-298-2162",
+    email: "growth@quantonlabs.com",
+    contactType: "sales",
+  },
+  sameAs: [
+    "https://www.linkedin.com/company/quantonlabs",
+    "https://www.instagram.com/quantonlabs",
+    "https://www.youtube.com/@QuantonLabsOfficial",
+  ],
+};
+
+const schemaProduct = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Quanton OS",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Cloud",
+  description:
+    "An AI-integrated operating system that deploys eight coordinated AI agents for growth-stage businesses. Connects directly to existing business platforms via API without migration.",
+  offers: {
+    "@type": "Offer",
+    price: "7500",
+    priceCurrency: "USD",
+    description: "Discovery and Diagnostic engagement starting at $7,500",
+  },
+  provider: {
+    "@type": "Organization",
+    name: "Quanton Labs",
+    url: "https://quantonlabs.com",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -69,60 +121,31 @@ export default function RootLayout({
             gtag('config', 'G-CRKZ7L7PS0');
           `}
         </Script>
+        <Script id="apollo-tracker" strategy="afterInteractive">
+          {`
+            function initApollo(){
+              var n = Math.random().toString(36).substring(7);
+              var o = document.createElement("script");
+              o.src = "https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=" + n;
+              o.async = true;
+              o.defer = true;
+              o.onload = function(){ window.trackingFunctions.onLoad({appId:"69ea4aafe23c8a0019347e79"}) };
+              document.head.appendChild(o);
+            }
+            initApollo();
+          `}
+        </Script>
         <Script
           id="schema-org"
           type="application/ld+json"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Quanton Labs",
-              url: "https://quantonlabs.com",
-              logo: "https://quantonlabs.com/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png",
-              description:
-                "Quanton Labs deploys Quanton OS, a governed AI operating system for growth-stage businesses generating $1M to $20M annually.",
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+1-929-298-2162",
-                email: "growth@quantonlabs.com",
-                contactType: "sales",
-              },
-              sameAs: [
-                "https://www.linkedin.com/company/quantonlabs",
-                "https://www.instagram.com/quantonlabs",
-                "https://www.youtube.com/@QuantonLabsOfficial",
-              ],
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
         />
         <Script
           id="schema-product"
           type="application/ld+json"
           strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "Quanton OS",
-              applicationCategory: "BusinessApplication",
-              operatingSystem: "Cloud",
-              description:
-                "An AI-integrated operating system that deploys eight coordinated AI agents for growth-stage businesses. Connects directly to existing business platforms via API without migration.",
-              offers: {
-                "@type": "Offer",
-                price: "7500",
-                priceCurrency: "USD",
-                description:
-                  "Discovery and Diagnostic engagement starting at $7,500",
-              },
-              provider: {
-                "@type": "Organization",
-                name: "Quanton Labs",
-                url: "https://quantonlabs.com",
-              },
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaProduct) }}
         />
       </head>
       <body className={[manrope.variable, "antialiased"].join(" ")}>
