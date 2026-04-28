@@ -57,6 +57,9 @@ export const metadata: Metadata = {
       "Quanton OS integrates strategy, automation, and intelligence into a single governed architecture. Built for owner-led businesses generating $1M-$20M that need an operating system, not more tools.",
     images: [ogImage],
   },
+  verification: {
+    google: "VH98L-PLDlbMMnphknhdQWCZ1xoL8ClYr7wsxRLyUxo",
+  },
 };
 
 const schemaOrg = {
