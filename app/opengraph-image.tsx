@@ -13,15 +13,15 @@ export default async function Image() {
         style={{
           width: "1200px",
           height: "630px",
-          backgroundColor: "#041227",
+          backgroundColor: "#FFFFFF",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <img
-          src="https://quantonlabs.com/images/assets/Quanton Labs logo white version with tagline.png"
-          style={{ width: "600px" }}
+          src="https://quantonlabs.com/images/assets/og-image.png"
+          style={{ width: "400px" }}
         />
       </div>
     ),
