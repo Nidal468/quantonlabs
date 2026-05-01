@@ -42,12 +42,21 @@ openGraph: {
     url: productionUrl,
     siteName: "Quanton Labs",
     type: "website",
+    images: [
+      {
+        url: "https://quantonlabs.com/images/assets/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Quanton Labs | The Architecture of Intelligent Business",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Quanton OS | AI Operating System for Growth-Stage Businesses",
     description:
       "Quanton OS integrates strategy, automation, and intelligence into a single governed architecture. Built for owner-led businesses generating $1M to $20M that need an operating system, not more tools.",
+    images: ["https://quantonlabs.com/images/assets/og-image.png"],
   },
   verification: {
     google: "VH98L-PLDlbMMnphknhdQWCZ1xoL8ClYr7wsxRLyUxo",
