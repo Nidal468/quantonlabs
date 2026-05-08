@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 
 const GRADIENT = "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
-const LOGO_SRC = "/images/assets/QL favicon transparent.svg";
+const LOGO_SRC = "/images/assets/ql-favicon.svg";
 
 interface FeedItem {
   icon: string;
@@ -42,8 +42,8 @@ const INITIAL_FEED: FeedItem[] = [
   {
     icon: "sync",
     color: "#2B60EB",
-    event: "SOP v2.1 approved — cross-domain applied",
-    meta: "Operations Agent → all agents updated",
+    event: "SOP v2.1 approved, cross-domain applied",
+    meta: "Operations Agent to all agents updated",
     badge: null,
     type: "default",
   },
@@ -58,35 +58,35 @@ const INITIAL_FEED: FeedItem[] = [
   {
     icon: "check",
     color: "#4655EB",
-    event: "Payroll confirmed — 8,400 processed",
-    meta: "People Agent → Finance Agent confirmed",
+    event: "Payroll confirmed, 8,400 processed",
+    meta: "People Agent to Finance Agent confirmed",
     badge: null,
     type: "default",
   },
 ];
 
 const INITIAL_PEOPLE: MiniItem[] = [
-  makeItem("Performance review queued — Q2", false),
-  makeItem("New hire onboarding — Day 3 tasks sent", false),
-  makeItem("Payroll processed — 14 employees", false),
+  makeItem("Performance review queued, Q2", false),
+  makeItem("New hire onboarding, Day 3 tasks sent", false),
+  makeItem("Payroll processed, 14 employees", false),
 ];
 
 const INITIAL_SALES: MiniItem[] = [
-  makeItem("Follow-up day 3 — Meridian Logistics", false),
+  makeItem("Follow-up day 3, Meridian Logistics", false),
   makeItem("Pipeline: 3 active, 1 deferred", false),
-  makeItem("CRM updated — 6 records synced", false),
+  makeItem("CRM updated, 6 records synced", false),
 ];
 
 const INITIAL_FINANCE: MiniItem[] = [
-  makeItem("P&L report queued — sends 8AM", false),
-  makeItem("Payroll confirmed — 8,400 processed", false),
-  makeItem("Invoice generated — Phase 1", false),
+  makeItem("P&L report queued, sends 8AM", false),
+  makeItem("Payroll confirmed, 8,400 processed", false),
+  makeItem("Invoice generated, Phase 1", false),
 ];
 
 const INITIAL_OPS: MiniItem[] = [
   makeItem("SOP v2.1 approved", false),
   makeItem("Task completion: 91% this week", false),
-  makeItem("Vendor PO submitted — IT supplier", false),
+  makeItem("Vendor PO submitted, IT supplier", false),
 ];
 
 export default function MobileDemo() {
@@ -119,7 +119,6 @@ export default function MobileDemo() {
   const sequenceTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const clockRef = useRef({ h: 6, m: 35, s: 0 });
 
-  // Clock
   useEffect(() => {
     const t = setInterval(() => {
       const c = clockRef.current;
@@ -139,14 +138,14 @@ export default function MobileDemo() {
     sequenceTimers.current = [];
   };
 
- const scrollToDashboard = useCallback(() => {
-  const el = dashboardRef.current;
-  if (!el) return;
-  const navbarHeight = 46;
-  const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight;
-  window.scrollTo({ top, behavior: "smooth" });
-  setHasScrolled(true);
-}, []);
+  const scrollToDashboard = useCallback(() => {
+    const el = dashboardRef.current;
+    if (!el) return;
+    const navbarHeight = 46;
+    const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight;
+    window.scrollTo({ top, behavior: "smooth" });
+    setHasScrolled(true);
+  }, []);
 
   const pushFeed = useCallback((item: FeedItem) => {
     setFeed(prev => [item, ...prev].slice(0, 4));
@@ -164,12 +163,12 @@ export default function MobileDemo() {
     };
 
     t(3000, () => {
-      setSalesItems(prev => [makeItem("Deal closed — Hartwell Group $142,000", false), ...prev].slice(0, 3));
-      setFinanceItems(prev => [makeItem("Invoice generated — $142,000 Hartwell Group", false), ...prev].slice(0, 3));
+      setSalesItems(prev => [makeItem("Deal closed, Hartwell Group $142,000", false), ...prev].slice(0, 3));
+      setFinanceItems(prev => [makeItem("Invoice generated, $142,000 Hartwell Group", false), ...prev].slice(0, 3));
       pushFeed({
         icon: "dollar", color: "#059669",
-        event: "Major sale closed — Hartwell Group $142,000",
-        meta: "Sales Agent → Finance + CX coordination triggered",
+        event: "Major sale closed, Hartwell Group $142,000",
+        meta: "Sales Agent to Finance + CX coordination triggered",
         badge: { text: "major sale", bg: "rgba(5,150,105,0.10)", color: "#065F46" },
         type: "success",
       });
@@ -182,30 +181,30 @@ export default function MobileDemo() {
       setExcColor("#DC2626");
       setExcBg("rgba(239,68,68,0.08)");
       setExcBorder("rgba(239,68,68,0.25)");
-      pushPeople("ALERT: J. Walsh — missed timecard punch 6:00 AM", true);
+      pushPeople("ALERT: J. Walsh, missed timecard punch 6:00 AM", true);
     });
 
     t(10000, () => {
-      pushPeople("6:18 AM — Called J. Walsh (843) 291-7734 — no answer", true);
+      pushPeople("6:18 AM, called J. Walsh (843) 291-7734, no answer", true);
       pushFeed({
         icon: "alert", color: "#EF4444",
-        event: "People Agent escalation — J. Walsh no call/no show",
-        meta: "6:18 AM — Mobile contact attempted, no answer. SMS sent.",
+        event: "People Agent escalation, J. Walsh no call/no show",
+        meta: "6:18 AM, mobile contact attempted, no answer. SMS sent.",
         badge: { text: "urgent", bg: "rgba(239,68,68,0.10)", color: "#DC2626" },
         type: "alert",
       });
     });
 
     t(13000, () => {
-      pushPeople("6:18 AM — Text sent — no reply. Emergency contact at 10AM", true);
+      pushPeople("6:18 AM, text sent, no reply. Emergency contact at 10AM", true);
       setOpsItems(prev => [makeItem("Routing: J. Walsh shift coverage review", true), ...prev].slice(0, 3));
     });
 
     t(17000, () => {
       pushFeed({
         icon: "alert", color: "#7341EA",
-        event: "Approval required — shift coverage plan ready",
-        meta: "People + Operations → awaiting Managing Director decision",
+        event: "Approval required, shift coverage plan ready",
+        meta: "People + Operations awaiting Managing Director decision",
         badge: { text: "action required", bg: "rgba(239,68,68,0.10)", color: "#DC2626" },
         type: "alert",
       });
@@ -223,7 +222,7 @@ export default function MobileDemo() {
     setPasswordText("");
     setButtonState("default");
 
-    const email = "hello@meridianlogistics.com";
+    const email = "name@yourcompany.com";
     let ei = 0;
 
     const typeEmail = () => {
@@ -280,7 +279,6 @@ export default function MobileDemo() {
     setApprovalVisible(false);
     setRewardVisible(false);
     setActiveTab("dashboard");
-    // Scroll back to top of component
     const el = wrapperRef.current;
     if (el) {
       const top = el.getBoundingClientRect().top + window.scrollY;
@@ -300,8 +298,8 @@ export default function MobileDemo() {
     setExcBorder("rgba(74,222,128,0.25)");
     pushFeed({
       icon: "check", color: "#059669",
-      event: "Shift coverage plan approved — exception closed",
-      meta: "Governing Agent → People + Operations updated",
+      event: "Shift coverage plan approved, exception closed",
+      meta: "Governing Agent to People + Operations updated",
       badge: { text: "resolved", bg: "rgba(5,150,105,0.10)", color: "#065F46" },
       type: "success",
     });
@@ -313,8 +311,8 @@ export default function MobileDemo() {
     setAlertActive(false);
     pushFeed({
       icon: "sync", color: "#6B7280",
-      event: "Shift coverage decision deferred — flagged for review",
-      meta: "Governing Agent → exception remains open",
+      event: "Shift coverage decision deferred, flagged for review",
+      meta: "Governing Agent to exception remains open",
       badge: { text: "deferred", bg: "rgba(107,114,128,0.10)", color: "#4B5563" },
       type: "default",
     });
@@ -332,7 +330,6 @@ export default function MobileDemo() {
     });
   }, [runFillSequence, scrollToDashboard, runDashboardSequence]);
 
-  // Auto trigger after 8 seconds
   useEffect(() => {
     autoTimerRef.current = setTimeout(() => {
       if (manualClickedRef.current || animatingRef.current) return;
@@ -409,14 +406,32 @@ export default function MobileDemo() {
         minHeight: "100vh",
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        padding: "100px 24px 40px",
+        padding: "80px 24px 40px",
       }}>
-        <div style={{ marginBottom: "28px", textAlign: "center" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: "14px" }}>
-            <img src={LOGO_SRC} width={72} height={72} alt="Quanton Labs" style={{ display: "block", borderRadius: "16px" }} />
+
+        <div style={{
+          display: "inline-flex", alignItems: "center", gap: "6px",
+          padding: "6px 12px", borderRadius: "20px",
+          background: "rgba(43,96,235,0.08)",
+          border: "1px solid rgba(43,96,235,0.20)",
+          marginBottom: "24px",
+        }}>
+          <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#2B60EB" }} />
+          <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.10em", color: "#2B60EB", fontFamily: "Manrope, sans-serif", textTransform: "uppercase" }}>
+            Workspace Preview
+          </span>
+        </div>
+
+        <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center" }}>
+          <img src={LOGO_SRC} width={80} height={80} alt="Quanton Labs" style={{ display: "block" }} />
+        </div>
+
+        <div style={{ textAlign: "center", marginBottom: "28px", maxWidth: "320px" }}>
+          <div style={{ fontSize: "20px", fontWeight: 700, color: "#1F2937", fontFamily: "Manrope, sans-serif", letterSpacing: "-0.3px", marginBottom: "8px", lineHeight: 1.3 }}>
+            See Quanton OS in action
           </div>
-          <div style={{ color: "rgba(0,0,0,0.40)", fontFamily: "Manrope, sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-            Quanton OS
+          <div style={{ fontSize: "13px", color: "rgba(0,0,0,0.55)", fontFamily: "Manrope, sans-serif", lineHeight: 1.5 }}>
+            A live preview of the operator workspace. Sign in to enter, or watch the demo run automatically.
           </div>
         </div>
 
@@ -425,11 +440,11 @@ export default function MobileDemo() {
           background: "#ffffff", borderRadius: "20px",
           border: "1px solid rgba(43,96,235,0.15)",
           boxShadow: "0 8px 48px rgba(43,96,235,0.12), 0 2px 12px rgba(0,0,0,0.06)",
-          padding: "32px 24px",
+          padding: "28px 24px",
         }}>
-          <p style={{ fontSize: "20px", fontWeight: 700, color: "#1F2937", fontFamily: "Manrope, sans-serif", marginBottom: "24px" }}>
-            Sign in to your workspace
-          </p>
+          <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.10em", color: "rgba(0,0,0,0.40)", fontFamily: "Manrope, sans-serif", textTransform: "uppercase", marginBottom: "16px" }}>
+            Demo Workspace
+          </div>
 
           <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151", fontFamily: "Manrope, sans-serif" }}>Email</label>
           <div style={{
@@ -466,19 +481,18 @@ export default function MobileDemo() {
               opacity: isAnimating ? 0.85 : 1,
             }}
           >
-            {buttonState === "signing" ? "Signing in..." : "Sign in to Quanton OS"}
+            {buttonState === "signing" ? "Signing in..." : "Enter the workspace"}
           </button>
         </div>
 
-        <p style={{ color: "rgba(0,0,0,0.25)", fontFamily: "Manrope, sans-serif", fontSize: "12px", marginTop: "24px", textAlign: "center" }}>
-          Watch the demo — or tap to sign in
+        <p style={{ color: "rgba(0,0,0,0.35)", fontFamily: "Manrope, sans-serif", fontSize: "11px", marginTop: "20px", textAlign: "center", letterSpacing: "0.02em" }}>
+          Demo runs automatically in 8 seconds
         </p>
       </div>
 
       {/* DASHBOARD SCREEN */}
       <div ref={dashboardRef} style={{ paddingBottom: hasScrolled ? "72px" : "0" }}>
 
-        {/* Client hero */}
         <div style={{ background: "linear-gradient(135deg,#F8F9FC 0%,#EEF2FF 100%)", padding: "20px 16px 0" }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "10px" }}>
             <div>
@@ -557,20 +571,20 @@ export default function MobileDemo() {
                 }}
               >
                 <div style={{
-  fontSize: "9px",
-  fontWeight: 700,
-  letterSpacing: "0.08em",
-  textTransform: "uppercase",
-  fontFamily: "Manrope, sans-serif",
-  marginBottom: "6px",
-  color: agent.alert ? "#EF4444" : "transparent",
-  background: agent.alert ? "none" : "linear-gradient(to right, #2B60EB, #8B37EA)",
-  WebkitBackgroundClip: agent.alert ? "unset" : "text",
-  WebkitTextFillColor: agent.alert ? "#EF4444" : "transparent",
-  backgroundClip: agent.alert ? "unset" : "text",
-}}>
-  {agent.label}
-</div>
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  fontFamily: "Manrope, sans-serif",
+                  marginBottom: "6px",
+                  color: agent.alert ? "#EF4444" : "transparent",
+                  background: agent.alert ? "none" : "linear-gradient(to right, #2B60EB, #8B37EA)",
+                  WebkitBackgroundClip: agent.alert ? "unset" : "text",
+                  WebkitTextFillColor: agent.alert ? "#EF4444" : "transparent",
+                  backgroundClip: agent.alert ? "unset" : "text",
+                }}>
+                  {agent.label}
+                </div>
                 {agent.items.slice(0, 3).map((item, ii) => (
                   <div key={item.id} style={{
                     fontFamily: "Manrope, sans-serif", fontSize: "10px",
@@ -606,7 +620,7 @@ export default function MobileDemo() {
                 Shift coverage plan ready
               </div>
               <div style={{ fontSize: "11px", color: "rgba(0,0,0,0.50)", lineHeight: 1.6, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
-                People + Operations → redistribute Walsh's tasks across Martinez and Chen. Your approval activates the plan across both agents.
+                People + Operations: redistribute Walsh's tasks across Martinez and Chen. Your approval activates the plan across both agents.
               </div>
               <div style={{ display: "flex", gap: "8px" }}>
                 <button onClick={handleApprove} style={{ flex: 1, padding: "10px", borderRadius: "10px", background: GRADIENT, color: "#fff", fontFamily: "Manrope, sans-serif", fontWeight: 700, fontSize: "13px", border: "none", cursor: "pointer" }}>
@@ -630,10 +644,10 @@ export default function MobileDemo() {
                 Decision executed across three agents.
               </div>
               <div style={{ fontSize: "11px", color: "rgba(0,0,0,0.50)", lineHeight: 1.65, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
-                People Agent logged the escalation. Operations Agent redistributed shift tasks. Governing Agent closed the exception. That is governed AI infrastructure — a system that coordinates, escalates, and acts on your approval.
+                People Agent logged the escalation. Operations Agent redistributed shift tasks. Governing Agent closed the exception. That is governed AI infrastructure: a system that coordinates, escalates, and acts on your approval.
               </div>
               <Link href="/assessment" style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "10px 18px", borderRadius: "10px", background: GRADIENT, color: "#fff", fontFamily: "Manrope, sans-serif", fontWeight: 700, fontSize: "13px", textDecoration: "none" }}>
-                Assess your business →
+                Assess your business
               </Link>
             </div>
           )}
@@ -641,7 +655,6 @@ export default function MobileDemo() {
         </div>
       </div>
 
-      {/* Bottom tab bar — only when scrolled to dashboard */}
       {hasScrolled && (
         <div style={{
           position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50,
