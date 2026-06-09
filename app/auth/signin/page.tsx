@@ -3,174 +3,179 @@
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Chrome, Mail, Lock } from "lucide-react";
-
+import { Mail, Lock, Loader2, Chrome } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 
-export const signinSchema = z.object({
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+const signinSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 type FormData = z.infer<typeof signinSchema>;
 
 export default function Signin() {
-    const [loading, setLoading] = useState(false);
-    const [authError, setAuthError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
 
-    const {
-        control,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<FormData>({
-        resolver: zodResolver(signinSchema),
-        defaultValues: {
-            email: "",
-            password: "",
-        },
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(signinSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    setAuthError("");
+
+    const res = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: true,
+      callbackUrl: "/dashboard",
     });
 
-    const onSubmit = async (data: FormData) => {
-        setLoading(true);
-        setAuthError("");
+    setLoading(false);
 
-        const res = await signIn("credentials", {
-            email: data.email,
-            password: data.password
-        });
+    if (res?.error) {
+      setAuthError("Invalid email or password. Please try again.");
+    }
+  };
 
-        setLoading(false);
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center p-6">
+      <Card className="w-full max-w-md border-slate-200 shadow-sm rounded-xl">
+        <CardHeader className="space-y-1 text-center pb-2">
+          <Link href="/" className="flex items-center justify-center gap-2 mb-4">
+            <img src="/images/assets/seo/ql_logo.png" alt="Logo" className="w-8 h-8" />
+            <img src="/images/assets/seo/ql_text.png" alt="Company Name" className="w-28 h-auto" />
+          </Link>
+          <CardTitle className="text-xl font-semibold text-slate-900">Welcome back</CardTitle>
+          <CardDescription className="text-sm text-slate-500">
+            Sign in to continue to your account
+          </CardDescription>
+        </CardHeader>
 
-        if (res?.error) {
-            setAuthError("Please try again later");
-        } else {
-            window.location.href = "/dashboard";
-        }
-    };
+        <CardContent className="space-y-5 pt-2">
+          {/* Google OAuth Button */}
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            className="w-full h-10 bg-white border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-medium transition-colors focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+            aria-label="Sign in with Google"
+          >
+            <Chrome className="w-4 h-4 mr-2" />
+            Continue with Google
+          </Button>
 
-    return (
-        <div className="min-h-screen bg-linear-to-br from-white to-slate-100 flex items-center justify-center p-6">
+          {/* Divider */}
+          <div className="relative flex items-center py-1">
+            <div className="flex-grow border-t border-slate-200" />
+            <span className="flex-shrink mx-4 text-xs font-medium text-slate-400 uppercase tracking-wider">
+              or
+            </span>
+            <div className="flex-grow border-t border-slate-200" />
+          </div>
 
-            <Card className="w-full max-w-md backdrop-blur-xl bg-white/60 border border-slate-200 shadow-xl rounded-2xl">
-                <CardContent className="p-8 flex flex-col gap-6">
-
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 justify-center">
-                        <img src="/images/assets/seo/ql_logo.png" className="w-8" />
-                        <img src="/images/assets/seo/ql_text.png" className="w-28" />
-                    </Link>
-
-                    {/* Heading */}
-                    <div className="text-center">
-                        <h1 className="text-2xl font-semibold text-slate-800">
-                            Welcome back
-                        </h1>
-                        <p className="text-sm text-slate-500 mt-1">
-                            Sign in to continue
-                        </p>
-                    </div>
-
-                    {/* Google Login */}
-                    <Button
-                        onClick={() => signIn("google")}
-                        className="w-full flex items-center gap-2 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
-                    >
-                        <Chrome className="w-4 h-4" />
-                        Continue with Google
-                    </Button>
-
-                    {/* Divider */}
-                    <div className="flex items-center gap-3">
-                        <div className="flex-1 h-px bg-slate-200" />
-                        <span className="text-xs text-slate-400">OR</span>
-                        <div className="flex-1 h-px bg-slate-200" />
-                    </div>
-
-                    {/* FORM */}
-                    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-
-                        {/* Email */}
-                        <Controller
-                            name="email"
-                            control={control}
-                            render={({ field }) => (
-                                <div>
-                                    <div className="relative">
-                                        <Mail className="w-4 h-4 absolute left-3 top-3 text-slate-400 z-10" />
-                                        <Input
-                                            {...field}
-                                            type="email"
-                                            placeholder="Email"
-                                            className="pl-9 bg-white/70 backdrop-blur border-slate-200"
-                                        />
-                                    </div>
-                                    {errors.email && (
-                                        <p className="text-xs text-red-500 mt-1">
-                                            {errors.email.message}
-                                        </p>
-                                    )}
-                                </div>
-                            )}
-                        />
-
-                        {/* Password */}
-                        <Controller
-                            name="password"
-                            control={control}
-                            render={({ field }) => (
-                                <div>
-                                    <div className="relative">
-                                        <Lock className="w-4 h-4 absolute left-3 top-3 text-slate-400 z-10" />
-                                        <Input
-                                            {...field}
-                                            type="password"
-                                            placeholder="Password"
-                                            autoComplete="new-password"
-                                            className="pl-9 bg-white/70 backdrop-blur border-slate-200"
-                                        />
-                                    </div>
-                                    {errors.password && (
-                                        <p className="text-xs text-red-500 mt-1">
-                                            {errors.password.message}
-                                        </p>
-                                    )}
-                                </div>
-                            )}
-                        />
-
-                        {/* Auth Error */}
-                        {authError && (
-                            <p className="text-sm text-red-500 text-center">
-                                {authError}
-                            </p>
-                        )}
-
-                        {/* Submit */}
-                        <Button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-slate-800 text-white hover:bg-slate-700"
-                        >
-                            {loading ? "Signing in..." : "Sign in"}
-                        </Button>
-
-                    </form>
-
-                    {/* Footer */}
-                    <p className="text-xs text-center text-slate-500">
-                        Don’t have an account?{" "}
-                        <Link href="/auth/signup" className="text-slate-700 hover:underline">
-                            Sign up
-                        </Link>
+          {/* Form */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-1.5">
+                  <label htmlFor="email" className="sr-only">Email address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    <Input
+                      id="email"
+                      {...field}
+                      type="email"
+                      placeholder="Email address"
+                      autoComplete="email"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "email-error" : undefined}
+                      className="pl-9 h-10 bg-white border-slate-200 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 transition-shadow"
+                    />
+                  </div>
+                  {errors.email && (
+                    <p id="email-error" className="text-xs text-red-600 font-medium" role="alert">
+                      {errors.email.message}
                     </p>
+                  )}
+                </div>
+              )}
+            />
 
-                </CardContent>
-            </Card>
-        </div>
-    );
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-1.5">
+                  <label htmlFor="password" className="sr-only">Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                    <Input
+                      id="password"
+                      {...field}
+                      type="password"
+                      placeholder="Password"
+                      autoComplete="current-password"
+                      aria-invalid={!!errors.password}
+                      aria-describedby={errors.password ? "password-error" : undefined}
+                      className="pl-9 h-10 bg-white border-slate-200 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 transition-shadow"
+                    />
+                  </div>
+                  {errors.password && (
+                    <p id="password-error" className="text-xs text-red-600 font-medium" role="alert">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
+              )}
+            />
+
+            {authError && (
+              <p className="text-sm text-red-600 text-center font-medium" role="alert" aria-live="polite">
+                {authError}
+              </p>
+            )}
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-10 bg-slate-900 hover:bg-slate-800 text-white font-medium transition-colors focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Signing in...
+                </span>
+              ) : (
+                "Sign in"
+              )}
+            </Button>
+          </form>
+
+          <p className="text-xs text-center text-slate-500 pt-2">
+            Don't have an account?{" "}
+            <Link href="/auth/signup" className="text-slate-900 font-medium hover:underline underline-offset-2">
+              Create one
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "marketing",
+    "name": "Marketing and Content Agent",
+    "domain": "Growth",
+    "description": "Plans, creates, distributes, and optimizes content across all channels.",
+    "icon": "Megaphone",
+    "tags": ["Social Media", "Email Campaigns", "Brand Voice", "Competitive Monitoring"],
+    "capabilities": ["Editorial calendar management", "Long-form content generation", "Content repurposing workflows", "Performance tracking & analytics", "Brand voice governance", "Cross-channel distribution"]
+  },
+  {
+    "id": "sales",
+    "name": "Sales Agent",
+    "domain": "Growth",
+    "description": "Manages the revenue pipeline from inbound lead to closed deal.",
+    "icon": "TrendingUp",
+    "tags": ["Lead Qualification", "Pipeline Tracking", "Revenue Forecasting", "Win/Loss Analysis"],
+    "capabilities": ["Inbound lead response automation", "Proposal & quote generation", "Follow-up sequence orchestration", "Outbound prospecting workflows", "Pipeline health monitoring", "Revenue forecasting & attribution"]
+  },
+  {
+    "id": "cx",
+    "name": "Customer Experience Agent",
+    "domain": "Operations + Growth",
+    "description": "Manages post-acquisition service and retention.",
+    "icon": "Headphones",
+    "tags": ["FAQ Handling", "Onboarding", "Retention Tracking", "Chat Engagement"],
+    "capabilities": ["Automated FAQ & ticket routing", "Booking & scheduling coordination", "Complaint escalation & resolution", "Review monitoring & sentiment analysis", "Customer segmentation & lifecycle tracking", "Website chat engagement optimization"]
+  },
+  {
+    "id": "people",
+    "name": "People and Team Agent",
+    "domain": "Operations",
+    "description": "Manages the employee lifecycle and team performance infrastructure.",
+    "icon": "UsersRound",
+    "tags": ["Recruitment", "Onboarding", "Performance Reviews", "Team Scheduling"],
+    "capabilities": ["Job posting & candidate screening", "Interview scheduling & coordination", "Offer letter drafting & e-signature", "Onboarding workflow automation", "Performance review preparation", "Certification & compliance tracking"]
+  },
+  {
+    "id": "operations",
+    "name": "Operations Agent",
+    "domain": "Operations",
+    "description": "Controls internal execution infrastructure.",
+    "icon": "LayoutGrid",
+    "tags": ["Task Tracking", "SOP Management", "Quality Assurance", "Workflow Optimization"],
+    "capabilities": ["Task assignment & progress tracking", "SOP creation & version control", "Vendor coordination & SLA monitoring", "Meeting agendas & automated notes", "Process compliance & QA monitoring", "Knowledge base management & search"]
+  },
+  {
+    "id": "inventory",
+    "name": "Inventory and Supply Chain Agent",
+    "domain": "Operations",
+    "description": "Manages stock and supplier systems.",
+    "icon": "Package",
+    "tags": ["Stock Monitoring", "Reorder Automation", "Delivery Tracking", "Cost Analysis"],
+    "capabilities": ["Real-time stock level monitoring", "Low-stock & reorder alerting", "Automated purchase order generation", "Supplier communication & negotiation", "Delivery tracking & ETA optimization", "Seasonal demand forecasting"]
+  },
+  {
+    "id": "finance",
+    "name": "Finance Agent",
+    "domain": "Operations",
+    "description": "Handles financial execution and compliance infrastructure.",
+    "icon": "DollarSign",
+    "tags": ["Invoicing", "Reconciliation", "Revenue Analysis", "Compliance"],
+    "capabilities": ["Automated invoice generation & delivery", "Payment reminder & dunning workflows", "Expense categorization & receipt parsing", "Bank reconciliation & variance detection", "Financial reporting & P&L synthesis", "Contract generation & compliance logging"]
+  },
+  {
+    "id": "governing",
+    "name": "Governing Agent",
+    "domain": "Strategy",
+    "description": "The orchestration and intelligence layer that unifies the system.",
+    "icon": "Brain",
+    "tags": ["Cross-Agent Coordination", "KPI Monitoring", "Escalation Routing", "Audit Trails"],
+    "capabilities": ["Cross-agent task orchestration", "Exception detection & auto-resolution", "Conflict detection & arbitration", "Real-time KPI monitoring & alerting", "Escalation routing & SLA enforcement", "Leadership dashboard synthesis & reporting"]
+  }
+]

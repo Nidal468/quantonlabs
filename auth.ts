@@ -1,11 +1,18 @@
 import bcrypt from "bcryptjs";
-import type { NextAuthOptions, Session } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+
 import connectMongo from "./db/mongoose";
 import { User } from "./model/user";
 
 export const config: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -13,6 +20,7 @@ export const config: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
+
       async authorize(credentials) {
         await connectMongo();
 
@@ -20,18 +28,23 @@ export const config: NextAuthOptions = {
           throw new Error("Email and password required");
         }
 
-        const user = await User.findOne({ email: credentials.email });
+        const user = await User.findOne({
+          email: credentials.email.toLowerCase(),
+        });
+
         if (!user) {
           throw new Error("User not found");
         }
 
-        // Check password with bcrypt
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
         if (!isValid) {
           throw new Error("Wrong password");
         }
 
-        // If valid, return user object
         return {
           id: user._id.toString(),
           email: user.email,
@@ -39,28 +52,71 @@ export const config: NextAuthOptions = {
       },
     }),
   ],
+
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
+        await connectMongo();
+
+        let dbUser = await User.findOne({
+          email: user.email?.toLowerCase(),
+        });
+
+        if (!dbUser) {
+          dbUser = await User.create({
+            username:
+              user.name ||
+              user.email?.split("@")[0] ||
+              `user_${Date.now()}`,
+
+            email: user.email!.toLowerCase(),
+            avatarUrl: user.image || ""
+          });
+        }
+
+        user.id = dbUser._id.toString();
+      }
+
+      return true;
+    },
+
+    async jwt({ token, user }) {
+      await connectMongo();
+
+      if (user?.email) {
+        const dbUser = await User.findOne({
+          email: user.email.toLowerCase(),
+        });
+
+        if (dbUser) {
+          token.id = dbUser._id.toString();
+          token.email = dbUser.email;
+        }
+      }
+
+      return token;
+    },
+
     async session({ session, token }) {
       return {
         ...session,
         user: {
-          id: token.id,
-          email: token.email,
+          id: token.id as string,
+          email: token.email as string,
         },
       };
     },
-    async jwt({ token, user }: any) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-      }
-      return token;
-    },
-    async redirect({ url, baseUrl }) {
+
+    async redirect({ baseUrl }) {
       return `${baseUrl}/dashboard`;
     },
   },
+
   pages: {
     signIn: "/auth/signin",
+  },
+
+  session: {
+    strategy: "jwt",
   },
 };
