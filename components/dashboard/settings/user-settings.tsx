@@ -8,11 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Bell, Shield, Moon, Sun, Globe } from "lucide-react";
-import { useDashboard } from "@/lib/hook/use-dashboard-context";
 
 export function UserSettings() {
-  const { user } = useDashboard();
-  if (!user) return null;
 
   return (
     <div className="max-w-3xl space-y-6">

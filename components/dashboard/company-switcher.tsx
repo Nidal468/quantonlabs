@@ -1,7 +1,7 @@
 // components/dashboard/company-switcher.tsx
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,20 +13,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Plus, ChevronDown, Building2 } from "lucide-react";
-import { useDashboard } from "@/lib/hook/use-dashboard-context";
-import { CompanyDocument } from "@/model/company";
 import CreateCompanyPage from "./company/createCompanyForm";
+import { WorkspaceDocument } from "@/model/workspace";
+import { useWorkspace } from "@/lib/hook/useWorkspace";
 
 interface Props {
-  companies: CompanyDocument[];
-  activeId: string | null;
-  onSelect: (id: string) => void;
+  activeCompanyId: string;
+  setActiveCompanyId: Dispatch<SetStateAction<string>>
 }
 
-export function CompanySwitcher({ companies, activeId, onSelect }: Props) {
+export function CompanySwitcher({ activeCompanyId, setActiveCompanyId }: Props) {
   const [open, setOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { activeCompany } = useDashboard();
+  const {
+    workspaces,
+    isLoading,
+    createWorkspace,
+    deleteWorkspace,
+  } = useWorkspace();
+
+  const activeCompany = workspaces.find((e: WorkspaceDocument) => e._id.toString() === activeCompanyId);
 
   return (
     <div className="px-2">
@@ -49,17 +55,17 @@ export function CompanySwitcher({ companies, activeId, onSelect }: Props) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-[240px] p-1">
           <DropdownMenuLabel className="px-3 py-2 text-xs font-medium text-neutral-500">Workspaces</DropdownMenuLabel>
-          {companies.map((c) => (
+          {workspaces.map((c: WorkspaceDocument) => (
             <DropdownMenuItem
               key={c._id.toString()}
-              onClick={() => { onSelect(c._id.toString()); setOpen(false); }}
+              onClick={() => { setActiveCompanyId(c._id.toString()); setOpen(false); }}
               className="gap-3 cursor-pointer"
             >
               <div className="w-6 h-6 bg-neutral-100 rounded flex items-center justify-center">
                 <Building2 size={14} />
               </div>
               <span className="flex-1 truncate">{c.name}</span>
-              {activeId === c._id.toString() && <span className="text-xs text-neutral-400">Active</span>}
+              {activeCompanyId === c._id.toString() && <span className="text-xs text-neutral-400">Active</span>}
             </DropdownMenuItem>
           ))}
           <DropdownMenuSeparator />
@@ -82,8 +88,7 @@ export function CompanySwitcher({ companies, activeId, onSelect }: Props) {
           </DialogHeader>
           <CreateCompanyPage
             onSubmit={async (data) => {
-              // Replace with your actual server action or API call
-              // await createCompanyAction({ name: data.name });
+              await createWorkspace(data.name)
               setDialogOpen(false);
             }}
           />

@@ -8,41 +8,17 @@ export default function RootLayout({ children }: { children: any }) {
     const [user, setUser] = useState<UserDocument | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const update = async (e?: Partial<UserDocument>, file?: File) => {
-        try {
-            setLoading(true);
-            if (e) {
-                const formData = new FormData();
-                formData.append("data", JSON.stringify(e));
-
-                if (file) {
-                    formData.append("file", file)
-                }
-
-                const res = await fetch(`/api/user`, {
-                    method: "PATCH",
-                    body: formData,
-                    cache: "no-store"
-                });
-
-                const result = await res.json();
-
-                if (result && result !== "Unauthorized") setUser(result.user);
-            } else {
-                const res = await fetch(`/api/user`, {
-                    method: "GET",
-                    cache: "no-store"
-                });
-                const result = await res.json();
-                if (result && result !== "Unauthorized") setUser(result);
-            }
-
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => { update(); }, []);
+    useEffect(() => {
+        const get = async () => {
+            const res = await fetch(`/api/user/authenticated`, {
+                method: "GET",
+                cache: "no-store"
+            });
+            const result = await res.json();
+            if (result && result !== "Unauthorized") setUser(result);
+        };
+        get()
+    }, []);
 
     if (loading && !user) return (
         <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-zinc-900">
@@ -55,7 +31,7 @@ export default function RootLayout({ children }: { children: any }) {
 
     return (
         <div className="min-h-screen bg-white w-full">
-            <UserProvider value={{ user, update }}>
+            <UserProvider value={{ user }}>
                 {children}
             </UserProvider>
         </div>

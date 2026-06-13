@@ -5,7 +5,6 @@ import { createContext, useContext } from "react";
 
 interface UserContextType {
   user: UserDocument | null;
-  update: (e?: Partial<UserDocument>, file?: File) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

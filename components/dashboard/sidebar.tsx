@@ -9,26 +9,30 @@ import {
   Settings,
   Users,
   CreditCard,
+  Cog,
 } from "lucide-react";
-import { useDashboard } from "@/lib/hook/use-dashboard-context";
 import { CompanySwitcher } from "./company-switcher";
+import { useWorkspace } from "@/lib/hook/useWorkspace";
+import { Dispatch, SetStateAction } from "react";
 
 interface SidebarProps {
   activePage: string;
-  setPage: (page: "overview"| "agents"| "reports" | "company" | "billing" | "settings") => void;
+  setPage: (page: "overview" | "agents" | "reports" | "company" | "billing" | "settings") => void;
+  activeCompanyId: string;
+  setActiveCompanyId: Dispatch<SetStateAction<string>>
 }
 
 const navItems = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "agents", label: "Agents", icon: BrainCircuit },
   { id: "reports", label: "Reports", icon: FileBarChart },
-  { id: "company", label: "Company Settings", icon: Users },
+  { id: "company", label: "Workspace", icon: Users },
   { id: "billing", label: "Billing & Plans", icon: CreditCard },
+  { id: "settings", label: "Settings", icon: Cog },
 ];
 
-export function Sidebar({ activePage, setPage }: SidebarProps) {
-  const { activeCompanyId, setActiveCompanyId, activeCompany, companies } = useDashboard();
-
+export function Sidebar({ activePage, setPage, activeCompanyId, setActiveCompanyId }: SidebarProps) {
+  
   return (
     <aside className="hidden md:flex flex-col w-[280px] h-screen border-r border-neutral-200 bg-white p-4 gap-6">
       <div className="flex items-center gap-3 px-2 py-1">
@@ -39,9 +43,8 @@ export function Sidebar({ activePage, setPage }: SidebarProps) {
       </div>
 
       <CompanySwitcher
-        companies={companies}
-        activeId={activeCompanyId}
-        onSelect={setActiveCompanyId}
+        activeCompanyId={activeCompanyId}
+        setActiveCompanyId={setActiveCompanyId}
       />
 
       <nav className="flex flex-col gap-1">
@@ -51,7 +54,7 @@ export function Sidebar({ activePage, setPage }: SidebarProps) {
             <button
               key={item.id}
               type="button"
-              onClick={() => setPage(item.id as "overview"| "agents"| "reports" | "company" | "billing")}
+              onClick={() => setPage(item.id as "overview" | "agents" | "reports" | "company" | "billing")}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left",
                 isActive

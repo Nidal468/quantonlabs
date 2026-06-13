@@ -30,8 +30,9 @@ export interface AgentDocument extends Document {
     capabilities: string[];
 
     database: {
-        id: string;
+        id: Schema.Types.ObjectId;
         name: string;
+        workspaceId: Schema.Types.ObjectId;
         keywords: string[];
     }[];
 
@@ -99,8 +100,10 @@ const AgentSchema = new Schema<AgentDocument>(
         database: [
             {
                 id: {
-                    type: String,
+                    type: Schema.Types.ObjectId,
                     required: true,
+                    ref: "DataPage",
+                    index: true
                 },
 
                 name: {
@@ -113,6 +116,12 @@ const AgentSchema = new Schema<AgentDocument>(
                     type: [String],
                     default: [],
                 },
+                workspaceId: {
+                    type: Schema.Types.ObjectId,
+                    required: true,
+                    ref: "Workspace",
+                    index: true
+                }
             },
         ],
 
@@ -129,5 +138,8 @@ const AgentSchema = new Schema<AgentDocument>(
         timestamps: true,
     }
 );
+
+AgentSchema.index({ "database.id": 1, type: 1 });
+AgentSchema.index({ "database.workspaceId": 1, type: 1 });
 
 export const Agent = models.Agent || model<AgentDocument>("Agent", AgentSchema);
