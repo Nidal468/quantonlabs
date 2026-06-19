@@ -1,39 +1,28 @@
-import mongoose, { Schema, model, Document, Types } from "mongoose";
-
-export interface DataPageEmbedding {
-  index: number;
-
-  content: string;
-
-  vector: number[];
-
-  createdAt: Date;
-}
+import mongoose, { Schema, model, Document } from "mongoose";
 
 export interface DataPageDocument extends Document {
   agentId: Schema.Types.ObjectId;
   workspaceId: Schema.Types.ObjectId;
+  uploaderId: Schema.Types.ObjectId;
+
   title: string;
   slug: string;
 
   content: string;
 
-  embeddings: DataPageEmbedding[];
-
   type:
-  | "note"
-  | "memory"
-  | "document"
-  | "summary"
-  | "task"
-  | "system";
+    | "note"
+    | "memory"
+    | "document"
+    | "summary"
+    | "task"
+    | "system";
 
   tags: string[];
 
   metadata?: {
     source?: string;
     importance?: number;
-    lastAccessedAt?: Date;
   };
 
   isArchived: boolean;
@@ -41,34 +30,6 @@ export interface DataPageDocument extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
-const EmbeddingSchema = new Schema<DataPageEmbedding>(
-  {
-    index: {
-      type: Number,
-      required: true,
-    },
-
-    content: {
-      type: String,
-      required: true,
-    },
-
-    vector: {
-      type: [Number],
-      required: true,
-      default: [],
-    },
-
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  {
-    _id: false,
-  }
-);
 
 const DataPageSchema = new Schema<DataPageDocument>(
   {
@@ -83,7 +44,14 @@ const DataPageSchema = new Schema<DataPageDocument>(
       type: Schema.Types.ObjectId,
       required: true,
       ref: "Workspace",
-      index: true
+      index: true,
+    },
+
+    uploaderId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+      index: true,
     },
 
     title: {
@@ -103,11 +71,6 @@ const DataPageSchema = new Schema<DataPageDocument>(
     content: {
       type: String,
       required: true,
-    },
-
-    embeddings: {
-      type: [EmbeddingSchema],
-      default: [],
     },
 
     type: {
@@ -138,11 +101,7 @@ const DataPageSchema = new Schema<DataPageDocument>(
         type: Number,
         min: 0,
         max: 10,
-        default: 5,
-      },
-
-      lastAccessedAt: {
-        type: Date,
+        default: 2,
       },
     },
 
@@ -156,9 +115,12 @@ const DataPageSchema = new Schema<DataPageDocument>(
   }
 );
 
+// indexes
 DataPageSchema.index({ agentId: 1, type: 1 });
 DataPageSchema.index({ workspaceId: 1, type: 1 });
+DataPageSchema.index({ uploaderId: 1, type: 1 });
 
+// full-text search still fine (optional)
 DataPageSchema.index({
   title: "text",
   content: "text",

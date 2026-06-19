@@ -14,7 +14,7 @@ import { useEffect, useState } from "react"
 export default function Dashboard() {
     const [selectedPage, setSelectedPage] = useState<"overview" | "agents" | "reports" | "company" | "billing" | "settings">("overview");
     const [activeCompanyId, setActiveCompanyId] = useState<string>('');
-
+    
     const {
         workspaces,
         isLoading,
@@ -27,6 +27,13 @@ export default function Dashboard() {
             setActiveCompanyId(workspaces[0]._id.toString());
         }
     }, [workspaces, activeCompanyId]);
+
+    useEffect(() => {
+        const get = async () => {
+            
+        };
+        get()
+    }, [])
 
     const activeCompany = workspaces.find((e) => e._id.toString() === activeCompanyId);
 

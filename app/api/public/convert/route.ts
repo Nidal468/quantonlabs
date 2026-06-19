@@ -40,7 +40,14 @@ export async function POST(req: Request) {
             }
         ]
 
-        const extracted = await OpenRouter({ config: { messages, model: "openai/gpt-4o-mini" } })
+        const extracted = await OpenRouter({
+            config: {
+                mode: "chat",
+                max_tokens: 60000,
+                stream: false,
+                model: "openai/gpt-4o-mini", messages
+            }, openRouterKey: ""
+        })
 
         return NextResponse.json({ text: extracted });
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   BrainCircuit,
@@ -12,8 +11,10 @@ import {
   Cog,
 } from "lucide-react";
 import { CompanySwitcher } from "./company-switcher";
-import { useWorkspace } from "@/lib/hook/useWorkspace";
 import { Dispatch, SetStateAction } from "react";
+import { signOut } from "next-auth/react";
+import { Button } from "../ui/button";
+import { GrPowerForceShutdown } from "react-icons/gr";
 
 interface SidebarProps {
   activePage: string;
@@ -83,7 +84,17 @@ export function Sidebar({ activePage, setPage, activeCompanyId, setActiveCompany
           <Settings size={18} />
           User Settings
         </button>
+        <Button
+          type="button"
+          variant={'destructive'}
+          onClick={() => signOut()}
+          className="w-full"
+        >
+          <GrPowerForceShutdown size={18} />
+          Signout
+        </Button>
       </div>
+      
     </aside>
   );
 }

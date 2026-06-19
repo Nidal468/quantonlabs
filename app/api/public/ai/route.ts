@@ -101,10 +101,17 @@ export async function POST(req: NextRequest) {
             User info: ${JSON.stringify(leadInfo)}
             `
         }
-        
+
     ];
 
-    const res = await OpenRouter({ config: { messages, model: 'qwen/qwen3.5-9b' } })
+    const res = await OpenRouter({
+        config: {
+            mode: "chat",
+            max_tokens: 60000,
+            stream: false,
+            model: 'qwen/qwen3.5-9b', messages
+        }, openRouterKey: ""
+    })
 
     return NextResponse.json(res);
 }

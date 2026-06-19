@@ -13,6 +13,8 @@ import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAgent } from "@/lib/hook/useAgent";
 import { WorkspaceDocument } from "@/model/workspace";
+import { AgentDocument } from "@/model/agent";
+import SelectedAgentDialog from "./selectedAgent";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Megaphone,
@@ -30,6 +32,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 export default function AgentsPage({ activeCompany }: { activeCompany: WorkspaceDocument }) {
   const { agents, isLoading, error } = useAgent();
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedAgent, setSelectedAgent] = useState<AgentDocument | null>(null);
 
   const filteredAgents = agents.filter(
     (agent) =>
@@ -159,9 +162,9 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
                   ) : (
                     filteredAgents.map((agent, i) => {
                       const IconComponent = iconMap[agent.icon || "Brain"] || Brain;
-                      const status = getAgentStatus(agent.id);
+                      const status = getAgentStatus(agent._id.toString());
                       const isActive = status ? "active" : "inactive";
-
+                      console.log(isActive)
                       return (
                         <motion.tr
                           key={i}
@@ -170,6 +173,7 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.15, ease: "easeOut" }}
                           className="group/row border-b border-neutral-50 last:border-b-0 transition-colors hover:bg-neutral-50/70"
+                          onClick={() => setSelectedAgent(agent)}
                         >
                           <TableCell className="px-4 py-3 align-middle">
                             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600 group-hover/row:bg-neutral-200/80 group-hover/row:text-neutral-700 transition-colors">
@@ -207,8 +211,8 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
                             </span>
                           </TableCell>
                           <TableCell className="px-4 py-3 align-middle">
-                            <Badge variant={isActive ? "default" : "secondary"} className="capitalize">
-                              {status}
+                            <Badge variant={status ? "default" : "secondary"} className="capitalize">
+                              {isActive}
                             </Badge>
                           </TableCell>
                           <TableCell className="px-4 py-3 align-middle">
@@ -226,6 +230,8 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
           </div>
         </CardContent>
       </Card>
+
+      <SelectedAgentDialog activeCompany={activeCompany} selectedAgent={selectedAgent} setSelectedAgent={setSelectedAgent} />
     </div>
   );
 }

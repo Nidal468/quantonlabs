@@ -4,6 +4,8 @@ import "./globals.css";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import Providers from "./providers";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { SessionProvider } from "next-auth/react";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -155,7 +157,11 @@ export default function RootLayout({
       </head>
       <body className={[manrope.variable, "antialiased"].join(" ")}>
         <Analytics />
-        <Providers>{children}</Providers>
+        <Providers>
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+        </Providers>
       </body>
     </html>
   );

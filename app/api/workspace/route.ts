@@ -25,22 +25,7 @@ export async function GET() {
             { ownerId: user._id },
             { "members.id": user._id }
         ]
-    })
-        .populate([
-            {
-                path: "ownerId",
-                select: "name email avatar",
-            },
-            {
-                path: "members.id",
-                select: "name email",
-            },
-            {
-                path: "agents.id",
-                select: "name type",
-            },
-        ])
-        .lean();
+    }).lean();
 
     return NextResponse.json(workspaces);
 }

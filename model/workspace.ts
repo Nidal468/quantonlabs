@@ -55,6 +55,10 @@ export interface WorkspaceDocument extends Document {
       status: "active" | "inactive";
       key: string;
     };
+    mongodb?: {
+      status: "active" | "inactive";
+      key: string;
+    };
   };
 
   createdAt: Date;
@@ -84,6 +88,11 @@ const ConfigSchema = new Schema(
     },
 
     elevenlabs: {
+      type: ProviderConfigSchema,
+      default: () => ({}),
+    },
+
+    mongodb: {
       type: ProviderConfigSchema,
       default: () => ({}),
     },

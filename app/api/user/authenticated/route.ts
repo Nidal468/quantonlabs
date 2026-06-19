@@ -7,7 +7,11 @@ export async function GET() {
     try {
         await connectMongo();
         const authUser = await getUser();
-        
+
+        if (!authUser) {
+            return NextResponse.json({ error: "Invalid authentication" }, { status: 401 });
+        };
+
         const users = await User.findById(authUser._id).select("-password");
 
         return NextResponse.json(users, { status: 200 });

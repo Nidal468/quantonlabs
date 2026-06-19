@@ -3,13 +3,14 @@
 import connectMongo from "@/db/mongoose";
 import { getUser } from "@/lib/hook/auth";
 import { UserDocument } from "@/model/user";
-import { Workspace } from "@/model/workspace";
+import { Workspace, WorkspaceDocument } from "@/model/workspace";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     await connectMongo();
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const { pathname } = new URL(req.url);
+    const id = pathname.split('/')[pathname.split('/').length - 1]
 
     const user = await getUser();
 
@@ -40,8 +41,8 @@ export async function GET(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
     await connectMongo();
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
+    const { pathname } = new URL(req.url);
+    const id = pathname.split('/')[pathname.split('/').length - 1]
 
     const user = await getUser();
 
@@ -52,16 +53,29 @@ export async function DELETE(req: NextRequest) {
         );
     }
 
-    const workspace = await Workspace.findOneAndDelete({
-        _id: id,
-        ownerId: user._id,
-    });
+    if (user.role === "admin") {
+        const workspace = await Workspace.findOneAndDelete({
+            _id: id
+        });
 
-    if (!workspace) {
-        return NextResponse.json(
-            { error: "Workspace not found" },
-            { status: 404 }
-        );
+        if (!workspace) {
+            return NextResponse.json(
+                { error: "Workspace not found" },
+                { status: 404 }
+            );
+        }
+    } else {
+        const workspace = await Workspace.findOneAndDelete({
+            _id: id,
+            ownerId: user._id,
+        });
+
+        if (!workspace) {
+            return NextResponse.json(
+                { error: "Workspace not found" },
+                { status: 404 }
+            );
+        }
     }
 
     return NextResponse.json({
@@ -72,8 +86,8 @@ export async function DELETE(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
     try {
         await connectMongo();
-        const { searchParams } = new URL(req.url);
-        const id = searchParams.get("id");
+        const { pathname } = new URL(req.url);
+        const id = pathname.split('/')[pathname.split('/').length - 1]
         const user: UserDocument | null = await getUser();
 
         if (!user) {
@@ -85,7 +99,7 @@ export async function PATCH(req: NextRequest) {
 
         const data = await req.json();
 
-        const workspace = await Workspace.findOne({
+        const workspace: WorkspaceDocument | null = await Workspace.findOne({
             _id: id,
             ownerId: user._id,
         });
@@ -111,6 +125,29 @@ export async function PATCH(req: NextRequest) {
                 ...workspace.config,
                 ...data.config,
             };
+        }
+
+        if (data.agents) {
+            const agentIndex = workspace.agents.findIndex(
+                (a) => a.id.toString() === data.agents.id.toString()
+            );
+
+            if (data.agents.status) {
+                // Add if not already present
+                if (agentIndex === -1) {
+                    workspace.agents.push({
+                        id: data.agents.id,
+                        status: true,
+                    });
+                } else {
+                    workspace.agents[agentIndex].status = true;
+                }
+            } else {
+                // Remove if present
+                if (agentIndex !== -1) {
+                    workspace.agents.splice(agentIndex, 1);
+                }
+            }
         }
 
         await workspace.save();

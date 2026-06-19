@@ -10,13 +10,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Trash2, Loader2, AlertCircle } from "lucide-react";
+import { Plus, Trash2, Loader2, AlertCircle, Eye } from "lucide-react";
 import { CreateWorkspaceDialog } from "./CreateWorkspaceDialog";
+import { WorkspaceDocument } from "@/model/workspace";
+import SelectedWorkspace from "./selectedWorkspace";
 
 export function WorkspacePage() {
   const { workspaces, isLoading, error, deleteWorkspace, isDeleting } = useWorkspace();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string>("");
 
   const handleDelete = async (id: string) => {
     setDeletingId(id);
@@ -85,7 +88,6 @@ export function WorkspacePage() {
               <TableHead>Plan</TableHead>
               <TableHead>Subscription</TableHead>
               <TableHead>Created</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -105,6 +107,7 @@ export function WorkspacePage() {
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
                     className="group border-t border-neutral-100 hover:bg-neutral-50/50"
+                    onClick={() => setSelectedWorkspaceId(workspace._id.toString())}
                   >
                     <TableCell className="font-medium text-neutral-900">
                       {workspace.name}
@@ -115,8 +118,8 @@ export function WorkspacePage() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge 
-                        variant="outline" 
+                      <Badge
+                        variant="outline"
                         className={`
                           ${workspace.subscriptionStatus === "active" ? "border-green-200 text-green-700 bg-green-50" : ""}
                           ${workspace.subscriptionStatus === "trialing" ? "border-blue-200 text-blue-700 bg-blue-50" : ""}
@@ -131,21 +134,6 @@ export function WorkspacePage() {
                     <TableCell className="text-neutral-500">
                       {formatDistanceToNow(new Date(workspace.createdAt), { addSuffix: true })}
                     </TableCell>
-                    <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        disabled={isDeleting}
-                        onClick={() => handleDelete(workspace._id.toString())}
-                        className="text-neutral-400 hover:text-red-600 hover:bg-red-50"
-                      >
-                        {isDeleting ? (
-                          <Loader2 size={16} className="animate-spin" />
-                        ) : (
-                          <Trash2 size={16} />
-                        )}
-                      </Button>
-                    </TableCell>
                   </motion.tr>
                 ))
               )}
@@ -153,6 +141,8 @@ export function WorkspacePage() {
           </TableBody>
         </Table>
       </div>
+
+      {selectedWorkspaceId && <SelectedWorkspace selectedWorkspaceId={selectedWorkspaceId} setSelectedWorkspaceId={setSelectedWorkspaceId} />}
     </div>
   );
 }

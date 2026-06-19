@@ -1,3 +1,4 @@
+
 import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -12,7 +13,6 @@ export const config: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -20,34 +20,51 @@ export const config: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-
       async authorize(credentials) {
         await connectMongo();
 
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and password required");
+          throw new Error("Email and password are required");
         }
 
-        const user = await User.findOne({
-          email: credentials.email.toLowerCase(),
-        });
+        const email = credentials.email.toLowerCase().trim();
+        const password = credentials.password;
+
+        let user = await User.findOne({ email });
 
         if (!user) {
-          throw new Error("User not found");
+          // Auto-create user for credential login
+          const hashedPassword = await bcrypt.hash(password, 12);
+          const username = email.split("@")[0];
+
+          try {
+            user = await User.create({
+              email,
+              password: hashedPassword,
+              username,
+              role: "user",
+              companies: [],
+            });
+          } catch (error) {
+            // Handle MongoDB duplicate key race conditions
+            if ((error as { code?: number }).code === 11000) {
+              throw new Error("Email already registered");
+            }
+            throw new Error("Failed to create account");
+          }
+        } else {
+          const isValid = await bcrypt.compare(password, user.password);
+          if (!isValid) {
+            throw new Error("Invalid email or password");
+          }
         }
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isValid) {
-          throw new Error("Wrong password");
-        }
-
+        // Return user in NextAuth expected format
         return {
           id: user._id.toString(),
           email: user.email,
+          name: user.username,
+          image: user.avatarUrl || null,
         };
       },
     }),
@@ -68,9 +85,10 @@ export const config: NextAuthOptions = {
               user.name ||
               user.email?.split("@")[0] ||
               `user_${Date.now()}`,
-
             email: user.email!.toLowerCase(),
-            avatarUrl: user.image || ""
+            avatarUrl: user.image || "",
+            role: "user",
+            companies: [],
           });
         }
 

@@ -6,6 +6,18 @@ export async function getWorkspaces() {
   return res.json();
 }
 
+export async function getWorkspaceTasks(id: string) {
+  const res = await fetch(`/api/workspace/task?id=${id}`);
+  if (!res.ok) throw new Error("Failed to fetch workspaces");
+  return res.json();
+}
+
+export async function getWorkspaceDatapages(id: string) {
+  const res = await fetch(`/api/workspace/datapage?id=${id}`);
+  if (!res.ok) throw new Error("Failed to fetch workspaces");
+  return res.json();
+}
+
 export async function createWorkspace(name: string) {
   const res = await fetch("/api/workspace", {
     method: "POST",
@@ -29,10 +41,14 @@ export async function updateWorkspace(id: string, data: any) {
 }
 
 export async function deleteWorkspace(id: string) {
-  const res = await fetch(`/api/workspace/${id}`, {
-    method: "DELETE",
-  });
+  try {
+    const res = await fetch(`/api/workspace/${id}`, {
+      method: "DELETE",
+    });
 
-  if (!res.ok) throw new Error("Failed to delete workspace");
-  return res.json();
+    if (!res.ok) throw new Error("Failed to delete workspace");
+    return res.json();
+  } catch (error) {
+    console.log(error)
+  }
 }

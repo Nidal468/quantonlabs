@@ -13,9 +13,13 @@ import {
   createWorkspace,
   updateWorkspace,
   deleteWorkspace,
+  getWorkspaceTasks,
+  getWorkspaceDatapages,
 } from "@/lib/api/workspace";
 
 import { WorkspaceDocument } from "@/model/workspace";
+import { ITask } from "@/model/task";
+import { DataPageDocument } from "@/model/datapage";
 
 export function useWorkspace() {
   const queryClient = useQueryClient();
@@ -28,6 +32,18 @@ export function useWorkspace() {
   } = useQuery<WorkspaceDocument[]>({
     queryKey: ["workspaces"],
     queryFn: getWorkspaces,
+  });
+
+  const useWorkspaceTasks = (id: string) => useQuery<ITask[]>({
+    queryKey: ["tasks", id],
+    queryFn: () => getWorkspaceTasks(id),
+    enabled: !!id,
+  });
+
+  const useWorkspaceDatapages = (id: string) => useQuery<DataPageDocument[]>({
+    queryKey: ["datapages", id],
+    queryFn: () => getWorkspaceDatapages(id),
+    enabled: !!id,
   });
 
   // CREATE
@@ -63,6 +79,8 @@ export function useWorkspace() {
     createWorkspace: create.mutateAsync,
     updateWorkspace: update.mutateAsync,
     deleteWorkspace: remove.mutateAsync,
+    useWorkspaceTasks,
+    useWorkspaceDatapages,
 
     isCreating: create.isPending,
     isUpdating: update.isPending,
