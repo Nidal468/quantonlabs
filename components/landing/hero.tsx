@@ -484,16 +484,29 @@ export function HeroSection() {
                 >
                   Quanton OS
                 </p>
-                <p
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: 700,
-                    color: "#1F2937",
-                    margin: 0,
-                  }}
-                >
-                  Sign in to your workspace
-                </p>
+                <div>
+                  <p
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: 700,
+                      color: "#1F2937",
+                      margin: 0,
+                    }}
+                  >
+                    Sign in to your workspace
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      color: "#6B7280",
+                      margin: "6px 0 0",
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Live product demo. Sign in or watch it run.
+                  </p>
+                </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   <label style={{ fontSize: "12px", fontWeight: 600, color: "#374151" }}>
                     Email
