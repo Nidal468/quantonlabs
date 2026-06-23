@@ -84,7 +84,7 @@ export default function AgentChatPanel({ agent, activeCompany , onClose}: AgentC
     }, [inputValue]);
 
     return (
-        <div className="flex flex-col h-full bg-white w-full border border-zinc-200 overflow-hidden shadow-sm">
+        <div className="flex flex-col h-full bg-linear-to-r from-purple-700 via-purple-500 to-sky-600 w-full border border-zinc-200 overflow-hidden shadow-sm">
             {/* Header */}
             <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-zinc-50 h-20">
                 <div className="flex items-center gap-3">

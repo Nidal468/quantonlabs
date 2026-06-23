@@ -3,6 +3,7 @@
 import UserProvider from "@/lib/context/user";
 import { UserDocument } from "@/model/user";
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 
 export default function RootLayout({ children }: { children: any }) {
     const [user, setUser] = useState<UserDocument | null>(null);
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: any }) {
     return (
         <div className="min-h-screen bg-white w-full">
             <UserProvider value={{ user }}>
+                <Toaster position="top-right" richColors />
                 {children}
             </UserProvider>
         </div>

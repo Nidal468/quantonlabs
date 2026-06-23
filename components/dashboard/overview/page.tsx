@@ -19,7 +19,7 @@ export default function OverviewPage({ activeCompany }: { activeCompany: Workspa
           value={activeCompany.agents.length.toString()}
           change="+12%"
           trend="up"
-          icon={<Bot className="text-neutral-600" />}
+          icon={<Bot className="text-neutral-600"/>}
         />
         <StatCard
           title="Team Members"

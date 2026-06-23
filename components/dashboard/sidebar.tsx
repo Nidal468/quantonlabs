@@ -15,12 +15,27 @@ import { Dispatch, SetStateAction } from "react";
 import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
 import { GrPowerForceShutdown } from "react-icons/gr";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { EllipsisVertical } from 'lucide-react';
+import { Menu } from 'lucide-react';
+import { User } from 'lucide-react';
+import { LogOut } from "lucide-react";
 
 interface SidebarProps {
-  activePage: string;
-  setPage: (page: "overview" | "agents" | "reports" | "company" | "billing" | "settings") => void;
+  activePage: "overview" | "agents" | "reports" | "company" | "billing" | "settings" | "profile";
+  setPage: (page: "overview" | "agents" | "reports" | "company" | "billing" | "settings" | "profile") => void;
   activeCompanyId: string;
-  setActiveCompanyId: Dispatch<SetStateAction<string>>
+  setActiveCompanyId: Dispatch<SetStateAction<string>>;
 }
 
 const navItems = [
@@ -69,32 +84,63 @@ export function Sidebar({ activePage, setPage, activeCompanyId, setActiveCompany
           );
         })}
       </nav>
-
-      <div className="mt-auto pt-6 border-t border-neutral-100">
-        <button
-          type="button"
-          onClick={() => setPage("settings")}
-          className={cn(
-            "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left",
-            activePage === "settings"
-              ? "bg-neutral-100 text-neutral-900"
-              : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"
-          )}
-        >
-          <Settings size={18} />
-          User Settings
-        </button>
-        <Button
-          type="button"
-          variant={'destructive'}
-          onClick={() => signOut()}
-          className="w-full"
-        >
-          <GrPowerForceShutdown size={18} />
-          Signout
-        </Button>
-      </div>
-      
+<div className="mt-auto">
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild className="w-full">
+      <Button
+        variant="ghost"
+        className="w-full justify-between px-3 py-3 h-14 "> 
+        <div className="flex items-center gap-2">
+        <Avatar className="w-8 h-8">
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col text-left">
+          <span className="text-sm font-medium">User Name</span>
+          <span className="text-xs text-gray-500">email@example.com</span>
+        </div>
+        </div>
+         <EllipsisVertical className="w-4 h-4 "/>
+      </Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent
+      align="center"
+      side="top"
+      sideOffset={8}
+      style={{ width: "var(--radix-dropdown-menu-trigger-width)" }}
+    >
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+<DropdownMenuGroup>
+  <DropdownMenuItem className="flex items-center gap-2" onClick={() => setPage("profile")}>
+    <User className="h-4 w-4" />
+    Profile
+    <DropdownMenuShortcut />
+  </DropdownMenuItem>
+  <DropdownMenuItem
+    className="flex items-center gap-2"
+    onClick={() => setPage("billing")}>
+    <CreditCard className="h-4 w-4" />
+    Billing
+    <DropdownMenuShortcut />
+  </DropdownMenuItem>
+  <DropdownMenuItem
+    className="flex items-center gap-2"
+    onClick={() => setPage("settings")}>
+    <Settings className="h-4 w-4" />
+    Settings
+    <DropdownMenuShortcut />
+  </DropdownMenuItem>
+</DropdownMenuGroup>
+<DropdownMenuSeparator />
+<DropdownMenuItem variant="destructive" className="flex items-center gap-2"
+  onClick={() => signOut()}>
+  <LogOut className="h-4 w-4"/>
+  Log out
+        <DropdownMenuShortcut></DropdownMenuShortcut>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</div>
     </aside>
   );
 }
