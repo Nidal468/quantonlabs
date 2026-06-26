@@ -61,6 +61,16 @@ export interface WorkspaceDocument extends Document {
     };
   };
 
+  keys: {
+    _id: string,
+    name: string,
+    prefix: string,
+    hash: string,
+    createdAt: Date,
+    lastUsedAt: Date,
+    revokedAt: Date,
+  }[];
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -188,6 +198,20 @@ const WorkspaceSchema = new Schema<WorkspaceDocument>(
     config: {
       type: ConfigSchema,
       default: () => ({}),
+    },
+    keys: {
+      type: [
+        {
+          name: { type: String, required: true },
+          prefix: { type: String, required: true },
+          hash: { type: String, required: true },
+          createdAt: { type: Date, default: Date.now },
+          lastUsedAt: { type: Date, default: null },
+          revokedAt: { type: Date, default: null },
+        },
+      ],
+      default: [],
+      _id: true
     },
   },
   {

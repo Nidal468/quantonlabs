@@ -15,6 +15,8 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useUser } from "@/lib/context/user";
+import { APIKeys } from "./api-keys/APIKeys";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
@@ -209,13 +211,12 @@ function IntegrationsSection({
     </Card>
   );
 }
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Main Page Component
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function SettingsPage({ activeCompany }: { activeCompany: WorkspaceDocument }) {
-  const { isLoading, updateWorkspace } = useWorkspace();
+  const { isLoading, updateWorkspace, generateKey, removeApiKey } = useWorkspace();
 
   return (
     <motion.div
@@ -232,6 +233,7 @@ export default function SettingsPage({ activeCompany }: { activeCompany: Workspa
       <div className="space-y-6">
         <PlanSection workspace={activeCompany} />
         <IntegrationsSection workspace={activeCompany} isLoading={isLoading} updateWorkspace={updateWorkspace} />
+        <APIKeys workspace={activeCompany} isLoading={isLoading} generateKey={generateKey} removeApiKey={removeApiKey} />
       </div>
 
       <div className="pt-4 border-t border-gray-100">

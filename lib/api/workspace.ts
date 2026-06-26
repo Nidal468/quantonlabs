@@ -23,6 +23,7 @@ export async function createWorkspace(name: string) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name }),
+    cache: "no-store"
   });
 
   if (!res.ok) throw new Error("Failed to create workspace");
@@ -33,6 +34,7 @@ export async function updateWorkspace(id: string, data: any) {
   const res = await fetch(`/api/workspace/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
+    cache: "no-store",
     body: JSON.stringify(data),
   });
 
@@ -44,6 +46,37 @@ export async function deleteWorkspace(id: string) {
   try {
     const res = await fetch(`/api/workspace/${id}`, {
       method: "DELETE",
+      cache: "no-store"
+    });
+
+    if (!res.ok) throw new Error("Failed to delete workspace");
+    return res.json();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function generateKeyWorkspace(id: string, name: string) {
+  try {
+    const res = await fetch(`/api/workspace/key/${id}`, {
+      method: "POST",
+      body: JSON.stringify({name}),
+      cache: "no-store"
+    });
+
+    if (!res.ok) throw new Error("Failed to delete workspace");
+    return res.json();
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function removekey(id: string, keyId: string) {
+  try {
+    const res = await fetch(`/api/workspace/key/${id}`, {
+      method: "DELETE",
+      body: JSON.stringify({keyId}),
+      cache: "no-store"
     });
 
     if (!res.ok) throw new Error("Failed to delete workspace");

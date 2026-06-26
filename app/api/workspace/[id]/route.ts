@@ -4,7 +4,6 @@ import connectMongo from "@/db/mongoose";
 import { getUser } from "@/lib/hook/auth";
 import { UserDocument } from "@/model/user";
 import { Workspace, WorkspaceDocument } from "@/model/workspace";
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

@@ -38,7 +38,7 @@ export default function Dashboard() {
     const activeCompany = workspaces.find((e) => e._id.toString() === activeCompanyId);
 
     return (
-        <div className="flex h-screen bg-neutral-50/50 font-sans text-neutral-900">
+        <div className="flex h-screen font-sans text-neutral-900">
             <Sidebar setPage={setSelectedPage} activePage={selectedPage} setActiveCompanyId={setActiveCompanyId} activeCompanyId={activeCompanyId} />
             <div className="flex-1 flex flex-col overflow-hidden">
                 <Header activeCompanyId={activeCompanyId} selectedPage={selectedPage} setActiveCompanyId={setActiveCompanyId} setSelectedPage={setSelectedPage} />

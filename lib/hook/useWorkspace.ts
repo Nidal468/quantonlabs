@@ -15,6 +15,8 @@ import {
   deleteWorkspace,
   getWorkspaceTasks,
   getWorkspaceDatapages,
+  generateKeyWorkspace,
+  removekey,
 } from "@/lib/api/workspace";
 
 import { WorkspaceDocument } from "@/model/workspace";
@@ -71,6 +73,20 @@ export function useWorkspace() {
     },
   });
 
+  const generateApiKey = useMutation({
+    mutationFn: ({ id, name }: { id: string, name: string }) => generateKeyWorkspace(id, name),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+    },
+  })
+
+  const removeApiKey = useMutation({
+    mutationFn: ({ id, keyId }: { id: string, keyId: string }) => removekey(id, keyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+    },
+  })
+
   return {
     workspaces,
     isLoading,
@@ -79,9 +95,10 @@ export function useWorkspace() {
     createWorkspace: create.mutateAsync,
     updateWorkspace: update.mutateAsync,
     deleteWorkspace: remove.mutateAsync,
+    generateKey: generateApiKey.mutateAsync,
+    removeApiKey: removeApiKey.mutateAsync,
     useWorkspaceTasks,
     useWorkspaceDatapages,
-
     isCreating: create.isPending,
     isUpdating: update.isPending,
     isDeleting: remove.isPending,
