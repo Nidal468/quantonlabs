@@ -118,7 +118,7 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
             placeholder="Search agents..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 bg-white border-neutral-200 focus-visible:ring-neutral-900"
+            className="pl-9 bg-white border-neutral-200"
           />
         </div>
       </div>

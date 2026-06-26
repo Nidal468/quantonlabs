@@ -38,7 +38,7 @@ export function CompanySwitcher({ activeCompanyId, setActiveCompanyId }: Props) 
     <div className="px-2">
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="w-full justify-between h-auto py-3 px-3 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200 rounded-lg shadow-sm">
+          <Button variant="ghost" className="w-full justify-between h-auto py-3 px-2 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200  shadow-sm">
             <div className="flex items-center gap-3 overflow-hidden">
               <div className="w-8 h-8 bg-black text-white rounded-md flex items-center justify-center shrink-0">
                 <Building2 size={16} />

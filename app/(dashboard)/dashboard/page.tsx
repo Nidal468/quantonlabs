@@ -7,12 +7,14 @@ import OverviewPage from "@/components/dashboard/overview/page"
 import ReportsPage from "@/components/dashboard/reports/page"
 import SettingsPage from "@/components/dashboard/settings/page"
 import { Sidebar } from "@/components/dashboard/sidebar"
+import ProfilePage from "@/components/dashboard/profile/page"
 import { useWorkspace } from "@/lib/hook/useWorkspace"
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
 export default function Dashboard() {
-    const [selectedPage, setSelectedPage] = useState<"overview" | "agents" | "reports" | "company" | "billing" | "settings">("overview");
+const [selectedPage, setSelectedPage] = useState<
+  "overview" | "agents" | "reports" | "company" | "billing" | "settings" | "profile">("overview");
     const [activeCompanyId, setActiveCompanyId] = useState<string>('');
     
     const {
@@ -55,6 +57,7 @@ export default function Dashboard() {
                         {selectedPage === "company" && <CompanyPage activeCompany={activeCompany} />}
                         {selectedPage === "reports" && <ReportsPage />}
                         {selectedPage === "settings" && <SettingsPage activeCompany={activeCompany} />}
+                        {selectedPage === "profile" && <ProfilePage />}
                     </motion.div>
                 </main>}
             </div>
