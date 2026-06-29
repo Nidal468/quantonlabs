@@ -10,7 +10,7 @@ import HealthWellness from "@/components/landing-page/health&wellness";
 import ProfessionalServices from "@/components/landing-page/professionalservices";
 import HeroBackground from "@/app/HeroBackground";
 import Link from "next/link";
-import { Menu, X, ArrowUpRight, Layers, ShieldAlert, LineChart } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 
 const tabs = [
@@ -218,96 +218,12 @@ export default function Home() {
               </div>
             </div>
 
-            {/* THE GOVERNING AGENT SECTION */}
-            <div className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
-              <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-40 py-16 md:py-24">
-                
-                {/* Top Metadata */}
-                <div className="text-[10px] uppercase font-mono text-zinc-400 tracking-[0.2em] mb-6 flex items-center gap-4">
-                  <span>[04]</span>
-                  <div className="h-[1px] w-12 bg-zinc-300 dark:bg-zinc-700" />
-                  <span>GOVERNANCE // SYSTEM LAYER</span>
-                </div>
-
-                {/* Section Headers Split Layout */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-20">
-                  <div className="lg:col-span-7">
-                    <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-                      The Governing Agent.
-                    </h2>
-                    <p className="text-base text-zinc-600 dark:text-zinc-400 mt-3 font-medium">
-                      Without coordination, eight agents are just eight automations.
-                    </p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2 max-w-xl">
-                      The Governing Agent is the structural layer that makes Quanton OS a system rather than a collection of tools. It receives data and exception flags from every functional agent, decides within its configured boundary, directs agents to act, and escalates what requires human judgment. Every function in your business visible, coordinated, and governed from one view.
-                    </p>
-                  </div>
-                  <div className="lg:col-span-5 lg:text-right text-xs uppercase font-mono text-zinc-400 dark:text-zinc-500 tracking-wider leading-relaxed pt-2">
-                    // ONE SYSTEM. ONE STATE. COMPOSABLE, MODULAR, DEPLOYED IN WEEKS NOT QUARTERS.
-                  </div>
-                </div>
-
-                {/* Grid Content Column Section */}
-                <div className="grid grid-cols-1 md:grid-cols-3 border-t border-zinc-200 dark:border-zinc-800 pt-8">
-                  
-                  {/* Column 1: Coordination */}
-                  <div className="md:pr-8 py-6 md:py-0">
-                    <div className="flex items-center justify-between mb-6 font-mono text-[10px] tracking-widest text-zinc-400 dark:text-zinc-500">
-                      <span>GOV_01 / CRD</span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-emerald-500" />
-                        <span className="text-zinc-900 dark:text-zinc-300">READY</span>
-                      </div>
-                    </div>
-                    <div className="w-10 h-10 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center mb-6 rounded text-zinc-700 dark:text-zinc-300">
-                      <Layers size={18} strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-zinc-900 dark:text-white font-semibold text-lg mb-2">Coordination</h3>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                      All seven agents operate from a unified shared state. Cross-functional conflicts detected and resolved automatically.
-                    </p>
-                  </div>
-
-                  {/* Column 2: Decision */}
-                  <div className="md:px-8 py-6 md:py-0 border-t md:border-t-0 md:border-x border-zinc-200 dark:border-zinc-800">
-                    <div className="flex items-center justify-between mb-6 font-mono text-[10px] tracking-widest text-zinc-400 dark:text-zinc-500">
-                      <span>GOV_02 / DSC</span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-emerald-500" />
-                        <span className="text-zinc-900 dark:text-zinc-300">READY</span>
-                      </div>
-                    </div>
-                    <div className="w-10 h-10 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center mb-6 rounded text-zinc-700 dark:text-zinc-300">
-                      <ShieldAlert size={18} strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-zinc-900 dark:text-white font-semibold text-lg mb-2">Decision</h3>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                      Operates within its configured boundary without requiring human input on every action. Escalates what exceeds the boundary with full context.
-                    </p>
-                  </div>
-
-                  {/* Column 3: Intelligence */}
-                  <div className="md:pl-8 py-6 md:py-0 border-t md:border-t-0 border-zinc-200 dark:border-zinc-800">
-                    <div className="flex items-center justify-between mb-6 font-mono text-[10px] tracking-widest text-zinc-400 dark:text-zinc-500">
-                      <span>GOV_03 / INT</span>
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-1 h-1 rounded-full bg-emerald-500" />
-                        <span className="text-zinc-900 dark:text-zinc-300">READY</span>
-                      </div>
-                    </div>
-                    <div className="w-10 h-10 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center mb-6 rounded text-zinc-700 dark:text-zinc-300">
-                      <LineChart size={18} strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-zinc-900 dark:text-white font-semibold text-lg mb-2">Intelligence</h3>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                      Every agent action, exception, and resolution synthesised into the leadership dashboard in real time.
-                    </p>
-                  </div>
-
-                </div>
-              </div>
+            {/* CONTENT SECTION */}
+            <div className="flex border-t justify-center">
+            <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-40 py-8 ">
+              <h1>agent</h1>
             </div>
-
+            </div>
           </div>
         )}
 
