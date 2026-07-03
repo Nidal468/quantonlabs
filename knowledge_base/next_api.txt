@@ -1,0 +1,457 @@
+# Next.js API Route Standards (App Router)
+
+These are the REQUIRED standards for generating API routes in this project.
+
+==================================================
+FRAMEWORK
+==================================================
+
+Framework:
+- Next.js App Router
+
+Always use Route Handlers.
+
+Example
+
+app/api/customers/route.ts
+app/api/customers/[id]/route.ts
+
+Never use the old Pages Router API.
+
+==================================================
+SUPPORTED METHODS
+==================================================
+
+Generate only the methods required:
+
+GET
+POST
+PATCH
+DELETE
+
+==================================================
+DATABASE
+==================================================
+
+Every route MUST connect to MongoDB before accessing models.
+
+Always call:
+
+await connectMongo();
+
+at the beginning of every request handler.
+
+==================================================
+AUTHENTICATION
+==================================================
+
+Protected routes must always authenticate first.
+
+Pattern:
+
+const user: ICustomer | null = await getUser();
+
+if (!user) {
+    return NextResponse.json(
+        { error: "Invalid authentication" },
+        { status: 401 }
+    );
+}
+
+Authentication must happen BEFORE any database query.
+
+==================================================
+IMPORT ORDER
+==================================================
+
+Use this order.
+
+1. Database connection
+2. Authentication helpers
+3. Models
+4. Types
+5. Next.js imports
+6. Side-effect model imports (if needed)
+
+Example
+
+import connectMongo from "@/db/mongoose";
+import { getUser } from "@/lib/hooks/auth";
+import { CustomerModel } from "@/model/customer";
+import { NextRequest, NextResponse } from "next/server";
+
+==================================================
+ROUTE STRUCTURE
+==================================================
+
+Each handler should follow this order.
+
+1. connectMongo()
+2. authenticate user
+3. parse request
+4. validate data
+5. perform database action
+6. return JSON response
+7. catch errors
+
+==================================================
+GET (Collection)
+==================================================
+
+Typical flow
+
+await connectMongo();
+
+Authenticate.
+
+Query documents.
+
+Use
+
+.find()
+
+Use
+
+lean()
+
+Populate references when necessary.
+
+Return JSON.
+
+==================================================
+GET (Single Document)
+==================================================
+
+Extract id from URL.
+
+Example
+
+const { pathname } = new URL(req.url);
+
+const id =
+pathname.split("/").at(-1);
+
+Query
+
+findById(id)
+
+Return
+
+404
+
+when missing.
+
+==================================================
+POST
+==================================================
+
+Read
+
+await req.json()
+
+Validate required fields.
+
+Return
+
+400
+
+if validation fails.
+
+Create document using
+
+Model.create()
+
+Return
+
+201
+
+when created successfully.
+
+==================================================
+PATCH
+==================================================
+
+Load document first.
+
+const document =
+await Model.findById(id);
+
+If not found
+
+404
+
+Update only fields that exist in the request.
+
+Never blindly overwrite the document.
+
+Example
+
+if (typeof data.name === "string") {
+    document.name = data.name.trim();
+}
+
+Save using
+
+await document.save();
+
+Return updated document.
+
+==================================================
+DELETE
+==================================================
+
+Find document first.
+
+Return
+
+404
+
+if it doesn't exist.
+
+Delete using
+
+findByIdAndDelete()
+
+Return
+
+{
+    "message": "Deleted successfully"
+}
+
+==================================================
+ERROR HANDLING
+==================================================
+
+Wrap database operations inside
+
+try / catch
+
+Example
+
+try {
+
+}
+catch (error) {
+
+    console.error(error);
+
+    return NextResponse.json(
+        {
+            error: "Internal server error"
+        },
+        {
+            status: 500
+        }
+    );
+}
+
+Never expose stack traces.
+
+==================================================
+STATUS CODES
+==================================================
+
+200
+
+Successful GET
+
+201
+
+Created successfully
+
+400
+
+Bad request
+
+401
+
+Authentication failed
+
+403
+
+Forbidden
+
+404
+
+Resource not found
+
+409
+
+Conflict
+
+422
+
+Validation failed
+
+500
+
+Internal server error
+
+==================================================
+JSON RESPONSES
+==================================================
+
+Always use
+
+NextResponse.json()
+
+Never manually stringify JSON.
+
+==================================================
+VALIDATION
+==================================================
+
+Always validate required fields.
+
+Reject invalid requests before writing to MongoDB.
+
+Trim string fields where appropriate.
+
+==================================================
+POPULATE
+==================================================
+
+Populate references only when useful.
+
+Example
+
+.populate({
+    path: "customerId",
+    select: "name email"
+})
+
+Only select required fields.
+
+Avoid returning entire referenced documents.
+
+==================================================
+LEAN
+==================================================
+
+Use
+
+lean()
+
+for read-only queries.
+
+Example
+
+Model.find().lean()
+
+Model.findById(id).lean()
+
+Do NOT use lean() when you intend to modify and save a document.
+
+==================================================
+UPDATES
+==================================================
+
+Preferred pattern
+
+Load document
+
+↓
+
+Modify specific fields
+
+↓
+
+document.save()
+
+Instead of blindly calling
+
+findByIdAndUpdate()
+
+unless specifically requested.
+
+==================================================
+LOGGING
+==================================================
+
+Only log unexpected errors.
+
+console.error(error)
+
+Never log sensitive data.
+
+==================================================
+CODE STYLE
+==================================================
+
+Use async/await.
+
+Never use .then() chains.
+
+Use descriptive variable names.
+
+Keep handlers small.
+
+Return early whenever possible.
+
+==================================================
+PROJECT STRUCTURE
+==================================================
+
+app/
+    api/
+        customers/
+            route.ts
+            [id]/
+                route.ts
+
+        inventory/
+            route.ts
+            [id]/
+                route.ts
+
+        manufacturing/
+            route.ts
+            [id]/
+                route.ts
+
+==================================================
+GENERAL RULES
+==================================================
+
+✓ Always connect to MongoDB first.
+
+✓ Authenticate before database queries.
+
+✓ Validate all input.
+
+✓ Return proper HTTP status codes.
+
+✓ Use try/catch.
+
+✓ Return JSON only.
+
+✓ Use lean() for read operations.
+
+✓ Populate only required fields.
+
+✓ Never overwrite documents blindly.
+
+✓ Use document.save() after updating fields.
+
+✓ Return consistent error messages.
+
+==================================================
+FINAL RULE
+==================================================
+
+Every generated API route should match the existing project's coding style and architecture.
+
+The AI should always:
+
+- Use Next.js App Router Route Handlers
+- Use TypeScript
+- Use async/await
+- Call connectMongo()
+- Authenticate with getUser()
+- Validate inputs
+- Use Mongoose models
+- Handle errors with try/catch
+- Return NextResponse.json()
+- Use proper HTTP status codes
+- Follow clean, readable, and maintainable code patterns
+- Match the formatting, naming conventions, and structure used throughout the existing codebase

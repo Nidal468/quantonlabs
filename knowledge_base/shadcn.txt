@@ -1,0 +1,522 @@
+# Agent Development Guide
+Project UI Framework: shadcn/ui
+
+## Objective
+
+This project MUST use shadcn/ui as the primary UI component library.
+
+Do NOT create custom implementations of components that already exist in shadcn unless absolutely necessary.
+
+Always prefer composition over custom code.
+
+---
+
+# Available Components
+
+These are the ONLY approved UI components unless a feature genuinely requires something custom.
+
+- Accordion
+- Alert
+- Alert Dialog
+- Aspect Ratio
+- Attachment
+- Avatar
+- Badge
+- Breadcrumb
+- Bubble
+- Button
+- Button Group
+- Calendar
+- Card
+- Carousel
+- Chart
+- Checkbox
+- Collapsible
+- Combobox
+- Command
+- Context Menu
+- Data Table
+- Date Picker
+- Dialog
+- Direction
+- Drawer
+- Dropdown Menu
+- Empty
+- Field
+- Hover Card
+- Input
+- Input Group
+- Input OTP
+- Item
+- Kbd
+- Label
+- Marker
+- Menubar
+- Message
+- Message Scroller
+- Native Select
+- Navigation Menu
+- Pagination
+- Popover
+- Progress
+- Radio Group
+- Resizable
+- Scroll Area
+- Select
+- Separator
+- Sheet
+- Sidebar
+- Skeleton
+- Slider
+- Sonner
+- Spinner
+- Switch
+- Table
+- Tabs
+- Textarea
+- Toast
+- Toggle
+- Toggle Group
+- Tooltip
+- Typography
+
+---
+
+# Component Usage Rules
+
+## Buttons
+
+Always use:
+
+- Button
+- Button Group
+
+Never create custom button styling when Button variants already exist.
+
+---
+
+## Forms
+
+Always use:
+
+- Field
+- Label
+- Input
+- Textarea
+- Select
+- Checkbox
+- Radio Group
+- Switch
+- Native Select
+- Input Group
+- Date Picker
+- Calendar
+
+Every form must include:
+
+- labels
+- validation
+- loading state
+- disabled state
+- error state
+- success feedback
+
+---
+
+## Dialogs
+
+Use:
+
+- Dialog
+- Alert Dialog
+- Drawer
+- Sheet
+
+Examples:
+
+Confirmation
+
+Delete
+
+Edit
+
+Settings
+
+Invite User
+
+Create Customer
+
+Never build modal windows manually.
+
+---
+
+## Navigation
+
+Use:
+
+- Sidebar
+- Navigation Menu
+- Breadcrumb
+- Menubar
+
+Admin dashboard must use Sidebar.
+
+Customer dashboard must also use Sidebar.
+
+---
+
+## Data Display
+
+Use:
+
+- Card
+- Table
+- Data Table
+- Badge
+- Avatar
+- Separator
+- Typography
+- Chart
+- Empty
+- Skeleton
+
+Never use plain HTML tables.
+
+Always use Data Table whenever sorting/filtering/searching/pagination is required.
+
+---
+
+## User Feedback
+
+Use:
+
+- Sonner
+- Toast
+- Alert
+- Spinner
+- Progress
+- Skeleton
+
+Never use browser alerts.
+
+Never use window.confirm.
+
+Never use prompt().
+
+---
+
+## Menus
+
+Use:
+
+- Dropdown Menu
+- Context Menu
+- Command
+- Combobox
+
+Search dialogs should use Command.
+
+Large searchable lists should use Combobox.
+
+---
+
+## Layout
+
+Use:
+
+- Resizable
+- Scroll Area
+- Aspect Ratio
+- Tabs
+- Accordion
+- Collapsible
+- Carousel
+
+Avoid unnecessary nested divs.
+
+---
+
+## Interactive Components
+
+Use:
+
+- Tooltip
+- Hover Card
+- Popover
+- Toggle
+- Toggle Group
+- Pagination
+- Slider
+
+---
+
+## AI Features
+
+Use:
+
+- Bubble
+- Message
+- Message Scroller
+- Attachment
+
+Chat UI must always use these components instead of custom chat implementations.
+
+---
+
+# Design Rules
+
+Maintain a premium SaaS appearance.
+
+Requirements:
+
+- modern
+- clean
+- minimal
+- spacious
+- enterprise quality
+- production ready
+
+Avoid:
+
+- oversized shadows
+- excessive gradients
+- flashy animations
+- bright random colors
+- inconsistent spacing
+
+---
+
+# Dark Mode
+
+Dark mode only.
+
+Do NOT implement light mode.
+
+All new components must support dark theme correctly.
+
+---
+
+# Responsive Design
+
+Desktop first.
+
+Then tablet.
+
+Then mobile.
+
+No horizontal scrolling unless intentionally required.
+
+---
+
+# Accessibility
+
+Every interactive element must include:
+
+- keyboard support
+- focus states
+- aria labels where appropriate
+- semantic HTML
+
+---
+
+# Icons
+
+Use Lucide React icons.
+
+Do not mix icon libraries.
+
+---
+
+# Typography
+
+Use shadcn Typography components whenever possible.
+
+Maintain consistent heading hierarchy.
+
+Never hardcode inconsistent font sizes.
+
+---
+
+# Animations
+
+Keep animations subtle.
+
+Prefer:
+
+- fade
+- slide
+- scale
+
+Avoid excessive animation durations.
+
+---
+
+# Spacing
+
+Use a consistent spacing system.
+
+Never randomly assign padding or margins.
+
+Maintain visual rhythm across the application.
+
+---
+
+# Cards
+
+All dashboard sections should be built using Cards.
+
+Examples:
+
+- Statistics
+- AI Insights
+- Solar Production
+- Battery Status
+- Device Health
+- Energy Consumption
+- Weather
+- Notifications
+
+---
+
+# Tables
+
+Always use Data Table.
+
+Support:
+
+- sorting
+- filtering
+- searching
+- pagination
+- row selection
+- responsive layout
+
+---
+
+# Empty States
+
+Every page must gracefully handle:
+
+- no devices
+- no customers
+- no messages
+- no notifications
+- no AI history
+- loading
+- errors
+
+Use Empty component.
+
+---
+
+# Loading States
+
+Never leave blank pages.
+
+Always use:
+
+- Skeleton
+- Spinner
+- Progress
+
+---
+
+# Notifications
+
+Use Sonner or Toast.
+
+Examples:
+
+Customer created
+
+Invite sent
+
+Settings saved
+
+Device synced
+
+AI completed
+
+Export finished
+
+Error occurred
+
+---
+
+# AI Chat
+
+The AI interface should feel similar to modern AI assistants.
+
+Features:
+
+- streaming responses
+- markdown rendering
+- code blocks
+- tables
+- charts
+- file attachments
+- conversation history
+- copy message
+- regenerate
+- stop generation
+- thinking indicator
+- typing animation
+- citations (when applicable)
+
+Use Message, Bubble, Attachment, and Message Scroller components.
+
+---
+
+# Dashboard Standards
+
+Every dashboard page should include:
+
+- title
+- description
+- breadcrumbs
+- actions
+- responsive cards
+- searchable content
+- loading state
+- empty state
+- error handling
+
+---
+
+# Code Quality
+
+Always:
+
+- reuse components
+- avoid duplicated UI
+- keep components small
+- prefer composition
+- use TypeScript strictly
+- avoid any
+- keep files organized
+
+---
+
+# Before Creating Any UI
+
+Ask:
+
+1. Does shadcn already have a component for this?
+
+If yes:
+
+Use it.
+
+If no:
+
+Compose existing shadcn components first.
+
+Only create a custom component when absolutely necessary.
+
+---
+
+# Golden Rule
+
+If a shadcn component exists for a feature, ALWAYS use it instead of building your own implementation.
+
+The UI should feel indistinguishable from a polished, enterprise-grade SaaS application that could be shipped to production immediately.

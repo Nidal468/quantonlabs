@@ -1,0 +1,291 @@
+# AI Agent Allowed Technologies & Libraries
+
+The following technologies and libraries are APPROVED for use in this project.
+
+==================================================
+CORE STACK
+==================================================
+
+Framework
+- Next.js (App Router)
+- React
+- TypeScript
+
+Styling
+- Tailwind CSS
+- shadcn/ui
+- Radix UI
+- class-variance-authority (CVA)
+- clsx
+- tailwind-merge
+
+==================================================
+DATABASE
+==================================================
+
+ONLY USE:
+
+- MongoDB
+
+MongoDB Packages
+- mongodb
+- mongoose
+
+DO NOT use:
+- PostgreSQL
+- MySQL
+- MariaDB
+- SQLite
+- Prisma
+- Drizzle
+- Supabase Database
+- Firebase Firestore
+- PlanetScale
+- Neon
+- Turso
+- Any SQL database
+
+MongoDB is the ONLY database allowed.
+
+==================================================
+AUTHENTICATION
+==================================================
+
+Allowed
+- Better Auth
+- NextAuth/Auth.js
+- JWT
+- bcrypt
+- jose
+
+==================================================
+ANIMATIONS
+==================================================
+
+Allowed
+- Framer Motion
+
+==================================================
+ICONS
+==================================================
+
+Allowed
+- Lucide React
+- React Icons
+
+==================================================
+DATES & TIME
+==================================================
+
+Allowed
+- date-fns
+
+==================================================
+FORMS
+==================================================
+
+Allowed
+- React Hook Form
+- Zod
+- @hookform/resolvers
+
+==================================================
+STATE MANAGEMENT
+==================================================
+
+Allowed
+- React Context
+- Zustand
+
+==================================================
+API & DATA FETCHING
+==================================================
+
+Allowed
+- Native fetch()
+- TanStack Query (React Query)
+- Axios
+
+==================================================
+VALIDATION
+==================================================
+
+Allowed
+- Zod
+
+==================================================
+CHARTS
+==================================================
+
+Allowed
+- Recharts
+
+==================================================
+TABLES
+==================================================
+
+Allowed
+- TanStack Table
+
+==================================================
+FILE HANDLING
+==================================================
+
+Allowed
+- react-dropzone
+- uploadthing
+- sharp
+
+==================================================
+UTILITIES
+==================================================
+
+Allowed
+- nanoid
+- uuid
+- lodash-es
+- clsx
+- tailwind-merge
+
+==================================================
+EMAIL
+==================================================
+
+Allowed
+- Nodemailer
+- Resend
+
+==================================================
+AI
+==================================================
+
+Allowed
+- OpenAI SDK
+- AI SDK (Vercel)
+- LangChain
+- LM Studio OpenAI Compatible API
+
+==================================================
+REALTIME
+==================================================
+
+Allowed
+- Socket.io
+- Server Sent Events (SSE)
+
+==================================================
+THEME
+==================================================
+
+Allowed
+- next-themes
+
+==================================================
+PDF & EXPORTS
+==================================================
+
+Allowed
+- jspdf
+- html2canvas
+- xlsx
+
+==================================================
+IMAGE PROCESSING
+==================================================
+
+Allowed
+- sharp
+
+==================================================
+CODE QUALITY
+==================================================
+
+Allowed
+- ESLint
+- Prettier
+
+==================================================
+NEXT.JS FEATURES
+==================================================
+
+The AI should fully utilize modern Next.js features:
+
+- App Router
+- Route Handlers
+- Server Components
+- Client Components
+- Server Actions
+- Dynamic Routes
+- Middleware
+- Metadata API
+- Streaming
+- Suspense
+- Error Boundaries
+- Loading UI
+
+==================================================
+GENERAL RULES
+==================================================
+
+- Prefer Server Components whenever possible.
+- Only use Client Components when interactivity is required.
+- Keep components reusable.
+- Write fully typed TypeScript.
+- Follow modern React best practices.
+- Keep code modular and scalable.
+- Avoid unnecessary dependencies.
+- Optimize for performance.
+- Lazy load heavy components.
+- Use image optimization.
+- Keep bundle size small.
+- Follow accessibility (ARIA) best practices.
+
+==================================================
+STRICTLY NOT ALLOWED
+==================================================
+
+Do NOT introduce:
+
+- Prisma
+- Drizzle ORM
+- PostgreSQL
+- MySQL
+- SQLite
+- Firebase Database
+- Firestore
+- Supabase Database
+- PlanetScale
+- Neon
+- Turso
+- Any SQL database
+- Any ORM that replaces MongoDB
+- Deprecated React libraries
+- Outdated Next.js APIs
+
+==================================================
+FINAL RULE
+==================================================
+
+Unless explicitly instructed otherwise, the AI should assume this technology stack:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- MongoDB
+- Mongoose
+- Framer Motion
+- Lucide React
+- React Icons
+- React Hook Form
+- Zod
+- Zustand
+- TanStack Query
+- TanStack Table
+- Recharts
+- date-fns
+- bcrypt
+- Better Auth (or NextAuth if requested)
+
+No other database may be used under any circumstance.

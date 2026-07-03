@@ -1,0 +1,384 @@
+# NextAuth.js Authentication Instructions
+
+These instructions define how authentication MUST be implemented throughout this project.
+
+---
+
+## Authentication Library
+
+Use:
+
+- NextAuth.js
+- JWT Session Strategy
+- MongoDB
+- Google OAuth Provider
+- Credentials Provider
+
+Do NOT replace NextAuth with any other authentication solution.
+
+---
+
+## Existing Authentication Structure
+
+The project already contains the authentication architecture.
+
+Important files:
+
+auth.ts
+/app/api/auth/[...nextauth]/auth-options.ts
+/app/api/auth/[...nextauth]/route.ts
+/app/api/auth/[...nextauth]/auth-provider.tsx
+/proxy.ts
+
+The AI agent must build on top of this structure instead of replacing it.
+
+---
+
+## Never Modify
+
+Do not rename or remove:
+
+auth.ts
+
+Do not change:
+
+NextAuth route
+SessionProvider
+JWT callbacks
+middleware architecture
+
+Only extend them when absolutely necessary.
+
+---
+
+## Session
+
+Authentication uses JWT sessions.
+
+Always retrieve the logged in user using:
+
+Server Components
+
+const session = await auth()
+
+API Routes
+
+const session = await auth()
+
+Client Components
+
+useSession()
+
+Never manually decode JWTs.
+
+Never manually read cookies.
+
+Never implement a separate auth system.
+
+---
+
+## Providers
+
+The application supports:
+
+- Google Login
+- Credentials Login
+
+Do not remove either provider.
+
+Future providers should simply be added to NextAuth.
+
+---
+
+## Google Authentication
+
+Google authentication should:
+
+1. Authenticate using Google OAuth
+
+2. Check MongoDB for an existing customer
+
+communication.email
+
+3. If the customer does not exist:
+
+Create a new customer automatically.
+
+4. Store:
+
+id
+email
+
+inside the JWT/session.
+
+Never create duplicate customers.
+
+Always use email as the unique identifier.
+
+---
+
+## Credentials Authentication
+
+Credentials authentication should:
+
+Accept:
+
+email
+
+Look up:
+
+communication.email
+
+inside MongoDB.
+
+If found:
+
+Return
+
+id
+email
+
+If not found:
+
+Return null.
+
+Never bypass this lookup.
+
+---
+
+## MongoDB User Source
+
+The Customer collection is the source of truth.
+
+Never authenticate users outside MongoDB.
+
+Always retrieve users from:
+
+CustomerModel
+
+Never create custom user tables.
+
+---
+
+## User Object
+
+Authenticated sessions should expose:
+
+session.user.id
+
+session.user.email
+
+The AI agent should always rely on these values.
+
+Do not assume additional fields exist.
+
+If additional session fields are needed, extend the JWT and Session callbacks properly.
+
+---
+
+## Protected Pages
+
+Protected pages include:
+
+/
+/dashboard
+/admin
+
+The middleware is responsible for protection.
+
+Do not recreate authentication guards inside pages.
+
+Instead:
+
+Use middleware
+Use auth()
+Use useSession()
+
+---
+
+## Middleware
+
+Authentication middleware already exists.
+
+Do not replace it.
+
+If new protected routes are added:
+
+Extend the allowed routes list.
+
+Do not create duplicate middleware files.
+
+---
+
+## Redirects
+
+After successful authentication:
+
+Redirect users to
+
+/dashboard
+
+Do not redirect elsewhere unless specifically requested.
+
+---
+
+## Sign In Page
+
+The application uses a custom sign in page.
+
+Always use:
+
+/auth/signin
+
+Never use NextAuth's default sign in page.
+
+Any login buttons should use:
+
+signIn("google")
+
+or
+
+signIn("credentials")
+
+through NextAuth.
+
+---
+
+## Sign Out
+
+Always sign out using:
+
+signOut()
+
+Never manually delete cookies.
+
+Never manually clear local storage.
+
+Never invalidate JWTs manually.
+
+---
+
+## API Routes
+
+When an API requires authentication:
+
+Always call:
+
+const session = await auth();
+
+If no session exists:
+
+Return:
+
+401 Unauthorized
+
+Never trust client supplied user IDs.
+
+Always obtain the authenticated user's ID from the session.
+
+---
+
+## Server Components
+
+Whenever user information is required:
+
+Use:
+
+const session = await auth();
+
+Never use useSession() inside Server Components.
+
+---
+
+## Client Components
+
+Use:
+
+useSession()
+
+for:
+
+Showing user information
+Conditional rendering
+Login state
+Logout button
+
+Never fetch session data manually.
+
+---
+
+## Authorization
+
+Authentication identifies the user.
+
+Authorization determines what they can access.
+
+Whenever role-based access is introduced:
+
+Store roles in MongoDB.
+
+Expose roles through JWT/session callbacks.
+
+Never hardcode permissions inside components.
+
+---
+
+## Database Access
+
+Whenever user-specific data is queried:
+
+Use:
+
+session.user.id
+
+or
+
+session.user.email
+
+Never accept user IDs directly from the browser for authorization.
+
+---
+
+## Environment Variables
+
+Authentication depends on:
+
+NEXTAUTH_SECRET
+
+NEXTAUTH_URL
+
+GOOGLE_CLIENT_ID
+
+GOOGLE_CLIENT_SECRET
+
+Never hardcode credentials.
+
+Always read them from environment variables.
+
+---
+
+## Best Practices
+
+Always use auth() in server-side code.
+
+Always use useSession() in client-side code.
+
+Always use signIn() and signOut().
+
+Always use middleware for route protection.
+
+Always retrieve authenticated users from MongoDB.
+
+Always use CustomerModel as the canonical user record.
+
+Never duplicate authentication logic.
+
+Never manually parse JWTs.
+
+Never manually manage authentication cookies.
+
+Never replace NextAuth.js with a custom authentication system.
+
+Never bypass middleware for protected routes.
+
+Always extend the existing authentication architecture rather than replacing it.

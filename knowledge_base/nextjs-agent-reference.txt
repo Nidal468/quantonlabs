@@ -1,0 +1,332 @@
+# Next.js Agent Reference (v16+ App Router)
+# Generated from node_modules/next/dist/docs/
+# ============================================================
+
+## PROJECT SETUP
+- Install: npx create-next-app@latest my-app
+- Config: next.config.ts (or next.config.js), tsconfig.json, postcss.config.mjs
+- Enable Cache Components: next.config.ts → cacheComponents: true
+- Server: runs on Node.js or platform adapter
+
+## APP ROUTER FILE CONVENTS (app/)
+- app/layout.tsx    - Root layout wrapper (default export, Server Component)
+- app/page.tsx      - Default page for route segment
+- app/loading.tsx   - Loading UI (Suspense boundary)
+- app/error.tsx     - Error boundary
+- app/not-found.tsx - Not found page
+- app/template.tsx  - Template for route segment (re-renders on navigation)
+- app/route.tsx     - Custom route/API endpoint
+- app/[param]/page.tsx - Dynamic route (params passed as Promise)
+- app/[...catchall]/page.tsx - Catch-all route
+- app/(group)/      - Route group (no URL impact)
+- app/@slot/        - Parallel routes (slots)
+- app/intercepting/ - Intercepting routes
+- app/public/       - Public folder (static assets)
+- app/src/          - Src folder convention
+
+## KEY FILE CONVENTS
+- layout.tsx: Wraps child routes, receives children prop
+- page.tsx: Unique UI per route, leaf of route subtree
+- loading.tsx: Streaming loading UI
+- error.tsx: Error boundary (needs "error" export)
+- template.tsx: Re-renders on navigation without remounting children
+- not-found.tsx: Triggers parent loading/error boundaries
+- forbidden.tsx: Returns 403 status
+- unauthorized.tsx: Returns 401 status
+- dynamic-routes: [param] for required, [...slug] for catch-all
+- route-groups: (group) prefix, no URL impact
+- intercepting-routes: @folder for intercepting
+- parallel-routes: @slot folder for slot rendering
+- mdx-components.tsx: Custom MDX components
+- instrumentation.tsx: Instrumentation hooks
+
+## DIRECTIVES
+- 'use client'         - Render on client side (before imports)
+- 'use server'         - Execute on server (file-level or inline)
+- 'use cache'          - Cache function/component output
+- 'use cache: private' - Private cache (per-request)
+- 'use cache: remote'  - Remote cache handler
+
+## KEY FUNCTIONS & HOOKS
+
+### Navigation (next/navigation)
+- redirect(path, type)           - Server-side redirect (throws NEXT_REDIRECT)
+- permanentRedirect(path)        - 308 permanent redirect
+- useRouter()                    - Client-side router hook ('use client')
+  - router.push(href, opts)      - Navigate with history entry
+  - router.replace(href, opts)   - Navigate without history entry
+  - router.refresh()             - Re-fetch data, re-render Server Components
+  - router.prefetch(href)        - Prefetch route for faster navigation
+  - router.back()                - Go back in history
+  - router.forward()             - Go forward in history
+- usePathname()                  - Current pathname (Client Component)
+- useSearchParams()              - Search params as URLSearchParams (Client)
+- useParams()                    - Dynamic route params (Client)
+- useSelectedLayoutSegment()     - Selected layout segment
+- useSelectedLayoutSegments()    - Selected layout segments
+
+### Caching (next/cache)
+- use cache                      - Directive for cacheable functions
+- cacheLife(profile)             - Set cache profile: 'seconds' | 'minutes' | 'hours' | 'days' | 'year' | 'default' | 'offline'
+- cacheTag('tag')                - Tag cached data for invalidation
+- updateTag('tag')               - Update specific cache tag
+- revalidateTag('tag')           - Revalidate all cache entries with tag
+- revalidatePath('/path')        - Revalidate cached data for path
+- unstable_cache(fn, params, opts) - Experimental cache wrapper
+- unstable_noStore()             - Opt out of caching
+
+### Server/Client Bridge
+- cookies()                      - Read cookies (Server Component / Request)
+- headers()                      - Read headers (Server Component / Request)
+- draftMode()                    - Read draft mode status
+- notFound()                     - Throw not found error
+- forbidden()                    - Throw forbidden error
+- unauthorized()                 - Throw unauthorized error
+- connection()                   - Read connection info
+- userAgent()                    - Read user agent
+- imageResponse()                - Generate image response
+
+### Form Components (next/components)
+- <Form action={fn}>             - Submit to Server Function
+- <Link href="/path">            - Client-side link prefetching
+- <Image src="/img.jpg">        - Optimized image (needs next.config image config)
+- <Script>                       - Load scripts
+- <Font>                        - Self-hosted font
+
+### Next Request/Response
+- NextRequest                    - Extended fetch API request
+- NextResponse                   - Extended fetch API response
+- NextResponse.redirect()        - Create redirect response
+- NextResponse.rewrite()         - Rewrite URL
+- NextResponse.next()            - Continue to next handler
+
+### After API
+- after(fn)                      - Execute function after response completes
+
+### Metadata
+- generateMetadata()             - Generate page metadata
+- generateImageMetadata()        - Generate image metadata
+- generateViewport()             - Generate viewport metadata
+- generateStaticParams()         - Generate static route params
+- generateSitemaps()             - Generate sitemaps
+
+## SERVER ACTIONS
+- Define: 'use server' at top of file or before function
+- Import from actions.ts into Client Components
+- Pass to form action prop or onClick
+- Can call redirect(), revalidatePath(), revalidateTag()
+- Auth: use auth() from next/auth or similar inside 'use server'
+- Returns are serialized (must be serializable types)
+
+## CACHING DEFAULTS
+- Default profile: stale=5min (client), revalidate=15min (server), no expire
+- Cache Components requires: next.config.ts → cacheComponents: true
+- Debug: NEXT_PRIVATE_DEBUG_CACHE=1
+- cacheLife profiles: 'seconds' | 'minutes' | 'hours' | 'days' | 'year' | 'offline'
+- cacheTag for grouping cache entries
+- revalidateTag/revalidatePath for invalidation
+
+## RENDERING PHILOSOPHY
+- Static/dynamic boundary at COMPONENT level (not route level)
+- Server Components default (no 'use client')
+- Client Components with 'use client'
+- Streaming: server sends initial content, streams dynamic portions
+- Partial Prerendering (PPR): static shell + dynamic content
+- use cache: cache at function/component level
+- Any page can be revalidated on demand
+
+## NEXT REQUEST API
+- import { NextRequest, NextResponse } from 'next/server'
+- Used in middleware and Route Handlers
+- NextRequest: extends Request with geo, cookie, headersList
+- NextResponse: extends Response with setCookie, setHeader
+- NextResponse.redirect(url) - redirect response
+- NextResponse.rewrite(url) - rewrite to internal URL
+
+## MIDDLEWARE
+- Place middleware.ts in root
+- import { NextRequest, NextResponse } from 'next/server'
+- export function middleware(request: NextRequest)
+- export const config = { matcher: ['/about', '/dashboard/*'] }
+- Can rewrite, redirect, or modify request/response
+
+## CONFIG OPTIONS (next.config.ts)
+- cacheComponents: true              - Enable Cache Components
+- cacheLife: { defaults, profiles }  - Cache lifetime config
+- cacheHandlers: { default, ... }    - Cache storage handlers
+- experimental: { ... }              - Experimental features
+- images: { remotePatterns, formats } - Image configuration
+- devIndicators: true/false          - Build/dev indicators
+- reactCompiler: true                - React Compiler support
+- turbo: { ... }                     - Turbopack config
+
+## CLI COMMANDS
+- npx create-next-app@latest app-name  - Create new project
+- next dev                              - Start dev server
+- next build                            - Build for production
+- next start                            - Start production server
+- next lint                             - Run ESLint
+- next typegen                          - Generate types
+
+## DEPLOYMENT
+- Node.js server: self-hosted (recommended)
+- Docker container: containerized deployment
+- Platform adapters: Vercel, Netlify, etc.
+- Static export: limited support (no dynamic features)
+- Self-hosting: configure caching and ISR separately
+
+## KEY PATTERNS
+
+### Server Component (default)
+```tsx
+export default async function Page({ params, searchParams }) {
+  const { id } = await params
+  const data = await fetch('/api/data')
+  return <div>{/* JSX */}</div>
+}
+```
+
+### Client Component
+```tsx
+'use client'
+import { useState, useRouter } from 'next/navigation'
+export default function Component() {
+  const [count, setCount] = useState(0)
+  const router = useRouter()
+  return <button onClick={() => router.push('/dashboard')}>{count}</button>
+}
+```
+
+### Server Action (file-level)
+```tsx
+'use server'
+import { revalidatePath } from 'next/cache'
+export async function myAction(data: FormData) {
+  await db.update(data)
+  revalidatePath('/path')
+}
+```
+
+### Server Action (inline)
+```tsx
+async function myAction(formData: FormData) {
+  'use server'
+  await db.update(formData)
+}
+```
+
+### Cached Function
+```tsx
+async function getData() {
+  'use cache'
+  cacheTag('my-tag')
+  cacheLife('hours')
+  return fetch('/api/data')
+}
+```
+
+### Dynamic Route
+```tsx
+// app/user/[id]/page.tsx
+export default async function Page({ params }) {
+  const { id } = await params
+  return <div>User: {id}</div>
+}
+```
+
+### Route Group (no URL impact)
+// app/(auth)/login/page.tsx → /login
+// app/(dashboard)/dashboard/page.tsx → /dashboard
+
+### Parallel Routes
+// app/@analytics/page.tsx → rendered in @analytics slot
+// app/@social/page.tsx → rendered in @social slot
+
+## COMMON IMPORTS
+import { redirect } from 'next/navigation'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { revalidatePath, revalidateTag } from 'next/cache'
+import { cookies, headers } from 'next/headers'
+import { draftMode } from 'next/draft-mode'
+import { Form, Link, Image, Script, Font } from 'next/components'
+import { NextRequest, NextResponse } from 'next/server'
+import { cacheTag, cacheLife } from 'next/cache'
+import { unstable_cache, unstable_noStore } from 'next/server'
+import { after } from 'next/after'
+import { connect } from 'connection'
+
+## TYPE HELPERS
+- PageProps<'/route/path'> - Type params and searchParams from route literal
+- DynamicRouteParams - For dynamic route parameter types
+
+## ARCHITECTURE NOTES
+- App Router uses React canary releases (React 19+ features)
+- Pages Router uses installed React version in package.json
+- RSC (React Server Components) serialized between server/client
+- Network boundary = where client components enter
+- PPR (Partial Prerendering) = static shell + dynamic streaming
+- Cache consistency: HTML and RSC payload must stay in sync
+- Functional fidelity = adapter passes test suite
+- Performance fidelity = optimal performance (varies by platform)
+
+## MIGRATION NOTES
+- From Create React App: see migrating/from-create-react-app
+- From Vite: see migrating/from-vite
+- App Router migration: see migrating/app-router-migration
+- v15 upgrades: see upgrading/version-15
+- v16 upgrades: see upgrading/version-16
+- Codemods available: see upgrading/codemods
+
+## TESTING
+- Jest: see testing/jest
+- Cypress: see testing/cypress
+- Playwright: see testing/playwright
+- Vitest: see testing/vitest
+
+## KEY GUIDES
+- authentication.md     - Auth patterns
+- forms.md              - Form handling
+- caching               - Caching strategies
+- streaming             - Streaming UI
+- analytics             - Analytics integration
+- mcp                   - Model Context Protocol
+- mdx                   - MDX support
+- sass                  - Sass/SCSS
+- tailwind-v3-css       - Tailwind CSS v3
+- view-transitions      - View Transitions API
+- prefetching           - Route prefetching
+- ci-build-caching      - CI/CD build caching
+- content-security-policy - CSP
+- data-security         - Data security patterns
+- debugging             - Debugging tips
+- deploying             - Deployment guides
+- environment-variables - Env var handling
+- instrumentation       - Instrumentation hooks
+- internationalization  - i18n support
+- local-development     - Local dev tips
+- memory-usage          - Memory optimization
+- open-telemetry        - OpenTelemetry integration
+- package-bundling      - Package bundling
+- preventing-flash      - Prevent hydration flash
+- production-checklist  - Production checklist
+- progressive-web-apps  - PWA support
+- public-static-pages   - Static page generation
+- redirecting           - Redirect patterns
+- self-hosting          - Self-hosting guide
+- third-party-libraries - Third-party lib integration
+- videos                - Video integration
+- backend-for-frontend  - Backend-for-frontend pattern
+- multi-tenant          - Multi-tenant apps
+- multi-zones           - Multi-zone setups
+- single-page-applications - SPA mode
+- static-exports        - Static export
+- custom-server         - Custom server setup
+
+## COMMON ISSUES & FIXES
+- Build hangs in use cache → passing uncached Promises as props
+- redirect in try block → redirect throws, must be outside try
+- cookies/headers in use cache → read outside, pass as args
+- Function props in use client → not serializable, use Server Actions
+- Missing page.tsx → route not accessible publicly
+- params not awaited → params is Promise in v15+
+- searchParams not awaited → searchParams is Promise in v15+

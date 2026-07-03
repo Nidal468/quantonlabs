@@ -1,0 +1,353 @@
+# MongoDB & Mongoose Coding Standards
+
+These are the REQUIRED standards for every MongoDB implementation in this project.
+
+==================================================
+DATABASE
+==================================================
+
+Database:
+- MongoDB ONLY
+
+ODM:
+- Mongoose ONLY
+
+Never use:
+- Prisma
+- Drizzle
+- Native MongoDB driver directly (unless explicitly requested)
+- Any SQL database
+
+==================================================
+CONNECTION
+==================================================
+
+Always create a reusable connection helper.
+
+Example structure:
+
+/lib/mongodb.ts
+
+Requirements:
+
+- Import mongoose.
+- Read MONGO_URI from environment variables.
+- Throw an error if MONGO_URI is missing.
+- Cache the connection.
+- Cache the connection promise.
+- Prevent multiple connections during development (Next.js hot reload).
+- Export a default connectMongo() function.
+- Disable bufferCommands.
+
+Pattern:
+
+- cached.connection
+- cached.promise
+- mongoose.connect(...)
+- return cached.connection
+
+Never reconnect on every request.
+
+==================================================
+ENVIRONMENT VARIABLES
+==================================================
+
+Always use
+
+MONGO_URI=
+
+Never hardcode connection strings.
+
+==================================================
+MODEL STRUCTURE
+==================================================
+
+Every collection must have its own file.
+
+Example:
+
+models/
+    user.ts
+    customer.ts
+    inventory.ts
+    order.ts
+    manufacturing.ts
+
+Never place multiple unrelated models inside one file.
+
+==================================================
+MODEL EXPORTS
+==================================================
+
+Always export models like this:
+
+mongoose.models.ModelName ||
+model<ModelType>("ModelName", Schema)
+
+This prevents overwrite model errors during hot reload.
+
+Never call model() directly without checking mongoose.models first.
+
+==================================================
+SCHEMA STYLE
+==================================================
+
+Always use:
+
+interface User extends Document
+
+const UserSchema = new Schema<User>(...)
+
+Then export:
+
+export const UserModel =
+    mongoose.models.User ||
+    model<User>("User", UserSchema);
+
+==================================================
+OBJECT IDS
+==================================================
+
+Relationships must use:
+
+Schema.Types.ObjectId
+
+Example:
+
+customerId:
+{
+    type: Schema.Types.ObjectId,
+    ref: "Customer",
+    required: true
+}
+
+Never store related IDs as strings unless explicitly required.
+
+==================================================
+REFERENCES
+==================================================
+
+Always use ref when referencing another model.
+
+Example
+
+customerId
+
+↓
+
+{
+    type: Schema.Types.ObjectId,
+    ref: "Customer",
+    required: true
+}
+
+==================================================
+SUBDOCUMENTS
+==================================================
+
+If a document contains another schema, import the schema.
+
+Example
+
+import { AddressSchema } from "./address";
+
+address:
+{
+    type: AddressSchema,
+    required: true
+}
+
+Do not duplicate subdocument schemas.
+
+Reuse them.
+
+==================================================
+ENUMS
+==================================================
+
+Statuses should use enum.
+
+Example
+
+status:
+{
+    type: String,
+    enum:
+    [
+        "pending",
+        "active",
+        "completed"
+    ],
+    default: "pending"
+}
+
+==================================================
+TIMESTAMPS
+==================================================
+
+Every schema should include
+
+{
+    timestamps: true
+}
+
+unless explicitly told otherwise.
+
+==================================================
+VALIDATION
+==================================================
+
+Every required field should include
+
+required: true
+
+Use:
+
+min
+max
+trim
+lowercase
+unique
+
+where appropriate.
+
+==================================================
+TYPESCRIPT
+==================================================
+
+Always type interfaces.
+
+Example
+
+interface Customer extends Document
+
+Never use
+
+any
+
+unless absolutely unavoidable.
+
+==================================================
+IMPORT STYLE
+==================================================
+
+Preferred:
+
+import mongoose, {
+    Schema,
+    model,
+    Document
+} from "mongoose";
+
+==================================================
+FILE ORGANIZATION
+==================================================
+
+lib/
+    mongodb.ts
+
+models/
+    customer.ts
+    order.ts
+    inventory.ts
+    manufacturing.ts
+    operation.ts
+
+==================================================
+API ROUTES
+==================================================
+
+Before any database query always call
+
+await connectMongo();
+
+Example
+
+await connectMongo();
+
+const customers =
+await CustomerModel.find();
+
+==================================================
+QUERY STYLE
+==================================================
+
+Prefer
+
+.find()
+
+.findOne()
+
+.findById()
+
+.findOneAndUpdate()
+
+.findByIdAndUpdate()
+
+.findOneAndDelete()
+
+.findByIdAndDelete()
+
+lean()
+
+populate()
+
+where appropriate.
+
+==================================================
+POPULATE
+==================================================
+
+Use populate() for referenced models.
+
+Example
+
+await OrderModel.find()
+.populate("customerId")
+.populate("inventoryId");
+
+==================================================
+BEST PRACTICES
+==================================================
+
+✓ Reuse schemas.
+
+✓ Keep models small.
+
+✓ Keep related schemas together.
+
+✓ Use ObjectId references.
+
+✓ Use timestamps.
+
+✓ Type every model.
+
+✓ Use mongoose.models fallback.
+
+✓ Always connect using connectMongo().
+
+✓ Never create duplicate database connections.
+
+✓ Never create duplicate model definitions.
+
+✓ Keep schemas clean and readable.
+
+==================================================
+FINAL RULE
+==================================================
+
+Whenever generating a new MongoDB model, follow the exact architecture used throughout this project:
+
+- Mongoose
+- TypeScript interfaces
+- Schema<T>
+- Document interfaces
+- ObjectId references
+- Reusable sub-schemas
+- timestamps: true
+- mongoose.models fallback
+- Separate model files
+- Shared connectMongo() helper
+- MongoDB as the only database
+
+The generated code should closely match the existing codebase's style, formatting, naming conventions, and architecture.

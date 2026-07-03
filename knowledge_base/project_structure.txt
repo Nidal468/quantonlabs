@@ -1,0 +1,343 @@
+# Project Reference - API & React Query Structure
+
+This project follows a consistent architecture for all CRUD resources.
+
+---
+
+## Folder Structure
+
+lib/
+    api/
+        inventory.ts
+        customer.ts
+        manufacturing.ts
+        ...
+
+    hooks/
+        useInventory.ts
+        useCustomer.ts
+        useManufacturing.ts
+        ...
+
+app/
+    api/
+        erp/
+            inventory/
+                route.ts
+                [id]/
+                    route.ts
+
+            customer/
+                route.ts
+                [id]/
+                    route.ts
+
+            manufacture/
+                route.ts
+                [id]/
+                    route.ts
+
+---
+
+## Client API Layer
+
+Every resource has a file inside:
+
+lib/api/
+
+Example:
+
+lib/api/manufacturing.ts
+
+The API layer contains simple fetch wrappers.
+
+Typical functions are:
+
+- get<ResourcePlural>()
+- create<Resource>()
+- update<Resource>()
+- delete<Resource>()
+
+Some resources may expose additional endpoints when needed (for example updating an operation status).
+
+Each function:
+
+- uses fetch()
+- throws if response.ok is false
+- returns typed Promise<T>
+- uses cache: "no-store" on mutations
+- serializes JSON bodies with JSON.stringify()
+
+---
+
+## React Query Hooks
+
+Every resource has a corresponding hook inside:
+
+lib/hooks/
+
+Example:
+
+useManufacturing.ts
+
+Each hook is responsible for:
+
+- fetching data
+- create mutation
+- update mutation
+- delete mutation
+- exposing loading states
+- invalidating cache after mutations
+
+The hook returns:
+
+- collection
+- loading state
+- error
+- CRUD functions
+- mutation pending states
+
+React Query is the only data-fetching layer used by client components.
+
+---
+
+## API Routes
+
+Every resource has two route handlers.
+
+Collection route
+
+app/api/erp/{resource}/route.ts
+
+Contains:
+
+GET
+
+Returns all documents.
+
+POST
+
+Creates a document.
+
+---
+
+Document route
+
+app/api/erp/{resource}/[id]/route.ts
+
+Contains:
+
+GET
+
+Returns one document.
+
+PATCH
+
+Updates one document.
+
+DELETE
+
+Deletes one document.
+
+## Document Route
+
+Each resource has a dynamic route:
+
+app/api/erp/{resource}/[id]/route.ts
+
+The resource ID is extracted from the request URL using the pathname rather than route parameters.
+
+Pattern used throughout the project:
+
+```ts
+const { pathname } = new URL(req.url);
+const id = pathname.split("/")[pathname.split("/").length - 1];
+```
+
+The extracted `id` is then used with Mongoose methods such as:
+
+- findById(id)
+- findByIdAndUpdate(id, ...)
+- findByIdAndDelete(id)
+
+The route contains:
+
+GET
+- Returns a single document.
+
+PATCH
+- Updates a single document.
+
+DELETE
+- Deletes a single document.
+
+
+---
+
+## Database
+
+MongoDB is accessed exclusively through Mongoose.
+
+Every route begins by connecting:
+
+connectMongo()
+
+Authentication is performed before any database operation.
+
+The authenticated user is obtained through:
+
+getUser()
+
+If authentication fails the route returns HTTP 401.
+
+---
+
+## Error Handling
+
+Routes use try/catch.
+
+Typical responses include:
+
+401 Invalid authentication
+
+404 Resource not found
+
+500 Internal server error
+
+Client API helpers throw an Error whenever fetch().ok is false.
+
+---
+
+## Mongoose Models
+
+Models live in:
+
+model/
+
+Each model exports:
+
+- interface
+- schema
+- model
+
+Pattern:
+
+export interface Inventory extends Document
+
+const InventorySchema = new Schema(...)
+
+export const InventoryModel =
+    mongoose.models.Inventory ||
+    model<Inventory>("Inventory", InventorySchema)
+
+---
+
+## References
+
+Referenced ObjectIds use populate() inside API routes.
+
+Common references include:
+
+customerId
+
+supplierId
+
+warehouseId
+
+itemId
+
+orderId
+
+categoryId
+
+vendorId
+
+operationId
+
+Whenever a resource references another collection, API routes populate the related document with a small selection of fields instead of returning only the ObjectId.
+
+---
+
+## TypeScript
+
+Interfaces are shared between:
+
+- Mongoose model
+- Client API layer
+- React Query hooks
+
+Updates use:
+
+Partial<Model>
+
+Collections use:
+
+Model[]
+
+Single resources use:
+
+Model
+
+---
+
+## Naming Convention
+
+Model
+
+Inventory
+
+Client API
+
+inventory.ts
+
+React Hook
+
+useInventory.ts
+
+Collection Route
+
+/api/erp/inventory
+
+Document Route
+
+/api/erp/inventory/[id]
+
+Functions generally follow:
+
+getInventory()
+
+createInventory()
+
+updateInventory()
+
+deleteInventory()
+
+The React Query cache key is the plural resource name and is reused consistently for fetching and invalidation.
+
+---
+
+## Design Philosophy
+
+The project keeps responsibilities separated.
+
+Model
+- Defines schema and TypeScript interface.
+
+API Route
+- Handles authentication.
+- Reads/writes MongoDB.
+- Performs populate().
+- Returns JSON.
+
+Client API
+- Wraps fetch().
+- Handles HTTP errors.
+- Provides typed responses.
+
+React Query Hook
+- Manages caching.
+- Handles mutations.
+- Invalidates queries.
+- Exposes loading and mutation state.
+
+Components interact only with the React Query hook and never call fetch() directly.

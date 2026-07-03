@@ -1,4 +1,3 @@
-// app/dashboard/agents/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -7,13 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Search, AlertCircle, Brain, Megaphone, TrendingUp, Headphones, UsersRound, LayoutGrid, Package, DollarSign, FileText, Sparkles } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, AlertCircle, Brain, Megaphone, TrendingUp, Headphones, UsersRound, LayoutGrid, Package, DollarSign, FileText, Sparkles, MessageSquare, TreeDeciduous, Database, Layers } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAgent } from "@/lib/hook/useAgent";
+import { useSkills } from "@/lib/hook/useSkill";
 import { WorkspaceDocument } from "@/model/workspace";
 import { AgentDocument } from "@/model/agent";
 import SelectedAgentDialog from "./selectedAgent";
+import SkillTree from "./SkillTree";
+import AgentDetails from "./AgentDetails";
+import DataPagesPanel from "./DataPagesPanel";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Megaphone,
@@ -163,7 +167,6 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
                       const IconComponent = iconMap[agent.icon || "Brain"] || Brain;
                       const status = getAgentStatus(agent._id.toString());
                       const isActive = status ? "active" : "inactive";
-                      console.log(isActive)
                       return (
                         <motion.tr
                           key={i}

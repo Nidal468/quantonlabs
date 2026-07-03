@@ -18,6 +18,7 @@ export interface WorkspaceMember {
 export interface WorkspaceAgent {
   id: Schema.Types.ObjectId;
   status: boolean;
+  activeSkillIds?: string[]; // max 5 skill IDs, stored as strings (agent skill ids)
 }
 
 export interface WorkspaceDocument extends Document {
@@ -136,7 +137,11 @@ const WorkspaceSchema = new Schema<WorkspaceDocument>(
           status: {
             type: Boolean,
             default: false
-          }
+          },
+          activeSkillIds: {
+            type: [String],
+            default: [],
+          },
         },
       ],
       default: [],

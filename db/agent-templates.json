@@ -9,7 +9,7 @@
     "capabilities": ["Editorial calendar management", "Long-form content generation", "Content repurposing workflows", "Performance tracking & analytics", "Brand voice governance", "Cross-channel distribution"]
   },
   {
-    "id": "sales",
+    "id": "sales", 
     "name": "Sales Agent",
     "domain": "Growth",
     "description": "Manages the revenue pipeline from inbound lead to closed deal.",
