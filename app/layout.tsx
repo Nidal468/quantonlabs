@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+
 import "./globals.css";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import Providers from "./providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import "@/lib/dns";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
-});
+
 
 const productionUrl = "https://quantonlabs.com";
 
@@ -26,15 +23,33 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/assets/QL favicon transparent.svg", type: "image/svg+xml" },
-      { url: "/images/assets/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/images/assets/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      {
+        url: "/images/assets/QL favicon transparent.svg",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/images/assets/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        url: "/images/assets/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
     ],
     apple: [
-      { url: "/images/assets/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      {
+        url: "/images/assets/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
     ],
     other: [
-      { rel: "mask-icon", url: "/images/assets/QL favicon transparent.svg" },
+      {
+        rel: "mask-icon",
+        url: "/images/assets/QL favicon transparent.svg",
+      },
     ],
   },
   openGraph: {
@@ -113,10 +128,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} h-full antialiased`}
-    ><head>
+    <html lang="en" className="h-full">
+      <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CRKZ7L7PS0"
           strategy="afterInteractive"
@@ -129,6 +142,7 @@ export default function RootLayout({
             gtag('config', 'G-CRKZ7L7PS0');
           `}
         </Script>
+
         <Script id="apollo-tracker" strategy="afterInteractive">
           {`
             function initApollo(){
@@ -137,18 +151,24 @@ export default function RootLayout({
               o.src = "https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=" + n;
               o.async = true;
               o.defer = true;
-              o.onload = function(){ window.trackingFunctions.onLoad({appId:"69ea4aafe23c8a0019347e79"}) };
+              o.onload = function(){
+                window.trackingFunctions.onLoad({
+                  appId:"69ea4aafe23c8a0019347e79"
+                });
+              };
               document.head.appendChild(o);
             }
             initApollo();
           `}
         </Script>
+
         <Script
           id="schema-org"
           type="application/ld+json"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrg) }}
         />
+
         <Script
           id="schema-product"
           type="application/ld+json"
@@ -156,13 +176,14 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaProduct) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+
+      <body className={`min-h-full flex flex-col antialiased`}>
         <Analytics />
+
         <Providers>
-          <TooltipProvider>
-            {children}
-          </TooltipProvider>
-        </Providers></body>
+          <TooltipProvider>{children}</TooltipProvider>
+        </Providers>
+      </body>
     </html>
   );
 }
