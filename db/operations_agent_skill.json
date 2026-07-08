@@ -1,242 +1,2510 @@
 [
   {
+    "_id": "operations",
     "id": "operations",
     "name": "Streamline Protocol",
     "domain": "Operations",
     "description": "Ultra-efficient process optimization that maximizes speed and token efficiency while maintaining acceptable output quality.",
     "icon": "Zap",
-    "capabilities": ["Process bottleneck detection", "Workflow automation design", "Resource optimization", "SLA compliance monitoring"],
-    "stats": { "speed": 95, "accuracy": 60, "tokenEfficiency": 90, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 30 }],
-    "debuffs": [{ "domain": "Strategy", "value": -15 }],
-    "cost": 3
+    "capabilities": [
+      "Process bottleneck detection",
+      "Workflow automation design",
+      "Resource optimization",
+      "SLA compliance monitoring"
+    ],
+    "stats": {
+      "speed": 95,
+      "accuracy": 60,
+      "tokenEfficiency": 90,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 30
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -15
+      }
+    ],
+    "cost": 3,
+    "dependency": [],
+    "levels": [
+      {
+        "name": "Streamline Protocol",
+        "domain": "Operations",
+        "description": "Ultra-efficient process optimization that maximizes speed and token efficiency while maintaining acceptable output quality.",
+        "icon": "Zap",
+        "capabilities": [
+          "Process bottleneck detection",
+          "Workflow automation design",
+          "Resource optimization",
+          "SLA compliance monitoring"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 60,
+          "tokenEfficiency": 90,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -15
+          }
+        ],
+        "cost": 3
+      },
+      {
+        "name": "Streamline Protocol+",
+        "domain": "Operations",
+        "description": "Enhanced streamlining with improved bottleneck resolution and expanded workflow automation coverage.",
+        "icon": "Zap",
+        "capabilities": [
+          "Process bottleneck detection",
+          "Workflow automation design",
+          "Resource optimization",
+          "SLA compliance monitoring",
+          "Advanced bottleneck resolution"
+        ],
+        "stats": {
+          "speed": 105,
+          "accuracy": 65,
+          "tokenEfficiency": 97,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 35
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -10
+          }
+        ],
+        "cost": 3
+      },
+      {
+        "name": "Streamline Protocol Elite",
+        "domain": "Operations",
+        "description": "Mastery-level streamlining with near-perfect efficiency and comprehensive process orchestration.",
+        "icon": "Zap",
+        "capabilities": [
+          "Process bottleneck detection",
+          "Workflow automation design",
+          "Resource optimization",
+          "SLA compliance monitoring",
+          "Advanced bottleneck resolution",
+          "Predictive process optimization"
+        ],
+        "stats": {
+          "speed": 115,
+          "accuracy": 70,
+          "tokenEfficiency": 104,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 40
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
-    "id": "operations",
-    "name": "SOP Architect Pro",
-    "domain": "Operations",
-    "description": "Comprehensive standard operating procedure creation with version control, compliance mapping, and interactive formatting.",
-    "icon": "FileText",
-    "capabilities": ["SOP template generation", "Version control tracking", "Compliance cross-referencing", "Interactive checklist creation"],
-    "stats": { "speed": 40, "accuracy": 92, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 25 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
-    "id": "operations",
-    "name": "Task Dependency Mapper",
-    "domain": "Operations",
-    "description": "Complex task dependency visualization and critical path analysis with automatic scheduling optimization.",
-    "icon": "GitBranch",
-    "capabilities": ["Dependency graph generation", "Critical path identification", "Schedule optimization", "Resource conflict detection"],
-    "stats": { "speed": 50, "accuracy": 85, "tokenEfficiency": 60, "power": 55 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "operations",
-    "name": "Quality Assurance Sentinel",
-    "domain": "Operations",
-    "description": "Continuous quality monitoring with automated checklists, compliance verification, and deviation alerting.",
-    "icon": "ShieldCheck",
-    "capabilities": ["Automated QA checklist execution", "Compliance verification", "Deviation detection", "Corrective action recommendation"],
-    "stats": { "speed": 35, "accuracy": 95, "tokenEfficiency": 40, "power": 65 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [{ "domain": "Growth", "value": -10 }],
-    "cost": 6
-  },
-  {
-    "id": "operations",
-    "name": "Vendor Coordination Hub",
-    "domain": "Operations + Growth",
-    "description": "Vendor relationship management with performance tracking, SLA monitoring, and automated communication workflows.",
-    "icon": "Handshake",
-    "capabilities": ["Vendor scorecard generation", "SLA compliance tracking", "Automated status requests", "Contract renewal alerting"],
-    "stats": { "speed": 60, "accuracy": 78, "tokenEfficiency": 62, "power": 50 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "operations",
-    "name": "Meeting Efficiency Core",
-    "domain": "Operations",
-    "description": "Meeting optimization with agenda generation, action item tracking, and post-meeting follow-up automation.",
-    "icon": "CalendarCheck",
-    "capabilities": ["Smart agenda generation", "Action item extraction", "Follow-up email drafting", "Meeting effectiveness scoring"],
-    "stats": { "speed": 75, "accuracy": 70, "tokenEfficiency": 68, "power": 40 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [],
-    "cost": 3
-  },
-  {
-    "id": "operations",
-    "name": "Process Mining Engine",
-    "domain": "Strategy",
-    "description": "Deep process mining and analysis using event log data to discover, monitor, and optimize real business processes.",
-    "icon": "Scan",
-    "capabilities": ["Process flow discovery", "Deviation detection", "Bottleneck root cause analysis", "Optimization simulation"],
-    "stats": { "speed": 25, "accuracy": 90, "tokenEfficiency": 35, "power": 75 },
-    "buffs": [{ "domain": "Strategy", "value": 25 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -15 }],
-    "cost": 8
-  },
-  {
+    "_id": "operations",
     "id": "operations",
     "name": "Token-efficient Reporter",
     "domain": "Operations",
     "description": "Lean operational reporting optimized for minimal token consumption with essential KPI extraction and summary generation.",
     "icon": "Feather",
-    "capabilities": ["KPI extraction", "Summary report drafting", "Variance highlighting", "Trend identification"],
-    "stats": { "speed": 85, "accuracy": 55, "tokenEfficiency": 92, "power": 35 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [{ "domain": "Strategy", "value": -10 }],
-    "cost": 2
+    "capabilities": [
+      "KPI extraction",
+      "Summary report drafting",
+      "Variance highlighting",
+      "Trend identification"
+    ],
+    "stats": {
+      "speed": 85,
+      "accuracy": 55,
+      "tokenEfficiency": 92,
+      "power": 35
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -10
+      }
+    ],
+    "cost": 2,
+    "dependency": [],
+    "levels": [
+      {
+        "name": "Token-efficient Reporter",
+        "domain": "Operations",
+        "description": "Lean operational reporting optimized for minimal token consumption with essential KPI extraction and summary generation.",
+        "icon": "Feather",
+        "capabilities": [
+          "KPI extraction",
+          "Summary report drafting",
+          "Variance highlighting",
+          "Trend identification"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 55,
+          "tokenEfficiency": 92,
+          "power": 35
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -10
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Reporter+",
+        "domain": "Operations",
+        "description": "Enhanced reporting with improved KPI depth and expanded trend analysis capabilities.",
+        "icon": "Feather",
+        "capabilities": [
+          "KPI extraction",
+          "Summary report drafting",
+          "Variance highlighting",
+          "Trend identification",
+          "Automated insight generation"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 60,
+          "tokenEfficiency": 99,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -7
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Reporter Elite",
+        "domain": "Operations",
+        "description": "Mastery-level reporting with near-perfect efficiency and comprehensive operational intelligence.",
+        "icon": "Feather",
+        "capabilities": [
+          "KPI extraction",
+          "Summary report drafting",
+          "Variance highlighting",
+          "Trend identification",
+          "Automated insight generation",
+          "Predictive trend alerts"
+        ],
+        "stats": {
+          "speed": 105,
+          "accuracy": 65,
+          "tokenEfficiency": 106,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 2
+      }
+    ]
   },
   {
+    "_id": "operations",
     "id": "operations",
-    "name": "Knowledge Base Curator",
+    "name": "Meeting Efficiency Core",
     "domain": "Operations",
-    "description": "Automated knowledge base organization with content tagging, search optimization, and information architecture management.",
-    "icon": "Database",
-    "capabilities": ["Auto-tagging system", "Search relevance optimization", "Content gap analysis", "Information architecture updates"],
-    "stats": { "speed": 55, "accuracy": 80, "tokenEfficiency": 65, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
+    "description": "Meeting optimization with agenda generation, action item tracking, and post-meeting follow-up automation.",
+    "icon": "CalendarCheck",
+    "capabilities": [
+      "Smart agenda generation",
+      "Action item extraction",
+      "Follow-up email drafting",
+      "Meeting effectiveness scoring"
+    ],
+    "stats": {
+      "speed": 75,
+      "accuracy": 70,
+      "tokenEfficiency": 68,
+      "power": 40
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Meeting Efficiency Core",
+        "domain": "Operations",
+        "description": "Meeting optimization with agenda generation, action item tracking, and post-meeting follow-up automation.",
+        "icon": "CalendarCheck",
+        "capabilities": [
+          "Smart agenda generation",
+          "Action item extraction",
+          "Follow-up email drafting",
+          "Meeting effectiveness scoring"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 70,
+          "tokenEfficiency": 68,
+          "power": 40
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Meeting Efficiency Core+",
+        "domain": "Operations",
+        "description": "Enhanced meetings with predictive agenda optimization and automated follow-up orchestration.",
+        "icon": "CalendarCheck",
+        "capabilities": [
+          "Smart agenda generation",
+          "Action item extraction",
+          "Follow-up email drafting",
+          "Meeting effectiveness scoring",
+          "Predictive scheduling"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 75,
+          "tokenEfficiency": 76,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Meeting Efficiency Core Elite",
+        "domain": "Operations",
+        "description": "Mastery-level meetings with zero-waste optimization and maximum collaboration efficiency.",
+        "icon": "CalendarCheck",
+        "capabilities": [
+          "Smart agenda generation",
+          "Action item extraction",
+          "Follow-up email drafting",
+          "Meeting effectiveness scoring",
+          "Predictive scheduling",
+          "Zero-waste"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 80,
+          "tokenEfficiency": 84,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
-    "id": "operations",
-    "name": "Change Management Navigator",
-    "domain": "Strategy",
-    "description": "Organizational change management planning with impact assessment, stakeholder mapping, and communication strategy.",
-    "icon": "Road",
-    "capabilities": ["Impact assessment matrix", "Stakeholder influence mapping", "Communication plan generation", "Resistance prediction"],
-    "stats": { "speed": 30, "accuracy": 85, "tokenEfficiency": 42, "power": 70 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [],
-    "cost": 6
-  },
-  {
-    "id": "operations",
-    "name": "Capacity Planner",
-    "domain": "Operations",
-    "description": "Resource capacity planning with utilization analysis, workload balancing, and constraint identification.",
-    "icon": "BarChart3",
-    "capabilities": ["Utilization rate tracking", "Workload distribution analysis", "Constraint identification", "Bottleneck forecasting"],
-    "stats": { "speed": 45, "accuracy": 82, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "operations",
-    "name": "Risk Register Manager",
-    "domain": "Strategy",
-    "description": "Operational risk identification, assessment, and mitigation planning with continuous monitoring and escalation.",
-    "icon": "ShieldAlert",
-    "capabilities": ["Risk identification workshops", "Probability-impact scoring", "Mitigation plan generation", "Risk trend tracking"],
-    "stats": { "speed": 35, "accuracy": 88, "tokenEfficiency": 40, "power": 65 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [],
-    "cost": 6
-  },
-  {
-    "id": "operations",
-    "name": "Automation Pipeline Builder",
-    "domain": "Operations + Growth",
-    "description": "Workflow automation pipeline creation with trigger mapping, action sequencing, and error handling design.",
-    "icon": "CircuitBoard",
-    "capabilities": ["Trigger condition mapping", "Action sequence design", "Error handling logic", "Pipeline performance monitoring"],
-    "stats": { "speed": 60, "accuracy": 75, "tokenEfficiency": 58, "power": 60 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
+    "_id": "operations",
     "id": "operations",
     "name": "SLA Compliance Guardian",
     "domain": "Operations",
     "description": "Service level agreement compliance monitoring with automated breach detection, escalation, and remediation tracking.",
     "icon": "Scale",
-    "capabilities": ["SLA metric tracking", "Breach detection alerting", "Escalation workflow triggering", "Remediation action logging"],
-    "stats": { "speed": 70, "accuracy": 85, "tokenEfficiency": 62, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
+    "capabilities": [
+      "SLA metric tracking",
+      "Breach detection alerting",
+      "Escalation workflow triggering",
+      "Remediation action logging"
+    ],
+    "stats": {
+      "speed": 70,
+      "accuracy": 85,
+      "tokenEfficiency": 62,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "SLA Compliance Guardian",
+        "domain": "Operations",
+        "description": "Service level agreement compliance monitoring with automated breach detection, escalation, and remediation tracking.",
+        "icon": "Scale",
+        "capabilities": [
+          "SLA metric tracking",
+          "Breach detection alerting",
+          "Escalation workflow triggering",
+          "Remediation action logging"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 85,
+          "tokenEfficiency": 62,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "SLA Compliance Guardian+",
+        "domain": "Operations",
+        "description": "Enhanced compliance with predictive breach prevention and automated remediation orchestration.",
+        "icon": "Scale",
+        "capabilities": [
+          "SLA metric tracking",
+          "Breach detection alerting",
+          "Escalation workflow triggering",
+          "Remediation action logging",
+          "Predictive breach prevention"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 90,
+          "tokenEfficiency": 70,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "SLA Compliance Guardian Elite",
+        "domain": "Operations",
+        "description": "Mastery-level compliance with zero-breach guarantee and perfect SLA harmony.",
+        "icon": "Scale",
+        "capabilities": [
+          "SLA metric tracking",
+          "Breach detection alerting",
+          "Escalation workflow triggering",
+          "Remediation action logging",
+          "Predictive breach prevention",
+          "Zero-breaches"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 95,
+          "tokenEfficiency": 78,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Task Dependency Mapper",
+    "domain": "Operations",
+    "description": "Complex task dependency visualization and critical path analysis with automatic scheduling optimization.",
+    "icon": "GitBranch",
+    "capabilities": [
+      "Dependency graph generation",
+      "Critical path identification",
+      "Schedule optimization",
+      "Resource conflict detection"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 85,
+      "tokenEfficiency": 60,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Task Dependency Mapper",
+        "domain": "Operations",
+        "description": "Complex task dependency visualization and critical path analysis with automatic scheduling optimization.",
+        "icon": "GitBranch",
+        "capabilities": [
+          "Dependency graph generation",
+          "Critical path identification",
+          "Schedule optimization",
+          "Resource conflict detection"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 85,
+          "tokenEfficiency": 60,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Task Dependency Mapper+",
+        "domain": "Operations",
+        "description": "Enhanced mapping with predictive dependency modeling and automated schedule optimization.",
+        "icon": "GitBranch",
+        "capabilities": [
+          "Dependency graph generation",
+          "Critical path identification",
+          "Schedule optimization",
+          "Resource conflict detection",
+          "Predictive dependencies"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 90,
+          "tokenEfficiency": 68,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Task Dependency Mapper Elite",
+        "domain": "Operations",
+        "description": "Mastery-level mapping with perfect dependency resolution and zero-conflict scheduling.",
+        "icon": "GitBranch",
+        "capabilities": [
+          "Dependency graph generation",
+          "Critical path identification",
+          "Schedule optimization",
+          "Resource conflict detection",
+          "Predictive dependencies",
+          "Zero-conflicts"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 95,
+          "tokenEfficiency": 76,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Knowledge Base Curator",
+    "domain": "Operations",
+    "description": "Automated knowledge base organization with content tagging, search optimization, and information architecture management.",
+    "icon": "Database",
+    "capabilities": [
+      "Auto-tagging system",
+      "Search relevance optimization",
+      "Content gap analysis",
+      "Information architecture updates"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 80,
+      "tokenEfficiency": 65,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Knowledge Base Curator",
+        "domain": "Operations",
+        "description": "Automated knowledge base organization with content tagging, search optimization, and information architecture management.",
+        "icon": "Database",
+        "capabilities": [
+          "Auto-tagging system",
+          "Search relevance optimization",
+          "Content gap analysis",
+          "Information architecture updates"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 80,
+          "tokenEfficiency": 65,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Knowledge Base Curator+",
+        "domain": "Operations",
+        "description": "Enhanced curation with AI-driven content optimization and automated knowledge graph generation.",
+        "icon": "Database",
+        "capabilities": [
+          "Auto-tagging system",
+          "Search relevance optimization",
+          "Content gap analysis",
+          "Information architecture updates",
+          "AI content optimization"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 85,
+          "tokenEfficiency": 73,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Knowledge Base Curator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level curation with perfect knowledge alignment and maximum information accessibility.",
+        "icon": "Database",
+        "capabilities": [
+          "Auto-tagging system",
+          "Search relevance optimization",
+          "Content gap analysis",
+          "Information architecture updates",
+          "AI content optimization",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 90,
+          "tokenEfficiency": 81,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Capacity Planner",
+    "domain": "Operations",
+    "description": "Resource capacity planning with utilization analysis, workload balancing, and constraint identification.",
+    "icon": "BarChart3",
+    "capabilities": [
+      "Utilization rate tracking",
+      "Workload distribution analysis",
+      "Constraint identification",
+      "Bottleneck forecasting"
+    ],
+    "stats": {
+      "speed": 45,
+      "accuracy": 82,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Capacity Planner",
+        "domain": "Operations",
+        "description": "Resource capacity planning with utilization analysis, workload balancing, and constraint identification.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "Utilization rate tracking",
+          "Workload distribution analysis",
+          "Constraint identification",
+          "Bottleneck forecasting"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 82,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Capacity Planner+",
+        "domain": "Operations",
+        "description": "Enhanced planning with predictive capacity modeling and automated workload optimization.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "Utilization rate tracking",
+          "Workload distribution analysis",
+          "Constraint identification",
+          "Bottleneck forecasting",
+          "Predictive capacity"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 87,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Capacity Planner Elite",
+        "domain": "Operations",
+        "description": "Mastery-level planning with perfect capacity alignment and zero-constraint optimization.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "Utilization rate tracking",
+          "Workload distribution analysis",
+          "Constraint identification",
+          "Bottleneck forecasting",
+          "Predictive capacity",
+          "Zero-constraints"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 92,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "SOP Architect Pro",
+    "domain": "Operations",
+    "description": "Comprehensive standard operating procedure creation with version control, compliance mapping, and interactive formatting.",
+    "icon": "FileText",
+    "capabilities": [
+      "SOP template generation",
+      "Version control tracking",
+      "Compliance cross-referencing",
+      "Interactive checklist creation"
+    ],
+    "stats": {
+      "speed": 40,
+      "accuracy": 92,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 25
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "SOP Architect Pro",
+        "domain": "Operations",
+        "description": "Comprehensive standard operating procedure creation with version control, compliance mapping, and interactive formatting.",
+        "icon": "FileText",
+        "capabilities": [
+          "SOP template generation",
+          "Version control tracking",
+          "Compliance cross-referencing",
+          "Interactive checklist creation"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 92,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "SOP Architect Pro+",
+        "domain": "Operations",
+        "description": "Enhanced SOP creation with AI-driven compliance optimization and automated version orchestration.",
+        "icon": "FileText",
+        "capabilities": [
+          "SOP template generation",
+          "Version control tracking",
+          "Compliance cross-referencing",
+          "Interactive checklist creation",
+          "AI compliance optimization"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 95,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "SOP Architect Pro Elite",
+        "domain": "Operations",
+        "description": "Mastery-level SOP creation with perfect compliance alignment and maximum procedure clarity.",
+        "icon": "FileText",
+        "capabilities": [
+          "SOP template generation",
+          "Version control tracking",
+          "Compliance cross-referencing",
+          "Interactive checklist creation",
+          "AI compliance optimization",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 98,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Automation Pipeline Builder",
+    "domain": "Operations + Growth",
+    "description": "Workflow automation pipeline creation with trigger mapping, action sequencing, and error handling design.",
+    "icon": "CircuitBoard",
+    "capabilities": [
+      "Trigger condition mapping",
+      "Action sequence design",
+      "Error handling logic",
+      "Pipeline performance monitoring"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 75,
+      "tokenEfficiency": 58,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Automation Pipeline Builder",
+        "domain": "Operations + Growth",
+        "description": "Workflow automation pipeline creation with trigger mapping, action sequencing, and error handling design.",
+        "icon": "CircuitBoard",
+        "capabilities": [
+          "Trigger condition mapping",
+          "Action sequence design",
+          "Error handling logic",
+          "Pipeline performance monitoring"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 75,
+          "tokenEfficiency": 58,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Automation Pipeline Builder+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced pipelines with predictive error prevention and automated performance optimization.",
+        "icon": "CircuitBoard",
+        "capabilities": [
+          "Trigger condition mapping",
+          "Action sequence design",
+          "Error handling logic",
+          "Pipeline performance monitoring",
+          "Predictive error prevention"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 80,
+          "tokenEfficiency": 66,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Automation Pipeline Builder Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level pipelines with zero-error guarantee and maximum automation efficiency.",
+        "icon": "CircuitBoard",
+        "capabilities": [
+          "Trigger condition mapping",
+          "Action sequence design",
+          "Error handling logic",
+          "Pipeline performance monitoring",
+          "Predictive error prevention",
+          "Zero-errors"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 85,
+          "tokenEfficiency": 74,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Vendor Coordination Hub",
+    "domain": "Operations + Growth",
+    "description": "Vendor relationship management with performance tracking, SLA monitoring, and automated communication workflows.",
+    "icon": "Handshake",
+    "capabilities": [
+      "Vendor scorecard generation",
+      "SLA compliance tracking",
+      "Automated status requests",
+      "Contract renewal alerting"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 78,
+      "tokenEfficiency": 62,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Vendor Coordination Hub",
+        "domain": "Operations + Growth",
+        "description": "Vendor relationship management with performance tracking, SLA monitoring, and automated communication workflows.",
+        "icon": "Handshake",
+        "capabilities": [
+          "Vendor scorecard generation",
+          "SLA compliance tracking",
+          "Automated status requests",
+          "Contract renewal alerting"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 78,
+          "tokenEfficiency": 62,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Vendor Coordination Hub+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced coordination with predictive vendor risk modeling and automated performance optimization.",
+        "icon": "Handshake",
+        "capabilities": [
+          "Vendor scorecard generation",
+          "SLA compliance tracking",
+          "Automated status requests",
+          "Contract renewal alerting",
+          "Predictive risk modeling"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 83,
+          "tokenEfficiency": 70,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Vendor Coordination Hub Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level coordination with perfect vendor alignment and maximum relationship value.",
+        "icon": "Handshake",
+        "capabilities": [
+          "Vendor scorecard generation",
+          "SLA compliance tracking",
+          "Automated status requests",
+          "Contract renewal alerting",
+          "Predictive risk modeling",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 88,
+          "tokenEfficiency": 78,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "operations",
     "id": "operations",
     "name": "Continuous Improvement Engine",
     "domain": "Operations + Growth",
     "description": "Kaizen-driven continuous improvement system with suggestion tracking, pilot project management, and impact measurement.",
     "icon": "TrendingUp",
-    "capabilities": ["Suggestion collection & filtering", "Pilot project scoping", "Impact measurement", "Best practice dissemination"],
-    "stats": { "speed": 50, "accuracy": 78, "tokenEfficiency": 60, "power": 55 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
+    "capabilities": [
+      "Suggestion collection & filtering",
+      "Pilot project scoping",
+      "Impact measurement",
+      "Best practice dissemination"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 78,
+      "tokenEfficiency": 60,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Continuous Improvement Engine",
+        "domain": "Operations + Growth",
+        "description": "Kaizen-driven continuous improvement system with suggestion tracking, pilot project management, and impact measurement.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "Suggestion collection & filtering",
+          "Pilot project scoping",
+          "Impact measurement",
+          "Best practice dissemination"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 78,
+          "tokenEfficiency": 60,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Continuous Improvement Engine+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced improvement with predictive impact modeling and automated best practice identification.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "Suggestion collection & filtering",
+          "Pilot project scoping",
+          "Impact measurement",
+          "Best practice dissemination",
+          "Predictive impact"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 83,
+          "tokenEfficiency": 68,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Continuous Improvement Engine Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level improvement with maximum kaizen velocity and perfect continuous optimization.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "Suggestion collection & filtering",
+          "Pilot project scoping",
+          "Impact measurement",
+          "Best practice dissemination",
+          "Predictive impact",
+          "Maximum kaizen"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 88,
+          "tokenEfficiency": 76,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
-    "id": "operations",
-    "name": "Incident Response Coordinator",
-    "domain": "Operations",
-    "description": "Operational incident management with severity assessment, response coordination, and post-incident analysis.",
-    "icon": "AlertTriangle",
-    "capabilities": ["Severity classification", "Response team notification", "Timeline reconstruction", "Post-incident report generation"],
-    "stats": { "speed": 90, "accuracy": 65, "tokenEfficiency": 55, "power": 70 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [{ "domain": "Strategy", "value": -10 }],
-    "cost": 5
-  },
-  {
+    "_id": "operations",
     "id": "operations",
     "name": "Cross-team Sync Orchestrator",
     "domain": "Operations + Growth",
     "description": "Inter-departmental synchronization management with dependency tracking, alignment meeting facilitation, and blocker resolution.",
     "icon": "GitMerge",
-    "capabilities": ["Dependency cross-referencing", "Alignment agenda generation", "Blocker identification", "Resolution path suggestion"],
-    "stats": { "speed": 60, "accuracy": 72, "tokenEfficiency": 58, "power": 50 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
+    "capabilities": [
+      "Dependency cross-referencing",
+      "Alignment agenda generation",
+      "Blocker identification",
+      "Resolution path suggestion"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 72,
+      "tokenEfficiency": 58,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Cross-team Sync Orchestrator",
+        "domain": "Operations + Growth",
+        "description": "Inter-departmental synchronization management with dependency tracking, alignment meeting facilitation, and blocker resolution.",
+        "icon": "GitMerge",
+        "capabilities": [
+          "Dependency cross-referencing",
+          "Alignment agenda generation",
+          "Blocker identification",
+          "Resolution path suggestion"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 72,
+          "tokenEfficiency": 58,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Cross-team Sync Orchestrator+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced synchronization with predictive blocker prevention and automated alignment optimization.",
+        "icon": "GitMerge",
+        "capabilities": [
+          "Dependency cross-referencing",
+          "Alignment agenda generation",
+          "Blocker identification",
+          "Resolution path suggestion",
+          "Predictive blockers"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 77,
+          "tokenEfficiency": 66,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Cross-team Sync Orchestrator Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level synchronization with zero-blocker guarantee and perfect cross-team harmony.",
+        "icon": "GitMerge",
+        "capabilities": [
+          "Dependency cross-referencing",
+          "Alignment agenda generation",
+          "Blocker identification",
+          "Resolution path suggestion",
+          "Predictive blockers",
+          "Zero-blockers"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 82,
+          "tokenEfficiency": 74,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
-    "id": "operations",
-    "name": "Operational Dashboard Synthesizer",
-    "domain": "Strategy",
-    "description": "Real-time operational dashboard data aggregation with KPI visualization, anomaly detection, and executive summary generation.",
-    "icon": "LayoutDashboard",
-    "capabilities": ["KPI aggregation", "Anomaly detection", "Visualization query generation", "Executive narrative drafting"],
-    "stats": { "speed": 40, "accuracy": 85, "tokenEfficiency": 48, "power": 65 },
-    "buffs": [{ "domain": "Strategy", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
+    "_id": "operations",
     "id": "operations",
     "name": "Resource Optimizer Core",
     "domain": "Operations",
     "description": "Multi-resource optimization engine balancing workload, cost, and quality across all operational processes.",
     "icon": "SlidersHorizontal",
-    "capabilities": ["Workload distribution analysis", "Cost-quality tradeoff modeling", "Resource allocation optimization", "Utilization forecasting"],
-    "stats": { "speed": 55, "accuracy": 80, "tokenEfficiency": 65, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
+    "capabilities": [
+      "Workload distribution analysis",
+      "Cost-quality tradeoff modeling",
+      "Resource allocation optimization",
+      "Utilization forecasting"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 80,
+      "tokenEfficiency": 65,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Resource Optimizer Core",
+        "domain": "Operations",
+        "description": "Multi-resource optimization engine balancing workload, cost, and quality across all operational processes.",
+        "icon": "SlidersHorizontal",
+        "capabilities": [
+          "Workload distribution analysis",
+          "Cost-quality tradeoff modeling",
+          "Resource allocation optimization",
+          "Utilization forecasting"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 80,
+          "tokenEfficiency": 65,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Resource Optimizer Core+",
+        "domain": "Operations",
+        "description": "Enhanced optimization with predictive resource modeling and automated tradeoff resolution.",
+        "icon": "SlidersHorizontal",
+        "capabilities": [
+          "Workload distribution analysis",
+          "Cost-quality tradeoff modeling",
+          "Resource allocation optimization",
+          "Utilization forecasting",
+          "Predictive resource"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 85,
+          "tokenEfficiency": 73,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Resource Optimizer Core Elite",
+        "domain": "Operations",
+        "description": "Mastery-level optimization with perfect resource harmony and maximum efficiency delivery.",
+        "icon": "SlidersHorizontal",
+        "capabilities": [
+          "Workload distribution analysis",
+          "Cost-quality tradeoff modeling",
+          "Resource allocation optimization",
+          "Utilization forecasting",
+          "Predictive resource",
+          "Perfect harmony"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 90,
+          "tokenEfficiency": 81,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Quality Assurance Sentinel",
+    "domain": "Operations",
+    "description": "Continuous quality monitoring with automated checklists, compliance verification, and deviation alerting.",
+    "icon": "ShieldCheck",
+    "capabilities": [
+      "Automated QA checklist execution",
+      "Compliance verification",
+      "Deviation detection",
+      "Corrective action recommendation"
+    ],
+    "stats": {
+      "speed": 35,
+      "accuracy": 95,
+      "tokenEfficiency": 40,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Growth",
+        "value": -10
+      }
+    ],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Quality Assurance Sentinel",
+        "domain": "Operations",
+        "description": "Continuous quality monitoring with automated checklists, compliance verification, and deviation alerting.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Automated QA checklist execution",
+          "Compliance verification",
+          "Deviation detection",
+          "Corrective action recommendation"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 95,
+          "tokenEfficiency": 40,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Growth",
+            "value": -10
+          }
+        ],
+        "cost": 6
+      },
+      {
+        "name": "Quality Assurance Sentinel+",
+        "domain": "Operations",
+        "description": "Enhanced QA with predictive quality modeling and automated deviation prevention.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Automated QA checklist execution",
+          "Compliance verification",
+          "Deviation detection",
+          "Corrective action recommendation",
+          "Predictive quality"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 97,
+          "tokenEfficiency": 48,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Growth",
+            "value": -7
+          }
+        ],
+        "cost": 6
+      },
+      {
+        "name": "Quality Assurance Sentinel Elite",
+        "domain": "Operations",
+        "description": "Mastery-level QA with zero-defect guarantee and perfect quality orchestration.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Automated QA checklist execution",
+          "Compliance verification",
+          "Deviation detection",
+          "Corrective action recommendation",
+          "Predictive quality",
+          "Zero-defects"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 100,
+          "tokenEfficiency": 56,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Incident Response Coordinator",
+    "domain": "Operations",
+    "description": "Operational incident management with severity assessment, response coordination, and post-incident analysis.",
+    "icon": "AlertTriangle",
+    "capabilities": [
+      "Severity classification",
+      "Response team notification",
+      "Timeline reconstruction",
+      "Post-incident report generation"
+    ],
+    "stats": {
+      "speed": 90,
+      "accuracy": 65,
+      "tokenEfficiency": 55,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -10
+      }
+    ],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Incident Response Coordinator",
+        "domain": "Operations",
+        "description": "Operational incident management with severity assessment, response coordination, and post-incident analysis.",
+        "icon": "AlertTriangle",
+        "capabilities": [
+          "Severity classification",
+          "Response team notification",
+          "Timeline reconstruction",
+          "Post-incident report generation"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 65,
+          "tokenEfficiency": 55,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -10
+          }
+        ],
+        "cost": 5
+      },
+      {
+        "name": "Incident Response Coordinator+",
+        "domain": "Operations",
+        "description": "Enhanced response with predictive incident prevention and automated coordination optimization.",
+        "icon": "AlertTriangle",
+        "capabilities": [
+          "Severity classification",
+          "Response team notification",
+          "Timeline reconstruction",
+          "Post-incident report generation",
+          "Predictive prevention"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 70,
+          "tokenEfficiency": 63,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -7
+          }
+        ],
+        "cost": 5
+      },
+      {
+        "name": "Incident Response Coordinator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level response with zero-incident guarantee and perfect crisis orchestration.",
+        "icon": "AlertTriangle",
+        "capabilities": [
+          "Severity classification",
+          "Response team notification",
+          "Timeline reconstruction",
+          "Post-incident report generation",
+          "Predictive prevention",
+          "Zero-incidents"
+        ],
+        "stats": {
+          "speed": 110,
+          "accuracy": 75,
+          "tokenEfficiency": 71,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Operational Dashboard Synthesizer",
+    "domain": "Strategy",
+    "description": "Real-time operational dashboard data aggregation with KPI visualization, anomaly detection, and executive summary generation.",
+    "icon": "LayoutDashboard",
+    "capabilities": [
+      "KPI aggregation",
+      "Anomaly detection",
+      "Visualization query generation",
+      "Executive narrative drafting"
+    ],
+    "stats": {
+      "speed": 40,
+      "accuracy": 85,
+      "tokenEfficiency": 48,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Operational Dashboard Synthesizer",
+        "domain": "Strategy",
+        "description": "Real-time operational dashboard data aggregation with KPI visualization, anomaly detection, and executive summary generation.",
+        "icon": "LayoutDashboard",
+        "capabilities": [
+          "KPI aggregation",
+          "Anomaly detection",
+          "Visualization query generation",
+          "Executive narrative drafting"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 85,
+          "tokenEfficiency": 48,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Operational Dashboard Synthesizer+",
+        "domain": "Strategy",
+        "description": "Enhanced synthesis with predictive anomaly modeling and automated executive reporting.",
+        "icon": "LayoutDashboard",
+        "capabilities": [
+          "KPI aggregation",
+          "Anomaly detection",
+          "Visualization query generation",
+          "Executive narrative drafting",
+          "Predictive anomalies"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 90,
+          "tokenEfficiency": 56,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Operational Dashboard Synthesizer Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level synthesis with perfect data alignment and maximum executive insight delivery.",
+        "icon": "LayoutDashboard",
+        "capabilities": [
+          "KPI aggregation",
+          "Anomaly detection",
+          "Visualization query generation",
+          "Executive narrative drafting",
+          "Predictive anomalies",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 95,
+          "tokenEfficiency": 64,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Risk Register Manager",
+    "domain": "Strategy",
+    "description": "Operational risk identification, assessment, and mitigation planning with continuous monitoring and escalation.",
+    "icon": "ShieldAlert",
+    "capabilities": [
+      "Risk identification workshops",
+      "Probability-impact scoring",
+      "Mitigation plan generation",
+      "Risk trend tracking"
+    ],
+    "stats": {
+      "speed": 35,
+      "accuracy": 88,
+      "tokenEfficiency": 40,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Risk Register Manager",
+        "domain": "Strategy",
+        "description": "Operational risk identification, assessment, and mitigation planning with continuous monitoring and escalation.",
+        "icon": "ShieldAlert",
+        "capabilities": [
+          "Risk identification workshops",
+          "Probability-impact scoring",
+          "Mitigation plan generation",
+          "Risk trend tracking"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 88,
+          "tokenEfficiency": 40,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Risk Register Manager+",
+        "domain": "Strategy",
+        "description": "Enhanced risk management with predictive risk modeling and automated mitigation optimization.",
+        "icon": "ShieldAlert",
+        "capabilities": [
+          "Risk identification workshops",
+          "Probability-impact scoring",
+          "Mitigation plan generation",
+          "Risk trend tracking",
+          "Predictive risk"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 92,
+          "tokenEfficiency": 48,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Risk Register Manager Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level risk management with zero-unexpected-risk guarantee and perfect risk harmony.",
+        "icon": "ShieldAlert",
+        "capabilities": [
+          "Risk identification workshops",
+          "Probability-impact scoring",
+          "Mitigation plan generation",
+          "Risk trend tracking",
+          "Predictive risk",
+          "Zero-unexpected"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 96,
+          "tokenEfficiency": 56,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Change Management Navigator",
+    "domain": "Strategy",
+    "description": "Organizational change management planning with impact assessment, stakeholder mapping, and communication strategy.",
+    "icon": "Road",
+    "capabilities": [
+      "Impact assessment matrix",
+      "Stakeholder influence mapping",
+      "Communication plan generation",
+      "Resistance prediction"
+    ],
+    "stats": {
+      "speed": 30,
+      "accuracy": 85,
+      "tokenEfficiency": 42,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Change Management Navigator",
+        "domain": "Strategy",
+        "description": "Organizational change management planning with impact assessment, stakeholder mapping, and communication strategy.",
+        "icon": "Road",
+        "capabilities": [
+          "Impact assessment matrix",
+          "Stakeholder influence mapping",
+          "Communication plan generation",
+          "Resistance prediction"
+        ],
+        "stats": {
+          "speed": 30,
+          "accuracy": 85,
+          "tokenEfficiency": 42,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Change Management Navigator+",
+        "domain": "Strategy",
+        "description": "Enhanced change management with predictive resistance modeling and automated stakeholder engagement.",
+        "icon": "Road",
+        "capabilities": [
+          "Impact assessment matrix",
+          "Stakeholder influence mapping",
+          "Communication plan generation",
+          "Resistance prediction",
+          "Predictive resistance"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 90,
+          "tokenEfficiency": 50,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Change Management Navigator Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level change management with maximum adoption rate and zero-resistance optimization.",
+        "icon": "Road",
+        "capabilities": [
+          "Impact assessment matrix",
+          "Stakeholder influence mapping",
+          "Communication plan generation",
+          "Resistance prediction",
+          "Predictive resistance",
+          "Maximum adoption"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 95,
+          "tokenEfficiency": 58,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "operations",
+    "id": "operations",
+    "name": "Process Mining Engine",
+    "domain": "Strategy",
+    "description": "Deep process mining and analysis using event log data to discover, monitor, and optimize real business processes.",
+    "icon": "Scan",
+    "capabilities": [
+      "Process flow discovery",
+      "Deviation detection",
+      "Bottleneck root cause analysis",
+      "Optimization simulation"
+    ],
+    "stats": {
+      "speed": 25,
+      "accuracy": 90,
+      "tokenEfficiency": 35,
+      "power": 75
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -15
+      }
+    ],
+    "cost": 8,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Process Mining Engine",
+        "domain": "Strategy",
+        "description": "Deep process mining and analysis using event log data to discover, monitor, and optimize real business processes.",
+        "icon": "Scan",
+        "capabilities": [
+          "Process flow discovery",
+          "Deviation detection",
+          "Bottleneck root cause analysis",
+          "Optimization simulation"
+        ],
+        "stats": {
+          "speed": 25,
+          "accuracy": 90,
+          "tokenEfficiency": 35,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -15
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Process Mining Engine+",
+        "domain": "Strategy",
+        "description": "Enhanced mining with predictive process modeling and automated optimization orchestration.",
+        "icon": "Scan",
+        "capabilities": [
+          "Process flow discovery",
+          "Deviation detection",
+          "Bottleneck root cause analysis",
+          "Optimization simulation",
+          "Predictive process"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 94,
+          "tokenEfficiency": 43,
+          "power": 82
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -10
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Process Mining Engine Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level mining with perfect process visibility and maximum optimization delivery.",
+        "icon": "Scan",
+        "capabilities": [
+          "Process flow discovery",
+          "Deviation detection",
+          "Bottleneck root cause analysis",
+          "Optimization simulation",
+          "Predictive process",
+          "Perfect visibility"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 98,
+          "tokenEfficiency": 51,
+          "power": 89
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 8
+      }
+    ]
+  },
+  {
+    "_id": "operations",
     "id": "operations",
     "name": "Ultimate Operations Maestro",
     "domain": "Strategy",
     "description": "The ultimate operations skill — perfect process efficiency, maximum quality, and optimal resource utilization simultaneously.",
     "icon": "Crown",
-    "capabilities": ["Full-process orchestration", "Efficiency-quality optimization", "Resource-perfect allocation", "Cross-agent execution coordination"],
-    "stats": { "speed": 80, "accuracy": 92, "tokenEfficiency": 85, "power": 95 },
-    "buffs": [{ "domain": "Operations", "value": 15 }, { "domain": "Strategy", "value": 10 }],
+    "capabilities": [
+      "Full-process orchestration",
+      "Efficiency-quality optimization",
+      "Resource-perfect allocation",
+      "Cross-agent execution coordination"
+    ],
+    "stats": {
+      "speed": 80,
+      "accuracy": 92,
+      "tokenEfficiency": 85,
+      "power": 95
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      },
+      {
+        "domain": "Strategy",
+        "value": 10
+      }
+    ],
     "debuffs": [],
-    "cost": 10
+    "cost": 10,
+    "dependency": [
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      },
+      {
+        "agentSkillId": "operations"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Ultimate Operations Maestro",
+        "domain": "Strategy",
+        "description": "The ultimate operations skill — perfect process efficiency, maximum quality, and optimal resource utilization simultaneously.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-process orchestration",
+          "Efficiency-quality optimization",
+          "Resource-perfect allocation",
+          "Cross-agent execution coordination"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 92,
+          "tokenEfficiency": 85,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          },
+          {
+            "domain": "Strategy",
+            "value": 10
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate Operations Maestro+",
+        "domain": "Strategy",
+        "description": "Enhanced ultimate operations with predictive engineering and zero-defect efficiency.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-process orchestration",
+          "Efficiency-quality optimization",
+          "Resource-perfect allocation",
+          "Cross-agent execution coordination",
+          "Predictive engineering"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 96,
+          "tokenEfficiency": 92,
+          "power": 100
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          },
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate Operations Maestro Master",
+        "domain": "Strategy",
+        "description": "The pinnacle of operations mastery — flawless efficiency, maximum quality, and optimal utilization in perfect harmony.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-process orchestration",
+          "Efficiency-quality optimization",
+          "Resource-perfect allocation",
+          "Cross-agent execution coordination",
+          "Predictive engineering",
+          "Zero-defect"
+        ],
+        "stats": {
+          "speed": 110,
+          "accuracy": 100,
+          "tokenEfficiency": 100,
+          "power": 105
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          },
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      }
+    ]
   }
 ]

@@ -1,242 +1,2510 @@
 [
   {
+    "_id": "people",
     "id": "people",
     "name": "Rapid Recruitment Blitz",
     "domain": "Operations",
     "description": "Accelerated hiring pipeline execution with automated screening and interview scheduling at high velocity.",
     "icon": "Zap",
-    "capabilities": ["Resume auto-screening", "Interview slot optimization", "Offer letter generation", "Candidate communication automation"],
-    "stats": { "speed": 95, "accuracy": 42, "tokenEfficiency": 60, "power": 70 },
-    "buffs": [{ "domain": "Operations", "value": 30 }],
-    "debuffs": [{ "domain": "Strategy", "value": -18 }],
-    "cost": 4
+    "capabilities": [
+      "Resume auto-screening",
+      "Interview slot optimization",
+      "Offer letter generation",
+      "Candidate communication automation"
+    ],
+    "stats": {
+      "speed": 95,
+      "accuracy": 42,
+      "tokenEfficiency": 60,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 30
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -18
+      }
+    ],
+    "cost": 4,
+    "dependency": [],
+    "levels": [
+      {
+        "name": "Rapid Recruitment Blitz",
+        "domain": "Operations",
+        "description": "Accelerated hiring pipeline execution with automated screening and interview scheduling at high velocity.",
+        "icon": "Zap",
+        "capabilities": [
+          "Resume auto-screening",
+          "Interview slot optimization",
+          "Offer letter generation",
+          "Candidate communication automation"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 42,
+          "tokenEfficiency": 60,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -18
+          }
+        ],
+        "cost": 4
+      },
+      {
+        "name": "Rapid Recruitment Blitz+",
+        "domain": "Operations",
+        "description": "Enhanced recruitment with improved screening accuracy and expanded interview orchestration.",
+        "icon": "Zap",
+        "capabilities": [
+          "Resume auto-screening",
+          "Interview slot optimization",
+          "Offer letter generation",
+          "Candidate communication automation",
+          "Advanced candidate scoring"
+        ],
+        "stats": {
+          "speed": 105,
+          "accuracy": 48,
+          "tokenEfficiency": 67,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 35
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -12
+          }
+        ],
+        "cost": 4
+      },
+      {
+        "name": "Rapid Recruitment Blitz Elite",
+        "domain": "Operations",
+        "description": "Mastery-level recruitment with near-perfect hiring velocity and maximum talent quality.",
+        "icon": "Zap",
+        "capabilities": [
+          "Resume auto-screening",
+          "Interview slot optimization",
+          "Offer letter generation",
+          "Candidate communication automation",
+          "Advanced candidate scoring",
+          "Predictive hire success"
+        ],
+        "stats": {
+          "speed": 115,
+          "accuracy": 54,
+          "tokenEfficiency": 74,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 40
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
-    "id": "people",
-    "name": "Culture Fit Analyzer",
-    "domain": "Strategy",
-    "description": "Deep cultural alignment assessment using values mapping, behavioral indicators, and team dynamics prediction.",
-    "icon": "Heart",
-    "capabilities": ["Values alignment scoring", "Team fit prediction", "Cultural contribution mapping", "Diversity impact analysis"],
-    "stats": { "speed": 25, "accuracy": 90, "tokenEfficiency": 35, "power": 65 },
-    "buffs": [{ "domain": "Strategy", "value": 25 }],
-    "debuffs": [{ "domain": "Operations", "value": -15 }],
-    "cost": 7
-  },
-  {
-    "id": "people",
-    "name": "Onboarding Automation Core",
-    "domain": "Operations",
-    "description": "End-to-end employee onboarding automation with task sequencing, resource provisioning, and milestone tracking.",
-    "icon": "CheckCircle",
-    "capabilities": ["Task sequence generation", "Resource provisioning requests", "Milestone checklists", "Buddy assignment logic"],
-    "stats": { "speed": 80, "accuracy": 75, "tokenEfficiency": 68, "power": 55 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [],
-    "cost": 3
-  },
-  {
-    "id": "people",
-    "name": "Performance Review Architect",
-    "domain": "Strategy",
-    "description": "Comprehensive performance review preparation with 360-degree feedback aggregation and competency mapping.",
-    "icon": "BarChart3",
-    "capabilities": ["Feedback collection automation", "Competency scoring", "Review narrative generation", "Development plan creation"],
-    "stats": { "speed": 30, "accuracy": 88, "tokenEfficiency": 40, "power": 70 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [],
-    "cost": 6
-  },
-  {
+    "_id": "people",
     "id": "people",
     "name": "Token-efficient Scheduler",
     "domain": "Operations",
     "description": "Lean meeting and interview scheduling using minimal tokens with smart conflict resolution.",
     "icon": "Feather",
-    "capabilities": ["Calendar conflict detection", "Timezone optimization", "Buffer time management", "Reminder automation"],
-    "stats": { "speed": 85, "accuracy": 60, "tokenEfficiency": 92, "power": 35 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [{ "domain": "Strategy", "value": -10 }],
-    "cost": 2
+    "capabilities": [
+      "Calendar conflict detection",
+      "Timezone optimization",
+      "Buffer time management",
+      "Reminder automation"
+    ],
+    "stats": {
+      "speed": 85,
+      "accuracy": 60,
+      "tokenEfficiency": 92,
+      "power": 35
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -10
+      }
+    ],
+    "cost": 2,
+    "dependency": [],
+    "levels": [
+      {
+        "name": "Token-efficient Scheduler",
+        "domain": "Operations",
+        "description": "Lean meeting and interview scheduling using minimal tokens with smart conflict resolution.",
+        "icon": "Feather",
+        "capabilities": [
+          "Calendar conflict detection",
+          "Timezone optimization",
+          "Buffer time management",
+          "Reminder automation"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 60,
+          "tokenEfficiency": 92,
+          "power": 35
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -10
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Scheduler+",
+        "domain": "Operations",
+        "description": "Enhanced scheduling with improved conflict resolution and expanded timezone coverage.",
+        "icon": "Feather",
+        "capabilities": [
+          "Calendar conflict detection",
+          "Timezone optimization",
+          "Buffer time management",
+          "Reminder automation",
+          "Smart buffer adjustment"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 65,
+          "tokenEfficiency": 99,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -7
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Scheduler Elite",
+        "domain": "Operations",
+        "description": "Mastery-level scheduling with near-perfect efficiency and zero-conflict orchestration.",
+        "icon": "Feather",
+        "capabilities": [
+          "Calendar conflict detection",
+          "Timezone optimization",
+          "Buffer time management",
+          "Reminder automation",
+          "Smart buffer adjustment",
+          "Zero-conflicts"
+        ],
+        "stats": {
+          "speed": 105,
+          "accuracy": 70,
+          "tokenEfficiency": 106,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 2
+      }
+    ]
   },
   {
+    "_id": "people",
     "id": "people",
-    "name": "Employee Engagement Sentinel",
-    "domain": "Operations + Growth",
-    "description": "Continuous employee engagement monitoring using pulse survey analysis, sentiment tracking, and attrition risk.",
-    "icon": "Activity",
-    "capabilities": ["Pulse survey automation", "Sentiment trend analysis", "Attrition risk scoring", "Intervention recommendation"],
-    "stats": { "speed": 55, "accuracy": 78, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
+    "name": "Onboarding Automation Core",
+    "domain": "Operations",
+    "description": "End-to-end employee onboarding automation with task sequencing, resource provisioning, and milestone tracking.",
+    "icon": "CheckCircle",
+    "capabilities": [
+      "Task sequence generation",
+      "Resource provisioning requests",
+      "Milestone checklists",
+      "Buddy assignment logic"
+    ],
+    "stats": {
+      "speed": 80,
+      "accuracy": 75,
+      "tokenEfficiency": 68,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Onboarding Automation Core",
+        "domain": "Operations",
+        "description": "End-to-end employee onboarding automation with task sequencing, resource provisioning, and milestone tracking.",
+        "icon": "CheckCircle",
+        "capabilities": [
+          "Task sequence generation",
+          "Resource provisioning requests",
+          "Milestone checklists",
+          "Buddy assignment logic"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 75,
+          "tokenEfficiency": 68,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Onboarding Automation Core+",
+        "domain": "Operations",
+        "description": "Enhanced onboarding with predictive task sequencing and automated resource orchestration.",
+        "icon": "CheckCircle",
+        "capabilities": [
+          "Task sequence generation",
+          "Resource provisioning requests",
+          "Milestone checklists",
+          "Buddy assignment logic",
+          "Predictive sequencing"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 80,
+          "tokenEfficiency": 76,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Onboarding Automation Core Elite",
+        "domain": "Operations",
+        "description": "Mastery-level onboarding with zero-friction experience and maximum new hire readiness.",
+        "icon": "CheckCircle",
+        "capabilities": [
+          "Task sequence generation",
+          "Resource provisioning requests",
+          "Milestone checklists",
+          "Buddy assignment logic",
+          "Predictive sequencing",
+          "Zero-friction"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 85,
+          "tokenEfficiency": 84,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
-    "id": "people",
-    "name": "Skills Gap Analyzer",
-    "domain": "Strategy",
-    "description": "Organizational skills gap analysis comparing current capabilities against strategic requirements with training recommendations.",
-    "icon": "GitCompare",
-    "capabilities": ["Skill inventory mapping", "Gap identification", "Training path recommendation", "Hiring priority scoring"],
-    "stats": { "speed": 35, "accuracy": 85, "tokenEfficiency": 42, "power": 70 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [],
-    "cost": 6
-  },
-  {
-    "id": "people",
-    "name": "Compensation Benchmark Engine",
-    "domain": "Operations + Growth",
-    "description": "Market-aligned compensation analysis using industry benchmarks, role leveling, and equity positioning.",
-    "icon": "DollarSign",
-    "capabilities": ["Market data aggregation", "Role leveling comparison", "Equity positioning analysis", "Total rewards modeling"],
-    "stats": { "speed": 45, "accuracy": 82, "tokenEfficiency": 50, "power": 60 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
-    "id": "people",
-    "name": "Internal Mobility Matcher",
-    "domain": "Growth",
-    "description": "Employee internal opportunity matching using skills inference, career aspiration analysis, and team need alignment.",
-    "icon": "ArrowRightLeft",
-    "capabilities": ["Skills inference from history", "Career path suggestion", "Team need matching", "Transition planning"],
-    "stats": { "speed": 50, "accuracy": 75, "tokenEfficiency": 55, "power": 55 },
-    "buffs": [{ "domain": "Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
+    "_id": "people",
     "id": "people",
     "name": "Compliance Guardian",
     "domain": "Operations",
     "description": "Employment compliance monitoring with regulation tracking, audit preparation, and policy violation detection.",
     "icon": "ShieldCheck",
-    "capabilities": ["Regulation update tracking", "Policy compliance checking", "Audit trail generation", "Violation alert system"],
-    "stats": { "speed": 60, "accuracy": 92, "tokenEfficiency": 58, "power": 50 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
+    "capabilities": [
+      "Regulation update tracking",
+      "Policy compliance checking",
+      "Audit trail generation",
+      "Violation alert system"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 92,
+      "tokenEfficiency": 58,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Compliance Guardian",
+        "domain": "Operations",
+        "description": "Employment compliance monitoring with regulation tracking, audit preparation, and policy violation detection.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Regulation update tracking",
+          "Policy compliance checking",
+          "Audit trail generation",
+          "Violation alert system"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 92,
+          "tokenEfficiency": 58,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Compliance Guardian+",
+        "domain": "Operations",
+        "description": "Enhanced compliance with predictive violation prevention and automated audit orchestration.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Regulation update tracking",
+          "Policy compliance checking",
+          "Audit trail generation",
+          "Violation alert system",
+          "Predictive prevention"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 95,
+          "tokenEfficiency": 66,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Compliance Guardian Elite",
+        "domain": "Operations",
+        "description": "Mastery-level compliance with zero-violation guarantee and perfect regulatory harmony.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Regulation update tracking",
+          "Policy compliance checking",
+          "Audit trail generation",
+          "Violation alert system",
+          "Predictive prevention",
+          "Zero-violations"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 98,
+          "tokenEfficiency": 74,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
-    "id": "people",
-    "name": "Team Dynamics Mapper",
-    "domain": "Strategy",
-    "description": "Interpersonal team dynamics analysis using communication patterns, role clarity, and collaboration quality assessment.",
-    "icon": "Network",
-    "capabilities": ["Communication pattern analysis", "Role clarity scoring", "Collaboration quality index", "Conflict risk prediction"],
-    "stats": { "speed": 30, "accuracy": 86, "tokenEfficiency": 40, "power": 65 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -10 }],
-    "cost": 6
-  },
-  {
-    "id": "people",
-    "name": "Learning Path Generator",
-    "domain": "Operations + Growth",
-    "description": "Personalized employee learning path creation using skill gaps, career goals, and content recommendation engine.",
-    "icon": "BookOpen",
-    "capabilities": ["Skill gap assessment", "Goal-based sequencing", "Content recommendation", "Progress tracking integration"],
-    "stats": { "speed": 55, "accuracy": 72, "tokenEfficiency": 60, "power": 50 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "people",
-    "name": "Exit Interview Synthesizer",
-    "domain": "Strategy",
-    "description": "Systematic exit interview analysis with attrition root cause identification and organizational improvement insights.",
-    "icon": "MessageCircle",
-    "capabilities": ["Interview transcription & summary", "Attrition pattern detection", "Root cause classification", "Retention recommendation generation"],
-    "stats": { "speed": 40, "accuracy": 82, "tokenEfficiency": 45, "power": 60 },
-    "buffs": [{ "domain": "Strategy", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
-    "id": "people",
-    "name": "DEI Compliance Monitor",
-    "domain": "Operations",
-    "description": "Diversity, equity, and inclusion metric tracking with hiring fairness analysis and pay equity monitoring.",
-    "icon": "UsersRound",
-    "capabilities": ["Demographic trend analysis", "Hiring fairness scoring", "Pay equity gap detection", "Inclusion index calculation"],
-    "stats": { "speed": 50, "accuracy": 85, "tokenEfficiency": 52, "power": 55 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "people",
-    "name": "Benefits Optimizer",
-    "domain": "Operations + Growth",
-    "description": "Employee benefits package optimization using utilization analysis, cost modeling, and satisfaction correlation.",
-    "icon": "Gift",
-    "capabilities": ["Utilization rate tracking", "Cost-benefit analysis", "Satisfaction correlation mapping", "Package customization"],
-    "stats": { "speed": 45, "accuracy": 78, "tokenEfficiency": 50, "power": 50 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "people",
-    "name": "Workforce Planner",
-    "domain": "Strategy",
-    "description": "Strategic workforce planning with headcount forecasting, scenario modeling, and budget alignment.",
-    "icon": "CalendarClock",
-    "capabilities": ["Headcount projection", "Scenario modeling", "Budget alignment analysis", "Skills demand forecasting"],
-    "stats": { "speed": 25, "accuracy": 88, "tokenEfficiency": 38, "power": 75 },
-    "buffs": [{ "domain": "Strategy", "value": 25 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -12 }],
-    "cost": 7
-  },
-  {
-    "id": "people",
-    "name": "Performance Incentive Designer",
-    "domain": "Growth",
-    "description": "Motivational incentive program design using behavioral economics, reward optimization, and goal alignment.",
-    "icon": "Trophy",
-    "capabilities": ["Reward structure design", "Goal alignment mapping", "Behavioral trigger integration", "ROI projection"],
-    "stats": { "speed": 50, "accuracy": 74, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
+    "_id": "people",
     "id": "people",
     "name": "Remote Team Coordinator",
     "domain": "Operations",
     "description": "Remote and hybrid team coordination with async communication optimization and timezone-aware scheduling.",
     "icon": "Laptop",
-    "capabilities": ["Async update generation", "Timezone overlap calculation", "Meeting rhythm design", "Virtual team building"],
-    "stats": { "speed": 70, "accuracy": 68, "tokenEfficiency": 65, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "Async update generation",
+      "Timezone overlap calculation",
+      "Meeting rhythm design",
+      "Virtual team building"
+    ],
+    "stats": {
+      "speed": 70,
+      "accuracy": 68,
+      "tokenEfficiency": 65,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Remote Team Coordinator",
+        "domain": "Operations",
+        "description": "Remote and hybrid team coordination with async communication optimization and timezone-aware scheduling.",
+        "icon": "Laptop",
+        "capabilities": [
+          "Async update generation",
+          "Timezone overlap calculation",
+          "Meeting rhythm design",
+          "Virtual team building"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 68,
+          "tokenEfficiency": 65,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Remote Team Coordinator+",
+        "domain": "Operations",
+        "description": "Enhanced coordination with predictive async modeling and automated rhythm optimization.",
+        "icon": "Laptop",
+        "capabilities": [
+          "Async update generation",
+          "Timezone overlap calculation",
+          "Meeting rhythm design",
+          "Virtual team building",
+          "Predictive async"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 73,
+          "tokenEfficiency": 73,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Remote Team Coordinator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level coordination with zero-timezone-friction and maximum distributed team productivity.",
+        "icon": "Laptop",
+        "capabilities": [
+          "Async update generation",
+          "Timezone overlap calculation",
+          "Meeting rhythm design",
+          "Virtual team building",
+          "Predictive async",
+          "Zero-friction"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 78,
+          "tokenEfficiency": 81,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
+    "_id": "people",
+    "id": "people",
+    "name": "Employee Engagement Sentinel",
+    "domain": "Operations + Growth",
+    "description": "Continuous employee engagement monitoring using pulse survey analysis, sentiment tracking, and attrition risk.",
+    "icon": "Activity",
+    "capabilities": [
+      "Pulse survey automation",
+      "Sentiment trend analysis",
+      "Attrition risk scoring",
+      "Intervention recommendation"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 78,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Employee Engagement Sentinel",
+        "domain": "Operations + Growth",
+        "description": "Continuous employee engagement monitoring using pulse survey analysis, sentiment tracking, and attrition risk.",
+        "icon": "Activity",
+        "capabilities": [
+          "Pulse survey automation",
+          "Sentiment trend analysis",
+          "Attrition risk scoring",
+          "Intervention recommendation"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 78,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Employee Engagement Sentinel+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced engagement with predictive attrition modeling and automated intervention orchestration.",
+        "icon": "Activity",
+        "capabilities": [
+          "Pulse survey automation",
+          "Sentiment trend analysis",
+          "Attrition risk scoring",
+          "Intervention recommendation",
+          "Predictive attrition"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 83,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Employee Engagement Sentinel Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level engagement with zero-attrition guarantee and maximum employee satisfaction.",
+        "icon": "Activity",
+        "capabilities": [
+          "Pulse survey automation",
+          "Sentiment trend analysis",
+          "Attrition risk scoring",
+          "Intervention recommendation",
+          "Predictive attrition",
+          "Zero-attrition"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 88,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Compensation Benchmark Engine",
+    "domain": "Operations + Growth",
+    "description": "Market-aligned compensation analysis using industry benchmarks, role leveling, and equity positioning.",
+    "icon": "DollarSign",
+    "capabilities": [
+      "Market data aggregation",
+      "Role leveling comparison",
+      "Equity positioning analysis",
+      "Total rewards modeling"
+    ],
+    "stats": {
+      "speed": 45,
+      "accuracy": 82,
+      "tokenEfficiency": 50,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Compensation Benchmark Engine",
+        "domain": "Operations + Growth",
+        "description": "Market-aligned compensation analysis using industry benchmarks, role leveling, and equity positioning.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "Market data aggregation",
+          "Role leveling comparison",
+          "Equity positioning analysis",
+          "Total rewards modeling"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 82,
+          "tokenEfficiency": 50,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Compensation Benchmark Engine+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced benchmarking with predictive market modeling and automated compensation optimization.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "Market data aggregation",
+          "Role leveling comparison",
+          "Equity positioning analysis",
+          "Total rewards modeling",
+          "Predictive market"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 87,
+          "tokenEfficiency": 58,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Compensation Benchmark Engine Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level benchmarking with perfect market alignment and maximum compensation fairness.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "Market data aggregation",
+          "Role leveling comparison",
+          "Equity positioning analysis",
+          "Total rewards modeling",
+          "Predictive market",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 92,
+          "tokenEfficiency": 66,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Internal Mobility Matcher",
+    "domain": "Growth",
+    "description": "Employee internal opportunity matching using skills inference, career aspiration analysis, and team need alignment.",
+    "icon": "ArrowRightLeft",
+    "capabilities": [
+      "Skills inference from history",
+      "Career path suggestion",
+      "Team need matching",
+      "Transition planning"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 75,
+      "tokenEfficiency": 55,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Internal Mobility Matcher",
+        "domain": "Growth",
+        "description": "Employee internal opportunity matching using skills inference, career aspiration analysis, and team need alignment.",
+        "icon": "ArrowRightLeft",
+        "capabilities": [
+          "Skills inference from history",
+          "Career path suggestion",
+          "Team need matching",
+          "Transition planning"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 75,
+          "tokenEfficiency": 55,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Internal Mobility Matcher+",
+        "domain": "Growth",
+        "description": "Enhanced matching with predictive career modeling and automated transition optimization.",
+        "icon": "ArrowRightLeft",
+        "capabilities": [
+          "Skills inference from history",
+          "Career path suggestion",
+          "Team need matching",
+          "Transition planning",
+          "Predictive careers"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 80,
+          "tokenEfficiency": 63,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Internal Mobility Matcher Elite",
+        "domain": "Growth",
+        "description": "Mastery-level matching with perfect career alignment and maximum internal mobility impact.",
+        "icon": "ArrowRightLeft",
+        "capabilities": [
+          "Skills inference from history",
+          "Career path suggestion",
+          "Team need matching",
+          "Transition planning",
+          "Predictive careers",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 85,
+          "tokenEfficiency": 71,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Learning Path Generator",
+    "domain": "Operations + Growth",
+    "description": "Personalized employee learning path creation using skill gaps, career goals, and content recommendation engine.",
+    "icon": "BookOpen",
+    "capabilities": [
+      "Skill gap assessment",
+      "Goal-based sequencing",
+      "Content recommendation",
+      "Progress tracking integration"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 72,
+      "tokenEfficiency": 60,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Learning Path Generator",
+        "domain": "Operations + Growth",
+        "description": "Personalized employee learning path creation using skill gaps, career goals, and content recommendation engine.",
+        "icon": "BookOpen",
+        "capabilities": [
+          "Skill gap assessment",
+          "Goal-based sequencing",
+          "Content recommendation",
+          "Progress tracking integration"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 72,
+          "tokenEfficiency": 60,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Learning Path Generator+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced learning with adaptive path optimization and automated content orchestration.",
+        "icon": "BookOpen",
+        "capabilities": [
+          "Skill gap assessment",
+          "Goal-based sequencing",
+          "Content recommendation",
+          "Progress tracking integration",
+          "Adaptive optimization"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 77,
+          "tokenEfficiency": 68,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Learning Path Generator Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level learning with perfect skill alignment and maximum knowledge retention.",
+        "icon": "BookOpen",
+        "capabilities": [
+          "Skill gap assessment",
+          "Goal-based sequencing",
+          "Content recommendation",
+          "Progress tracking integration",
+          "Adaptive optimization",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 82,
+          "tokenEfficiency": 76,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Benefits Optimizer",
+    "domain": "Operations + Growth",
+    "description": "Employee benefits package optimization using utilization analysis, cost modeling, and satisfaction correlation.",
+    "icon": "Gift",
+    "capabilities": [
+      "Utilization rate tracking",
+      "Cost-benefit analysis",
+      "Satisfaction correlation mapping",
+      "Package customization"
+    ],
+    "stats": {
+      "speed": 45,
+      "accuracy": 78,
+      "tokenEfficiency": 50,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Benefits Optimizer",
+        "domain": "Operations + Growth",
+        "description": "Employee benefits package optimization using utilization analysis, cost modeling, and satisfaction correlation.",
+        "icon": "Gift",
+        "capabilities": [
+          "Utilization rate tracking",
+          "Cost-benefit analysis",
+          "Satisfaction correlation mapping",
+          "Package customization"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 78,
+          "tokenEfficiency": 50,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Benefits Optimizer+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced optimization with predictive utilization modeling and automated benefits alignment.",
+        "icon": "Gift",
+        "capabilities": [
+          "Utilization rate tracking",
+          "Cost-benefit analysis",
+          "Satisfaction correlation mapping",
+          "Package customization",
+          "Predictive utilization"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 83,
+          "tokenEfficiency": 58,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Benefits Optimizer Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level optimization with maximum employee satisfaction and perfect benefits alignment.",
+        "icon": "Gift",
+        "capabilities": [
+          "Utilization rate tracking",
+          "Cost-benefit analysis",
+          "Satisfaction correlation mapping",
+          "Package customization",
+          "Predictive utilization",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 88,
+          "tokenEfficiency": 66,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "people",
     "id": "people",
     "name": "Manager Coaching Assistant",
     "domain": "Operations + Growth",
     "description": "People manager coaching support with 1-on-1 agenda generation, feedback scripts, and development discussion aids.",
     "icon": "UserCheck",
-    "capabilities": ["1-on-1 agenda builder", "Feedback script generator", "Development discussion prompts", "Performance conversation guides"],
-    "stats": { "speed": 65, "accuracy": 72, "tokenEfficiency": 60, "power": 50 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
+    "capabilities": [
+      "1-on-1 agenda builder",
+      "Feedback script generator",
+      "Development discussion prompts",
+      "Performance conversation guides"
+    ],
+    "stats": {
+      "speed": 65,
+      "accuracy": 72,
+      "tokenEfficiency": 60,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Manager Coaching Assistant",
+        "domain": "Operations + Growth",
+        "description": "People manager coaching support with 1-on-1 agenda generation, feedback scripts, and development discussion aids.",
+        "icon": "UserCheck",
+        "capabilities": [
+          "1-on-1 agenda builder",
+          "Feedback script generator",
+          "Development discussion prompts",
+          "Performance conversation guides"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 72,
+          "tokenEfficiency": 60,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Manager Coaching Assistant+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced coaching with predictive development modeling and automated feedback optimization.",
+        "icon": "UserCheck",
+        "capabilities": [
+          "1-on-1 agenda builder",
+          "Feedback script generator",
+          "Development discussion prompts",
+          "Performance conversation guides",
+          "Predictive development"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 77,
+          "tokenEfficiency": 68,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Manager Coaching Assistant Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level coaching with maximum manager effectiveness and perfect development alignment.",
+        "icon": "UserCheck",
+        "capabilities": [
+          "1-on-1 agenda builder",
+          "Feedback script generator",
+          "Development discussion prompts",
+          "Performance conversation guides",
+          "Predictive development",
+          "Maximum effectiveness"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 82,
+          "tokenEfficiency": 76,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
+    "_id": "people",
+    "id": "people",
+    "name": "Culture Fit Analyzer",
+    "domain": "Strategy",
+    "description": "Deep cultural alignment assessment using values mapping, behavioral indicators, and team dynamics prediction.",
+    "icon": "Heart",
+    "capabilities": [
+      "Values alignment scoring",
+      "Team fit prediction",
+      "Cultural contribution mapping",
+      "Diversity impact analysis"
+    ],
+    "stats": {
+      "speed": 25,
+      "accuracy": 90,
+      "tokenEfficiency": 35,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations",
+        "value": -15
+      }
+    ],
+    "cost": 7,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Culture Fit Analyzer",
+        "domain": "Strategy",
+        "description": "Deep cultural alignment assessment using values mapping, behavioral indicators, and team dynamics prediction.",
+        "icon": "Heart",
+        "capabilities": [
+          "Values alignment scoring",
+          "Team fit prediction",
+          "Cultural contribution mapping",
+          "Diversity impact analysis"
+        ],
+        "stats": {
+          "speed": 25,
+          "accuracy": 90,
+          "tokenEfficiency": 35,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations",
+            "value": -15
+          }
+        ],
+        "cost": 7
+      },
+      {
+        "name": "Culture Fit Analyzer+",
+        "domain": "Strategy",
+        "description": "Enhanced analysis with predictive cultural modeling and automated diversity optimization.",
+        "icon": "Heart",
+        "capabilities": [
+          "Values alignment scoring",
+          "Team fit prediction",
+          "Cultural contribution mapping",
+          "Diversity impact analysis",
+          "Predictive culture"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 94,
+          "tokenEfficiency": 43,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations",
+            "value": -10
+          }
+        ],
+        "cost": 7
+      },
+      {
+        "name": "Culture Fit Analyzer Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level analysis with perfect cultural harmony and maximum team cohesion.",
+        "icon": "Heart",
+        "capabilities": [
+          "Values alignment scoring",
+          "Team fit prediction",
+          "Cultural contribution mapping",
+          "Diversity impact analysis",
+          "Predictive culture",
+          "Perfect harmony"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 98,
+          "tokenEfficiency": 51,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 7
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Performance Review Architect",
+    "domain": "Strategy",
+    "description": "Comprehensive performance review preparation with 360-degree feedback aggregation and competency mapping.",
+    "icon": "BarChart3",
+    "capabilities": [
+      "Feedback collection automation",
+      "Competency scoring",
+      "Review narrative generation",
+      "Development plan creation"
+    ],
+    "stats": {
+      "speed": 30,
+      "accuracy": 88,
+      "tokenEfficiency": 40,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Performance Review Architect",
+        "domain": "Strategy",
+        "description": "Comprehensive performance review preparation with 360-degree feedback aggregation and competency mapping.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "Feedback collection automation",
+          "Competency scoring",
+          "Review narrative generation",
+          "Development plan creation"
+        ],
+        "stats": {
+          "speed": 30,
+          "accuracy": 88,
+          "tokenEfficiency": 40,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Performance Review Architect+",
+        "domain": "Strategy",
+        "description": "Enhanced reviews with predictive performance modeling and automated competency orchestration.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "Feedback collection automation",
+          "Competency scoring",
+          "Review narrative generation",
+          "Development plan creation",
+          "Predictive performance"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 92,
+          "tokenEfficiency": 48,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Performance Review Architect Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level reviews with perfect feedback alignment and maximum development impact.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "Feedback collection automation",
+          "Competency scoring",
+          "Review narrative generation",
+          "Development plan creation",
+          "Predictive performance",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 96,
+          "tokenEfficiency": 56,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Skills Gap Analyzer",
+    "domain": "Strategy",
+    "description": "Organizational skills gap analysis comparing current capabilities against strategic requirements with training recommendations.",
+    "icon": "GitCompare",
+    "capabilities": [
+      "Skill inventory mapping",
+      "Gap identification",
+      "Training path recommendation",
+      "Hiring priority scoring"
+    ],
+    "stats": {
+      "speed": 35,
+      "accuracy": 85,
+      "tokenEfficiency": 42,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Skills Gap Analyzer",
+        "domain": "Strategy",
+        "description": "Organizational skills gap analysis comparing current capabilities against strategic requirements with training recommendations.",
+        "icon": "GitCompare",
+        "capabilities": [
+          "Skill inventory mapping",
+          "Gap identification",
+          "Training path recommendation",
+          "Hiring priority scoring"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 85,
+          "tokenEfficiency": 42,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Skills Gap Analyzer+",
+        "domain": "Strategy",
+        "description": "Enhanced analysis with predictive skills forecasting and automated gap resolution planning.",
+        "icon": "GitCompare",
+        "capabilities": [
+          "Skill inventory mapping",
+          "Gap identification",
+          "Training path recommendation",
+          "Hiring priority scoring",
+          "Predictive forecasting"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 90,
+          "tokenEfficiency": 50,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Skills Gap Analyzer Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level analysis with perfect skills alignment and maximum capability optimization.",
+        "icon": "GitCompare",
+        "capabilities": [
+          "Skill inventory mapping",
+          "Gap identification",
+          "Training path recommendation",
+          "Hiring priority scoring",
+          "Predictive forecasting",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 95,
+          "tokenEfficiency": 58,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Team Dynamics Mapper",
+    "domain": "Strategy",
+    "description": "Interpersonal team dynamics analysis using communication patterns, role clarity, and collaboration quality assessment.",
+    "icon": "Network",
+    "capabilities": [
+      "Communication pattern analysis",
+      "Role clarity scoring",
+      "Collaboration quality index",
+      "Conflict risk prediction"
+    ],
+    "stats": {
+      "speed": 30,
+      "accuracy": 86,
+      "tokenEfficiency": 40,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -10
+      }
+    ],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Team Dynamics Mapper",
+        "domain": "Strategy",
+        "description": "Interpersonal team dynamics analysis using communication patterns, role clarity, and collaboration quality assessment.",
+        "icon": "Network",
+        "capabilities": [
+          "Communication pattern analysis",
+          "Role clarity scoring",
+          "Collaboration quality index",
+          "Conflict risk prediction"
+        ],
+        "stats": {
+          "speed": 30,
+          "accuracy": 86,
+          "tokenEfficiency": 40,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -10
+          }
+        ],
+        "cost": 6
+      },
+      {
+        "name": "Team Dynamics Mapper+",
+        "domain": "Strategy",
+        "description": "Enhanced mapping with predictive conflict modeling and automated dynamics optimization.",
+        "icon": "Network",
+        "capabilities": [
+          "Communication pattern analysis",
+          "Role clarity scoring",
+          "Collaboration quality index",
+          "Conflict risk prediction",
+          "Predictive conflicts"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 91,
+          "tokenEfficiency": 48,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -7
+          }
+        ],
+        "cost": 6
+      },
+      {
+        "name": "Team Dynamics Mapper Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level mapping with perfect team harmony and zero-conflict optimization.",
+        "icon": "Network",
+        "capabilities": [
+          "Communication pattern analysis",
+          "Role clarity scoring",
+          "Collaboration quality index",
+          "Conflict risk prediction",
+          "Predictive conflicts",
+          "Zero-conflicts"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 96,
+          "tokenEfficiency": 56,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Exit Interview Synthesizer",
+    "domain": "Strategy",
+    "description": "Systematic exit interview analysis with attrition root cause identification and organizational improvement insights.",
+    "icon": "MessageCircle",
+    "capabilities": [
+      "Interview transcription & summary",
+      "Attrition pattern detection",
+      "Root cause classification",
+      "Retention recommendation generation"
+    ],
+    "stats": {
+      "speed": 40,
+      "accuracy": 82,
+      "tokenEfficiency": 45,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Exit Interview Synthesizer",
+        "domain": "Strategy",
+        "description": "Systematic exit interview analysis with attrition root cause identification and organizational improvement insights.",
+        "icon": "MessageCircle",
+        "capabilities": [
+          "Interview transcription & summary",
+          "Attrition pattern detection",
+          "Root cause classification",
+          "Retention recommendation generation"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 82,
+          "tokenEfficiency": 45,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Exit Interview Synthesizer+",
+        "domain": "Strategy",
+        "description": "Enhanced synthesis with predictive attrition modeling and automated retention optimization.",
+        "icon": "MessageCircle",
+        "capabilities": [
+          "Interview transcription & summary",
+          "Attrition pattern detection",
+          "Root cause classification",
+          "Retention recommendation generation",
+          "Predictive attrition"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 87,
+          "tokenEfficiency": 53,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Exit Interview Synthesizer Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level synthesis with zero-attrition guarantee and maximum organizational learning.",
+        "icon": "MessageCircle",
+        "capabilities": [
+          "Interview transcription & summary",
+          "Attrition pattern detection",
+          "Root cause classification",
+          "Retention recommendation generation",
+          "Predictive attrition",
+          "Zero-attrition"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 92,
+          "tokenEfficiency": 61,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "DEI Compliance Monitor",
+    "domain": "Operations",
+    "description": "Diversity, equity, and inclusion metric tracking with hiring fairness analysis and pay equity monitoring.",
+    "icon": "UsersRound",
+    "capabilities": [
+      "Demographic trend analysis",
+      "Hiring fairness scoring",
+      "Pay equity gap detection",
+      "Inclusion index calculation"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 85,
+      "tokenEfficiency": 52,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "DEI Compliance Monitor",
+        "domain": "Operations",
+        "description": "Diversity, equity, and inclusion metric tracking with hiring fairness analysis and pay equity monitoring.",
+        "icon": "UsersRound",
+        "capabilities": [
+          "Demographic trend analysis",
+          "Hiring fairness scoring",
+          "Pay equity gap detection",
+          "Inclusion index calculation"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 85,
+          "tokenEfficiency": 52,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "DEI Compliance Monitor+",
+        "domain": "Operations",
+        "description": "Enhanced monitoring with predictive equity modeling and automated DEI optimization.",
+        "icon": "UsersRound",
+        "capabilities": [
+          "Demographic trend analysis",
+          "Hiring fairness scoring",
+          "Pay equity gap detection",
+          "Inclusion index calculation",
+          "Predictive equity"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 90,
+          "tokenEfficiency": 60,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "DEI Compliance Monitor Elite",
+        "domain": "Operations",
+        "description": "Mastery-level monitoring with perfect DEI alignment and maximum inclusion impact.",
+        "icon": "UsersRound",
+        "capabilities": [
+          "Demographic trend analysis",
+          "Hiring fairness scoring",
+          "Pay equity gap detection",
+          "Inclusion index calculation",
+          "Predictive equity",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 95,
+          "tokenEfficiency": 68,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Performance Incentive Designer",
+    "domain": "Growth",
+    "description": "Motivational incentive program design using behavioral economics, reward optimization, and goal alignment.",
+    "icon": "Trophy",
+    "capabilities": [
+      "Reward structure design",
+      "Goal alignment mapping",
+      "Behavioral trigger integration",
+      "ROI projection"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 74,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Performance Incentive Designer",
+        "domain": "Growth",
+        "description": "Motivational incentive program design using behavioral economics, reward optimization, and goal alignment.",
+        "icon": "Trophy",
+        "capabilities": [
+          "Reward structure design",
+          "Goal alignment mapping",
+          "Behavioral trigger integration",
+          "ROI projection"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 74,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Performance Incentive Designer+",
+        "domain": "Growth",
+        "description": "Enhanced design with predictive motivation modeling and automated reward optimization.",
+        "icon": "Trophy",
+        "capabilities": [
+          "Reward structure design",
+          "Goal alignment mapping",
+          "Behavioral trigger integration",
+          "ROI projection",
+          "Predictive motivation"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 79,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Performance Incentive Designer Elite",
+        "domain": "Growth",
+        "description": "Mastery-level design with maximum employee motivation and perfect incentive alignment.",
+        "icon": "Trophy",
+        "capabilities": [
+          "Reward structure design",
+          "Goal alignment mapping",
+          "Behavioral trigger integration",
+          "ROI projection",
+          "Predictive motivation",
+          "Maximum motivation"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 84,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "people",
+    "id": "people",
+    "name": "Workforce Planner",
+    "domain": "Strategy",
+    "description": "Strategic workforce planning with headcount forecasting, scenario modeling, and budget alignment.",
+    "icon": "CalendarClock",
+    "capabilities": [
+      "Headcount projection",
+      "Scenario modeling",
+      "Budget alignment analysis",
+      "Skills demand forecasting"
+    ],
+    "stats": {
+      "speed": 25,
+      "accuracy": 88,
+      "tokenEfficiency": 38,
+      "power": 75
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -12
+      }
+    ],
+    "cost": 7,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Workforce Planner",
+        "domain": "Strategy",
+        "description": "Strategic workforce planning with headcount forecasting, scenario modeling, and budget alignment.",
+        "icon": "CalendarClock",
+        "capabilities": [
+          "Headcount projection",
+          "Scenario modeling",
+          "Budget alignment analysis",
+          "Skills demand forecasting"
+        ],
+        "stats": {
+          "speed": 25,
+          "accuracy": 88,
+          "tokenEfficiency": 38,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -12
+          }
+        ],
+        "cost": 7
+      },
+      {
+        "name": "Workforce Planner+",
+        "domain": "Strategy",
+        "description": "Enhanced planning with predictive workforce modeling and automated scenario optimization.",
+        "icon": "CalendarClock",
+        "capabilities": [
+          "Headcount projection",
+          "Scenario modeling",
+          "Budget alignment analysis",
+          "Skills demand forecasting",
+          "Predictive workforce"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 92,
+          "tokenEfficiency": 46,
+          "power": 82
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -7
+          }
+        ],
+        "cost": 7
+      },
+      {
+        "name": "Workforce Planner Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level planning with perfect workforce alignment and maximum strategic readiness.",
+        "icon": "CalendarClock",
+        "capabilities": [
+          "Headcount projection",
+          "Scenario modeling",
+          "Budget alignment analysis",
+          "Skills demand forecasting",
+          "Predictive workforce",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 96,
+          "tokenEfficiency": 54,
+          "power": 89
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 7
+      }
+    ]
+  },
+  {
+    "_id": "people",
     "id": "people",
     "name": "Ultimate People Strategist",
     "domain": "Strategy",
     "description": "The ultimate people skill — perfect talent acquisition, maximum employee engagement, and optimal HR efficiency simultaneously.",
     "icon": "Crown",
-    "capabilities": ["Full-lifecycle talent orchestration", "Engagement-efficiency optimization", "Resource-perfect allocation", "Cross-agent culture coordination"],
-    "stats": { "speed": 80, "accuracy": 92, "tokenEfficiency": 85, "power": 95 },
-    "buffs": [{ "domain": "Operations", "value": 15 }, { "domain": "Strategy", "value": 10 }],
+    "capabilities": [
+      "Full-lifecycle talent orchestration",
+      "Engagement-efficiency optimization",
+      "Resource-perfect allocation",
+      "Cross-agent culture coordination"
+    ],
+    "stats": {
+      "speed": 80,
+      "accuracy": 92,
+      "tokenEfficiency": 85,
+      "power": 95
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      },
+      {
+        "domain": "Strategy",
+        "value": 10
+      }
+    ],
     "debuffs": [],
-    "cost": 10
+    "cost": 10,
+    "dependency": [
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      },
+      {
+        "agentSkillId": "people"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Ultimate People Strategist",
+        "domain": "Strategy",
+        "description": "The ultimate people skill — perfect talent acquisition, maximum employee engagement, and optimal HR efficiency simultaneously.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-lifecycle talent orchestration",
+          "Engagement-efficiency optimization",
+          "Resource-perfect allocation",
+          "Cross-agent culture coordination"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 92,
+          "tokenEfficiency": 85,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          },
+          {
+            "domain": "Strategy",
+            "value": 10
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate People Strategist+",
+        "domain": "Strategy",
+        "description": "Enhanced ultimate people with predictive talent engineering and zero-defect engagement.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-lifecycle talent orchestration",
+          "Engagement-efficiency optimization",
+          "Resource-perfect allocation",
+          "Cross-agent culture coordination",
+          "Predictive talent"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 96,
+          "tokenEfficiency": 92,
+          "power": 100
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          },
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate People Strategist Master",
+        "domain": "Strategy",
+        "description": "The pinnacle of people mastery — flawless talent orchestration, maximum engagement, and optimal HR in perfect harmony.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-lifecycle talent orchestration",
+          "Engagement-efficiency optimization",
+          "Resource-perfect allocation",
+          "Cross-agent culture coordination",
+          "Predictive talent",
+          "Zero-defect"
+        ],
+        "stats": {
+          "speed": 110,
+          "accuracy": 100,
+          "tokenEfficiency": 100,
+          "power": 105
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          },
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      }
+    ]
   }
 ]

@@ -1,242 +1,2663 @@
 [
   {
-    "id": "finance",
-    "name": "Automated Invoice Generator",
-    "domain": "Operations",
-    "description": "High-speed invoice generation with automated line item extraction, tax calculation, and multi-format delivery.",
-    "icon": "Zap",
-    "capabilities": ["Auto line item extraction", "Tax rate computation", "Multi-currency support", "Delivery channel selection"],
-    "stats": { "speed": 92, "accuracy": 70, "tokenEfficiency": 65, "power": 55 },
-    "buffs": [{ "domain": "Operations", "value": 25 }],
-    "debuffs": [],
-    "cost": 3
-  },
-  {
-    "id": "finance",
-    "name": "Payment Reminder Orchestrator",
-    "domain": "Operations",
-    "description": "Intelligent payment reminder system with dunning management, customer segmentation, and escalation workflows.",
-    "icon": "Bell",
-    "capabilities": ["Dunning sequence automation", "Customer risk segmentation", "Escalation trigger management", "Multi-channel delivery"],
-    "stats": { "speed": 80, "accuracy": 75, "tokenEfficiency": 68, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [],
-    "cost": 3
-  },
-  {
-    "id": "finance",
-    "name": "Expense Categorization Engine",
-    "domain": "Operations",
-    "description": "Automated expense classification using ML-based receipt parsing, policy compliance checking, and GL account mapping.",
-    "icon": "Receipt",
-    "capabilities": ["Receipt OCR parsing", "Policy compliance verification", "GL account auto-mapping", "Duplicate detection"],
-    "stats": { "speed": 70, "accuracy": 85, "tokenEfficiency": 60, "power": 50 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "finance",
-    "name": "Bank Reconciliation Core",
-    "domain": "Operations",
-    "description": "Automated bank reconciliation with transaction matching, variance detection, and journal entry generation.",
-    "icon": "Banknote",
-    "capabilities": ["Transaction auto-matching", "Variance identification", "Journal entry drafting", "Reconciliation report generation"],
-    "stats": { "speed": 60, "accuracy": 92, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "finance",
-    "name": "Financial Statement Synthesizer",
-    "domain": "Strategy",
-    "description": "Comprehensive financial statement generation with P&L analysis, balance sheet reconciliation, and cash flow forecasting.",
-    "icon": "FileSpreadsheet",
-    "capabilities": ["P&L narrative generation", "Balance sheet validation", "Cash flow analysis", "Variance explanation drafting"],
-    "stats": { "speed": 30, "accuracy": 95, "tokenEfficiency": 35, "power": 80 },
-    "buffs": [{ "domain": "Strategy", "value": 25 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -15 }],
-    "cost": 8
-  },
-  {
+    "_id": "finance",
     "id": "finance",
     "name": "Token-efficient Reporter",
     "domain": "Operations",
     "description": "Lean financial reporting optimized for minimal token usage while maintaining essential compliance and insight delivery.",
     "icon": "Feather",
-    "capabilities": ["Essential KPI extraction", "Variance highlighting", "Compliance status summary", "Trend flag generation"],
-    "stats": { "speed": 88, "accuracy": 50, "tokenEfficiency": 94, "power": 30 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [{ "domain": "Strategy", "value": -12 }],
-    "cost": 2
+    "capabilities": [
+      "Essential KPI extraction",
+      "Variance highlighting",
+      "Compliance status summary",
+      "Trend flag generation"
+    ],
+    "stats": {
+      "speed": 88,
+      "accuracy": 50,
+      "tokenEfficiency": 94,
+      "power": 30
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -12
+      }
+    ],
+    "cost": 2,
+    "dependency": [],
+    "levels": [
+      {
+        "name": "Token-efficient Reporter",
+        "domain": "Operations",
+        "description": "Lean financial reporting optimized for minimal token usage while maintaining essential compliance and insight delivery.",
+        "icon": "Feather",
+        "capabilities": [
+          "Essential KPI extraction",
+          "Variance highlighting",
+          "Compliance status summary",
+          "Trend flag generation"
+        ],
+        "stats": {
+          "speed": 88,
+          "accuracy": 50,
+          "tokenEfficiency": 94,
+          "power": 30
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -12
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Reporter+",
+        "domain": "Operations",
+        "description": "Enhanced financial reporting with improved accuracy and expanded compliance coverage.",
+        "icon": "Feather",
+        "capabilities": [
+          "Essential KPI extraction",
+          "Variance highlighting",
+          "Compliance status summary",
+          "Trend flag generation",
+          "Automated variance explanations"
+        ],
+        "stats": {
+          "speed": 103,
+          "accuracy": 65,
+          "tokenEfficiency": 102,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -8
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Reporter Elite",
+        "domain": "Operations",
+        "description": "Mastery-level financial reporting with near-perfect efficiency and comprehensive compliance integration.",
+        "icon": "Feather",
+        "capabilities": [
+          "Essential KPI extraction",
+          "Variance highlighting",
+          "Compliance status summary",
+          "Trend flag generation",
+          "Automated variance explanations",
+          "Predictive trend alerts"
+        ],
+        "stats": {
+          "speed": 118,
+          "accuracy": 80,
+          "tokenEfficiency": 110,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 2
+      }
+    ]
   },
   {
+    "_id": "finance",
     "id": "finance",
-    "name": "Budget Variance Analyzer",
-    "domain": "Strategy",
-    "description": "Deep budget vs actual analysis with variance root cause identification, trend projection, and revision recommendations.",
-    "icon": "GitCompare",
-    "capabilities": ["Variance threshold alerting", "Root cause classification", "Trend projection modeling", "Revision scenario generation"],
-    "stats": { "speed": 35, "accuracy": 88, "tokenEfficiency": 42, "power": 70 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
+    "name": "Automated Invoice Generator",
+    "domain": "Operations",
+    "description": "High-speed invoice generation with automated line item extraction, tax calculation, and multi-format delivery.",
+    "icon": "Zap",
+    "capabilities": [
+      "Auto line item extraction",
+      "Tax rate computation",
+      "Multi-currency support",
+      "Delivery channel selection"
+    ],
+    "stats": {
+      "speed": 92,
+      "accuracy": 70,
+      "tokenEfficiency": 65,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 25
+      }
+    ],
     "debuffs": [],
-    "cost": 6
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Automated Invoice Generator",
+        "domain": "Operations",
+        "description": "High-speed invoice generation with automated line item extraction, tax calculation, and multi-format delivery.",
+        "icon": "Zap",
+        "capabilities": [
+          "Auto line item extraction",
+          "Tax rate computation",
+          "Multi-currency support",
+          "Delivery channel selection"
+        ],
+        "stats": {
+          "speed": 92,
+          "accuracy": 70,
+          "tokenEfficiency": 65,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Automated Invoice Generator+",
+        "domain": "Operations",
+        "description": "Enhanced invoicing with automated payment tracking and intelligent dunning integration.",
+        "icon": "Zap",
+        "capabilities": [
+          "Auto line item extraction",
+          "Tax rate computation",
+          "Multi-currency support",
+          "Delivery channel selection",
+          "Payment status tracking"
+        ],
+        "stats": {
+          "speed": 107,
+          "accuracy": 80,
+          "tokenEfficiency": 73,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Automated Invoice Generator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level invoicing with zero-touch processing and predictive payment forecasting.",
+        "icon": "Zap",
+        "capabilities": [
+          "Auto line item extraction",
+          "Tax rate computation",
+          "Multi-currency support",
+          "Delivery channel selection",
+          "Payment status tracking",
+          "Predictive analytics"
+        ],
+        "stats": {
+          "speed": 122,
+          "accuracy": 90,
+          "tokenEfficiency": 81,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Payment Reminder Orchestrator",
+    "domain": "Operations",
+    "description": "Intelligent payment reminder system with dunning management, customer segmentation, and escalation workflows.",
+    "icon": "Bell",
+    "capabilities": [
+      "Dunning sequence automation",
+      "Customer risk segmentation",
+      "Escalation trigger management",
+      "Multi-channel delivery"
+    ],
+    "stats": {
+      "speed": 80,
+      "accuracy": 75,
+      "tokenEfficiency": 68,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Payment Reminder Orchestrator",
+        "domain": "Operations",
+        "description": "Intelligent payment reminder system with dunning management, customer segmentation, and escalation workflows.",
+        "icon": "Bell",
+        "capabilities": [
+          "Dunning sequence automation",
+          "Customer risk segmentation",
+          "Escalation trigger management",
+          "Multi-channel delivery"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 75,
+          "tokenEfficiency": 68,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Payment Reminder Orchestrator+",
+        "domain": "Operations",
+        "description": "Enhanced reminders with behavioral timing optimization and personalized escalation paths.",
+        "icon": "Bell",
+        "capabilities": [
+          "Dunning sequence automation",
+          "Customer risk segmentation",
+          "Escalation trigger management",
+          "Multi-channel delivery",
+          "Behavioral timing"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 82,
+          "tokenEfficiency": 76,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Payment Reminder Orchestrator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level payment orchestration with predictive collection optimization and zero-touch dunning.",
+        "icon": "Bell",
+        "capabilities": [
+          "Dunning sequence automation",
+          "Customer risk segmentation",
+          "Escalation trigger management",
+          "Multi-channel delivery",
+          "Behavioral timing",
+          "Predictive collections"
+        ],
+        "stats": {
+          "speed": 110,
+          "accuracy": 90,
+          "tokenEfficiency": 84,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Meeting Efficiency Core",
+    "domain": "Operations",
+    "description": "Optimized financial meeting coordination with agenda generation and action item tracking.",
+    "icon": "CalendarCheck",
+    "capabilities": [
+      "Financial agenda optimization",
+      "Action item extraction",
+      "Follow-up drafting",
+      "Effectiveness scoring"
+    ],
+    "stats": {
+      "speed": 85,
+      "accuracy": 60,
+      "tokenEfficiency": 72,
+      "power": 35
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Meeting Efficiency Core",
+        "domain": "Operations",
+        "description": "Optimized financial meeting coordination with agenda generation and action item tracking.",
+        "icon": "CalendarCheck",
+        "capabilities": [
+          "Financial agenda optimization",
+          "Action item extraction",
+          "Follow-up drafting",
+          "Effectiveness scoring"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 60,
+          "tokenEfficiency": 72,
+          "power": 35
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Meeting Efficiency Core+",
+        "domain": "Operations",
+        "description": "Enhanced meeting coordination with financial context integration and smart scheduling.",
+        "icon": "CalendarCheck",
+        "capabilities": [
+          "Financial agenda optimization",
+          "Action item extraction",
+          "Follow-up drafting",
+          "Effectiveness scoring",
+          "Smart scheduling"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 68,
+          "tokenEfficiency": 80,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Meeting Efficiency Core Elite",
+        "domain": "Operations",
+        "description": "Mastery-level meeting orchestration with predictive agenda optimization and automated follow-up execution.",
+        "icon": "CalendarCheck",
+        "capabilities": [
+          "Financial agenda optimization",
+          "Action item extraction",
+          "Follow-up drafting",
+          "Effectiveness scoring",
+          "Smart scheduling",
+          "Automated execution"
+        ],
+        "stats": {
+          "speed": 115,
+          "accuracy": 76,
+          "tokenEfficiency": 88,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Expense Categorization Engine",
+    "domain": "Operations",
+    "description": "Automated expense classification using ML-based receipt parsing, policy compliance checking, and GL account mapping.",
+    "icon": "Receipt",
+    "capabilities": [
+      "Receipt OCR parsing",
+      "Policy compliance verification",
+      "GL account auto-mapping",
+      "Duplicate detection"
+    ],
+    "stats": {
+      "speed": 70,
+      "accuracy": 85,
+      "tokenEfficiency": 60,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Expense Categorization Engine",
+        "domain": "Operations",
+        "description": "Automated expense classification using ML-based receipt parsing, policy compliance checking, and GL account mapping.",
+        "icon": "Receipt",
+        "capabilities": [
+          "Receipt OCR parsing",
+          "Policy compliance verification",
+          "GL account auto-mapping",
+          "Duplicate detection"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 85,
+          "tokenEfficiency": 60,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Expense Categorization Engine+",
+        "domain": "Operations",
+        "description": "Enhanced expense processing with predictive policy violation detection and automated approval routing.",
+        "icon": "Receipt",
+        "capabilities": [
+          "Receipt OCR parsing",
+          "Policy compliance verification",
+          "GL account auto-mapping",
+          "Duplicate detection",
+          "Predictive violations"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 92,
+          "tokenEfficiency": 68,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Expense Categorization Engine Elite",
+        "domain": "Operations",
+        "description": "Mastery-level expense management with zero-touch processing and intelligent policy enforcement.",
+        "icon": "Receipt",
+        "capabilities": [
+          "Receipt OCR parsing",
+          "Policy compliance verification",
+          "GL account auto-mapping",
+          "Duplicate detection",
+          "Predictive violations",
+          "Auto-approval"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 99,
+          "tokenEfficiency": 76,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Bank Reconciliation Core",
+    "domain": "Operations",
+    "description": "Automated bank reconciliation with transaction matching, variance detection, and journal entry generation.",
+    "icon": "Banknote",
+    "capabilities": [
+      "Transaction auto-matching",
+      "Variance identification",
+      "Journal entry drafting",
+      "Reconciliation report generation"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 92,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Bank Reconciliation Core",
+        "domain": "Operations",
+        "description": "Automated bank reconciliation with transaction matching, variance detection, and journal entry generation.",
+        "icon": "Banknote",
+        "capabilities": [
+          "Transaction auto-matching",
+          "Variance identification",
+          "Journal entry drafting",
+          "Reconciliation report generation"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 92,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Bank Reconciliation Core+",
+        "domain": "Operations",
+        "description": "Enhanced reconciliation with real-time transaction matching and automated variance resolution.",
+        "icon": "Banknote",
+        "capabilities": [
+          "Transaction auto-matching",
+          "Variance identification",
+          "Journal entry drafting",
+          "Reconciliation report generation",
+          "Real-time matching"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 96,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Bank Reconciliation Core Elite",
+        "domain": "Operations",
+        "description": "Mastery-level reconciliation with predictive variance detection and zero-touch resolution.",
+        "icon": "Banknote",
+        "capabilities": [
+          "Transaction auto-matching",
+          "Variance identification",
+          "Journal entry drafting",
+          "Reconciliation report generation",
+          "Real-time matching",
+          "Predictive resolution"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 100,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "finance",
     "id": "finance",
     "name": "Contract Compliance Logger",
     "domain": "Operations",
     "description": "Financial contract compliance tracking with covenant monitoring, milestone logging, and violation alerting.",
     "icon": "ShieldCheck",
-    "capabilities": ["Covenant ratio tracking", "Milestone date logging", "Violation early warning", "Compliance certificate generation"],
-    "stats": { "speed": 55, "accuracy": 88, "tokenEfficiency": 52, "power": 50 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "Covenant ratio tracking",
+      "Milestone date logging",
+      "Violation early warning",
+      "Compliance certificate generation"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 88,
+      "tokenEfficiency": 52,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Contract Compliance Logger",
+        "domain": "Operations",
+        "description": "Financial contract compliance tracking with covenant monitoring, milestone logging, and violation alerting.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Covenant ratio tracking",
+          "Milestone date logging",
+          "Violation early warning",
+          "Compliance certificate generation"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 88,
+          "tokenEfficiency": 52,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Contract Compliance Logger+",
+        "domain": "Operations",
+        "description": "Enhanced compliance with automated covenant testing and predictive violation modeling.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Covenant ratio tracking",
+          "Milestone date logging",
+          "Violation early warning",
+          "Compliance certificate generation",
+          "Automated covenant testing"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 92,
+          "tokenEfficiency": 60,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Contract Compliance Logger Elite",
+        "domain": "Operations",
+        "description": "Mastery-level compliance with predictive risk assessment and automated remediation planning.",
+        "icon": "ShieldCheck",
+        "capabilities": [
+          "Covenant ratio tracking",
+          "Milestone date logging",
+          "Violation early warning",
+          "Compliance certificate generation",
+          "Automated covenant testing",
+          "Predictive risk"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 96,
+          "tokenEfficiency": 68,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
-    "id": "finance",
-    "name": "Revenue Recognition Engine",
-    "domain": "Strategy",
-    "description": "ASC 606/IFRS 15 compliant revenue recognition with performance obligation tracking and timing analysis.",
-    "icon": "Scale",
-    "capabilities": ["Performance obligation mapping", "Revenue timing analysis", "Contract bundle identification", "Compliance documentation"],
-    "stats": { "speed": 28, "accuracy": 94, "tokenEfficiency": 38, "power": 75 },
-    "buffs": [{ "domain": "Strategy", "value": 25 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -12 }],
-    "cost": 7
-  },
-  {
-    "id": "finance",
-    "name": "Cash Flow Predictor",
-    "domain": "Strategy",
-    "description": "Short and long-term cash flow forecasting using historical patterns, receivable aging, and commitment tracking.",
-    "icon": "TrendingUp",
-    "capabilities": ["AR aging integration", "Commitment tracking", "Seasonality adjustment", "Liquidity ratio projection"],
-    "stats": { "speed": 40, "accuracy": 85, "tokenEfficiency": 45, "power": 70 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [],
-    "cost": 6
-  },
-  {
-    "id": "finance",
-    "name": "Accounts Receivable Accelerator",
-    "domain": "Growth",
-    "description": "AR optimization with credit scoring, payment term negotiation, and collection strategy automation.",
-    "icon": "Zap",
-    "capabilities": ["Customer credit scoring", "Payment term optimization", "Collection sequence generation", "Dispute resolution drafting"],
-    "stats": { "speed": 75, "accuracy": 68, "tokenEfficiency": 60, "power": 60 },
-    "buffs": [{ "domain": "Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "finance",
-    "name": "Tax Compliance Assistant",
-    "domain": "Operations",
-    "description": "Multi-jurisdiction tax compliance with rate tracking, filing calendar management, and provision calculation support.",
-    "icon": "Calculator",
-    "capabilities": ["Tax rate update tracking", "Filing deadline calendar", "Provision worksheet generation", "JURIS mapping"],
-    "stats": { "speed": 50, "accuracy": 90, "tokenEfficiency": 48, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
-    "id": "finance",
-    "name": "FP&A Scenario Modeler",
-    "domain": "Strategy",
-    "description": "Financial planning and analysis scenario modeling with sensitivity analysis, Monte Carlo simulation, and strategic recommendations.",
-    "icon": "GitBranch",
-    "capabilities": ["Multi-scenario construction", "Sensitivity table generation", "Monte Carlo parameter setup", "Strategic recommendation drafting"],
-    "stats": { "speed": 20, "accuracy": 92, "tokenEfficiency": 30, "power": 85 },
-    "buffs": [{ "domain": "Strategy", "value": 30 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -18 }],
-    "cost": 9
-  },
-  {
+    "_id": "finance",
     "id": "finance",
     "name": "Audit Trail Generator",
     "domain": "Operations",
     "description": "Comprehensive audit trail creation with transaction logging, supporting document linking, and auditor-ready report generation.",
     "icon": "FileCheck",
-    "capabilities": ["Transaction sequence logging", "Document reference linking", "Audit period summarization", "Auditor query response drafting"],
-    "stats": { "speed": 65, "accuracy": 90, "tokenEfficiency": 55, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
+    "capabilities": [
+      "Transaction sequence logging",
+      "Document reference linking",
+      "Audit period summarization",
+      "Auditor query response drafting"
+    ],
+    "stats": {
+      "speed": 65,
+      "accuracy": 90,
+      "tokenEfficiency": 55,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Audit Trail Generator",
+        "domain": "Operations",
+        "description": "Comprehensive audit trail creation with transaction logging, supporting document linking, and auditor-ready report generation.",
+        "icon": "FileCheck",
+        "capabilities": [
+          "Transaction sequence logging",
+          "Document reference linking",
+          "Audit period summarization",
+          "Auditor query response drafting"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 90,
+          "tokenEfficiency": 55,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Audit Trail Generator+",
+        "domain": "Operations",
+        "description": "Enhanced audit with real-time trail building and automated evidence collection.",
+        "icon": "FileCheck",
+        "capabilities": [
+          "Transaction sequence logging",
+          "Document reference linking",
+          "Audit period summarization",
+          "Auditor query response drafting",
+          "Real-time trail building"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 94,
+          "tokenEfficiency": 63,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Audit Trail Generator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level audit with predictive compliance monitoring and zero-touch evidence management.",
+        "icon": "FileCheck",
+        "capabilities": [
+          "Transaction sequence logging",
+          "Document reference linking",
+          "Audit period summarization",
+          "Auditor query response drafting",
+          "Real-time trail building",
+          "Predictive compliance"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 98,
+          "tokenEfficiency": 71,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
-    "id": "finance",
-    "name": "Cost Center Analyzer",
-    "domain": "Operations + Growth",
-    "description": "Multi-dimensional cost center analysis with allocation optimization, overhead distribution, and efficiency benchmarking.",
-    "icon": "Columns",
-    "capabilities": ["Cost pool analysis", "Allocation base optimization", "Overhead rate calculation", "Efficiency benchmark comparison"],
-    "stats": { "speed": 45, "accuracy": 82, "tokenEfficiency": 50, "power": 55 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "finance",
-    "name": "Invoice Fraud Detector",
-    "domain": "Operations",
-    "description": "Vendor invoice fraud detection using pattern analysis, duplicate detection, and anomaly scoring.",
-    "icon": "EyeOff",
-    "capabilities": ["Duplicate invoice detection", "Pattern deviation alerting", "Vendor behavior analysis", "Risk score calculation"],
-    "stats": { "speed": 75, "accuracy": 80, "tokenEfficiency": 62, "power": 55 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "finance",
-    "name": "Working Capital Optimizer",
-    "domain": "Strategy",
-    "description": "Working capital optimization analysis with cash conversion cycle improvement, DSO reduction, and liquidity enhancement.",
-    "icon": "CircleDollarSign",
-    "capabilities": ["CCC trend analysis", "DSO/DPO/DOI optimization", "Liquidity ratio modeling", "Cash release identification"],
-    "stats": { "speed": 35, "accuracy": 86, "tokenEfficiency": 42, "power": 70 },
-    "buffs": [{ "domain": "Strategy", "value": 20 }],
-    "debuffs": [],
-    "cost": 6
-  },
-  {
+    "_id": "finance",
     "id": "finance",
     "name": "Financial Policy Writer",
     "domain": "Operations",
     "description": "Automated financial policy and procedure document generation with regulatory alignment and approval workflow design.",
     "icon": "FileText",
-    "capabilities": ["Policy template generation", "Regulatory alignment checking", "Approval matrix design", "Version control management"],
-    "stats": { "speed": 55, "accuracy": 82, "tokenEfficiency": 58, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "Policy template generation",
+      "Regulatory alignment checking",
+      "Approval matrix design",
+      "Version control management"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 82,
+      "tokenEfficiency": 58,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Financial Policy Writer",
+        "domain": "Operations",
+        "description": "Automated financial policy and procedure document generation with regulatory alignment and approval workflow design.",
+        "icon": "FileText",
+        "capabilities": [
+          "Policy template generation",
+          "Regulatory alignment checking",
+          "Approval matrix design",
+          "Version control management"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 82,
+          "tokenEfficiency": 58,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Financial Policy Writer+",
+        "domain": "Operations",
+        "description": "Enhanced policy with automated regulatory update integration and compliance gap analysis.",
+        "icon": "FileText",
+        "capabilities": [
+          "Policy template generation",
+          "Regulatory alignment checking",
+          "Approval matrix design",
+          "Version control management",
+          "Auto-regulatory updates"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 86,
+          "tokenEfficiency": 66,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Financial Policy Writer Elite",
+        "domain": "Operations",
+        "description": "Mastery-level policy with predictive regulatory change adaptation and automated stakeholder alignment.",
+        "icon": "FileText",
+        "capabilities": [
+          "Policy template generation",
+          "Regulatory alignment checking",
+          "Approval matrix design",
+          "Version control management",
+          "Auto-regulatory updates",
+          "Predictive adaptation"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 90,
+          "tokenEfficiency": 74,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
+    "_id": "finance",
     "id": "finance",
-    "name": "Capex Approval Analyzer",
+    "name": "Cash Flow Forecaster",
     "domain": "Strategy",
-    "description": "Capital expenditure analysis with NPV calculation, ROI projection, payback period estimation, and strategic alignment scoring.",
+    "description": "Predictive cash flow modeling using historical patterns, accounts receivable aging, and market signal integration.",
     "icon": "TrendingUp",
-    "capabilities": ["NPV/IRR calculation", "Payback period estimation", "Sensitivity analysis", "Strategic fit scoring"],
-    "stats": { "speed": 40, "accuracy": 88, "tokenEfficiency": 45, "power": 65 },
-    "buffs": [{ "domain": "Strategy", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
+    "capabilities": [
+      "AR/AP projection",
+      "Scenario modeling",
+      "Liquidity gap analysis",
+      "Early warning alerts"
+    ],
+    "stats": {
+      "speed": 35,
+      "accuracy": 90,
+      "tokenEfficiency": 42,
+      "power": 75
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -12
+      }
+    ],
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Cash Flow Forecaster",
+        "domain": "Strategy",
+        "description": "Predictive cash flow modeling using historical patterns, accounts receivable aging, and market signal integration.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "AR/AP projection",
+          "Scenario modeling",
+          "Liquidity gap analysis",
+          "Early warning alerts"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 90,
+          "tokenEfficiency": 42,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -12
+          }
+        ],
+        "cost": 6
+      },
+      {
+        "name": "Cash Flow Forecaster+",
+        "domain": "Strategy",
+        "description": "Enhanced forecasting with real-time liquidity tracking and automated scenario optimization.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "AR/AP projection",
+          "Scenario modeling",
+          "Liquidity gap analysis",
+          "Early warning alerts",
+          "Real-time tracking"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 94,
+          "tokenEfficiency": 50,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -8
+          }
+        ],
+        "cost": 6
+      },
+      {
+        "name": "Cash Flow Forecaster Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level cash flow intelligence with predictive liquidity optimization and autonomous scenario management.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "AR/AP projection",
+          "Scenario modeling",
+          "Liquidity gap analysis",
+          "Early warning alerts",
+          "Real-time tracking",
+          "Predictive optimization"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 98,
+          "tokenEfficiency": 58,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
   },
   {
+    "_id": "finance",
     "id": "finance",
-    "name": "Ultimate Financial Strategist",
+    "name": "Budget Builder Pro",
     "domain": "Strategy",
-    "description": "The ultimate finance skill — perfect financial accuracy, maximum strategic insight, and optimal resource efficiency simultaneously.",
-    "icon": "Crown",
-    "capabilities": ["Full-funnel financial orchestration", "Accuracy-strategy optimization", "Resource-perfect allocation", "Cross-agent financial coordination"],
-    "stats": { "speed": 80, "accuracy": 94, "tokenEfficiency": 85, "power": 95 },
-    "buffs": [{ "domain": "Strategy", "value": 15 }, { "domain": "Operations", "value": 10 }],
+    "description": "Comprehensive budget planning with zero-based budgeting, departmental allocation optimization, and variance tracking.",
+    "icon": "LayoutDashboard",
+    "capabilities": [
+      "Zero-based budget templates",
+      "Departmental allocation",
+      "Variance analysis reporting",
+      "Rolling forecast integration"
+    ],
+    "stats": {
+      "speed": 40,
+      "accuracy": 85,
+      "tokenEfficiency": 48,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
     "debuffs": [],
-    "cost": 10
+    "cost": 6,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Budget Builder Pro",
+        "domain": "Strategy",
+        "description": "Comprehensive budget planning with zero-based budgeting, departmental allocation optimization, and variance tracking.",
+        "icon": "LayoutDashboard",
+        "capabilities": [
+          "Zero-based budget templates",
+          "Departmental allocation",
+          "Variance analysis reporting",
+          "Rolling forecast integration"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 85,
+          "tokenEfficiency": 48,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Budget Builder Pro+",
+        "domain": "Strategy",
+        "description": "Enhanced budgeting with AI-driven allocation optimization and predictive variance modeling.",
+        "icon": "LayoutDashboard",
+        "capabilities": [
+          "Zero-based budget templates",
+          "Departmental allocation",
+          "Variance analysis reporting",
+          "Rolling forecast integration",
+          "AI allocation optimization"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 90,
+          "tokenEfficiency": 56,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      },
+      {
+        "name": "Budget Builder Pro Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level budgeting with autonomous adjustment orchestration and perfect resource alignment.",
+        "icon": "LayoutDashboard",
+        "capabilities": [
+          "Zero-based budget templates",
+          "Departmental allocation",
+          "Variance analysis reporting",
+          "Rolling forecast integration",
+          "AI allocation optimization",
+          "Autonomous adjustment"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 95,
+          "tokenEfficiency": 64,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 6
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Tax Intelligence Core",
+    "domain": "Strategy",
+    "description": "Advanced tax planning and compliance automation with jurisdiction analysis, deduction optimization, and audit risk assessment.",
+    "icon": "Scale",
+    "capabilities": [
+      "Multi-jurisdiction tracking",
+      "Deduction optimization scanning",
+      "Audit probability scoring",
+      "Compliance calendar management"
+    ],
+    "stats": {
+      "speed": 30,
+      "accuracy": 92,
+      "tokenEfficiency": 40,
+      "power": 75
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -15
+      }
+    ],
+    "cost": 8,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Tax Intelligence Core",
+        "domain": "Strategy",
+        "description": "Advanced tax planning and compliance automation with jurisdiction analysis, deduction optimization, and audit risk assessment.",
+        "icon": "Scale",
+        "capabilities": [
+          "Multi-jurisdiction tracking",
+          "Deduction optimization scanning",
+          "Audit probability scoring",
+          "Compliance calendar management"
+        ],
+        "stats": {
+          "speed": 30,
+          "accuracy": 92,
+          "tokenEfficiency": 40,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -15
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Tax Intelligence Core+",
+        "domain": "Strategy",
+        "description": "Enhanced tax intelligence with predictive liability modeling and automated strategy optimization.",
+        "icon": "Scale",
+        "capabilities": [
+          "Multi-jurisdiction tracking",
+          "Deduction optimization scanning",
+          "Audit probability scoring",
+          "Compliance calendar management",
+          "Predictive liability"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 96,
+          "tokenEfficiency": 48,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -10
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Tax Intelligence Core Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level tax intelligence with autonomous optimization and perfect compliance orchestration.",
+        "icon": "Scale",
+        "capabilities": [
+          "Multi-jurisdiction tracking",
+          "Deduction optimization scanning",
+          "Audit probability scoring",
+          "Compliance calendar management",
+          "Predictive liability",
+          "Autonomous optimization"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 100,
+          "tokenEfficiency": 56,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 8
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Financial Risk Assessor",
+    "domain": "Strategy",
+    "description": "Comprehensive financial risk assessment using portfolio analysis, market correlation modeling, and stress testing frameworks.",
+    "icon": "ShieldAlert",
+    "capabilities": [
+      "Portfolio risk quantification",
+      "Market correlation analysis",
+      "Stress test scenario generation",
+      "VaR calculation"
+    ],
+    "stats": {
+      "speed": 25,
+      "accuracy": 94,
+      "tokenEfficiency": 35,
+      "power": 80
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 30
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -18
+      }
+    ],
+    "cost": 8,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Financial Risk Assessor",
+        "domain": "Strategy",
+        "description": "Comprehensive financial risk assessment using portfolio analysis, market correlation modeling, and stress testing frameworks.",
+        "icon": "ShieldAlert",
+        "capabilities": [
+          "Portfolio risk quantification",
+          "Market correlation analysis",
+          "Stress test scenario generation",
+          "VaR calculation"
+        ],
+        "stats": {
+          "speed": 25,
+          "accuracy": 94,
+          "tokenEfficiency": 35,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -18
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Financial Risk Assessor+",
+        "domain": "Strategy",
+        "description": "Enhanced risk assessment with real-time exposure monitoring and automated hedging recommendations.",
+        "icon": "ShieldAlert",
+        "capabilities": [
+          "Portfolio risk quantification",
+          "Market correlation analysis",
+          "Stress test scenario generation",
+          "VaR calculation",
+          "Real-time exposure"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 97,
+          "tokenEfficiency": 43,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -12
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Financial Risk Assessor Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level risk intelligence with predictive risk mapping and autonomous portfolio optimization.",
+        "icon": "ShieldAlert",
+        "capabilities": [
+          "Portfolio risk quantification",
+          "Market correlation analysis",
+          "Stress test scenario generation",
+          "VaR calculation",
+          "Real-time exposure",
+          "Predictive mapping"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 100,
+          "tokenEfficiency": 51,
+          "power": 100
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 40
+          }
+        ],
+        "debuffs": [],
+        "cost": 8
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Investment Portfolio Analyst",
+    "domain": "Strategy",
+    "description": "Investment analysis with asset allocation optimization, performance attribution, and rebalancing recommendation generation.",
+    "icon": "PieChart",
+    "capabilities": [
+      "Asset allocation modeling",
+      "Performance attribution",
+      "Rebalancing triggers",
+      "Benchmark comparison"
+    ],
+    "stats": {
+      "speed": 30,
+      "accuracy": 88,
+      "tokenEfficiency": 42,
+      "power": 75
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [],
+    "cost": 7,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Investment Portfolio Analyst",
+        "domain": "Strategy",
+        "description": "Investment analysis with asset allocation optimization, performance attribution, and rebalancing recommendation generation.",
+        "icon": "PieChart",
+        "capabilities": [
+          "Asset allocation modeling",
+          "Performance attribution",
+          "Rebalancing triggers",
+          "Benchmark comparison"
+        ],
+        "stats": {
+          "speed": 30,
+          "accuracy": 88,
+          "tokenEfficiency": 42,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 7
+      },
+      {
+        "name": "Investment Portfolio Analyst+",
+        "domain": "Strategy",
+        "description": "Enhanced portfolio analysis with AI-driven allocation optimization and predictive performance modeling.",
+        "icon": "PieChart",
+        "capabilities": [
+          "Asset allocation modeling",
+          "Performance attribution",
+          "Rebalancing triggers",
+          "Benchmark comparison",
+          "AI optimization"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 92,
+          "tokenEfficiency": 50,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 7
+      },
+      {
+        "name": "Investment Portfolio Analyst Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level portfolio intelligence with autonomous rebalancing orchestration and perfect allocation strategy.",
+        "icon": "PieChart",
+        "capabilities": [
+          "Asset allocation modeling",
+          "Performance attribution",
+          "Rebalancing triggers",
+          "Benchmark comparison",
+          "AI optimization",
+          "Autonomous rebalancing"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 96,
+          "tokenEfficiency": 58,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 7
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "ROI Optimization Engine",
+    "domain": "Growth",
+    "description": "Investment ROI analysis with scenario modeling, payback period optimization, and capital allocation strategy generation.",
+    "icon": "DollarSign",
+    "capabilities": [
+      "ROI scenario modeling",
+      "Payback period calculation",
+      "Capital efficiency scoring",
+      "Benefit-cost ratio analysis"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 82,
+      "tokenEfficiency": 55,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Growth",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "ROI Optimization Engine",
+        "domain": "Growth",
+        "description": "Investment ROI analysis with scenario modeling, payback period optimization, and capital allocation strategy generation.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "ROI scenario modeling",
+          "Payback period calculation",
+          "Capital efficiency scoring",
+          "Benefit-cost ratio analysis"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 82,
+          "tokenEfficiency": 55,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "ROI Optimization Engine+",
+        "domain": "Growth",
+        "description": "Enhanced ROI analysis with predictive return modeling and automated capital optimization.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "ROI scenario modeling",
+          "Payback period calculation",
+          "Capital efficiency scoring",
+          "Benefit-cost ratio analysis",
+          "Predictive returns"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 87,
+          "tokenEfficiency": 63,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "ROI Optimization Engine Elite",
+        "domain": "Growth",
+        "description": "Mastery-level ROI intelligence with autonomous capital allocation and maximum return optimization.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "ROI scenario modeling",
+          "Payback period calculation",
+          "Capital efficiency scoring",
+          "Benefit-cost ratio analysis",
+          "Predictive returns",
+          "Autonomous allocation"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 92,
+          "tokenEfficiency": 71,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Grant Writer Specialist",
+    "domain": "Growth",
+    "description": "Specialized grant proposal generation with funder matching, budget narrative writing, and compliance documentation.",
+    "icon": "PenTool",
+    "capabilities": [
+      "Funder database matching",
+      "Proposal narrative drafting",
+      "Budget justification writing",
+      "Compliance attachment generation"
+    ],
+    "stats": {
+      "speed": 45,
+      "accuracy": 80,
+      "tokenEfficiency": 52,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Grant Writer Specialist",
+        "domain": "Growth",
+        "description": "Specialized grant proposal generation with funder matching, budget narrative writing, and compliance documentation.",
+        "icon": "PenTool",
+        "capabilities": [
+          "Funder database matching",
+          "Proposal narrative drafting",
+          "Budget justification writing",
+          "Compliance attachment generation"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 80,
+          "tokenEfficiency": 52,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Grant Writer Specialist+",
+        "domain": "Growth",
+        "description": "Enhanced grant writing with predictive success scoring and automated funder relationship management.",
+        "icon": "PenTool",
+        "capabilities": [
+          "Funder database matching",
+          "Proposal narrative drafting",
+          "Budget justification writing",
+          "Compliance attachment generation",
+          "Success probability scoring"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 85,
+          "tokenEfficiency": 60,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Grant Writer Specialist Elite",
+        "domain": "Growth",
+        "description": "Mastery-level grant writing with perfect funder alignment and maximum approval optimization.",
+        "icon": "PenTool",
+        "capabilities": [
+          "Funder database matching",
+          "Proposal narrative drafting",
+          "Budget justification writing",
+          "Compliance attachment generation",
+          "Success probability scoring",
+          "Funder relationship AI"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 90,
+          "tokenEfficiency": 68,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Financial Narrative Generator",
+    "domain": "Strategy",
+    "description": "Automated financial narrative generation for earnings releases, investor presentations, and stakeholder communications.",
+    "icon": "MessageCircle",
+    "capabilities": [
+      "Earnings release drafting",
+      "Investor slide content",
+      "Management discussion sections",
+      "MD&A auto-generation"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 84,
+      "tokenEfficiency": 50,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Financial Narrative Generator",
+        "domain": "Strategy",
+        "description": "Automated financial narrative generation for earnings releases, investor presentations, and stakeholder communications.",
+        "icon": "MessageCircle",
+        "capabilities": [
+          "Earnings release drafting",
+          "Investor slide content",
+          "Management discussion sections",
+          "MD&A auto-generation"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 84,
+          "tokenEfficiency": 50,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Financial Narrative Generator+",
+        "domain": "Strategy",
+        "description": "Enhanced narrative with sentiment optimization and multi-stakeholder customization.",
+        "icon": "MessageCircle",
+        "capabilities": [
+          "Earnings release drafting",
+          "Investor slide content",
+          "Management discussion sections",
+          "MD&A auto-generation",
+          "Sentiment optimization"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 88,
+          "tokenEfficiency": 58,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Financial Narrative Generator Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level narrative with perfect stakeholder alignment and maximum communication impact.",
+        "icon": "MessageCircle",
+        "capabilities": [
+          "Earnings release drafting",
+          "Investor slide content",
+          "Management discussion sections",
+          "MD&A auto-generation",
+          "Sentiment optimization",
+          "Stakeholder customization"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 92,
+          "tokenEfficiency": 66,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Fraud Detection Sentinel",
+    "domain": "Strategy",
+    "description": "Real-time fraud detection using anomaly pattern analysis, transaction behavior modeling, and suspicious activity alerting.",
+    "icon": "Eye",
+    "capabilities": [
+      "Anomaly pattern detection",
+      "Transaction behavior modeling",
+      "Suspicious activity flagging",
+      "Forensic data preservation"
+    ],
+    "stats": {
+      "speed": 40,
+      "accuracy": 95,
+      "tokenEfficiency": 38,
+      "power": 80
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -15
+      }
+    ],
+    "cost": 8,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Fraud Detection Sentinel",
+        "domain": "Strategy",
+        "description": "Real-time fraud detection using anomaly pattern analysis, transaction behavior modeling, and suspicious activity alerting.",
+        "icon": "Eye",
+        "capabilities": [
+          "Anomaly pattern detection",
+          "Transaction behavior modeling",
+          "Suspicious activity flagging",
+          "Forensic data preservation"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 95,
+          "tokenEfficiency": 38,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -15
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Fraud Detection Sentinel+",
+        "domain": "Strategy",
+        "description": "Enhanced fraud detection with predictive threat modeling and automated investigation workflow.",
+        "icon": "Eye",
+        "capabilities": [
+          "Anomaly pattern detection",
+          "Transaction behavior modeling",
+          "Suspicious activity flagging",
+          "Forensic data preservation",
+          "Predictive threats"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 97,
+          "tokenEfficiency": 46,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -10
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Fraud Detection Sentinel Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level fraud detection with autonomous investigation and zero-fault prevention.",
+        "icon": "Eye",
+        "capabilities": [
+          "Anomaly pattern detection",
+          "Transaction behavior modeling",
+          "Suspicious activity flagging",
+          "Forensic data preservation",
+          "Predictive threats",
+          "Autonomous investigation"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 100,
+          "tokenEfficiency": 54,
+          "power": 100
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 8
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Financial Dashboard Architect",
+    "domain": "Operations + Growth",
+    "description": "Interactive financial dashboard design with KPI visualization, drill-down analytics, and real-time data integration.",
+    "icon": "BarChart3",
+    "capabilities": [
+      "KPI visualization design",
+      "Drill-down analytics setup",
+      "Real-time data connectors",
+      "Custom metric calculation"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 78,
+      "tokenEfficiency": 60,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Financial Dashboard Architect",
+        "domain": "Operations + Growth",
+        "description": "Interactive financial dashboard design with KPI visualization, drill-down analytics, and real-time data integration.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "KPI visualization design",
+          "Drill-down analytics setup",
+          "Real-time data connectors",
+          "Custom metric calculation"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 78,
+          "tokenEfficiency": 60,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Financial Dashboard Architect+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced dashboard with predictive analytics integration and automated insight highlighting.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "KPI visualization design",
+          "Drill-down analytics setup",
+          "Real-time data connectors",
+          "Custom metric calculation",
+          "Predictive analytics"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 83,
+          "tokenEfficiency": 68,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Financial Dashboard Architect Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level dashboard with autonomous insight generation and perfect data storytelling.",
+        "icon": "BarChart3",
+        "capabilities": [
+          "KPI visualization design",
+          "Drill-down analytics setup",
+          "Real-time data connectors",
+          "Custom metric calculation",
+          "Predictive analytics",
+          "Autonomous insights"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 88,
+          "tokenEfficiency": 76,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Financial Systems Integrator",
+    "domain": "Operations",
+    "description": "ERP and financial system integration orchestration with data mapping, reconciliation automation, and sync monitoring.",
+    "icon": "Plug",
+    "capabilities": [
+      "ERP data mapping",
+      "Reconciliation automation",
+      "Sync health monitoring",
+      "Error handling workflows"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 85,
+      "tokenEfficiency": 55,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Financial Systems Integrator",
+        "domain": "Operations",
+        "description": "ERP and financial system integration orchestration with data mapping, reconciliation automation, and sync monitoring.",
+        "icon": "Plug",
+        "capabilities": [
+          "ERP data mapping",
+          "Reconciliation automation",
+          "Sync health monitoring",
+          "Error handling workflows"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 85,
+          "tokenEfficiency": 55,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Financial Systems Integrator+",
+        "domain": "Operations",
+        "description": "Enhanced integration with intelligent data transformation and automated error resolution.",
+        "icon": "Plug",
+        "capabilities": [
+          "ERP data mapping",
+          "Reconciliation automation",
+          "Sync health monitoring",
+          "Error handling workflows",
+          "Intelligent transformation"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 90,
+          "tokenEfficiency": 63,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Financial Systems Integrator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level integration with self-healing sync and perfect data consistency.",
+        "icon": "Plug",
+        "capabilities": [
+          "ERP data mapping",
+          "Reconciliation automation",
+          "Sync health monitoring",
+          "Error handling workflows",
+          "Intelligent transformation",
+          "Self-healing sync"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 95,
+          "tokenEfficiency": 71,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "finance",
+    "id": "finance",
+    "name": "Ultimate Financial Architect",
+    "domain": "Strategy",
+    "description": "The ultimate finance skill — perfect financial control, maximum insight accuracy, and optimal resource allocation simultaneously.",
+    "icon": "Crown",
+    "capabilities": [
+      "Full-finance orchestration",
+      "Financial-perfect optimization",
+      "Resource-perfect allocation",
+      "Cross-agent financial coordination"
+    ],
+    "stats": {
+      "speed": 80,
+      "accuracy": 95,
+      "tokenEfficiency": 88,
+      "power": 98
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 20
+      },
+      {
+        "domain": "Operations + Growth",
+        "value": 10
+      }
+    ],
+    "debuffs": [],
+    "cost": 10,
+    "dependency": [
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      },
+      {
+        "agentSkillId": "finance"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Ultimate Financial Architect",
+        "domain": "Strategy",
+        "description": "The ultimate finance skill — perfect financial control, maximum insight accuracy, and optimal resource allocation simultaneously.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-finance orchestration",
+          "Financial-perfect optimization",
+          "Resource-perfect allocation",
+          "Cross-agent financial coordination"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 95,
+          "tokenEfficiency": 88,
+          "power": 98
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          },
+          {
+            "domain": "Operations + Growth",
+            "value": 10
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate Financial Architect+",
+        "domain": "Strategy",
+        "description": "Enhanced ultimate finance with predictive financial engineering and zero-defect control.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-finance orchestration",
+          "Financial-perfect optimization",
+          "Resource-perfect allocation",
+          "Cross-agent financial coordination",
+          "Predictive engineering"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 98,
+          "tokenEfficiency": 94,
+          "power": 102
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          },
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate Financial Architect Master",
+        "domain": "Strategy",
+        "description": "The pinnacle of financial mastery — flawless control, perfect insight, and optimal allocation in harmony.",
+        "icon": "Crown",
+        "capabilities": [
+          "Full-finance orchestration",
+          "Financial-perfect optimization",
+          "Resource-perfect allocation",
+          "Cross-agent financial coordination",
+          "Predictive engineering",
+          "Zero-defect control"
+        ],
+        "stats": {
+          "speed": 110,
+          "accuracy": 100,
+          "tokenEfficiency": 100,
+          "power": 106
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          },
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      }
+    ]
   }
 ]

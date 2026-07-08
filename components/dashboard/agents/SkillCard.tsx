@@ -31,6 +31,18 @@ export interface AgentSkillData {
   buffs: DomainModifier[];
   debuffs: DomainModifier[];
   cost: number;
+  dependency: { agentSkillId: string }[];
+  levels: {
+    name: string;
+    domain: string;
+    description: string;
+    icon: string;
+    capabilities: string[];
+    stats: SkillStats;
+    buffs: DomainModifier[];
+    debuffs: DomainModifier[];
+    cost: number;
+  }[]
 }
 
 interface SkillCardProps {
@@ -145,9 +157,8 @@ export default function SkillCard({ skill, isActive = false, isDisabled = false,
           {Array.from({ length: 10 }).map((_, i) => (
             <div
               key={i}
-              className={`h-2 w-2 rounded-full ${
-                i < skill.cost ? "bg-amber-500" : "bg-neutral-200 dark:bg-neutral-700"
-              }`}
+              className={`h-2 w-2 rounded-full ${i < skill.cost ? "bg-amber-500" : "bg-neutral-200 dark:bg-neutral-700"
+                }`}
             />
           ))}
         </div>

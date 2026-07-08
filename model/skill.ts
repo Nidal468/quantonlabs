@@ -34,17 +34,37 @@ export interface DomainModifier {
     value: number;        // positive = buff, negative = debuff
 }
 
+// Dependency for unlock requirements
+export interface SkillDependency {
+    agentSkillId: string;
+}
+
+// Level progression (base, +, Elite)
+export interface SkillLevel {
+    name: string;
+    domain: AgentDomain;
+    description: string;
+    icon: string;
+    capabilities: string[];
+    stats: SkillStats;
+    buffs: DomainModifier[];
+    debuffs: DomainModifier[];
+    cost: number;
+}
+
 export interface AgentSkillDocument extends Document {
     id: AgentId;
     name: string;
     domain: AgentDomain;
     description: string;
-    capabilities: string[];
     icon: string;
+    capabilities: string[];
     stats: SkillStats;
     buffs: DomainModifier[];
     debuffs: DomainModifier[];
     cost: number;         // 1-10, resource cost to activate
+    dependency: SkillDependency[];
+    levels: SkillLevel[];
     createdAt: Date;
     updatedAt: Date;
 }
@@ -139,6 +159,53 @@ const AgentSkillSchema = new Schema<AgentSkillDocument>(
             required: true,
             min: 1,
             max: 10,
+        },
+
+        dependency: {
+            type: [
+                {
+                    agentSkillId: { type: String, required: true },
+                }
+            ],
+            default: [],
+        },
+
+        levels: {
+            type: [
+                {
+                    name: { type: String, required: true },
+                    domain: { type: String, required: true, enum: AGENT_DOMAINS },
+                    description: { type: String, required: true },
+                    icon: { type: String, required: true },
+                    capabilities: { type: [String], default: [] },
+                    stats: {
+                        speed: { type: Number, required: true, min: 0, max: 100 },
+                        accuracy: { type: Number, required: true, min: 0, max: 100 },
+                        tokenEfficiency: { type: Number, required: true, min: 0, max: 100 },
+                        power: { type: Number, required: true, min: 0, max: 100 },
+                    },
+                    buffs: {
+                        type: [
+                            {
+                                domain: { type: String, enum: AGENT_DOMAINS },
+                                value: { type: Number, required: true },
+                            }
+                        ],
+                        default: [],
+                    },
+                    debuffs: {
+                        type: [
+                            {
+                                domain: { type: String, enum: AGENT_DOMAINS },
+                                value: { type: Number, required: true },
+                            }
+                        ],
+                        default: [],
+                    },
+                    cost: { type: Number, required: true, min: 1, max: 10 },
+                }
+            ],
+            default: [],
         },
     },
     {

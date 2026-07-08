@@ -14,6 +14,24 @@ export interface DomainModifier {
   value: number;
 }
 
+// Dependency for unlock requirements
+export interface SkillDependency {
+  agentSkillId: string;
+}
+
+// Level progression (base, +, Elite)
+export interface SkillLevel {
+  name: string;
+  domain: string;
+  description: string;
+  icon: string;
+  capabilities: string[];
+  stats: SkillStats;
+  buffs: DomainModifier[];
+  debuffs: DomainModifier[];
+  cost: number;
+}
+
 export interface AgentSkillDocument {
   _id?: string;
   id: string;
@@ -26,6 +44,8 @@ export interface AgentSkillDocument {
   buffs: DomainModifier[];
   debuffs: DomainModifier[];
   cost: number;
+  dependency: SkillDependency[];
+  levels: SkillLevel[];
 }
 
 // Fetch all skills for a given agent id (from JSON files)

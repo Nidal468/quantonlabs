@@ -18,6 +18,18 @@ export interface AgentSkillDoc {
   buffs: { domain: string; value: number }[];
   debuffs: { domain: string; value: number }[];
   cost: number;
+  dependency: { agentSkillId: string }[];
+  levels: {
+    name: string;
+    domain: string;
+    description: string;
+    icon: string;
+    capabilities: string[];
+    stats: { speed: number; accuracy: number; tokenEfficiency: number; power: number };
+    buffs: { domain: string; value: number }[];
+    debuffs: { domain: string; value: number }[];
+    cost: number;
+  }[];
 }
 
 // Map agent id to JSON file path

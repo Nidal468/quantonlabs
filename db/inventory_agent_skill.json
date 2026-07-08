@@ -1,242 +1,2475 @@
 [
   {
-    "id": "inventory",
-    "name": "Real-time Stock Sentinel",
-    "domain": "Operations",
-    "description": "Continuous real-time inventory monitoring with automated level tracking, movement detection, and discrepancy alerting.",
-    "icon": "Activity",
-    "capabilities": ["Live stock level tracking", "Movement pattern detection", "Discrepancy alerting", "Cycle count scheduling"],
-    "stats": { "speed": 90, "accuracy": 75, "tokenEfficiency": 65, "power": 55 },
-    "buffs": [{ "domain": "Operations", "value": 25 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "inventory",
-    "name": "Smart Reorder Engine",
-    "domain": "Operations",
-    "description": "Intelligent reorder point calculation using demand forecasting, lead time analysis, and service level optimization.",
-    "icon": "Repeat",
-    "capabilities": ["Dynamic reorder point calculation", "EOQ computation", "Lead time variance tracking", "Service level optimization"],
-    "stats": { "speed": 65, "accuracy": 82, "tokenEfficiency": 60, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "inventory",
-    "name": "Demand Forecasting Oracle",
-    "domain": "Strategy",
-    "description": "Advanced demand forecasting using time series analysis, seasonality detection, and external signal integration.",
-    "icon": "Brain",
-    "capabilities": ["Time series decomposition", "Seasonality pattern detection", "External factor integration", "Forecast accuracy tracking"],
-    "stats": { "speed": 25, "accuracy": 92, "tokenEfficiency": 35, "power": 75 },
-    "buffs": [{ "domain": "Strategy", "value": 25 }],
-    "debuffs": [{ "domain": "Operations + Growth", "value": -15 }],
-    "cost": 8
-  },
-  {
-    "id": "inventory",
-    "name": "Supplier Negotiation Core",
-    "domain": "Operations + Growth",
-    "description": "AI-powered supplier negotiation support with price analysis, term optimization, and relationship scoring.",
-    "icon": "Handshake",
-    "capabilities": ["Price trend analysis", "Term optimization suggestions", "Supplier scorecard generation", "Negotiation script drafting"],
-    "stats": { "speed": 50, "accuracy": 78, "tokenEfficiency": 55, "power": 65 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Token-efficient Auditor",
     "domain": "Operations",
     "description": "Lean inventory audit system using minimal tokens with strategic sampling and variance detection.",
     "icon": "Feather",
-    "capabilities": ["Strategic sample selection", "Variance threshold alerting", "Audit trail generation", "Cycle count automation"],
-    "stats": { "speed": 85, "accuracy": 55, "tokenEfficiency": 92, "power": 35 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
-    "debuffs": [{ "domain": "Strategy", "value": -10 }],
-    "cost": 2
+    "capabilities": [
+      "Strategic sample selection",
+      "Variance threshold alerting",
+      "Audit trail generation",
+      "Cycle count automation"
+    ],
+    "stats": {
+      "speed": 85,
+      "accuracy": 55,
+      "tokenEfficiency": 92,
+      "power": 35
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -10
+      }
+    ],
+    "cost": 2,
+    "dependency": [],
+    "levels": [
+      {
+        "name": "Token-efficient Auditor",
+        "domain": "Operations",
+        "description": "Lean inventory audit system using minimal tokens with strategic sampling and variance detection.",
+        "icon": "Feather",
+        "capabilities": [
+          "Strategic sample selection",
+          "Variance threshold alerting",
+          "Audit trail generation",
+          "Cycle count automation"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 55,
+          "tokenEfficiency": 92,
+          "power": 35
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -10
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Auditor+",
+        "domain": "Operations",
+        "description": "Enhanced inventory auditing with improved sampling accuracy and expanded variance detection coverage.",
+        "icon": "Feather",
+        "capabilities": [
+          "Strategic sample selection",
+          "Variance threshold alerting",
+          "Audit trail generation",
+          "Cycle count automation",
+          "Automated discrepancy resolution"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 65,
+          "tokenEfficiency": 100,
+          "power": 48
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -7
+          }
+        ],
+        "cost": 2
+      },
+      {
+        "name": "Token-efficient Auditor Elite",
+        "domain": "Operations",
+        "description": "Mastery-level inventory auditing with near-perfect efficiency and comprehensive variance orchestration.",
+        "icon": "Feather",
+        "capabilities": [
+          "Strategic sample selection",
+          "Variance threshold alerting",
+          "Audit trail generation",
+          "Cycle count automation",
+          "Automated discrepancy resolution",
+          "Predictive anomaly alerts"
+        ],
+        "stats": {
+          "speed": 115,
+          "accuracy": 75,
+          "tokenEfficiency": 108,
+          "power": 61
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 2
+      }
+    ]
   },
   {
-    "id": "inventory",
-    "name": "Warehouse Optimizer",
-    "domain": "Operations",
-    "description": "Warehouse layout and slotting optimization using velocity analysis, pick path optimization, and space utilization.",
-    "icon": "Warehouse",
-    "capabilities": ["Velocity-based slotting", "Pick path optimization", "Space utilization analysis", "Zone assignment optimization"],
-    "stats": { "speed": 45, "accuracy": 80, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Operations", "value": 20 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
-    "id": "inventory",
-    "name": "Dead Stock Detector",
-    "domain": "Strategy",
-    "description": "Proactive dead stock identification with aging analysis, disposition recommendation, and liquidation optimization.",
-    "icon": "AlertTriangle",
-    "capabilities": ["Aging bucket analysis", "Turn rate monitoring", "Disposition strategy generation", "Liquidation channel matching"],
-    "stats": { "speed": 40, "accuracy": 85, "tokenEfficiency": 45, "power": 60 },
-    "buffs": [{ "domain": "Strategy", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
-    "id": "inventory",
-    "name": "Delivery ETA Predictor",
-    "domain": "Operations + Growth",
-    "description": "Real-time delivery ETA prediction using carrier performance data, route analysis, and external condition factors.",
-    "icon": "Truck",
-    "capabilities": ["Carrier performance tracking", "Route delay pattern detection", "External factor integration", "ETA confidence scoring"],
-    "stats": { "speed": 70, "accuracy": 75, "tokenEfficiency": 60, "power": 50 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "ABC Classification Engine",
     "domain": "Operations",
     "description": "Automated inventory classification using Pareto analysis, velocity scoring, and value-based categorization.",
     "icon": "ListFilter",
-    "capabilities": ["Pareto analysis automation", "Velocity score calculation", "Value-based categorization", "Reorder policy assignment"],
-    "stats": { "speed": 60, "accuracy": 82, "tokenEfficiency": 58, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "Pareto analysis automation",
+      "Velocity score calculation",
+      "Value-based categorization",
+      "Reorder policy assignment"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 82,
+      "tokenEfficiency": 58,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "ABC Classification Engine",
+        "domain": "Operations",
+        "description": "Automated inventory classification using Pareto analysis, velocity scoring, and value-based categorization.",
+        "icon": "ListFilter",
+        "capabilities": [
+          "Pareto analysis automation",
+          "Velocity score calculation",
+          "Value-based categorization",
+          "Reorder policy assignment"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 82,
+          "tokenEfficiency": 58,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "ABC Classification Engine+",
+        "domain": "Operations",
+        "description": "Enhanced classification with dynamic category adaptation and automated policy optimization.",
+        "icon": "ListFilter",
+        "capabilities": [
+          "Pareto analysis automation",
+          "Velocity score calculation",
+          "Value-based categorization",
+          "Reorder policy assignment",
+          "Dynamic category shifting"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 87,
+          "tokenEfficiency": 66,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "ABC Classification Engine Elite",
+        "domain": "Operations",
+        "description": "Mastery-level classification with self-optimizing categories and perfect inventory alignment.",
+        "icon": "ListFilter",
+        "capabilities": [
+          "Pareto analysis automation",
+          "Velocity score calculation",
+          "Value-based categorization",
+          "Reorder policy assignment",
+          "Dynamic category shifting",
+          "Self-optimizing"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 92,
+          "tokenEfficiency": 74,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
-    "id": "inventory",
-    "name": "Safety Stock Calculator",
-    "domain": "Strategy",
-    "description": "Statistical safety stock calculation using service level targets, demand variability, and lead time uncertainty modeling.",
-    "icon": "Calculator",
-    "capabilities": ["Service level optimization", "Demand variability analysis", "Lead time uncertainty modeling", "Stockout risk quantification"],
-    "stats": { "speed": 35, "accuracy": 90, "tokenEfficiency": 40, "power": 65 },
-    "buffs": [{ "domain": "Strategy", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
-    "id": "inventory",
-    "name": "Multi-warehouse Balancer",
-    "domain": "Operations + Growth",
-    "description": "Cross-location inventory balancing with transfer optimization, demand allocation, and transportation cost analysis.",
-    "icon": "GitMerge",
-    "capabilities": ["Transfer need detection", "Optimal quantity calculation", "Route cost optimization", "Demand allocation planning"],
-    "stats": { "speed": 55, "accuracy": 78, "tokenEfficiency": 55, "power": 60 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 4
-  },
-  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Quality Inspection Router",
     "domain": "Operations",
     "description": "Incoming quality inspection management with AQL sampling, defect classification, and supplier score integration.",
     "icon": "ScanLine",
-    "capabilities": ["AQL sampling plan generation", "Defect classification", "Inspection checklist creation", "Supplier quality scoring"],
-    "stats": { "speed": 60, "accuracy": 85, "tokenEfficiency": 55, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "AQL sampling plan generation",
+      "Defect classification",
+      "Inspection checklist creation",
+      "Supplier quality scoring"
+    ],
+    "stats": {
+      "speed": 60,
+      "accuracy": 85,
+      "tokenEfficiency": 55,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Quality Inspection Router",
+        "domain": "Operations",
+        "description": "Incoming quality inspection management with AQL sampling, defect classification, and supplier score integration.",
+        "icon": "ScanLine",
+        "capabilities": [
+          "AQL sampling plan generation",
+          "Defect classification",
+          "Inspection checklist creation",
+          "Supplier quality scoring"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 85,
+          "tokenEfficiency": 55,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Quality Inspection Router+",
+        "domain": "Operations",
+        "description": "Enhanced inspection with predictive defect detection and automated supplier integration.",
+        "icon": "ScanLine",
+        "capabilities": [
+          "AQL sampling plan generation",
+          "Defect classification",
+          "Inspection checklist creation",
+          "Supplier quality scoring",
+          "Predictive defects"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 90,
+          "tokenEfficiency": 63,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Quality Inspection Router Elite",
+        "domain": "Operations",
+        "description": "Mastery-level inspection with zero-defect prevention and perfect quality orchestration.",
+        "icon": "ScanLine",
+        "capabilities": [
+          "AQL sampling plan generation",
+          "Defect classification",
+          "Inspection checklist creation",
+          "Supplier quality scoring",
+          "Predictive defects",
+          "Zero-defect prevention"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 95,
+          "tokenEfficiency": 71,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
-    "id": "inventory",
-    "name": "Demand Spike Handler",
-    "domain": "Growth",
-    "description": "Rapid demand spike response with surge capacity planning, allocation optimization, and expedited procurement.",
-    "icon": "Zap",
-    "capabilities": ["Surge detection alerting", "Allocation strategy generation", "Expedited order creation", "Capacity constraint analysis"],
-    "stats": { "speed": 85, "accuracy": 60, "tokenEfficiency": 55, "power": 70 },
-    "buffs": [{ "domain": "Growth", "value": 20 }],
-    "debuffs": [{ "domain": "Strategy", "value": -10 }],
-    "cost": 5
-  },
-  {
-    "id": "inventory",
-    "name": "Inventory Cost Optimizer",
-    "domain": "Operations + Growth",
-    "description": "Total inventory cost optimization balancing holding costs, ordering costs, stockout costs, and quantity discounts.",
-    "icon": "DollarSign",
-    "capabilities": ["Holding cost analysis", "Ordering cost optimization", "Stockout cost quantification", "Quantity discount evaluation"],
-    "stats": { "speed": 45, "accuracy": 82, "tokenEfficiency": 50, "power": 65 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
-    "debuffs": [],
-    "cost": 5
-  },
-  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Serial Number Tracker",
     "domain": "Operations",
     "description": "Serialized item tracking with full lifecycle management, warranty tracking, and recall management capabilities.",
     "icon": "Barcode",
-    "capabilities": ["Lifecycle event logging", "Warranty period tracking", "Recall batch identification", "Serial-to-serial movement tracking"],
-    "stats": { "speed": 70, "accuracy": 88, "tokenEfficiency": 52, "power": 40 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "Lifecycle event logging",
+      "Warranty period tracking",
+      "Recall batch identification",
+      "Serial-to-serial movement tracking"
+    ],
+    "stats": {
+      "speed": 70,
+      "accuracy": 88,
+      "tokenEfficiency": 52,
+      "power": 40
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Serial Number Tracker",
+        "domain": "Operations",
+        "description": "Serialized item tracking with full lifecycle management, warranty tracking, and recall management capabilities.",
+        "icon": "Barcode",
+        "capabilities": [
+          "Lifecycle event logging",
+          "Warranty period tracking",
+          "Recall batch identification",
+          "Serial-to-serial movement tracking"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 88,
+          "tokenEfficiency": 52,
+          "power": 40
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Serial Number Tracker+",
+        "domain": "Operations",
+        "description": "Enhanced serialization with predictive warranty modeling and automated recall orchestration.",
+        "icon": "Barcode",
+        "capabilities": [
+          "Lifecycle event logging",
+          "Warranty period tracking",
+          "Recall batch identification",
+          "Serial-to-serial movement tracking",
+          "Predictive warranty"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 92,
+          "tokenEfficiency": 60,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Serial Number Tracker Elite",
+        "domain": "Operations",
+        "description": "Mastery-level serialization with perfect lifecycle visibility and zero-recall resolution.",
+        "icon": "Barcode",
+        "capabilities": [
+          "Lifecycle event logging",
+          "Warranty period tracking",
+          "Recall batch identification",
+          "Serial-to-serial movement tracking",
+          "Predictive warranty",
+          "Zero-recall"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 96,
+          "tokenEfficiency": 68,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Expiry Date Monitor",
     "domain": "Operations",
     "description": "Perishable inventory management with expiry tracking, FEFO rotation enforcement, and waste reduction alerts.",
     "icon": "CalendarX",
-    "capabilities": ["Expiry date alerting", "FEFO rotation suggestions", "Shelf-life remaining calculation", "Waste trend analysis"],
-    "stats": { "speed": 75, "accuracy": 80, "tokenEfficiency": 62, "power": 45 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "Expiry date alerting",
+      "FEFO rotation suggestions",
+      "Shelf-life remaining calculation",
+      "Waste trend analysis"
+    ],
+    "stats": {
+      "speed": 75,
+      "accuracy": 80,
+      "tokenEfficiency": 62,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Expiry Date Monitor",
+        "domain": "Operations",
+        "description": "Perishable inventory management with expiry tracking, FEFO rotation enforcement, and waste reduction alerts.",
+        "icon": "CalendarX",
+        "capabilities": [
+          "Expiry date alerting",
+          "FEFO rotation suggestions",
+          "Shelf-life remaining calculation",
+          "Waste trend analysis"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 80,
+          "tokenEfficiency": 62,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Expiry Date Monitor+",
+        "domain": "Operations",
+        "description": "Enhanced expiry monitoring with predictive waste reduction and automated rotation optimization.",
+        "icon": "CalendarX",
+        "capabilities": [
+          "Expiry date alerting",
+          "FEFO rotation suggestions",
+          "Shelf-life remaining calculation",
+          "Waste trend analysis",
+          "Predictive waste"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 85,
+          "tokenEfficiency": 70,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Expiry Date Monitor Elite",
+        "domain": "Operations",
+        "description": "Mastery-level expiry management with zero-waste optimization and perfect freshness guarantee.",
+        "icon": "CalendarX",
+        "capabilities": [
+          "Expiry date alerting",
+          "FEFO rotation suggestions",
+          "Shelf-life remaining calculation",
+          "Waste trend analysis",
+          "Predictive waste",
+          "Zero-waste"
+        ],
+        "stats": {
+          "speed": 105,
+          "accuracy": 90,
+          "tokenEfficiency": 78,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Warehouse Optimizer",
+    "domain": "Operations",
+    "description": "Warehouse layout and slotting optimization using velocity analysis, pick path optimization, and space utilization.",
+    "icon": "Warehouse",
+    "capabilities": [
+      "Velocity-based slotting",
+      "Pick path optimization",
+      "Space utilization analysis",
+      "Zone assignment optimization"
+    ],
+    "stats": {
+      "speed": 45,
+      "accuracy": 80,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Warehouse Optimizer",
+        "domain": "Operations",
+        "description": "Warehouse layout and slotting optimization using velocity analysis, pick path optimization, and space utilization.",
+        "icon": "Warehouse",
+        "capabilities": [
+          "Velocity-based slotting",
+          "Pick path optimization",
+          "Space utilization analysis",
+          "Zone assignment optimization"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 80,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Warehouse Optimizer+",
+        "domain": "Operations",
+        "description": "Enhanced warehouse with AI-driven slotting and automated pick path orchestration.",
+        "icon": "Warehouse",
+        "capabilities": [
+          "Velocity-based slotting",
+          "Pick path optimization",
+          "Space utilization analysis",
+          "Zone assignment optimization",
+          "AI-driven slotting"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 85,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Warehouse Optimizer Elite",
+        "domain": "Operations",
+        "description": "Mastery-level warehouse with perfect space utilization and zero-touch optimization.",
+        "icon": "Warehouse",
+        "capabilities": [
+          "Velocity-based slotting",
+          "Pick path optimization",
+          "Space utilization analysis",
+          "Zone assignment optimization",
+          "AI-driven slotting",
+          "Perfect utilization"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 90,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Real-time Stock Sentinel",
+    "domain": "Operations",
+    "description": "Continuous real-time inventory monitoring with automated level tracking, movement detection, and discrepancy alerting.",
+    "icon": "Activity",
+    "capabilities": [
+      "Live stock level tracking",
+      "Movement pattern detection",
+      "Discrepancy alerting",
+      "Cycle count scheduling"
+    ],
+    "stats": {
+      "speed": 90,
+      "accuracy": 75,
+      "tokenEfficiency": 65,
+      "power": 55
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 25
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Real-time Stock Sentinel",
+        "domain": "Operations",
+        "description": "Continuous real-time inventory monitoring with automated level tracking, movement detection, and discrepancy alerting.",
+        "icon": "Activity",
+        "capabilities": [
+          "Live stock level tracking",
+          "Movement pattern detection",
+          "Discrepancy alerting",
+          "Cycle count scheduling"
+        ],
+        "stats": {
+          "speed": 90,
+          "accuracy": 75,
+          "tokenEfficiency": 65,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Real-time Stock Sentinel+",
+        "domain": "Operations",
+        "description": "Enhanced monitoring with predictive stock analysis and automated discrepancy resolution.",
+        "icon": "Activity",
+        "capabilities": [
+          "Live stock level tracking",
+          "Movement pattern detection",
+          "Discrepancy alerting",
+          "Cycle count scheduling",
+          "Predictive analysis"
+        ],
+        "stats": {
+          "speed": 105,
+          "accuracy": 80,
+          "tokenEfficiency": 73,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Real-time Stock Sentinel Elite",
+        "domain": "Operations",
+        "description": "Mastery-level monitoring with zero-discrepancy guarantee and perfect stock harmony.",
+        "icon": "Activity",
+        "capabilities": [
+          "Live stock level tracking",
+          "Movement pattern detection",
+          "Discrepancy alerting",
+          "Cycle count scheduling",
+          "Predictive analysis",
+          "Zero-discrepancy"
+        ],
+        "stats": {
+          "speed": 120,
+          "accuracy": 85,
+          "tokenEfficiency": 81,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Smart Reorder Engine",
+    "domain": "Operations",
+    "description": "Intelligent reorder point calculation using demand forecasting, lead time analysis, and service level optimization.",
+    "icon": "Repeat",
+    "capabilities": [
+      "Dynamic reorder point calculation",
+      "EOQ computation",
+      "Lead time variance tracking",
+      "Service level optimization"
+    ],
+    "stats": {
+      "speed": 65,
+      "accuracy": 82,
+      "tokenEfficiency": 60,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 20
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Smart Reorder Engine",
+        "domain": "Operations",
+        "description": "Intelligent reorder point calculation using demand forecasting, lead time analysis, and service level optimization.",
+        "icon": "Repeat",
+        "capabilities": [
+          "Dynamic reorder point calculation",
+          "EOQ computation",
+          "Lead time variance tracking",
+          "Service level optimization"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 82,
+          "tokenEfficiency": 60,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Smart Reorder Engine+",
+        "domain": "Operations",
+        "description": "Enhanced reordering with predictive demand integration and automated EOQ optimization.",
+        "icon": "Repeat",
+        "capabilities": [
+          "Dynamic reorder point calculation",
+          "EOQ computation",
+          "Lead time variance tracking",
+          "Service level optimization",
+          "Predictive demand"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 87,
+          "tokenEfficiency": 68,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Smart Reorder Engine Elite",
+        "domain": "Operations",
+        "description": "Mastery-level reordering with autonomous optimization and perfect service alignment.",
+        "icon": "Repeat",
+        "capabilities": [
+          "Dynamic reorder point calculation",
+          "EOQ computation",
+          "Lead time variance tracking",
+          "Service level optimization",
+          "Predictive demand",
+          "Autonomous optimization"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 92,
+          "tokenEfficiency": 76,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Procurement Workflow Automator",
     "domain": "Operations",
     "description": "End-to-end procurement workflow automation with purchase order generation, approval routing, and receipt matching.",
     "icon": "CheckSquare",
-    "capabilities": ["PO auto-generation", "Approval workflow routing", "Three-way match verification", "Receipt exception handling"],
-    "stats": { "speed": 70, "accuracy": 82, "tokenEfficiency": 60, "power": 50 },
-    "buffs": [{ "domain": "Operations", "value": 15 }],
+    "capabilities": [
+      "PO auto-generation",
+      "Approval workflow routing",
+      "Three-way match verification",
+      "Receipt exception handling"
+    ],
+    "stats": {
+      "speed": 70,
+      "accuracy": 82,
+      "tokenEfficiency": 60,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Procurement Workflow Automator",
+        "domain": "Operations",
+        "description": "End-to-end procurement workflow automation with purchase order generation, approval routing, and receipt matching.",
+        "icon": "CheckSquare",
+        "capabilities": [
+          "PO auto-generation",
+          "Approval workflow routing",
+          "Three-way match verification",
+          "Receipt exception handling"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 82,
+          "tokenEfficiency": 60,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Procurement Workflow Automator+",
+        "domain": "Operations",
+        "description": "Enhanced procurement with intelligent approval optimization and automated exception resolution.",
+        "icon": "CheckSquare",
+        "capabilities": [
+          "PO auto-generation",
+          "Approval workflow routing",
+          "Three-way match verification",
+          "Receipt exception handling",
+          "Intelligent optimization"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 87,
+          "tokenEfficiency": 68,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Procurement Workflow Automator Elite",
+        "domain": "Operations",
+        "description": "Mastery-level procurement with zero-touch processing and perfect workflow harmony.",
+        "icon": "CheckSquare",
+        "capabilities": [
+          "PO auto-generation",
+          "Approval workflow routing",
+          "Three-way match verification",
+          "Receipt exception handling",
+          "Intelligent optimization",
+          "Zero-touch"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 92,
+          "tokenEfficiency": 76,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
+    "_id": "inventory",
     "id": "inventory",
-    "name": "Demand Shaping Advisor",
-    "domain": "Growth",
-    "description": "Strategic demand shaping using pricing recommendations, promotion planning, and product bundling to optimize inventory.",
-    "icon": "TrendingUp",
-    "capabilities": ["Price-elasticity analysis", "Promotion impact forecasting", "Bundle optimization", "Demand curve manipulation"],
-    "stats": { "speed": 50, "accuracy": 72, "tokenEfficiency": 55, "power": 65 },
-    "buffs": [{ "domain": "Growth", "value": 15 }],
+    "name": "Delivery ETA Predictor",
+    "domain": "Operations + Growth",
+    "description": "Real-time delivery ETA prediction using carrier performance data, route analysis, and external condition factors.",
+    "icon": "Truck",
+    "capabilities": [
+      "Carrier performance tracking",
+      "Route delay pattern detection",
+      "External factor integration",
+      "ETA confidence scoring"
+    ],
+    "stats": {
+      "speed": 70,
+      "accuracy": 75,
+      "tokenEfficiency": 60,
+      "power": 50
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 4
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Delivery ETA Predictor",
+        "domain": "Operations + Growth",
+        "description": "Real-time delivery ETA prediction using carrier performance data, route analysis, and external condition factors.",
+        "icon": "Truck",
+        "capabilities": [
+          "Carrier performance tracking",
+          "Route delay pattern detection",
+          "External factor integration",
+          "ETA confidence scoring"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 75,
+          "tokenEfficiency": 60,
+          "power": 50
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Delivery ETA Predictor+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced prediction with predictive delay modeling and automated route optimization.",
+        "icon": "Truck",
+        "capabilities": [
+          "Carrier performance tracking",
+          "Route delay pattern detection",
+          "External factor integration",
+          "ETA confidence scoring",
+          "Predictive delay"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 80,
+          "tokenEfficiency": 68,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Delivery ETA Predictor Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level prediction with perfect ETA accuracy and zero-delay optimization.",
+        "icon": "Truck",
+        "capabilities": [
+          "Carrier performance tracking",
+          "Route delay pattern detection",
+          "External factor integration",
+          "ETA confidence scoring",
+          "Predictive delay",
+          "Perfect accuracy"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 85,
+          "tokenEfficiency": 76,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
   },
   {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Multi-warehouse Balancer",
+    "domain": "Operations + Growth",
+    "description": "Cross-location inventory balancing with transfer optimization, demand allocation, and transportation cost analysis.",
+    "icon": "GitMerge",
+    "capabilities": [
+      "Transfer need detection",
+      "Optimal quantity calculation",
+      "Route cost optimization",
+      "Demand allocation planning"
+    ],
+    "stats": {
+      "speed": 55,
+      "accuracy": 78,
+      "tokenEfficiency": 55,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Multi-warehouse Balancer",
+        "domain": "Operations + Growth",
+        "description": "Cross-location inventory balancing with transfer optimization, demand allocation, and transportation cost analysis.",
+        "icon": "GitMerge",
+        "capabilities": [
+          "Transfer need detection",
+          "Optimal quantity calculation",
+          "Route cost optimization",
+          "Demand allocation planning"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 78,
+          "tokenEfficiency": 55,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Multi-warehouse Balancer+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced balancing with predictive transfer optimization and automated cost reduction.",
+        "icon": "GitMerge",
+        "capabilities": [
+          "Transfer need detection",
+          "Optimal quantity calculation",
+          "Route cost optimization",
+          "Demand allocation planning",
+          "Predictive transfer"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 83,
+          "tokenEfficiency": 63,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Multi-warehouse Balancer Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level balancing with perfect inventory harmony and zero-transfer efficiency.",
+        "icon": "GitMerge",
+        "capabilities": [
+          "Transfer need detection",
+          "Optimal quantity calculation",
+          "Route cost optimization",
+          "Demand allocation planning",
+          "Predictive transfer",
+          "Perfect harmony"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 88,
+          "tokenEfficiency": 71,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Inventory Cost Optimizer",
+    "domain": "Operations + Growth",
+    "description": "Total inventory cost optimization balancing holding costs, ordering costs, stockout costs, and quantity discounts.",
+    "icon": "DollarSign",
+    "capabilities": [
+      "Holding cost analysis",
+      "Ordering cost optimization",
+      "Stockout cost quantification",
+      "Quantity discount evaluation"
+    ],
+    "stats": {
+      "speed": 45,
+      "accuracy": 82,
+      "tokenEfficiency": 50,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Inventory Cost Optimizer",
+        "domain": "Operations + Growth",
+        "description": "Total inventory cost optimization balancing holding costs, ordering costs, stockout costs, and quantity discounts.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "Holding cost analysis",
+          "Ordering cost optimization",
+          "Stockout cost quantification",
+          "Quantity discount evaluation"
+        ],
+        "stats": {
+          "speed": 45,
+          "accuracy": 82,
+          "tokenEfficiency": 50,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Inventory Cost Optimizer+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced optimization with predictive cost modeling and automated discount orchestration.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "Holding cost analysis",
+          "Ordering cost optimization",
+          "Stockout cost quantification",
+          "Quantity discount evaluation",
+          "Predictive cost"
+        ],
+        "stats": {
+          "speed": 60,
+          "accuracy": 87,
+          "tokenEfficiency": 58,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Inventory Cost Optimizer Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level optimization with minimum-cost guarantee and perfect cost harmony.",
+        "icon": "DollarSign",
+        "capabilities": [
+          "Holding cost analysis",
+          "Ordering cost optimization",
+          "Stockout cost quantification",
+          "Quantity discount evaluation",
+          "Predictive cost",
+          "Minimum-cost guarantee"
+        ],
+        "stats": {
+          "speed": 75,
+          "accuracy": 92,
+          "tokenEfficiency": 66,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Returns Processing Optimizer",
     "domain": "Operations + Growth",
     "description": "Reverse logistics optimization with return reason analysis, disposition routing, and restocking automation.",
     "icon": "RotateCornerIcons",
-    "capabilities": ["Return reason classification", "Disposition decision engine", "Restocking workflow trigger", "Refund amount calculation"],
-    "stats": { "speed": 65, "accuracy": 78, "tokenEfficiency": 58, "power": 45 },
-    "buffs": [{ "domain": "Operations + Growth", "value": 15 }],
+    "capabilities": [
+      "Return reason classification",
+      "Disposition decision engine",
+      "Restocking workflow trigger",
+      "Refund amount calculation"
+    ],
+    "stats": {
+      "speed": 65,
+      "accuracy": 78,
+      "tokenEfficiency": 58,
+      "power": 45
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
     "debuffs": [],
-    "cost": 3
+    "cost": 3,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Returns Processing Optimizer",
+        "domain": "Operations + Growth",
+        "description": "Reverse logistics optimization with return reason analysis, disposition routing, and restocking automation.",
+        "icon": "RotateCornerIcons",
+        "capabilities": [
+          "Return reason classification",
+          "Disposition decision engine",
+          "Restocking workflow trigger",
+          "Refund amount calculation"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 78,
+          "tokenEfficiency": 58,
+          "power": 45
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Returns Processing Optimizer+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced returns with predictive disposition optimization and automated restocking.",
+        "icon": "RotateCornerIcons",
+        "capabilities": [
+          "Return reason classification",
+          "Disposition decision engine",
+          "Restocking workflow trigger",
+          "Refund amount calculation",
+          "Predictive disposition"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 83,
+          "tokenEfficiency": 66,
+          "power": 55
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      },
+      {
+        "name": "Returns Processing Optimizer Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level returns with zero-return optimization and perfect recovery orchestration.",
+        "icon": "RotateCornerIcons",
+        "capabilities": [
+          "Return reason classification",
+          "Disposition decision engine",
+          "Restocking workflow trigger",
+          "Refund amount calculation",
+          "Predictive disposition",
+          "Zero-return"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 88,
+          "tokenEfficiency": 74,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 3
+      }
+    ]
   },
   {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Supplier Negotiation Core",
+    "domain": "Operations + Growth",
+    "description": "AI-powered supplier negotiation support with price analysis, term optimization, and relationship scoring.",
+    "icon": "Handshake",
+    "capabilities": [
+      "Price trend analysis",
+      "Term optimization suggestions",
+      "Supplier scorecard generation",
+      "Negotiation script drafting"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 78,
+      "tokenEfficiency": 55,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Supplier Negotiation Core",
+        "domain": "Operations + Growth",
+        "description": "AI-powered supplier negotiation support with price analysis, term optimization, and relationship scoring.",
+        "icon": "Handshake",
+        "capabilities": [
+          "Price trend analysis",
+          "Term optimization suggestions",
+          "Supplier scorecard generation",
+          "Negotiation script drafting"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 78,
+          "tokenEfficiency": 55,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Supplier Negotiation Core+",
+        "domain": "Operations + Growth",
+        "description": "Enhanced negotiation with predictive price modeling and automated term optimization.",
+        "icon": "Handshake",
+        "capabilities": [
+          "Price trend analysis",
+          "Term optimization suggestions",
+          "Supplier scorecard generation",
+          "Negotiation script drafting",
+          "Predictive pricing"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 83,
+          "tokenEfficiency": 63,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Supplier Negotiation Core Elite",
+        "domain": "Operations + Growth",
+        "description": "Mastery-level negotiation with maximum value extraction and perfect supplier alignment.",
+        "icon": "Handshake",
+        "capabilities": [
+          "Price trend analysis",
+          "Term optimization suggestions",
+          "Supplier scorecard generation",
+          "Negotiation script drafting",
+          "Predictive pricing",
+          "Maximum value"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 88,
+          "tokenEfficiency": 71,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Demand Shaping Advisor",
+    "domain": "Growth",
+    "description": "Strategic demand shaping using pricing recommendations, promotion planning, and product bundling to optimize inventory.",
+    "icon": "TrendingUp",
+    "capabilities": [
+      "Price-elasticity analysis",
+      "Promotion impact forecasting",
+      "Bundle optimization",
+      "Demand curve manipulation"
+    ],
+    "stats": {
+      "speed": 50,
+      "accuracy": 72,
+      "tokenEfficiency": 55,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Growth",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 4,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Demand Shaping Advisor",
+        "domain": "Growth",
+        "description": "Strategic demand shaping using pricing recommendations, promotion planning, and product bundling to optimize inventory.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "Price-elasticity analysis",
+          "Promotion impact forecasting",
+          "Bundle optimization",
+          "Demand curve manipulation"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 72,
+          "tokenEfficiency": 55,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Demand Shaping Advisor+",
+        "domain": "Growth",
+        "description": "Enhanced demand shaping with predictive elasticity modeling and automated promotion optimization.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "Price-elasticity analysis",
+          "Promotion impact forecasting",
+          "Bundle optimization",
+          "Demand curve manipulation",
+          "Predictive elasticity"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 77,
+          "tokenEfficiency": 63,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      },
+      {
+        "name": "Demand Shaping Advisor Elite",
+        "domain": "Growth",
+        "description": "Mastery-level demand shaping with perfect market alignment and maximum revenue optimization.",
+        "icon": "TrendingUp",
+        "capabilities": [
+          "Price-elasticity analysis",
+          "Promotion impact forecasting",
+          "Bundle optimization",
+          "Demand curve manipulation",
+          "Predictive elasticity",
+          "Perfect alignment"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 82,
+          "tokenEfficiency": 71,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 4
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Demand Spike Handler",
+    "domain": "Growth",
+    "description": "Rapid demand spike response with surge capacity planning, allocation optimization, and expedited procurement.",
+    "icon": "Zap",
+    "capabilities": [
+      "Surge detection alerting",
+      "Allocation strategy generation",
+      "Expedited order creation",
+      "Capacity constraint analysis"
+    ],
+    "stats": {
+      "speed": 85,
+      "accuracy": 60,
+      "tokenEfficiency": 55,
+      "power": 70
+    },
+    "buffs": [
+      {
+        "domain": "Growth",
+        "value": 20
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Strategy",
+        "value": -10
+      }
+    ],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Demand Spike Handler",
+        "domain": "Growth",
+        "description": "Rapid demand spike response with surge capacity planning, allocation optimization, and expedited procurement.",
+        "icon": "Zap",
+        "capabilities": [
+          "Surge detection alerting",
+          "Allocation strategy generation",
+          "Expedited order creation",
+          "Capacity constraint analysis"
+        ],
+        "stats": {
+          "speed": 85,
+          "accuracy": 60,
+          "tokenEfficiency": 55,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 20
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -10
+          }
+        ],
+        "cost": 5
+      },
+      {
+        "name": "Demand Spike Handler+",
+        "domain": "Growth",
+        "description": "Enhanced spike handling with predictive surge modeling and automated allocation optimization.",
+        "icon": "Zap",
+        "capabilities": [
+          "Surge detection alerting",
+          "Allocation strategy generation",
+          "Expedited order creation",
+          "Capacity constraint analysis",
+          "Predictive surge"
+        ],
+        "stats": {
+          "speed": 100,
+          "accuracy": 65,
+          "tokenEfficiency": 63,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Strategy",
+            "value": -7
+          }
+        ],
+        "cost": 5
+      },
+      {
+        "name": "Demand Spike Handler Elite",
+        "domain": "Growth",
+        "description": "Mastery-level spike handling with zero-disruption guarantee and perfect surge orchestration.",
+        "icon": "Zap",
+        "capabilities": [
+          "Surge detection alerting",
+          "Allocation strategy generation",
+          "Expedited order creation",
+          "Capacity constraint analysis",
+          "Predictive surge",
+          "Zero-disruption"
+        ],
+        "stats": {
+          "speed": 115,
+          "accuracy": 70,
+          "tokenEfficiency": 71,
+          "power": 90
+        },
+        "buffs": [
+          {
+            "domain": "Growth",
+            "value": 30
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Safety Stock Calculator",
+    "domain": "Strategy",
+    "description": "Statistical safety stock calculation using service level targets, demand variability, and lead time uncertainty modeling.",
+    "icon": "Calculator",
+    "capabilities": [
+      "Service level optimization",
+      "Demand variability analysis",
+      "Lead time uncertainty modeling",
+      "Stockout risk quantification"
+    ],
+    "stats": {
+      "speed": 35,
+      "accuracy": 90,
+      "tokenEfficiency": 40,
+      "power": 65
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Safety Stock Calculator",
+        "domain": "Strategy",
+        "description": "Statistical safety stock calculation using service level targets, demand variability, and lead time uncertainty modeling.",
+        "icon": "Calculator",
+        "capabilities": [
+          "Service level optimization",
+          "Demand variability analysis",
+          "Lead time uncertainty modeling",
+          "Stockout risk quantification"
+        ],
+        "stats": {
+          "speed": 35,
+          "accuracy": 90,
+          "tokenEfficiency": 40,
+          "power": 65
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Safety Stock Calculator+",
+        "domain": "Strategy",
+        "description": "Enhanced safety stock with dynamic service level optimization and predictive variability modeling.",
+        "icon": "Calculator",
+        "capabilities": [
+          "Service level optimization",
+          "Demand variability analysis",
+          "Lead time uncertainty modeling",
+          "Stockout risk quantification",
+          "Dynamic optimization"
+        ],
+        "stats": {
+          "speed": 50,
+          "accuracy": 94,
+          "tokenEfficiency": 48,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Safety Stock Calculator Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level safety stock with perfect service alignment and zero-stockout optimization.",
+        "icon": "Calculator",
+        "capabilities": [
+          "Service level optimization",
+          "Demand variability analysis",
+          "Lead time uncertainty modeling",
+          "Stockout risk quantification",
+          "Dynamic optimization",
+          "Zero-stockout"
+        ],
+        "stats": {
+          "speed": 65,
+          "accuracy": 98,
+          "tokenEfficiency": 56,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Dead Stock Detector",
+    "domain": "Strategy",
+    "description": "Proactive dead stock identification with aging analysis, disposition recommendation, and liquidation optimization.",
+    "icon": "AlertTriangle",
+    "capabilities": [
+      "Aging bucket analysis",
+      "Turn rate monitoring",
+      "Disposition strategy generation",
+      "Liquidation channel matching"
+    ],
+    "stats": {
+      "speed": 40,
+      "accuracy": 85,
+      "tokenEfficiency": 45,
+      "power": 60
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 15
+      }
+    ],
+    "debuffs": [],
+    "cost": 5,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Dead Stock Detector",
+        "domain": "Strategy",
+        "description": "Proactive dead stock identification with aging analysis, disposition recommendation, and liquidation optimization.",
+        "icon": "AlertTriangle",
+        "capabilities": [
+          "Aging bucket analysis",
+          "Turn rate monitoring",
+          "Disposition strategy generation",
+          "Liquidation channel matching"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 85,
+          "tokenEfficiency": 45,
+          "power": 60
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Dead Stock Detector+",
+        "domain": "Strategy",
+        "description": "Enhanced detection with predictive dead stock prevention and automated disposition optimization.",
+        "icon": "AlertTriangle",
+        "capabilities": [
+          "Aging bucket analysis",
+          "Turn rate monitoring",
+          "Disposition strategy generation",
+          "Liquidation channel matching",
+          "Predictive prevention"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 90,
+          "tokenEfficiency": 53,
+          "power": 70
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      },
+      {
+        "name": "Dead Stock Detector Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level detection with zero-dead-stock guarantee and maximum recovery optimization.",
+        "icon": "AlertTriangle",
+        "capabilities": [
+          "Aging bucket analysis",
+          "Turn rate monitoring",
+          "Disposition strategy generation",
+          "Liquidation channel matching",
+          "Predictive prevention",
+          "Zero-dead-stock"
+        ],
+        "stats": {
+          "speed": 70,
+          "accuracy": 95,
+          "tokenEfficiency": 61,
+          "power": 80
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [],
+        "cost": 5
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
+    "id": "inventory",
+    "name": "Demand Forecasting Oracle",
+    "domain": "Strategy",
+    "description": "Advanced demand forecasting using time series analysis, seasonality detection, and external signal integration.",
+    "icon": "Brain",
+    "capabilities": [
+      "Time series decomposition",
+      "Seasonality pattern detection",
+      "External factor integration",
+      "Forecast accuracy tracking"
+    ],
+    "stats": {
+      "speed": 25,
+      "accuracy": 92,
+      "tokenEfficiency": 35,
+      "power": 75
+    },
+    "buffs": [
+      {
+        "domain": "Strategy",
+        "value": 25
+      }
+    ],
+    "debuffs": [
+      {
+        "domain": "Operations + Growth",
+        "value": -15
+      }
+    ],
+    "cost": 8,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Demand Forecasting Oracle",
+        "domain": "Strategy",
+        "description": "Advanced demand forecasting using time series analysis, seasonality detection, and external signal integration.",
+        "icon": "Brain",
+        "capabilities": [
+          "Time series decomposition",
+          "Seasonality pattern detection",
+          "External factor integration",
+          "Forecast accuracy tracking"
+        ],
+        "stats": {
+          "speed": 25,
+          "accuracy": 92,
+          "tokenEfficiency": 35,
+          "power": 75
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 25
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -15
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Demand Forecasting Oracle+",
+        "domain": "Strategy",
+        "description": "Enhanced forecasting with AI-driven pattern recognition and predictive signal optimization.",
+        "icon": "Brain",
+        "capabilities": [
+          "Time series decomposition",
+          "Seasonality pattern detection",
+          "External factor integration",
+          "Forecast accuracy tracking",
+          "AI pattern recognition"
+        ],
+        "stats": {
+          "speed": 40,
+          "accuracy": 96,
+          "tokenEfficiency": 43,
+          "power": 85
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 30
+          }
+        ],
+        "debuffs": [
+          {
+            "domain": "Operations + Growth",
+            "value": -10
+          }
+        ],
+        "cost": 8
+      },
+      {
+        "name": "Demand Forecasting Oracle Elite",
+        "domain": "Strategy",
+        "description": "Mastery-level forecasting with perfect accuracy and zero-error prediction orchestration.",
+        "icon": "Brain",
+        "capabilities": [
+          "Time series decomposition",
+          "Seasonality pattern detection",
+          "External factor integration",
+          "Forecast accuracy tracking",
+          "AI pattern recognition",
+          "Perfect accuracy"
+        ],
+        "stats": {
+          "speed": 55,
+          "accuracy": 100,
+          "tokenEfficiency": 51,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Strategy",
+            "value": 35
+          }
+        ],
+        "debuffs": [],
+        "cost": 8
+      }
+    ]
+  },
+  {
+    "_id": "inventory",
     "id": "inventory",
     "name": "Ultimate Supply Chain Architect",
     "domain": "Strategy",
     "description": "The ultimate inventory skill — perfect supply chain visibility, maximum optimization, and zero waste simultaneously.",
     "icon": "Crown",
-    "capabilities": ["End-to-end supply chain orchestration", "Optimization-waste elimination", "Resource-perfect allocation", "Cross-agent fulfillment coordination"],
-    "stats": { "speed": 80, "accuracy": 92, "tokenEfficiency": 85, "power": 95 },
-    "buffs": [{ "domain": "Operations", "value": 15 }, { "domain": "Strategy", "value": 10 }],
+    "capabilities": [
+      "End-to-end supply chain orchestration",
+      "Optimization-waste elimination",
+      "Resource-perfect allocation",
+      "Cross-agent fulfillment coordination"
+    ],
+    "stats": {
+      "speed": 80,
+      "accuracy": 92,
+      "tokenEfficiency": 85,
+      "power": 95
+    },
+    "buffs": [
+      {
+        "domain": "Operations",
+        "value": 15
+      },
+      {
+        "domain": "Strategy",
+        "value": 10
+      }
+    ],
     "debuffs": [],
-    "cost": 10
+    "cost": 10,
+    "dependency": [
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      },
+      {
+        "agentSkillId": "inventory"
+      }
+    ],
+    "levels": [
+      {
+        "name": "Ultimate Supply Chain Architect",
+        "domain": "Strategy",
+        "description": "The ultimate inventory skill — perfect supply chain visibility, maximum optimization, and zero waste simultaneously.",
+        "icon": "Crown",
+        "capabilities": [
+          "End-to-end supply chain orchestration",
+          "Optimization-waste elimination",
+          "Resource-perfect allocation",
+          "Cross-agent fulfillment coordination"
+        ],
+        "stats": {
+          "speed": 80,
+          "accuracy": 92,
+          "tokenEfficiency": 85,
+          "power": 95
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 15
+          },
+          {
+            "domain": "Strategy",
+            "value": 10
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate Supply Chain Architect+",
+        "domain": "Strategy",
+        "description": "Enhanced ultimate supply chain with predictive engineering and zero-defect optimization.",
+        "icon": "Crown",
+        "capabilities": [
+          "End-to-end supply chain orchestration",
+          "Optimization-waste elimination",
+          "Resource-perfect allocation",
+          "Cross-agent fulfillment coordination",
+          "Predictive engineering"
+        ],
+        "stats": {
+          "speed": 95,
+          "accuracy": 96,
+          "tokenEfficiency": 92,
+          "power": 100
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 20
+          },
+          {
+            "domain": "Strategy",
+            "value": 15
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      },
+      {
+        "name": "Ultimate Supply Chain Architect Master",
+        "domain": "Strategy",
+        "description": "The pinnacle of supply chain mastery — flawless visibility, perfect optimization, and zero waste in harmony.",
+        "icon": "Crown",
+        "capabilities": [
+          "End-to-end supply chain orchestration",
+          "Optimization-waste elimination",
+          "Resource-perfect allocation",
+          "Cross-agent fulfillment coordination",
+          "Predictive engineering",
+          "Zero-defect"
+        ],
+        "stats": {
+          "speed": 110,
+          "accuracy": 100,
+          "tokenEfficiency": 100,
+          "power": 105
+        },
+        "buffs": [
+          {
+            "domain": "Operations",
+            "value": 25
+          },
+          {
+            "domain": "Strategy",
+            "value": 20
+          }
+        ],
+        "debuffs": [],
+        "cost": 10
+      }
+    ]
   }
 ]
