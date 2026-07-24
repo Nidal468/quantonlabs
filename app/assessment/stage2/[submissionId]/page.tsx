@@ -70,7 +70,11 @@ function DeviceBlock() {
     if (!email) return;
     const subject = encodeURIComponent("Your Quanton Labs Stage 2 Assessment Link");
     const body = encodeURIComponent(
-      `Here is your Stage 2 assessment link:\n\n${currentUrl}\n\nThis experience is designed for a focused desktop or tablet session. Give yourself 15 uninterrupted minutes.`
+      `Here is your Stage 2 assessment link:
+
+${currentUrl}
+
+This experience is designed for a focused desktop or tablet session. Give yourself 15 uninterrupted minutes.`
     );
     window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     setSent(true);
@@ -159,12 +163,12 @@ export default function Stage2Page() {
   // Exit intent
   const [showExitOverlay, setShowExitOverlay] = useState(false);
 
-  // ── Device check ──────────────────────────────────────────
+  // Device check
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
 
-  // ── Fetch Stage 1 context ─────────────────────────────────
+  // Fetch Stage 1 context
   useEffect(() => {
     async function fetchContext() {
       try {
@@ -182,7 +186,7 @@ export default function Stage2Page() {
     fetchContext();
   }, [submissionId]);
 
-  // ── Exit intent detection ─────────────────────────────────
+  // Exit intent detection
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
   if (
@@ -199,7 +203,7 @@ document.addEventListener("mouseleave", handleMouseLeave);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // ── Profile builder ───────────────────────────────────────
+  // Profile builder
   const buildProfile = useCallback((): OwnerProfile | null => {
     const ia = inferenceAnswers;
     if (
@@ -220,7 +224,7 @@ document.addEventListener("mouseleave", handleMouseLeave);
     });
   }, [inferenceAnswers, visionAnswer, visionProximity, visionOpenText]);
 
-  // ── Submit handler ────────────────────────────────────────
+  // Submit handler
   const handleSubmit = async () => {
     const profile = buildProfile();
     if (!profile) return;
@@ -279,7 +283,6 @@ document.addEventListener("mouseleave", handleMouseLeave);
 
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Background grid */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute inset-0"
@@ -291,7 +294,6 @@ document.addEventListener("mouseleave", handleMouseLeave);
         />
       </div>
 
-      {/* Header */}
       <header className="relative z-10 w-full" style={{ background: "#041227" }}>
         <div
           style={{
@@ -341,7 +343,6 @@ document.addEventListener("mouseleave", handleMouseLeave);
         )}
       </header>
 
-      {/* Main */}
       <main className="relative z-10 px-6 py-16 md:py-20">
         <AnimatePresence mode="wait">
           <motion.div
@@ -442,7 +443,6 @@ document.addEventListener("mouseleave", handleMouseLeave);
         </AnimatePresence>
       </main>
 
-      {/* Exit overlay */}
       <AnimatePresence>
         {showExitOverlay && (
           <ExitOverlay
@@ -458,8 +458,6 @@ document.addEventListener("mouseleave", handleMouseLeave);
 // ============================================================
 // SECTION COMPONENTS
 // ============================================================
-
-// ── Inference Section ─────────────────────────────────────
 
 interface InferenceSectionProps {
   answers: Partial<InferenceAnswers>;
@@ -511,8 +509,6 @@ function InferenceSection({ answers, onUpdate, onComplete }: InferenceSectionPro
   );
 }
 
-// ── Vision Section ────────────────────────────────────────
-
 interface VisionSectionProps {
   visionAnswer: number | null;
   onSelect: (v: number) => void;
@@ -563,8 +559,6 @@ function VisionSection({ visionAnswer, onSelect, onComplete, onBack }: VisionSec
   );
 }
 
-// ── Vision Follow-On ──────────────────────────────────────
-
 interface VisionFollowOnProps {
   visionProximity: number | null;
   visionOpenText: string;
@@ -587,7 +581,7 @@ function VisionFollowOn({
   onProximitySelect, onTextChange,
   onComplete, onBack,
 }: VisionFollowOnProps) {
-  const canContinue = visionProximity !== null && visionOpenText.trim().length > 10;
+  const canContinue = visionProximity !== null && visionOpenText.trim().length >= 12;
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -626,7 +620,7 @@ function VisionFollowOn({
           What would have to change in the next 12 months for you to feel like the business is genuinely moving toward that?
         </label>
         <p className="text-sm text-gray-500 mb-3">
-          Be specific if you can. This will appear in your Extended Operator Brief exactly as you write it.
+          Be specific if you can, in at least a sentence or two. This will appear in your Extended Operator Brief exactly as you write it.
         </p>
         <textarea
           value={visionOpenText}
@@ -635,7 +629,14 @@ function VisionFollowOn({
           rows={4}
           className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:border-[#4655EB] resize-none"
         />
-        <p className="text-xs text-gray-400 mt-1 text-right">{visionOpenText.length}/280</p>
+        <div className="flex justify-between items-center mt-1">
+          <p className="text-xs text-amber-600">
+            {visionOpenText.trim().length > 0 && visionOpenText.trim().length < 12
+              ? `A few more words needed (${12 - visionOpenText.trim().length} to go)`
+              : ""}
+          </p>
+          <p className="text-xs text-gray-400">{visionOpenText.length}/280</p>
+        </div>
       </div>
 
       <NavRow
@@ -647,8 +648,6 @@ function VisionFollowOn({
     </div>
   );
 }
-
-// ── Section 2 ─────────────────────────────────────────────
 
 interface Section2Props {
   questions: typeof SECTION2_QUESTIONS;
@@ -759,8 +758,6 @@ function Section2({ questions, responses, onUpdate, onComplete, onBack }: Sectio
   );
 }
 
-// ── Section 3 Universal ───────────────────────────────────
-
 interface Section3UniversalProps {
   ownerHourlyRate: number;
   ownerNonStrategicHours: number;
@@ -802,7 +799,6 @@ function Section3Universal({
       </motion.div>
 
       <div className="space-y-10">
-        {/* Owner hourly rate */}
         <div>
           <label className="block text-lg font-semibold text-gray-800 mb-2">
             As the owner, what is your rough estimate of what your time is worth to the business per hour?
@@ -825,7 +821,6 @@ function Section3Universal({
           </div>
         </div>
 
-        {/* Non-strategic hours */}
         <div>
           <label className="block text-lg font-semibold text-gray-800 mb-2">
             Roughly how many hours per week do you personally spend on work that a well-structured system or capable team member should be handling instead of you?
@@ -847,7 +842,6 @@ function Section3Universal({
           </p>
         </div>
 
-        {/* Revenue band */}
         <div>
           <label className="block text-lg font-semibold text-gray-800 mb-4">
             What is your business's approximate annual revenue?
@@ -879,8 +873,6 @@ function Section3Universal({
     </div>
   );
 }
-
-// ── Section 3 OS-Specific ─────────────────────────────────
 
 interface Section3OSProps {
   topOs: OperatingSystem;
@@ -971,7 +963,6 @@ function Section3OS({
 
       <div className="space-y-12">
 
-        {/* Operations */}
         {showOps && (
           <div className="space-y-8">
             <h2 className="text-xl font-bold text-gray-800 border-b-2 border-[#2B60EB] pb-2">Operations</h2>
@@ -1021,7 +1012,6 @@ function Section3OS({
           </div>
         )}
 
-        {/* Growth */}
         {showGrowth && (
           <div className="space-y-8">
             <h2 className="text-xl font-bold text-gray-800 border-b-2 border-[#2B60EB] pb-2">Growth</h2>
@@ -1073,7 +1063,6 @@ function Section3OS({
           </div>
         )}
 
-        {/* Strategy */}
         {showStrategy && (
           <div className="space-y-8">
             <h2 className="text-xl font-bold text-gray-800 border-b-2 border-[#2B60EB] pb-2">Strategy</h2>
@@ -1107,7 +1096,6 @@ function Section3OS({
           </div>
         )}
 
-        {/* People */}
         {showPeople && (
           <div className="space-y-8">
             <h2 className="text-xl font-bold text-gray-800 border-b-2 border-[#2B60EB] pb-2">People</h2>
@@ -1148,7 +1136,6 @@ function Section3OS({
           </div>
         )}
 
-        {/* Closing open text */}
         <div>
           <label className="block text-lg font-semibold text-gray-800 mb-3">
             If you recovered even half of what this analysis suggests you are leaving on the table each year, what would that change for you personally?
@@ -1173,8 +1160,6 @@ function Section3OS({
     </div>
   );
 }
-
-// ── Section 4 ─────────────────────────────────────────────
 
 interface Section4Props {
   ownerHourlyRate: number;
@@ -1210,7 +1195,6 @@ function Section4({
   visionAnswer, decisionActivator, riskStyle,
   isSubmitting, submitError, onSubmit, onBack,
 }: Section4Props) {
-  // Quick estimate calculation for display
   const ownerTimeCost = ownerHourlyRate * ownerNonStrategicHours * 52;
   const revLeakage = (section3Os.lost_opportunities_per_month ?? 0) * 12 *
     resolveClientValueMidpoint(section3Os.client_value_band as string);
@@ -1233,7 +1217,6 @@ function Section4({
         </p>
       </motion.div>
 
-      {/* Cost preview */}
       <div className="bg-gray-50 rounded-xl border border-gray-200 p-8 mb-10">
         <p className="text-sm font-semibold text-gray-500 mb-6 uppercase tracking-wide">
           Estimated annual cost of your current structure
@@ -1263,14 +1246,12 @@ function Section4({
         </p>
       </div>
 
-      {/* Vision reconnect */}
       <div className="border-l-4 border-[#4655EB] bg-[#4655EB]/5 px-6 py-5 rounded-r-lg mb-10">
         <p className="text-base text-gray-700">
           You told us your why is <strong>{visionLabel}</strong>. The question worth asking is whether your current structure is capable of getting you there, or whether it is the thing standing in the way.
         </p>
       </div>
 
-      {/* Phase 1 intro */}
       <div className="mb-10">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">What Phase 1 Discovery Actually Is</h2>
         <p className="text-gray-600 mb-4">
@@ -1294,17 +1275,15 @@ function Section4({
         </div>
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-5">
           <p className="text-sm text-gray-500 uppercase tracking-wide font-semibold mb-1">Phase 1 Investment</p>
-          <p className="text-xl font-bold text-gray-800 mb-1">$7,500 – $15,000</p>
-          <p className="text-sm text-gray-500">Fixed. You own the Diagnostic Report on delivery regardless of what you decide next.</p>
+          <p className="text-xl font-bold text-gray-800 mb-1">Scoped to your business</p>
+          <p className="text-sm text-gray-500">Confirmed on your Discovery call based on your specific complexity, then fixed. You own the Diagnostic Report on delivery regardless of what you decide next.</p>
         </div>
       </div>
 
-      {/* Inaction line */}
       <div className="border-l-4 border-[#8B37EA] bg-gray-50 px-6 py-4 rounded-r-lg mb-10">
         <p className="text-base font-semibold text-gray-800">{inactionLine}</p>
       </div>
 
-      {/* CTA */}
       <div className="text-center mb-6">
         <button
           onClick={onSubmit}
@@ -1338,8 +1317,6 @@ function Section4({
     </div>
   );
 }
-
-// ── Complete Screen ───────────────────────────────────────
 
 interface CompleteScreenProps {
   briefUrl: string;
@@ -1396,8 +1373,6 @@ function CompleteScreen({ briefUrl, briefPdfUrl, costOfInaction, firstName }: Co
   );
 }
 
-// ── Exit Overlay ──────────────────────────────────────────
-
 interface ExitOverlayProps {
   submissionId: string;
   onDismiss: () => void;
@@ -1422,7 +1397,7 @@ function ExitOverlay({ submissionId, onDismiss }: ExitOverlayProps) {
           onClick={onDismiss}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
         >
-          ✕
+          x
         </button>
         <h2 className="text-xl font-bold text-gray-800 mb-3">Before you go.</h2>
         <p className="text-gray-600 mb-6">
@@ -1449,8 +1424,6 @@ function ExitOverlay({ submissionId, onDismiss }: ExitOverlayProps) {
   );
 }
 
-// ── Loading Screen ────────────────────────────────────────
-
 function LoadingScreen() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">
@@ -1461,10 +1434,6 @@ function LoadingScreen() {
     </div>
   );
 }
-
-// ============================================================
-// SHARED UI COMPONENTS
-// ============================================================
 
 interface OptionBlockProps {
   prompt: string;
@@ -1565,10 +1534,6 @@ function NavRow({ onBack, onContinue, continueDisabled, continueLabel }: NavRowP
     </div>
   );
 }
-
-// ============================================================
-// HELPERS
-// ============================================================
 
 function computeProgress(step: WizardStep): number {
   switch (step) {

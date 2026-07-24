@@ -374,11 +374,6 @@ function renderBrief(profile: Stage2Profile, stage2Id: string): string {
     color: #4655EB;
     text-decoration: none;
   }
-  }
-  .footer a {
-    color: #60A5FA;
-    text-decoration: none;
-  }
 </style>
 </head>
 <body>
@@ -504,8 +499,8 @@ function renderBrief(profile: Stage2Profile, stage2Id: string): string {
 
     <div class="price-block">
       <div class="price-label">Phase 1 Discovery Investment</div>
-      <div class="price-value">$7,500 &ndash; $15,000</div>
-      <p class="price-note">Fixed investment determined by operational complexity. Does not change based on what Phase 1 finds. Defined in the Engagement Agreement before work begins.</p>
+      <div class="price-value">Scoped to your business</div>
+      <p class="price-note">Confirmed on your Discovery call based on your specific complexity, then fixed. You own the Diagnostic Report on delivery regardless of what you decide next.</p>
     </div>
 
     <div class="inaction-line">${inactionLine}</div>
