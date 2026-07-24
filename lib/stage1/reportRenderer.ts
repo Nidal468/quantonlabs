@@ -318,7 +318,7 @@ function renderClosingSection(
     : "";
 
   const secondaryCtaHtml = variant.secondary_cta
-  ? `<a class="cta cta-secondary" href="/assessment/stage2/${submissionId}">${esc(variant.secondary_cta)}</a>`
+  ? `<a class="cta cta-secondary" href="/assessment/stage2/${submissionId}" target="_top">${esc(variant.secondary_cta)}</a>`
   : "";
 
   return `
