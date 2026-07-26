@@ -40,7 +40,7 @@ export function Sidebar({ activePage, setPage, activeCompanyId, setActiveCompany
         <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
           <span className="text-white font-bold text-sm">Q</span>
         </div>
-        <span className="font-semibold text-neutral-900 tracking-tight">QuantunLab</span>
+        <span className="font-semibold text-neutral-900 tracking-tight">QuantonLabs</span>
       </div>
 
       <CompanySwitcher

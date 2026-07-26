@@ -4,6 +4,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { WorkspaceDocument } from "@/model/workspace";
 import { useTask } from "@/lib/hook/useTask";
 import { TaskStatus, TaskPriority } from "@/model/task";
@@ -80,6 +81,66 @@ export default function ReportsPage({ activeCompany }: {
       case "low": return "bg-green-100 text-green-700 border-green-200";
       default: return "bg-gray-100 text-gray-700 border-gray-200";
     }
+  };
+
+  // Step status color helper
+  const getStepStatusColor = (status: "pending" | "running" | "done" | "failed") => {
+    switch (status) {
+      case "done": return "bg-green-500";
+      case "running": return "bg-blue-500";
+      case "failed": return "bg-red-500";
+      case "pending": return "bg-yellow-500";
+      default: return "bg-gray-300";
+    }
+  };
+
+  // StepItem component for displaying individual step details
+  function StepItem({ step, index }: { step: any; index: number }) {
+    return (
+      <div className="mb-3 last:mb-0 p-3 rounded-lg bg-neutral-50 border border-neutral-100">
+        <div className="flex items-start justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono text-neutral-500">Step {index + 1}</span>
+            <Badge variant="outline" className={`${getStepStatusColor(step.status)} text-white border-none capitalize text-[10px] px-1.5 py-0.5`}>
+              {step.status}
+            </Badge>
+          </div>
+          {step.name && <span className="text-xs font-medium text-neutral-700">{step.name}</span>}
+        </div>
+        {step.action && (
+          <div className="mb-2">
+            <span className="text-xs text-neutral-500 block mb-1">Action</span>
+            <code className="text-xs text-neutral-800 bg-neutral-100 px-1.5 py-0.5 rounded font-mono">{step.action}</code>
+          </div>
+        )}
+        {step.input && (
+          <div className="mb-2">
+            <span className="text-xs text-neutral-500 block mb-1">Input</span>
+            <pre className="text-xs text-neutral-600 bg-neutral-100 p-2 rounded font-mono overflow-x-auto max-h-20">
+              {typeof step.input === 'object' ? JSON.stringify(step.input, null, 2) : String(step.input)}
+            </pre>
+          </div>
+        )}
+        {step.output && (
+          <div className="mb-2">
+            <span className="text-xs text-neutral-500 block mb-1">Output</span>
+            <pre className="text-xs text-neutral-600 bg-neutral-100 p-2 rounded font-mono overflow-x-auto max-h-20">
+              {typeof step.output === 'object' ? JSON.stringify(step.output, null, 2) : String(step.output)}
+            </pre>
+          </div>
+        )}
+        {step.error && (
+          <div className="mb-2">
+            <span className="text-xs text-red-500 block mb-1">Error</span>
+            <p className="text-xs text-red-600 bg-red-50 p-2 rounded">{step.error}</p>
+          </div>
+        )}
+        <div className="flex gap-3 text-[10px] text-neutral-400">
+          {step.startedAt && <span>Started: {new Date(step.startedAt).toLocaleString()}</span>}
+          {step.finishedAt && <span>Finished: {new Date(step.finishedAt).toLocaleString()}</span>}
+        </div>
+      </div>
+    );
   };
 
   if (isTasksLoading) {
@@ -285,12 +346,29 @@ export default function ReportsPage({ activeCompany }: {
                         <div className="mt-4 space-y-2">
                           <p className="text-xs font-medium text-neutral-600">Recent Tasks</p>
                           {tasks.slice(0, 3).map(task => (
-                            <div key={String(task._id)} className="flex items-center justify-between text-xs p-2 rounded bg-neutral-50 border border-neutral-100">
-                              <span className="text-neutral-700 truncate max-w-[60%]">{task.title}</span>
-                              <Badge variant="outline" className={`${getStatusColor(task.status as TaskStatus)} text-white border-none capitalize px-1.5 py-0.5`}>
-                                {task.status}
-                              </Badge>
-                            </div>
+                            <Accordion key={String(task._id)} type="single" collapsible className="rounded-lg border border-neutral-200 overflow-hidden">
+                              <AccordionItem value={`task-${String(task._id)}`}>
+                                <AccordionTrigger className="px-3 py-2 hover:bg-neutral-50">
+                                  <div className="flex items-center justify-between w-full">
+                                    <span className="text-sm text-neutral-800 truncate max-w-[60%] font-medium">{task.title}</span>
+                                    <Badge variant="outline" className={`${getStatusColor(task.status as TaskStatus)} text-white border-none capitalize px-1.5 py-0.5 text-xs`}>
+                                      {task.status}
+                                    </Badge>
+                                  </div>
+                                </AccordionTrigger>
+                                <AccordionContent className="p-3 bg-neutral-50">
+                                  {task.steps && task.steps.length > 0 ? (
+                                    <div className="space-y-1">
+                                      {task.steps.map((step: any, idx: number) => (
+                                        <StepItem key={idx} step={step} index={idx} />
+                                      ))}
+                                    </div>
+                                  ) : (
+                                    <p className="text-xs text-neutral-500 italic">No step details available for this task.</p>
+                                  )}
+                                </AccordionContent>
+                              </AccordionItem>
+                            </Accordion>
                           ))}
                         </div>
                       )}
