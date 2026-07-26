@@ -59,11 +59,16 @@ export default function GoverningAgent() {
           opacity: 0.35;
           animation: rotate-ga 4s linear infinite;
         }
+          @media (max-width: 768px) {
+          .ga-grid { grid-template-columns: 1fr !important; gap: 40px !important; padding: 0 20px !important; }
+          .ga-heading { font-size: 28px !important; }
+        }
       `}</style>
 
       {/* GOVERNING AGENT TWO-COLUMN LAYOUT */}
       <div
         ref={sectionRef}
+        className="ga-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -94,7 +99,8 @@ export default function GoverningAgent() {
             THE GOVERNING AGENT
           </div>
 
-          <h2
+          <h2 className="ga-heading"
+
             style={{
               color: "#FFFFFF",
               fontFamily: "Manrope, sans-serif",

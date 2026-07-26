@@ -158,9 +158,11 @@ export default function Footer() {
               marginTop: "40px",
               paddingTop: "24px",
               display: "flex",
+              flexWrap: "wrap",
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
+              gap: "16px",
               fontSize: "13px",
               color: "rgba(255,255,255,0.35)",
             }}

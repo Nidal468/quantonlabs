@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import CaseStudiesIndex from "@/components/case-studies/CaseStudiesIndex";
-
+import Navbar from "@/components/landing/navbar";
 export const metadata: Metadata = {
   title: "Case Studies | Quanton Labs",
   description:
@@ -19,5 +19,9 @@ export const metadata: Metadata = {
 };
 
 export default function CaseStudiesPage() {
-  return <CaseStudiesIndex />;
-}
+return (
+    <>
+      <Navbar isScrolled={false} />
+      <CaseStudiesIndex />
+    </>
+  );}

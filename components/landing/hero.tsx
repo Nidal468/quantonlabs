@@ -339,7 +339,7 @@ export function HeroSection() {
 
         <div className="flex items-center justify-between w-full">
 
-          <div className="flex flex-col items-start justify-center text-center md:text-left max-w-xl p-6">
+          <div className="flex flex-col items-start justify-center text-center md:text-left w-full md:max-w-xl p-6">
 
             <p
               className="text-xs tracking-[0.25em] mb-6"
@@ -446,7 +446,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="hidden md:flex flex-col items-center justify-center relative w-full max-w-2xl">
+          <div className="hidden lg:flex flex-col items-center justify-center relative w-full max-w-2xl">
             <div style={{ position: "relative", width: "320px" }}>
               <canvas
                 ref={canvasRef}

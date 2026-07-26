@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 const GRADIENT = "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
 
 const solutions = [
@@ -19,6 +19,9 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -29,9 +32,27 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close the mobile menu whenever the viewport grows back to desktop width,
+  // so it can't be left open and hidden behind the md:flex nav.
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setMobileMenuOpen(false);
+        setMobileSolutionsOpen(false);
+      }
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    setMobileSolutionsOpen(false);
+  };
+
   return (
     <div
-      className="w-full h-[70px] fixed top-0 left-0 z-50 transition-all duration-500"
+      className="w-full fixed top-0 left-0 z-50 transition-all duration-500"
       style={{ background: "#041227" }}
     >
       {/* Top accent bar */}
@@ -43,17 +64,17 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
         }}
       />
 
-      <div className="flex items-center justify-between container mx-auto h-full px-6">
+      <div className="flex items-center justify-between container mx-auto h-[70px] px-6">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+          <Link href="/" className="flex items-center" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); closeMobileMenu(); }}>
             <Image
               src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
               width={200}
               height={60}
               alt="Quanton Labs"
               priority
-              style={{ width: "200px", height: "auto", mixBlendMode: "screen" }}
-            />
+className="w-[140px] md:w-[200px] h-auto"
+              style={{ mixBlendMode: "screen" }}            />
           </Link>
 
           <div className="hidden md:flex items-center gap-6">
@@ -176,14 +197,154 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
           </div>
         </div>
 
-        <Link
-          href="/dashboard"
-          className="px-6 py-2 rounded-full text-white font-medium text-[12px]"
-          style={{ background: GRADIENT }}
-        >
-          Sign in
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="hidden md:inline-block px-6 py-2 rounded-full text-white font-medium text-[12px]"
+            style={{ background: GRADIENT }}
+          >
+            Log In
+          </Link>
+
+          {/* Mobile hamburger toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(prev => !prev)}
+            className="md:hidden flex items-center justify-center"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: "4px",
+              color: "#ffffff",
+            }}
+          >
+            {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile menu panel */}
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden"
+          style={{
+            background: "#041227",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            maxHeight: "calc(100vh - 72px)",
+            overflowY: "auto",
+          }}
+        >
+          <div className="flex flex-col px-6 py-4">
+            <Link
+              href="/about"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              About
+            </Link>
+
+            <Link
+              href="/case-studies"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              Case Studies
+            </Link>
+
+            {/* Solutions — expandable within the mobile menu */}
+            <div style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+              <button
+                onClick={() => setMobileSolutionsOpen(prev => !prev)}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "Manrope, sans-serif",
+                  fontSize: "16px",
+                  fontWeight: 500,
+                  color: "rgba(255,255,255,0.85)",
+                  padding: "14px 0",
+                }}
+              >
+                Solutions
+                <ChevronDown
+                  size={18}
+                  style={{
+                    transform: mobileSolutionsOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s ease",
+                  }}
+                />
+              </button>
+
+              {mobileSolutionsOpen && (
+                <div style={{ paddingBottom: "8px" }}>
+                  {solutions.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMobileMenu}
+                      style={{
+                        display: "block",
+                        padding: "10px 12px",
+                        marginBottom: "2px",
+                        borderRadius: "8px",
+                        fontFamily: "Manrope, sans-serif",
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        color: "rgba(255,255,255,0.65)",
+                        textDecoration: "none",
+                        background: "rgba(255,255,255,0.03)",
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/dashboard"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "15px",
+                fontWeight: 600,
+                color: "#ffffff",
+                textDecoration: "none",
+                textAlign: "center",
+                borderRadius: "999px",
+                padding: "12px 0",
+                marginTop: "16px",
+                background: GRADIENT,
+              }}
+            >
+              Log In
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

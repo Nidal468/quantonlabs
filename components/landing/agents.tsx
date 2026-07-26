@@ -98,6 +98,10 @@ const SHIMMER_STYLE = `
   flex-direction: column;
   gap: 20px;
   min-height: 340px;
+}
+@media (max-width: 768px) {
+  .agents-grid { grid-template-columns: 1fr !important; }
+  .agent-panel-inner { padding: 24px 20px !important; min-height: auto !important; }
   position: relative;
   overflow: hidden;
 }
@@ -318,6 +322,7 @@ export default function Agents() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
+          className="agents-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "220px 1fr",

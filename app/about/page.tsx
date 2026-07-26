@@ -1,5 +1,5 @@
 "use client";
-
+import Navbar from "@/components/landing/navbar";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
@@ -103,6 +103,7 @@ export default function About() {
 
   return (
     <div style={{ fontFamily: "Manrope, sans-serif" }}>
+      <Navbar isScrolled={false} />
 
       {/* ── HERO ── */}
       <section
