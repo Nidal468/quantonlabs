@@ -48,6 +48,7 @@ import AgentUpload from "./agentUpload";
 import SkillTree from "./SkillTree";
 import AgentDetails from "./AgentDetails";
 import DataPagesPanel from "./DataPagesPanel";
+import DetailsTab from "./detailsTab";
 
 
 // --- Helper: Icon Mapping ---
@@ -91,8 +92,8 @@ export default function SelectedAgentDialog({
   );
 
   // Mutations for activating/deactivating skills
-  const activateMutation = useActivateSkill(() => {});
-  const deactivateMutation = useDeactivateSkill(() => {});
+  const activateMutation = useActivateSkill(() => { });
+  const deactivateMutation = useDeactivateSkill(() => { });
 
   const handleToggleSkill = (skillName: string) => {
     if (!workspaceId || !agentId) return;
@@ -112,23 +113,11 @@ export default function SelectedAgentDialog({
 
   return (
     <div className="fixed inset-0 z-50 bg-white dark:bg-neutral-950 flex items-start justify-center overflow-hidden">
-      {/* Back button */}
-      <div className="absolute top-4 left-4 z-10">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setSelectedAgent(null)}
-          className="gap-2"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back to Agents
-        </Button>
-      </div>
 
       {/* Split Panel Layout */}
       <div className="w-full h-screen flex">
         {/* LEFT: Agent Chat */}
-        <div className="w-[450px] min-w-[350px] h-full border-r border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-950">
+        <div className="w-w-full min-w-2xl h-full border-r border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-950">
           <AgentChatPanel
             agent={selectedAgent}
             activeCompany={activeCompany}
@@ -137,14 +126,14 @@ export default function SelectedAgentDialog({
         </div>
 
         {/* RIGHT: Details + Tabs */}
-        <div className="flex-1 h-full overflow-y-auto bg-neutral-50 dark:bg-neutral-900">
+        <div className="flex-1 h-full overflow-y-auto bg-neutral-50 dark:bg-neutral-900 w-full">
           {/* Upload Header */}
           <div className="w-full h-16 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between px-6 bg-white dark:bg-neutral-950 sticky top-0 z-10">
             <AgentUpload agent={selectedAgent} activeCompany={activeCompany} />
           </div>
 
           {/* Scrollable Content */}
-          <div className="p-6 max-w-5xl">
+          <div className="p-6">
             {/* Tabs: Details, Skills, Data Pages */}
             <Tabs defaultValue="skills" className="w-full">
               <TabsList className="grid w-full grid-cols-3 bg-neutral-100 dark:bg-neutral-800">
@@ -163,59 +152,13 @@ export default function SelectedAgentDialog({
               </TabsList>
 
               {/* Details Tab */}
-              <TabsContent value="details" className="mt-6">
-                <AgentDetails agent={selectedAgent} />
-
-                <Separator className="my-6" />
-
-                {/* Active Skills Summary */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200">Active Skills</h3>
-                  {activeSkillsLoading ? (
-                    <p className="text-sm text-neutral-500">Loading active skills...</p>
-                  ) : (
-                    <div className="flex flex-wrap gap-2">
-                      {activeSkillIds.length === 0 ? (
-                        <Badge variant="outline" className="text-xs text-neutral-500 border-neutral-300 dark:border-neutral-600">
-                          No active skills
-                        </Badge>
-                      ) : (
-                        activeSkillIds.map((skillName: string) => {
-                          const skill = skills?.find((s) => s.name === skillName);
-                          return (
-                            <Badge key={skillName} variant="outline" className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800">
-                              {skill?.icon ? `${skill.icon} ` : ""}${skillName}
-                            </Badge>
-                          );
-                        })
-                      )}
-                    </div>
-                  )}
-
-                  {/* Agent Tasks */}
-                  <h4 className="text-md font-semibold text-neutral-700 dark:text-neutral-300 mt-6">Related Tasks</h4>
-                  {tasks && tasks.length > 0 ? (
-                    <div className="space-y-2">
-                      {tasks.slice(0, 5).map((task: ITask) => (
-                        <div key={task._id?.toString()} className="flex items-center justify-between p-3 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700">
-                          <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">{task.title}</span>
-                          <Badge variant="outline" className={`text-xs ${
-                            task.status === "completed" ? "bg-green-50 text-green-700 border-green-200" :
-                            task.status === "running" || task.status === "retrying" ? "bg-blue-50 text-blue-700 border-blue-200" :
-                            task.status === "failed" ? "bg-red-50 text-red-700 border-red-200" :
-                            task.status === "cancelled" ? "bg-gray-50 text-gray-700 border-gray-200" :
-                            "bg-yellow-50 text-yellow-700 border-yellow-200"
-                          }`}>
-                            {task.status}
-                          </Badge>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-neutral-500">No tasks found for this agent.</p>
-                  )}
-                </div>
-              </TabsContent>
+              <DetailsTab
+                selectedAgent={selectedAgent}
+                activeSkillIds={activeSkillIds}
+                skills={skills}
+                activeSkillsLoading={activeSkillsLoading}
+                tasks={tasks}
+              />
 
               {/* Skills Tab */}
               <TabsContent value="skills" className="mt-6">

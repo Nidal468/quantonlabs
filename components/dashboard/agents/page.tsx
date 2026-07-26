@@ -45,7 +45,7 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
 
   const getAgentStatus = (agentId: string) => {
     const workspaceAgent = activeCompany.agents?.find((a) => a.id.toString() === agentId);
-    return workspaceAgent?.status || "inactive";
+    return workspaceAgent?.status || false;
   };
 
   if (isLoading) {
@@ -168,7 +168,7 @@ export default function AgentsPage({ activeCompany }: { activeCompany: Workspace
                       const status = getAgentStatus(agent._id.toString());
                       const isActive = status ? "active" : "inactive";
                       return (
-                        <motion.tr
+                        status && <motion.tr
                           key={i}
                           initial={{ opacity: 0, y: 4 }}
                           animate={{ opacity: 1, y: 0 }}

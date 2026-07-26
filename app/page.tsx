@@ -1,223 +1,244 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import NavigationBar, { Section } from "@/components/landing-page/NavigationBar";
-import HeroSection from "@/components/landing-page/HeroSection";
-import GoverningAgentSection from "@/components/landing-page/GoverningAgentSection";
-import AgentDemonstration from "@/components/landing-page/AgentDemonstration";
-import LiveDashboard from "@/components/landing-page/LiveDashboard";
-import FunctionalAgentsGrid from "@/components/landing-page/FunctionalAgentsGrid";
-import BusinessValue from "@/components/landing-page/BusinessValue";
-import ServicesSection from "@/components/landing-page/ServicesSection";
-import FinalCTA from "@/components/landing-page/FinalCTA";
-import StackDevelopmentSection from "@/components/landing-page/StackDevelopmentSection";
-import ReviewsSection from "@/components/landing-page/ReviewsSection";
-import AgentsSkillsSection from "@/components/landing-page/AgentsSkillsSection";
+import { Badge } from "@/components/ui/badge";
+import { Apple, Brain, Check, DollarSign, FileText, Headphones, LayoutGrid, Megaphone, Package, Sparkles, TrendingUp, UsersRound } from "lucide-react";
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react"
+import { GrAndroid, GrApple, GrWindows } from "react-icons/gr";
+import agentsData from "@/db/agent-templates.json";
+import Link from "next/link";
 
-// AgentDemonstration data interface
-interface AgentTask {
-  id: string;
-  name: string;
-  task: string;
-  findings: string;
-  status: string;
+const iconMap: Record<string, React.ComponentType<{ className?: string; size?: number }>> = {
+  Megaphone,
+  TrendingUp,
+  Headphones,
+  UsersRound,
+  LayoutGrid,
+  Package,
+  DollarSign,
+  Brain,
+  FileText,
+  Sparkles,
+};
+
+export const IconComponent = (icon: string) => {
+  return iconMap[icon || "Brain"] || Brain;
 }
 
-interface DemonstrationData {
-  workflowId: string;
-  governingAnalysis: string;
-  agents: AgentTask[];
-  exceptions: Array<{ agentId: string; message: string; severity: "low" | "medium" | "high" }>;
-  pending: Array<{ agentId: string; message: string; severity: "low" | "medium" | "high" }>;
-  metrics: {
-    workflows: number;
-    confidence: number;
-    activeAgents: number;
-  };
-  executiveSummary: string;
+
+export default function LandingPage() {
+  return (
+    <div className="w-full bg-black relative overflow-hidden">
+      <NeuralNetworkCanvas />
+      <div className="relative z-10">
+        <Container />
+      </div>
+    </div>
+  )
 }
 
-export default function Home() {
-  const [activeSection, setActiveSection] = useState<Section>("home");
-  const [demoData, setDemoData] = useState<DemonstrationData | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: scrollRef });
+function NeuralNetworkCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Track active section on scroll
   useEffect(() => {
-    const handleScroll = () => {
-      if (!scrollRef.current) return;
-       const sections: Section[] = [
-         "home",
-         "governing",
-         "demonstration",
-         "dashboard",
-         "agents",
-         "benefits",
-         "services",
-         "stacks",
-         "reviews",
-         "agents-skills",
-         "contact",
-       ];
-      const sectionElements = document.querySelectorAll(sections.map((s) => `[id="${s}"]`).join(","));
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-      let currentSection: Section = "home";
-      sectionElements.forEach((el) => {
-        if (el instanceof HTMLElement) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom > 200) {
-            currentSection = el.id as Section;
-          } else if (rect.top < 200 && rect.bottom > 200) {
-            currentSection = el.id as Section;
-          }
-        }
-      });
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-      // If no section is in view, default to home or the closest one
-      if (currentSection === "home" && window.scrollY < 100) {
-        currentSection = "home";
-      }
+    let animationFrameId: number;
+    let nodes: Node[] = [];
 
-      setActiveSection(currentSection);
+    const resizeCanvas = () => {
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initNodes();
     };
 
-    const throttledScroll = throttle(handleScroll, 150);
-    window.addEventListener("scroll", throttledScroll, { passive: true });
-    return () => window.removeEventListener("scroll", throttledScroll);
+    class Node {
+      x!: number;
+      y!: number;
+      vx!: number;
+      vy!: number;
+      radius!: number;
+
+      constructor() {
+        if (!canvas) return;
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2 + 1;
+      }
+
+      update() {
+        if (!canvas) return;
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+
+      draw() {
+        if (!ctx) return;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(168, 85, 247, 0.8)';
+        ctx.fill();
+      }
+    }
+
+    const initNodes = () => {
+      nodes = [];
+      const nodeCount = Math.min(Math.floor((canvas.width * canvas.height) / 15000), 100);
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push(new Node());
+      }
+    };
+
+    const drawConnections = () => {
+      if (!ctx) return;
+      const connectionDistance = 150;
+      const maxOpacity = 0.3;
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance) {
+            const opacity = maxOpacity * (1 - distance / connectionDistance);
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(129, 140, 248, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      nodes.forEach(node => {
+        node.update();
+        node.draw();
+      });
+
+      drawConnections();
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
-  // Smooth scroll to section
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   return (
-    <div ref={scrollRef} className="relative min-h-screen bg-white">
-      {/* Progress bar at top */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] z-[100]"
-        style={{
-          background: "linear-gradient(to right, #3b82f6, #8b5cf6, #6366f1)",
-          scaleX: scrollYProgress,
-          transformOrigin: "left",
-        }}
-      />
-
-      {/* Navigation */}
-      <NavigationBar activeSection={activeSection} onSectionChange={scrollToSection} />
-
-      {/* Main Content */}
-      <main>
-        {/* Hero Section (id="home") */}
-        <div id="home">
-          <HeroSection />
-        </div>
-
-        {/* Governing Agent Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-        >
-          <GoverningAgentSection />
-        </motion.div>
-
-        {/* Interactive Agent Demonstration */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-        >
-          <AgentDemonstration onDemoComplete={setDemoData} />
-        </motion.div>
-
-        {/* Live Operations Dashboard */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-        >
-          <LiveDashboard demoData={demoData} />
-        </motion.div>
-
-        {/* Functional Agents Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-        >
-          <FunctionalAgentsGrid />
-        </motion.div>
-
-        {/* Business Value — Industries & Integrations */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-        >
-          <BusinessValue />
-        </motion.div>
-
-        {/* Services Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-10%" }}
-        >
-          <ServicesSection />
-        </motion.div>
-
-         {/* Final CTA — Custom Implementation & Contact */}
-         <motion.div
-           initial={{ opacity: 0 }}
-           whileInView={{ opacity: 1 }}
-           viewport={{ once: true, margin: "-10%" }}
-         >
-           <FinalCTA />
-         </motion.div>
-
-         {/* Stack Development Section */}
-         <StackDevelopmentSection />
-
-         {/* Reviews Section */}
-         <ReviewsSection />
-
-         {/* Agents Skills Section */}
-         <AgentsSkillsSection />
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-gray-100 bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <img src="/images/assets/seo/ql_logo.png" className="h-6 w-auto opacity-70" alt="Quanton Labs logo" />
-              <span className="text-xs text-gray-500 font-mono tracking-wider">
-                © {new Date().getFullYear()} QUANTON LABS
-              </span>
-            </div>
-            <p className="text-[10px] text-gray-400 font-mono tracking-widest uppercase">
-              // Built with intelligence. Operated by you.
-            </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+    />
   );
 }
 
-function throttle(fn: () => void, limit: number) {
-  let inThrottle = false;
-  return function () {
-    if (!inThrottle) {
-      fn();
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
+function Container() {
+  const [selectedPage, setSelectedPage] = useState(0);
+  return (
+    <div className="w-full max-w-5xl mx-auto space-y-10 relative z-20">
+      <Navbar selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+      {selectedPage === 0 && <Home />}
+    </div>
+  )
+}
+
+
+function Navbar({ selectedPage, setSelectedPage }: {
+  selectedPage: number,
+  setSelectedPage: Dispatch<SetStateAction<number>>
+}) {
+  const navlinks: string[] = ["Home", "About", "Case Studies", "Solutions", "Contact Us"]
+
+  return (
+    <div className="flex-1 flex items-center justify-between bg-white/10 backdrop-blur-md border border-white/20 p-0.5 rounded-full fixed w-full max-w-5xl mx-auto top-10 shadow-lg z-999">
+      {/* logo */}
+      <div className="w-12 h-12 flex items-center justify-center bg-white/20 backdrop-blur-xl rounded-full overflow-hidden p-1 border border-white/30">
+        <img className="flex-1 rounded-full" src={'/images/assets/Quanton Labs Favicon black.png'} />
+      </div>
+
+      <div className="flex items-center justify-center gap-6 px-10">
+        {navlinks.map((link, index) => {
+          return (
+            <div
+              key={index}
+              onClick={() => setSelectedPage(index)}
+              className={`text-xs flex items-center justify-center duration-300 transition-all cursor-pointer select-none px-3 py-2 ${selectedPage === index ? "bg-white text-black rounded-full px-6 shadow-lg" : "text-white/80 hover:text-white hover:bg-white/10 rounded-full"}`}>
+              {link}
+            </div>
+          )
+        })}
+      </div>
+
+      <Link
+        href={'/auth/signin'}
+        className={`text-xs flex items-center justify-center duration-300 transition-all cursor-pointer select-none py-3 bg-purple-700 text-white rounded-full px-6 mr-1 uppercase shadow-lg hover:bg-purple-600`}>
+        Join Us
+      </Link>
+    </div>
+  )
+}
+
+function Home() {
+  return (
+    <div className="flex-1">
+      {/* hero section */}
+      <section className="flex-1 w-full h-screen flex flex-col items-center justify-center gap-8 relative z-20">
+        <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 flex items-center justify-center gap-4 shadow-lg">
+          <div className="rounded-sm bg-purple-600/30 backdrop-blur-2xl p-1 border border-purple-500/30">
+            <Check className="text-purple-300" size={14} />
+          </div>
+          <h1 className="text-white text-sm">Everything in one place</h1>
+        </div>
+        <h1 className="text-white text-5xl max-w-4xl text-center leading-18 font-bold drop-shadow-2xl">
+          Tap into the new era of business where you work along side Agents
+        </h1>
+        <p className="text-lg max-w-3xl text-center text-white/70 drop-shadow-md">Allow our agents to optimize and rebuild your system into one that works for you. saves you time, money and brings in more revenue</p>
+        <div className="bg-white text-black px-4 py-2 rounded-md hover:bg-purple-600 hover:text-white transition-colors cursor-pointer shadow-lg hover:shadow-purple-500/20">
+          Learn more
+        </div>
+        <div className="flex items-center justify-center gap-2 text-white">
+          <p className="text-white/60 mr-2">
+            Available for:
+          </p>
+          <GrWindows />
+          <GrAndroid />
+          <GrApple />
+        </div>
+        {/* Agents */}
+        <div className="flex flex-col items-center justify-center gap-6">
+          <h1 className="text-white/80">Select from a range of 8 highly trained AI agents</h1>
+          <div className="flex items-center justify-center gap-6">
+            {agentsData.map((a, i) => {
+              const Icon = IconComponent(a.icon)
+              return (
+                <div className="text-white bg-zinc-700/80 p-4 rounded-md" key={i}>
+                  <Icon size={20} />
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+  )
 }

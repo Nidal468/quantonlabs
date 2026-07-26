@@ -70,19 +70,11 @@ export function useAgentChat(agent: AgentDocument, workspace: WorkspaceDocument,
 
         abortControllerRef.current = new AbortController();
 
-        const latestThree = messages.slice(-3);
-
-        const context = latestThree.map(({ role, content }) => ({
-            role,
-            content,
-        }));
-
-
         try {
             const res = await fetch("/api/message", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...userMsg, context }),
+                body: JSON.stringify({ messages: [{role: "user", content: content}], workspaceId: workspace._id, agentId: agent.id }),
                 signal: abortControllerRef.current.signal,
             });
 

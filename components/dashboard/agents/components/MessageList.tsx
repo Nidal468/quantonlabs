@@ -32,7 +32,7 @@ export function MessageList({ messages, isStreaming, allMessagesCount, loadMore 
     }, [messages, scrollToBottom]);
 
     return (
-        <ScrollArea className="flex-1 px-4 py-4 w-140 h-80 relative">
+        <ScrollArea className="flex-1 px-4 py-4 w-full h-80 relative">
             <div className="absolute top-0 left-0 bg-sky-400/10 w-full h-full z-0 blur-3xl"></div>
             {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center text-zinc-400">

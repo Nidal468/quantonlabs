@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
@@ -7,7 +8,11 @@ import Providers from "./providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "@/lib/dns";
 
-
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const productionUrl = "https://quantonlabs.com";
 
@@ -128,7 +133,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+      <html lang="en" className={`h-full ${inter.className}`}>
       <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CRKZ7L7PS0"
@@ -177,7 +182,7 @@ export default function RootLayout({
         />
       </head>
 
-      <body className={`min-h-full flex flex-col antialiased`}>
+      <body className={`min-h-full flex flex-col ${inter.variable} antialiased`}>
         <Analytics />
 
         <Providers>

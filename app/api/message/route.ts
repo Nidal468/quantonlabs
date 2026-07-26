@@ -5,9 +5,10 @@ import { Message } from "@/model/message";
 import { NextRequest, NextResponse } from "next/server";
 import { Agent, AgentDocument } from "@/model/agent";
 import { OpenRouter } from "@/server/openrouter";
-import { extractToolCall } from "@/lib/toolCallParser";
 import { useQuery } from "@/lib/hook/useQuery";
 import { Workspace, WorkspaceDocument } from "@/model/workspace";
+import { agentIds } from "@/type/utls";
+import { createTask, updateTask } from "@/server/helpers/usetask";
 
 export async function GET(req: NextRequest) {
     await connectMongo();
@@ -51,29 +52,121 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-        const data: Data = await req.json();
+        const { messages, workspaceId, agentId }: {
+            messages: {
+                role: string;
+                content: string;
+            }[];
+            workspaceId: string,
+            agentId: agentIds,
+        } = await req.json();
 
-        if (!data.agentId || !data.workspaceId || !data.role || !data.content) {
+        if (!agentId || !workspaceId || messages.length === 0) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
+        const user = await getUser();
+
+        if (!user) {
+            return NextResponse.json("invalid auth", { status: 500 });
+        }
+
+        await connectMongo()
+
+        const selectedAgent = await Agent.findOne({ id: agentId });
+
+        const userMessage = messages[messages.length - 1];
+        const userId = user._id.toString();
+
+        const task1 = await createTask({
+            userId: user._id.toString(),
+            workspaceId,
+            agentId: selectedAgent._id,
+            title: "Session started",
+            description: `stream chat requested by ${user._id} from ${workspaceId}`,
+            input: `user message ${JSON.stringify(userMessage.content)}`,
+            priority: "medium",
+            steps: [
+                { name: "Save user message", action: "Save", status: "running" },
+                { name: "Fetch user conversation", action: "Fetch", status: "pending" },
+                { name: "Stream agent response", action: "Stream", status: "pending" },
+            ],
+        });
+
+        
+
         // 1. Save user message immediately
         await Message.create({
-            userId: user._id,
-            agentId: data.agentId,
-            workspaceId: data.workspaceId,
-            role: data.role,
+            userId,
+            agentId: selectedAgent._id,
+            workspaceId,
+            role: userMessage.role || "user",
             timestamp: new Date(),
-            content: data.content,
+            content: userMessage.content,
+        });
+
+        await updateTask({
+            _id: task1._id.toString(),
+            userId,
+            workspaceId,
+            agentId: selectedAgent._id,
+            priority: "medium",
+            status: "running",
+            steps: [
+                { name: "Save user message", action: "Save", status: "done" },
+                { name: "Fetch user conversation", action: "Fetch", status: "running" },
+                { name: "Stream agent response", action: "Stream", status: "pending" },
+            ],
+        });
+
+        const oldMessages = await Message.find({
+            userId,
+            agentId: selectedAgent._id,
+            workspaceId,
+        })
+            .sort({ createdAt: -1 })
+            .limit(8);
+
+        const context = oldMessages.map(({ role, content }) => ({ role, content }));
+
+        console.log(context)
+        await updateTask({
+            _id: task1._id.toString(),
+            userId,
+            workspaceId,
+            agentId: selectedAgent._id,
+            priority: "medium",
+            status: "running",
+            steps: [
+                { name: "Save user message", action: "Save", status: "done" },
+                { name: "Fetch user conversation", action: "Fetch", status: "done" },
+                { name: "Stream agent response", action: "Stream", status: "running" },
+            ],
         });
 
         // 2. Get the streaming response
         const stream = await handleCallAgent({
-            agentId: data.agentId,
-            message: { role: data.role, content: data.content },
+            agentId: selectedAgent._id,
+            message: [
+                ...context,
+                ...messages
+            ],
             userId: user._id.toString(),
-            workspaceId: data.workspaceId,
-            context: JSON.stringify(data.context)
+            workspaceId: workspaceId,
+        });
+
+        await updateTask({
+            _id: task1._id.toString(),
+            userId,
+            workspaceId,
+            agentId: selectedAgent._id,
+            priority: "medium",
+            status: "completed",
+            steps: [
+                { name: "Save user message", action: "Save", status: "done" },
+                { name: "Fetch user conversation", action: "Fetch", status: "done" },
+                { name: "Stream agent response", action: "Stream", status: "done" },
+            ],
         });
 
         // 3. Return stream with proper SSE headers
@@ -96,13 +189,11 @@ const handleCallAgent = async ({
     message,
     userId,
     workspaceId,
-    context
 }: {
     agentId: string;
-    message: { role: "user" | "assistant" | "system"; content: string };
+    message: { role: "user" | "assistant" | "system"; content: string }[];
     userId: string;
     workspaceId: string;
-    context: string;
 }) => {
     const selectedAgent: AgentDocument | null = await Agent.findById(agentId);
 
@@ -122,9 +213,6 @@ ${selectedAgent.description}
 Capabilities:
 ${selectedAgent.capabilities.join(", ")}
 
-Context:
-${context.slice(-600)}
-
 You may use tools when needed to retrieve external or internal knowledge. for example is the user requests you for some kind of data but you dont know so then you can call any tool you think will help
 
 Always prefer calling tools instead of guessing when information is missing or uncertain.
@@ -132,7 +220,7 @@ Always prefer calling tools instead of guessing when information is missing or u
 
     let messages: any[] = [
         { role: "system", content: systemPrompt },
-        { role: message.role, content: message.content },
+        ...message,
     ];
 
     const MAX_ITERATIONS = 3;
@@ -197,7 +285,7 @@ Always prefer calling tools instead of guessing when information is missing or u
                     workspaceId,
                     queryText: args.query,
                 });
-                
+
                 knowledgeContext.push(...results);
 
                 // IMPORTANT: send tool result back to model
@@ -234,16 +322,13 @@ Always prefer calling tools instead of guessing when information is missing or u
 
                 Capabilities:
                 ${selectedAgent.capabilities.join(", ")}
-
-                previous messages context: ${context}
-
                 
                 Your personality is cold and calculating and you follow reason and logic.
                 Always answer in a professional and business style.
                 If tools are called then the data from them will be provided to you and if they cant find anything then you will be informed and can just tell the user you didnt find anything or couldnt do it or cant do it
                 Just provide the user with a satisfying answer with data that has been provided to you.`,
         },
-        { role: message.role, content: message.content },
+        ...message,
     ];
 
     if (knowledgeContext.length > 0) {

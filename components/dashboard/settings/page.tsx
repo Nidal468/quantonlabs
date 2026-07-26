@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Key, Loader2, Eye, EyeOff } from "lucide-react";
+import { Key, Loader2, Eye, EyeOff, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { format } from "date-fns";
@@ -17,6 +17,17 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useUser } from "@/lib/context/user";
 import { APIKeys } from "./api-keys/APIKeys";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Sub-components
@@ -81,11 +92,13 @@ function IntegrationsSection({
 }) {
   const [showOpenRouterKey, setShowOpenRouterKey] = useState(false);
   const [showElevenLabsKey, setShowElevenLabsKey] = useState(false);
+  const [showMongodbKey, setShowMongodbKey] = useState(false);
   const [openrouterKey, setOpenrouterKey] = useState(workspace.config?.openrouter?.key || "");
   const [elevenlabsKey, setElevenlabsKey] = useState(workspace.config?.elevenlabs?.key || "");
+  const [mongodbKey, setMongodbKey] = useState(workspace.config?.mongodb?.key || "");
   const [saving, setSaving] = useState<string | null>(null);
 
-  const handleSave = async (provider: "openrouter" | "elevenlabs") => {
+  const handleSave = async (provider: "openrouter" | "elevenlabs" | "mongodb") => {
     setSaving(provider);
     try {
       await updateWorkspace({
@@ -100,10 +113,14 @@ function IntegrationsSection({
               status: elevenlabsKey ? "active" : "inactive",
               key: elevenlabsKey,
             },
+            mongodb: {
+              status: mongodbKey ? "active" : "inactive",
+              key: mongodbKey,
+            }
           },
         },
       });
-      toast.success(`${provider === "openrouter" ? "OpenRouter" : "ElevenLabs"} key saved`);
+      toast.success(`${provider} key saved`);
     } catch {
       toast.error("Failed to save integration key");
     } finally {
@@ -207,16 +224,120 @@ function IntegrationsSection({
             </Button>
           </div>
         </div>
+
+        {/* Mongodb */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Key className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium">MongodDB</span>
+              <Badge variant="outline" className={cn("px-1.5 py-0 text-xs", workspace.config?.mongodb?.status === "active" ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-gray-50 text-gray-500 border-gray-200")}>
+                {workspace.config?.mongodb?.status === "active" ? "Connected" : "Not Connected"}
+              </Badge>
+            </div>
+          </div>
+          <div className="relative">
+            <Input
+              type={showMongodbKey ? "text" : "password"}
+              placeholder="sk-..."
+              value={mongodbKey}
+              onChange={(e) => setMongodbKey(e.target.value)}
+              className="pr-10 font-mono text-sm"
+            />
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 text-gray-400 hover:text-gray-600"
+              onClick={() => setShowMongodbKey(!showMongodbKey)}
+              aria-label={showMongodbKey ? "Hide key" : "Show key"}
+            >
+              {showMongodbKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </Button>
+          </div>
+          <div className="flex justify-end">
+            <Button size="sm" variant="outline" onClick={() => handleSave("mongodb")} disabled={saving === "mongodb" || !mongodbKey} className="h-8 gap-1.5">
+              {saving === "mongodb" && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+              Save Key
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
 }
 // ─────────────────────────────────────────────────────────────────────────────
+// Danger Zone Section Component
+// ─────────────────────────────────────────────────────────────────────────────
+
+function DangerZoneSection({
+  workspace,
+  onDelete,
+  isDeleting,
+}: {
+  workspace: WorkspaceDocument;
+  onDelete: (id: string) => void;
+  isDeleting: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      await onDelete(workspace._id.toString());
+      toast.success("Workspace deleted successfully");
+      setOpen(false);
+    } catch (error) {
+      toast.error("Failed to delete workspace");
+    }
+  };
+
+  return (
+    <Card className="border-red-200 shadow-sm">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg font-semibold tracking-tight text-red-700">Danger Zone</CardTitle>
+        <CardDescription className="text-red-600">Permanently delete this workspace and all its data.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex flex-col gap-3">
+          <p className="text-sm text-gray-600">
+            Once you delete your workspace, all data associated with it will be permanently removed. This action cannot be undone.
+          </p>
+          <AlertDialog open={open} onOpenChange={setOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" className="w-fit gap-2" disabled={isDeleting}>
+                {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+                {isDeleting ? "Deleting..." : "Delete Workspace"}
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-red-600">Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription className="text-gray-600">
+                  This action cannot be undone. This will permanently delete your workspace "<strong>{workspace.name}</strong>" and all associated data including tasks, datapages, and configurations.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleDelete}
+                  className="bg-red-600 hover:bg-red-700"
+                >
+                  Delete Workspace
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Main Page Component
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function SettingsPage({ activeCompany }: { activeCompany: WorkspaceDocument }) {
-  const { isLoading, updateWorkspace, generateKey, removeApiKey } = useWorkspace();
+  const { isLoading, updateWorkspace, generateKey, removeApiKey, deleteWorkspace, isDeleting } = useWorkspace();
 
   return (
     <motion.div
@@ -234,6 +355,7 @@ export default function SettingsPage({ activeCompany }: { activeCompany: Workspa
         <PlanSection workspace={activeCompany} />
         <IntegrationsSection workspace={activeCompany} isLoading={isLoading} updateWorkspace={updateWorkspace} />
         <APIKeys workspace={activeCompany} isLoading={isLoading} generateKey={generateKey} removeApiKey={removeApiKey} />
+        <DangerZoneSection workspace={activeCompany} onDelete={deleteWorkspace} isDeleting={isDeleting} />
       </div>
 
       <div className="pt-4 border-t border-gray-100">

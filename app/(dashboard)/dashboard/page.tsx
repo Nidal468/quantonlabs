@@ -53,7 +53,7 @@ export default function Dashboard() {
                         {selectedPage === "overview" && <OverviewPage activeCompany={activeCompany} />}
                         {selectedPage === "agents" && <AgentsPage activeCompany={activeCompany}/>}
                         {selectedPage === "company" && <CompanyPage activeCompany={activeCompany} />}
-                        {selectedPage === "reports" && <ReportsPage />}
+                        {selectedPage === "reports" && <ReportsPage activeCompany={activeCompany}/>}
                         {selectedPage === "settings" && <SettingsPage activeCompany={activeCompany} />}
                     </motion.div>
                 </main>}

@@ -2,57 +2,23 @@
 
 "use client";
 
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ITask } from "@/model/task";
-import { getTasks, createTask, updateTask, deleteTask } from "@/lib/api/task";
+import { getTasks } from "@/lib/api/task";
 
-export function useTask() {
-  const queryClient = useQueryClient();
+export function useTask(agentId?: string, workspaceId?: string) {
+  const hasAgentId = !!agentId;
+  const queryEnabled = hasAgentId ? (!!agentId && !!workspaceId) : !!workspaceId;
 
   const {
     data: tasks = [],
     isLoading,
     error,
   } = useQuery<ITask[]>({
-    queryKey: ["tasks"],
-    queryFn: getTasks,
+    queryKey: ["tasks", agentId, workspaceId],
+    queryFn: () => getTasks(hasAgentId ? agentId : "", workspaceId || ""),
+    enabled: queryEnabled && !!workspaceId,
   });
 
-  const createMutation = useMutation({
-    mutationFn: createTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<ITask> }) =>
-      updateTask(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: deleteTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
-    },
-  });
-
-  return {
-    tasks,
-    isLoading,
-    error,
-    createTask: createMutation.mutateAsync,
-    updateTask: updateMutation.mutateAsync,
-    deleteTask: deleteMutation.mutateAsync,
-    isCreating: createMutation.isPending,
-    isUpdating: updateMutation.isPending,
-    isDeleting: deleteMutation.isPending,
-  };
+  return { tasks, isLoading, error };
 }
