@@ -20,13 +20,19 @@ export async function GET(req: NextRequest) {
         );
     }
 
-    const workspace = await Workspace.findOne({
-        _id: id,
-        $or: [
-            { ownerId: user._id },
-            { "members.id": user._id }
-        ]
-    });
+    // Admins can view any workspace, regular users can view their own or ones they're members of
+    let workspace: WorkspaceDocument | null = null;
+    if (user.role === "admin") {
+        workspace = await Workspace.findOne({ _id: id });
+    } else {
+        workspace = await Workspace.findOne({
+            _id: id,
+            $or: [
+                { ownerId: user._id },
+                { "members.id": user._id }
+            ]
+        });
+    }
 
     if (!workspace) {
         return NextResponse.json(
@@ -88,7 +94,7 @@ export async function PATCH(req: NextRequest) {
         const { pathname } = new URL(req.url);
         const id = pathname.split('/')[pathname.split('/').length - 1]
         const user: UserDocument | null = await getUser();
-
+        console.log(id)
         if (!user) {
             return NextResponse.json(
                 { error: "Invalid authentication" },
@@ -97,11 +103,19 @@ export async function PATCH(req: NextRequest) {
         }
 
         const data = await req.json();
+        console.log(user)
+        // Admins can modify any workspace, regular users can only modify their own
+        let workspace: WorkspaceDocument | null = null;
+        if (user.role === "admin") {
+            workspace = await Workspace.findById(id)
+        } else {
+            workspace = await Workspace.findOne({
+                _id: id,
+                ownerId: user._id,
+            });
+        }
 
-        const workspace: WorkspaceDocument | null = await Workspace.findOne({
-            _id: id,
-            ownerId: user._id,
-        });
+        console.log(workspace)
 
         if (!workspace) {
             return NextResponse.json(
