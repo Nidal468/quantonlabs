@@ -144,6 +144,19 @@ const SHIMMER_CSS = `
 .dwell-bar.filling {
   width: 100%;
 }
+
+@media (max-width: 640px) {
+  .ql-bridge-wrap { padding: 20px 16px 12px !important; }
+  .ql-bridge-title { font-size: 30px !important; }
+  .ql-bridge-subtitle { font-size: 19px !important; }
+  .ql-bridge-tagline { font-size: 13px !important; }
+  .ql-window-wrap { padding: 18px 10px !important; border-radius: 16px !important; }
+  .ql-dashboard-grid { grid-template-columns: 1fr !important; }
+  .ql-card { grid-row: auto !important;
+    grid-column: 1 / -1 !important; }
+  .ql-mini-inventory-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  .ql-substat-row { flex-wrap: wrap !important; row-gap: 6px !important; }
+}
 `;
 
 interface GovItem {
@@ -251,7 +264,7 @@ function GovFeed({ items }: { items: GovItem[] }) {
 function MiniFeed({ items, isInventory }: { items: MiniItem[]; isInventory?: boolean }) {
   const max = isInventory ? 4 : 3;
   return (
-    <div style={isInventory ? { display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: "4px 12px" } : { display: "flex", flexDirection: "column" }}>
+    <div className={isInventory ? "ql-mini-inventory-grid" : undefined} style={isInventory ? { display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: "4px 12px" } : { display: "flex", flexDirection: "column" }}>
       {items.slice(0, max).map((item, i) => (
         <div
           key={item.id}
@@ -806,8 +819,8 @@ export default function QuantonDashboard() {
     <style>{SHIMMER_CSS}</style>
 
     {/* Bridge copy */}
-    <div style={{ textAlign: "center", padding: "24px 24px 16px", fontFamily: "Manrope, sans-serif" }}>
-    <h2 style={{
+    <div className="ql-bridge-wrap" style={{ textAlign: "center", padding: "24px 24px 16px", fontFamily: "Manrope, sans-serif" }}>
+    <h2 className="ql-bridge-title" style={{
         fontSize: 48, fontWeight: 800, margin: "0 0 12px",
         background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
         WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
@@ -816,17 +829,16 @@ export default function QuantonDashboard() {
       }}>
         Quanton OS
       </h2>
-      <p style={{ fontSize: 32, fontWeight: 700, color: "#1F2937", margin: "0 0 10px", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
+      <p className="ql-bridge-subtitle" style={{ fontSize: 32, fontWeight: 700, color: "#1F2937", margin: "0 0 10px", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
         Eight agents. One coordinated system.
       </p>
-      <p style={{ fontSize: 16, fontWeight: 400, color: "#6B7280", margin: 0, lineHeight: 1.6 }}>
+      <p className="ql-bridge-tagline" style={{ fontSize: 16, fontWeight: 400, color: "#6B7280", margin: 0, lineHeight: 1.6 }}>
         Not a workflow. Not a tool. An operating system.
       </p>
     </div>
 
    {/* Section window wrapper */}
-    <div style={{
-      background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
+<div className="ql-window-wrap" style={{      background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
       borderRadius: 24,
       padding: "32px 24px",
       boxShadow: "0 8px 48px rgba(43,96,235,0.10), 0 2px 12px rgba(0,0,0,0.06)",
@@ -869,7 +881,7 @@ export default function QuantonDashboard() {
         </div>
 
         {/* Sub bar */}
-        <div style={{ background: "#071830", padding: "6px 16px", display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="ql-substat-row" style={{ background: "#071830", padding: "6px 16px", display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
           {[
             { label: "Last sync", val: "just now", cls: "" },
             { label: "Agents active", val: "8 / 8", cls: "accent" },
@@ -893,7 +905,7 @@ export default function QuantonDashboard() {
 
         {/* Dashboard grid */}
         <div style={{ background: "#F1F5F9", padding: 10 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(0,1fr))", gridTemplateRows: "auto auto", gap: 8 }}>
+          <div className="ql-dashboard-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(0,1fr))", gridTemplateRows: "auto auto", gap: 8 }}>
             {AGENT_ORDER.map(key => (
               <AgentCard
                 key={key}

@@ -7,7 +7,7 @@ export default function GoverningAgentCTA() {
         backgroundColor: "#041227",
         borderTop: "1px solid rgba(255,255,255,0.07)",
         borderBottom: "1px solid rgba(255,255,255,0.07)",
-        padding: "56px 48px",
+        padding: "56px 20px",
         textAlign: "center",
       }}
     >

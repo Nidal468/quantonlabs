@@ -15,7 +15,7 @@ export default function CTA() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="max-w-4xl w-full text-center glass rounded-3xl backdrop-blur-xl bg-white/40 border border-white/40 shadow-2xl pt-14 pb-16 px-16"
+        className="max-w-4xl w-full text-center glass rounded-3xl backdrop-blur-xl bg-white/40 border border-white/40 shadow-2xl pt-14 pb-16 px-6 md:px-16"
     >
         {/* Heading */}
 <h2 className="text-3xl md:text-5xl font-semibold leading-[1.35] bg-linear-to-r from-slate-900 via-slate-700 to-slate-500 bg-clip-text text-transparent">            See where your operations stand before anything else.
