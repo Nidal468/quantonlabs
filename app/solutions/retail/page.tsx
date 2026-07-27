@@ -23,6 +23,20 @@ export const metadata: Metadata = {
 export default function RetailPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
+              { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
+              { "@type": "ListItem", position: 3, name: "Retail" },
+            ],
+          }),
+        }}
+      />
       <Navbar isScrolled={true} />
       <main style={{ paddingTop: "70px" }}>
         <Retail />

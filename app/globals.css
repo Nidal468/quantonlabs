@@ -150,3 +150,8 @@ svg {
     }
   }
 }
+@media (max-width: 640px) {
+  .sol-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .sol-dashboard-grid { grid-template-columns: 1fr !important; }
+  .sol-wide-grid { grid-template-columns: 1fr !important; }
+}

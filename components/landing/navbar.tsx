@@ -74,7 +74,8 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
               alt="Quanton Labs"
               priority
 className="w-[140px] md:w-[200px] h-auto"
-              style={{ mixBlendMode: "screen" }}            />
+              style={{ mixBlendMode: "screen" }}
+            />
           </Link>
 
           <div className="hidden md:flex items-center gap-6">

@@ -28,15 +28,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/assets/QL favicon transparent.svg", type: "image/svg+xml" },
-      { url: "/images/assets/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/images/assets/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/images/assets/ql-favicon.svg", type: "image/svg+xml" },
     ],
     apple: [
-      { url: "/images/assets/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/images/assets/ql-favicon-180.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
-      { rel: "mask-icon", url: "/images/assets/QL favicon transparent.svg" },
+      { rel: "mask-icon", url: "/images/assets/ql-favicon.svg" },
     ],
   },
   openGraph: {

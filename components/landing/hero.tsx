@@ -334,7 +334,7 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative container mx-auto w-full min-h-[85vh] flex flex-col items-center justify-center gap-16 z-10">
+      <div className="relative container mx-auto px-6 w-full min-h-[85vh] flex flex-col items-center justify-center gap-16 z-10">
         <IntelligentGridBackground />
 
         <div className="flex items-center justify-between w-full">
