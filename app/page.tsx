@@ -8,6 +8,7 @@ import Navbar from "@/components/landing/navbar";
 import Agents from "@/components/landing/agents";
 import GoverningAgentCTA from "@/components/landing/GoverningAgentCTA";
 import QuantonDashboard from "@/components/landing/QuantonDashboard";
+import ProcessSection from "@/components/landing/ProcessSection";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -38,6 +39,7 @@ return (
       <Agents />
       <GoverningAgentCTA />
       <QuantonDashboard />
+      <ProcessSection />
       <CTA />
       <Footer />
     </div>
