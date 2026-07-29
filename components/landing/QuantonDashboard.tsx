@@ -405,13 +405,13 @@ function AgentCard({
   if (!ctx) return;
 
   approvalCursorActiveRef.current = true;
-  cardRef.current?.classList.add("cursor-hidden");
 
   const target = getApprovalBtnCenter();
   const startX = canvas.width * 0.3;
   const startY = canvas.height * 0.25;
   const endX = target.x;
   const endY = target.y;
+  cardRef.current?.classList.add("cursor-hidden");
 
   const moveDuration = 1200;
   const hoverDuration = 400;
@@ -473,10 +473,11 @@ function AgentCard({
 
   const fireApprovalSequence = () => {
     if (approvalManualRef.current) return;
-    triggerApprovalShake();
+    requestAnimationFrame(() => { if (approvalManualRef.current) return; triggerApprovalShake();
     setTimeout(() => {
       animateApprovalCursor(() => {});
     }, 700);
+    });
   };
 
 useEffect(() => {
