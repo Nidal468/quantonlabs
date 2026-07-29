@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -162,6 +162,48 @@ export default function Stage2Page() {
 
   // Exit intent
   const [showExitOverlay, setShowExitOverlay] = useState(false);
+
+  // Browser history integration — prevents back button from exiting the wizard
+  const isPopStateRef = useRef(false);
+
+  useEffect(() => {
+    if (step === "complete") return;
+    if (isPopStateRef.current) {
+      isPopStateRef.current = false;
+      return;
+    }
+    window.history.pushState({ step }, "", window.location.href);
+  }, [step]);
+
+  useEffect(() => {
+    const STEP_ORDER: WizardStep[] = [
+      "inference", "vision", "vision_followon", "section2",
+      "section3_universal", "section3_os", "section4", "complete",
+    ];
+
+    window.history.replaceState({ step: "inference" }, "", window.location.href);
+
+    const handlePopState = (e: PopStateEvent) => {
+      if (e.state?.step) {
+        isPopStateRef.current = true;
+        setStep(e.state.step);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const currentIndex = STEP_ORDER.indexOf(step);
+        if (currentIndex > 0) {
+          e.preventDefault?.();
+          isPopStateRef.current = true;
+          const prevStep = STEP_ORDER[currentIndex - 1];
+          setStep(prevStep);
+          window.history.pushState({ step: prevStep }, "", window.location.href);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Device check
   useEffect(() => {
