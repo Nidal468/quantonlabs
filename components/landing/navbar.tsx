@@ -32,8 +32,6 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close the mobile menu whenever the viewport grows back to desktop width,
-  // so it can't be left open and hidden behind the md:flex nav.
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth >= 768) {
@@ -73,7 +71,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
               height={60}
               alt="Quanton Labs"
               priority
-className="w-[140px] md:w-[200px] h-auto"
+              className="w-[140px] md:w-[200px] h-auto"
               style={{ mixBlendMode: "screen" }}
             />
           </Link>
@@ -110,6 +108,22 @@ className="w-[140px] md:w-[200px] h-auto"
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
             >
               Case Studies
+            </Link>
+
+            <Link
+              href="/faq"
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.70)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+            >
+              FAQ
             </Link>
 
             {/* Solutions dropdown */}
@@ -267,6 +281,22 @@ className="w-[140px] md:w-[200px] h-auto"
               }}
             >
               Case Studies
+            </Link>
+
+            <Link
+              href="/faq"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              FAQ
             </Link>
 
             {/* Solutions — expandable within the mobile menu */}
