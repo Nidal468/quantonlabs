@@ -13,8 +13,8 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Fetch credits/usage data from OpenRouter
-    const res = await fetch("https://openrouter.ai/api/v1/credits", {
+    // Fetch key/usage data from OpenRouter
+    const res = await fetch("https://openrouter.ai/api/v1/auth/key", {
       headers: {
         "Authorization": `Bearer ${apiKey}`,
         "Content-Type": "application/json",
@@ -34,17 +34,27 @@ export async function GET(req: NextRequest) {
     // Return usage data with relevant info
     return NextResponse.json({
       usage: {
-        total_credits: data.data?.total_credits || 0,
-        total_usage: data.data?.total_usage || 0,
-        remaining_credits: data.data?.remaining_credits || 0,
-        usage_limit: data.data?.usage_limit || null,
-        billing_period: {
-          start: data.data?.billing_period?.start || null,
-          end: data.data?.billing_period?.end || null,
-        },
-        daily_usage: data.data?.daily_usage || [],
-        weekly_usage: data.data?.weekly_usage || [],
-        monthly_usage: data.data?.monthly_usage || [],
+        // Total usage
+        usage: data.data?.usage || 0,
+        usage_daily: data.data?.usage_daily || 0,
+        usage_weekly: data.data?.usage_weekly || 0,
+        usage_monthly: data.data?.usage_monthly || 0,
+        
+        // BYOK usage
+        byok_usage: data.data?.byok_usage || 0,
+        byok_usage_daily: data.data?.byok_usage_daily || 0,
+        byok_usage_weekly: data.data?.byok_usage_weekly || 0,
+        byok_usage_monthly: data.data?.byok_usage_monthly || 0,
+        
+        // Account info
+        limit: data.data?.limit || null,
+        limit_remaining: data.data?.limit_remaining || null,
+        limit_reset: data.data?.limit_reset || null,
+        is_free_tier: data.data?.is_free_tier || false,
+        expires_at: data.data?.expires_at || null,
+        is_management_key: data.data?.is_management_key || false,
+        is_provisioning_key: data.data?.is_provisioning_key || false,
+        label: data.data?.label || "",
       },
       raw: data, // Include raw response for debugging
     });

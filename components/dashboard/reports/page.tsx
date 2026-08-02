@@ -13,19 +13,24 @@ import { useAgent } from "@/lib/hook/useAgent";
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-// OpenRouter usage data interface
+// OpenRouter usage data interface (from /api/v1/auth/key)
 interface OpenRouterUsage {
-  total_credits: number;
-  total_usage: number;
-  remaining_credits: number;
-  usage_limit: number | null;
-  billing_period: {
-    start: string | null;
-    end: string | null;
-  };
-  daily_usage: Array<{ date: string; usage: number; cost: number }>;
-  weekly_usage: Array<{ week: string; usage: number; cost: number }>;
-  monthly_usage: Array<{ month: string; usage: number; cost: number }>;
+  usage: number;
+  usage_daily: number;
+  usage_weekly: number;
+  usage_monthly: number;
+  byok_usage: number;
+  byok_usage_daily: number;
+  byok_usage_weekly: number;
+  byok_usage_monthly: number;
+  limit: number | null;
+  limit_remaining: number | null;
+  limit_reset: string | null;
+  is_free_tier: boolean;
+  expires_at: string | null;
+  is_management_key: boolean;
+  is_provisioning_key: boolean;
+  label: string;
 }
 
 export default function ReportsPage({ activeCompany }: {
@@ -537,42 +542,47 @@ export default function ReportsPage({ activeCompany }: {
               {/* Usage Stat Cards */}
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <ReportStat
-                  title="Total Credits"
-                  value={openRouterUsage?.total_credits?.toFixed(2) || "$0.00"}
-                  change="Available balance"
-                  icon={<DollarSign className="h-4 w-4 text-green-600" />}
-                  color="bg-green-50"
-                />
-                <ReportStat
                   title="Total Usage"
-                  value={openRouterUsage?.total_usage?.toFixed(2) || "$0.00"}
-                  change="This billing period"
-                  icon={<BarChart3 className="h-4 w-4 text-blue-600" />}
+                  value={`$${openRouterUsage?.usage?.toFixed(2) || "0.00"}`}
+                  change="All time"
+                  icon={<DollarSign className="h-4 w-4 text-blue-600" />}
                   color="bg-blue-50"
                 />
                 <ReportStat
-                  title="Remaining Credits"
-                  value={openRouterUsage?.remaining_credits?.toFixed(2) || "$0.00"}
-                  change={openRouterUsage?.usage_limit ? `Limit: $${openRouterUsage.usage_limit.toFixed(2)}` : "No limit set"}
-                  icon={<TrendingUp className="h-4 w-4 text-purple-600" />}
+                  title="Daily Usage"
+                  value={`$${openRouterUsage?.usage_daily?.toFixed(2) || "0.00"}`}
+                  change="Today"
+                  icon={<Calendar className="h-4 w-4 text-green-600" />}
+                  color="bg-green-50"
+                />
+                <ReportStat
+                  title="Weekly Usage"
+                  value={`$${openRouterUsage?.usage_weekly?.toFixed(2) || "0.00"}`}
+                  change="This week"
+                  icon={<BarChart3 className="h-4 w-4 text-purple-600" />}
                   color="bg-purple-50"
                 />
                 <ReportStat
-                  title="Billing Period"
-                  value={openRouterUsage?.billing_period?.start ? formatShortDate(openRouterUsage.billing_period.start) : "N/A"}
-                  change={openRouterUsage?.billing_period?.end ? `Ends ${formatShortDate(openRouterUsage.billing_period.end)}` : ""}
-                  icon={<Calendar className="h-4 w-4 text-amber-600" />}
+                  title="Monthly Usage"
+                  value={`$${openRouterUsage?.usage_monthly?.toFixed(2) || "0.00"}`}
+                  change="This month"
+                  icon={<TrendingUp className="h-4 w-4 text-amber-600" />}
                   color="bg-amber-50"
                 />
               </div>
 
-              {/* Account Status Card */}
+              {/* Account Details Card */}
               <Card className="border-neutral-200 shadow-sm">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-medium text-neutral-700">Account Status</CardTitle>
-                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200">
-                      Active
+                    <CardTitle className="text-sm font-medium text-neutral-700">Account Details</CardTitle>
+                    <Badge variant="outline" className={cn(
+                      "border",
+                      openRouterUsage?.is_free_tier 
+                        ? "bg-amber-50 text-amber-700 border-amber-200" 
+                        : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                    )}>
+                      {openRouterUsage?.is_free_tier ? "Free Tier" : "Paid"}
                     </Badge>
                   </div>
                 </CardHeader>
@@ -581,155 +591,89 @@ export default function ReportsPage({ activeCompany }: {
                     <div className="space-y-1">
                       <p className="text-xs text-neutral-500">API Key</p>
                       <p className="text-sm font-mono text-neutral-700 truncate">
-                        {activeCompany.config?.openrouter?.key?.slice(0, 12)}...
+                        {openRouterUsage?.label || activeCompany.config?.openrouter?.key?.slice(0, 12) + "..."}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs text-neutral-500">Status</p>
-                      <p className="text-sm font-medium text-emerald-600">Connected</p>
-                    </div>
-                    <div className="space-y-1">
-                      <p className="text-xs text-neutral-500">Instruct Model</p>
+                      <p className="text-xs text-neutral-500">Key Type</p>
                       <p className="text-sm font-medium text-neutral-700">
-                        {activeCompany.config?.openrouter?.instruct || "Not set"}
+                        {openRouterUsage?.is_management_key ? "Management" : openRouterUsage?.is_provisioning_key ? "Provisioning" : "Standard"}
                       </p>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs text-neutral-500">Reasoning Model</p>
+                      <p className="text-xs text-neutral-500">Expires</p>
                       <p className="text-sm font-medium text-neutral-700">
-                        {activeCompany.config?.openrouter?.reasoning || "Not set"}
+                        {openRouterUsage?.expires_at ? formatShortDate(openRouterUsage.expires_at) : "Never"}
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-xs text-neutral-500">Rate Limit</p>
+                      <p className="text-sm font-medium text-neutral-700">
+                        {openRouterUsage?.limit ? `${openRouterUsage.limit} requests` : "Unlimited"}
                       </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Daily Usage */}
-              {openRouterUsage?.daily_usage && openRouterUsage.daily_usage.length > 0 && (
+              {/* BYOK Usage Card */}
+              {((openRouterUsage?.byok_usage ?? 0) > 0 || (openRouterUsage?.byok_usage_daily ?? 0) > 0 || (openRouterUsage?.byok_usage_weekly ?? 0) > 0 || (openRouterUsage?.byok_usage_monthly ?? 0) > 0) && (
                 <Card className="border-neutral-200 shadow-sm">
                   <CardHeader>
-                    <CardTitle className="text-sm font-medium text-neutral-700">Daily Usage (Last 7 Days)</CardTitle>
-                    <CardDescription>Token usage and costs for the past week</CardDescription>
+                    <CardTitle className="text-sm font-medium text-neutral-700">BYOK Usage (Bring Your Own Key)</CardTitle>
+                    <CardDescription>Usage from your own API keys</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
-                      {openRouterUsage.daily_usage.slice(-7).map((day, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                          <div className="flex items-center gap-3">
-                            <Calendar className="h-4 w-4 text-neutral-400" />
-                            <span className="text-sm font-medium text-neutral-700">
-                              {formatShortDate(day.date)}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <div className="text-right">
-                              <p className="text-xs text-neutral-500">Usage</p>
-                              <p className="text-sm font-medium text-neutral-700">
-                                {formatNumber(day.usage)} tokens
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-xs text-neutral-500">Cost</p>
-                              <p className="text-sm font-medium text-emerald-600">
-                                ${day.cost?.toFixed(4) || "0.00"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                      <div className="text-center p-3 bg-neutral-50 rounded-lg border border-neutral-100">
+                        <p className="text-lg font-bold text-neutral-900">${openRouterUsage?.byok_usage?.toFixed(2) || "0.00"}</p>
+                        <p className="text-xs text-neutral-500">Total</p>
+                      </div>
+                      <div className="text-center p-3 bg-green-50 rounded-lg border border-green-100">
+                        <p className="text-lg font-bold text-green-700">${openRouterUsage?.byok_usage_daily?.toFixed(2) || "0.00"}</p>
+                        <p className="text-xs text-neutral-500">Today</p>
+                      </div>
+                      <div className="text-center p-3 bg-purple-50 rounded-lg border border-purple-100">
+                        <p className="text-lg font-bold text-purple-700">${openRouterUsage?.byok_usage_weekly?.toFixed(2) || "0.00"}</p>
+                        <p className="text-xs text-neutral-500">This Week</p>
+                      </div>
+                      <div className="text-center p-3 bg-amber-50 rounded-lg border border-amber-100">
+                        <p className="text-lg font-bold text-amber-700">${openRouterUsage?.byok_usage_monthly?.toFixed(2) || "0.00"}</p>
+                        <p className="text-xs text-neutral-500">This Month</p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
               )}
 
-              {/* Weekly Usage */}
-              {openRouterUsage?.weekly_usage && openRouterUsage.weekly_usage.length > 0 && (
-                <Card className="border-neutral-200 shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium text-neutral-700">Weekly Usage</CardTitle>
-                    <CardDescription>Aggregated usage by week</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {openRouterUsage.weekly_usage.slice(-4).map((week, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                          <div className="flex items-center gap-3">
-                            <BarChart3 className="h-4 w-4 text-blue-400" />
-                            <span className="text-sm font-medium text-neutral-700">
-                              {week.week}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <div className="text-right">
-                              <p className="text-xs text-neutral-500">Usage</p>
-                              <p className="text-sm font-medium text-neutral-700">
-                                {formatNumber(week.usage)} tokens
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-xs text-neutral-500">Cost</p>
-                              <p className="text-sm font-medium text-emerald-600">
-                                ${week.cost?.toFixed(4) || "0.00"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+              {/* Configured Models Card */}
+              <Card className="border-neutral-200 shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-sm font-medium text-neutral-700">Configured Models</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-1 p-3 rounded-lg bg-amber-50 border border-amber-100">
+                      <div className="flex items-center gap-2">
+                        <Zap className="h-4 w-4 text-amber-500" />
+                        <p className="text-xs font-medium text-amber-700">Instruct Model</p>
+                      </div>
+                      <p className="text-sm font-medium text-amber-900 truncate">
+                        {activeCompany.config?.openrouter?.instruct || "Not set"}
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Monthly Usage */}
-              {openRouterUsage?.monthly_usage && openRouterUsage.monthly_usage.length > 0 && (
-                <Card className="border-neutral-200 shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="text-sm font-medium text-neutral-700">Monthly Usage</CardTitle>
-                    <CardDescription>Aggregated usage by month</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {openRouterUsage.monthly_usage.slice(-6).map((month, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-3 rounded-lg bg-neutral-50 border border-neutral-100">
-                          <div className="flex items-center gap-3">
-                            <TrendingUp className="h-4 w-4 text-purple-400" />
-                            <span className="text-sm font-medium text-neutral-700">
-                              {month.month}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-4">
-                            <div className="text-right">
-                              <p className="text-xs text-neutral-500">Usage</p>
-                              <p className="text-sm font-medium text-neutral-700">
-                                {formatNumber(month.usage)} tokens
-                              </p>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-xs text-neutral-500">Cost</p>
-                              <p className="text-sm font-medium text-emerald-600">
-                                ${month.cost?.toFixed(4) || "0.00"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="space-y-1 p-3 rounded-lg bg-purple-50 border border-purple-100">
+                      <div className="flex items-center gap-2">
+                        <Brain className="h-4 w-4 text-purple-500" />
+                        <p className="text-xs font-medium text-purple-700">Reasoning Model</p>
+                      </div>
+                      <p className="text-sm font-medium text-purple-900 truncate">
+                        {activeCompany.config?.openrouter?.reasoning || "Not set"}
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* No Usage Data Message */}
-              {(!openRouterUsage?.daily_usage || openRouterUsage.daily_usage.length === 0) &&
-               (!openRouterUsage?.weekly_usage || openRouterUsage.weekly_usage.length === 0) &&
-               (!openRouterUsage?.monthly_usage || openRouterUsage.monthly_usage.length === 0) && (
-                <Card className="border-neutral-200 shadow-sm">
-                  <CardContent className="py-12 text-center">
-                    <BarChart3 className="h-12 w-12 text-neutral-300 mx-auto mb-3" />
-                    <p className="text-neutral-500 text-sm">No usage data available yet</p>
-                    <p className="text-neutral-400 text-xs mt-1">Usage data will appear here once you start making API calls</p>
-                  </CardContent>
-                </Card>
-              )}
+                  </div>
+                </CardContent>
+              </Card>
             </>
           )}
         </TabsContent>
