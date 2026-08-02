@@ -51,14 +51,26 @@ export interface WorkspaceDocument extends Document {
     openrouter?: {
       status: "active" | "inactive";
       key: string;
+      reasoning?: string;
+      instruct?: string;
     };
     elevenlabs?: {
       status: "active" | "inactive";
       key: string;
+      reasoning?: string;
+      instruct?: string;
     };
     mongodb?: {
       status: "active" | "inactive";
       key: string;
+      reasoning?: string;
+      instruct?: string;
+    };
+    lmstudio: {
+      status: "active" | "inactive";
+      key: string;
+      reasoning?: string;
+      instruct?: string;
     };
   };
 
@@ -71,6 +83,12 @@ export interface WorkspaceDocument extends Document {
     lastUsedAt: Date,
     revokedAt: Date,
   }[];
+
+  mongodb: {
+    collectionName: string;
+    schema: string;
+    variant: { key: string, name: string[], examples: string[] }[];
+  }[]
 
   createdAt: Date;
   updatedAt: Date;
@@ -87,6 +105,14 @@ const ProviderConfigSchema = new Schema(
       type: String,
       default: "",
     },
+    reasoning: {
+      type: String,
+      default: ""
+    },
+    instruct: {
+      type: String,
+      default: ""
+    }
   },
   { _id: false }
 );
@@ -104,6 +130,11 @@ const ConfigSchema = new Schema(
     },
 
     mongodb: {
+      type: ProviderConfigSchema,
+      default: () => ({}),
+    },
+
+    lmstudio: {
       type: ProviderConfigSchema,
       default: () => ({}),
     },
@@ -197,6 +228,39 @@ const WorkspaceSchema = new Schema<WorkspaceDocument>(
     },
 
     trialEndsAt: Date,
+
+    mongodb: {
+      type: [{
+        collectionName: {
+          type: String,
+          required: true
+        },
+        schema: {
+          type: String,
+          required: true
+        },
+        variant: {
+          type: [
+            {
+              key: {
+                type: String,
+                required: true
+              },
+              name: {
+                type: [String],
+                default: []
+              },
+              examples: {
+                type: [String],
+                default: []
+              }
+            }
+          ],
+          default: []
+        }
+      }],
+      default: []
+    },
 
     subscriptionEndsAt: Date,
 

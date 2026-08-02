@@ -85,3 +85,11 @@ export async function removekey(id: string, keyId: string) {
     console.log(error)
   }
 }
+
+export async function getMongoDBCollections(workspaceId: string) {
+  const res = await fetch(`/api/workspace/mongodb-collections?id=${workspaceId}`, {
+    cache: "no-store"
+  });
+  if (!res.ok) throw new Error("Failed to fetch MongoDB collections");
+  return res.json();
+}

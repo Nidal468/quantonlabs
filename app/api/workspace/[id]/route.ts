@@ -163,6 +163,10 @@ export async function PATCH(req: NextRequest) {
             }
         }
 
+        if (data.mongodb) {
+            workspace.mongodb = data.mongodb;
+        }
+
         await workspace.save();
 
         return NextResponse.json(workspace);

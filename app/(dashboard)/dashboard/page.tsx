@@ -3,6 +3,7 @@
 import AgentsPage from "@/components/dashboard/agents/page"
 import CompanyPage from "@/components/dashboard/company/page"
 import { Header } from "@/components/dashboard/header"
+import MongoDBPage from "@/components/dashboard/mongodb/page"
 import OverviewPage from "@/components/dashboard/overview/page"
 import ReportsPage from "@/components/dashboard/reports/page"
 import SettingsPage from "@/components/dashboard/settings/page"
@@ -12,7 +13,7 @@ import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
 export default function Dashboard() {
-    const [selectedPage, setSelectedPage] = useState<"overview" | "agents" | "reports" | "company" | "billing" | "settings">("overview");
+    const [selectedPage, setSelectedPage] = useState<"overview" | "agents" | "reports" | "company" | "billing" | "database" | "settings">("overview");
     const [activeCompanyId, setActiveCompanyId] = useState<string>('');
     
     const {
@@ -54,6 +55,7 @@ export default function Dashboard() {
                         {selectedPage === "agents" && <AgentsPage activeCompany={activeCompany}/>}
                         {selectedPage === "company" && <CompanyPage activeCompany={activeCompany} />}
                         {selectedPage === "reports" && <ReportsPage activeCompany={activeCompany}/>}
+                        {selectedPage === "database" && <MongoDBPage activeCompany={activeCompany} />}
                         {selectedPage === "settings" && <SettingsPage activeCompany={activeCompany} />}
                     </motion.div>
                 </main>}

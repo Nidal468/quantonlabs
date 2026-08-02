@@ -14,12 +14,13 @@ const breadcrumbs: Record<string, string> = {
   reports: "Reports",
   company: "Company Settings",
   billing: "Billing & Plans",
+  database: "MongoDB Schema",
   settings: "User Settings",
 };
 
 interface HeaderProps {
-  selectedPage: "overview" | "agents" | "reports" | "company" | "billing" | "settings";
-  setSelectedPage: Dispatch<SetStateAction<"overview" | "agents" | "reports" | "company" | "billing" | "settings">>;
+  selectedPage: "overview" | "agents" | "reports" | "company" | "billing" | "database" | "settings";
+  setSelectedPage: Dispatch<SetStateAction<"overview" | "agents" | "reports" | "company" | "billing" | "database" | "settings">>;
   activeCompanyId: string;
   setActiveCompanyId: Dispatch<SetStateAction<string>>;
 }

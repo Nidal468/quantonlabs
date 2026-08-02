@@ -9,6 +9,7 @@ import {
   Users,
   CreditCard,
   Cog,
+  Database,
 } from "lucide-react";
 import { CompanySwitcher } from "./company-switcher";
 import { Dispatch, SetStateAction } from "react";
@@ -18,7 +19,7 @@ import { GrPowerForceShutdown } from "react-icons/gr";
 
 interface SidebarProps {
   activePage: string;
-  setPage: (page: "overview" | "agents" | "reports" | "company" | "billing" | "settings") => void;
+  setPage: (page: "overview" | "agents" | "reports" | "company" | "billing" | "database" | "settings") => void;
   activeCompanyId: string;
   setActiveCompanyId: Dispatch<SetStateAction<string>>
 }
@@ -29,6 +30,7 @@ const navItems = [
   { id: "reports", label: "Reports", icon: FileBarChart },
   { id: "company", label: "Workspace", icon: Users },
   { id: "billing", label: "Billing & Plans", icon: CreditCard },
+  { id: "database", label: "Database", icon: Database },
   { id: "settings", label: "Settings", icon: Cog },
 ];
 
@@ -55,7 +57,7 @@ export function Sidebar({ activePage, setPage, activeCompanyId, setActiveCompany
             <button
               key={item.id}
               type="button"
-              onClick={() => setPage(item.id as "overview" | "agents" | "reports" | "company" | "billing")}
+onClick={() => setPage(item.id as "overview" | "agents" | "reports" | "company" | "billing" | "database" | "settings")}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left",
                 isActive
