@@ -1,0 +1,824 @@
+================================================================================
+           APPLE iOS GLASS STYLE (GLASSMORPHISM) WEBSITE DESIGN GUIDE
+================================================================================
+
+This guide provides comprehensive instructions for creating an Apple iOS-style
+glassmorphism website theme - featuring frosted glass effects, translucency,
+and the signature Apple aesthetic.
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+1. Design Philosophy
+2. Core CSS Properties
+3. Color Palette
+4. Component Implementation
+5. Tailwind CSS Configuration
+6. Animation & Transitions
+7. Best Practices
+8. Browser Compatibility
+9. Complete Example Code
+
+================================================================================
+1. DESIGN PHILOSOPHY
+================================================================================
+
+iOS glassmorphism is characterized by:
+- Frosted glass/blur effects that let background content show through
+- Semi-transparent surfaces with subtle borders
+- Soft shadows creating depth and layering
+- Clean, minimal typography (SF Pro Display / Inter / system fonts)
+- Vibrant gradients behind glass elements
+- Rounded corners (typically 12px-20px)
+- Light, airy feel with plenty of whitespace
+
+Key Principles:
+- Layering: Use multiple translucent layers to create depth
+- Blur: Background blur is the signature effect
+- Subtlety: Borders and shadows should be gentle, not harsh
+- Consistency: Maintain uniform blur values and opacity across components
+
+================================================================================
+2. CORE CSS PROPERTIES
+================================================================================
+
+The essential CSS properties for iOS glass effects:
+
+/* Basic Glass Container */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Key Properties Explained:
+
+1. backdrop-filter: blur(Xpx)
+   - Creates the frosted glass effect
+   - Typical values: 10px - 40px
+   - Higher values = more blur = more privacy
+   
+2. background: rgba(R, G, B, alpha)
+   - Semi-transparent background
+   - Alpha typically 0.4 - 0.8
+   - Lower alpha = more transparent
+   
+3. border: 1px solid rgba(255, 255, 255, 0.2-0.5)
+   - Subtle white border for definition
+   - Creates the "edge" of the glass
+   
+4. box-shadow
+   - Soft, diffused shadows
+   - Use low opacity (0.05 - 0.15)
+   - Multiple shadows for depth
+*/
+
+================================================================================
+3. COLOR PALETTE
+================================================================================
+
+/* Light Mode Colors */
+:root {
+    /* Glass Backgrounds */
+    --glass-bg-light: rgba(255, 255, 255, 0.72);
+    --glass-bg-light-thick: rgba(255, 255, 255, 0.85);
+    --glass-bg-light-thin: rgba(255, 255, 255, 0.5);
+    
+    /* Glass Borders */
+    --glass-border-light: rgba(255, 255, 255, 0.5);
+    --glass-border-subtle: rgba(255, 255, 255, 0.2);
+    
+    /* Shadows */
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.12);
+    
+    /* iOS System Colors */
+    --ios-blue: #007AFF;
+    --ios-green: #34C759;
+    --ios-indigo: #5856D6;
+    --ios-orange: #FF9500;
+    --ios-pink: #FF2D55;
+    --ios-purple: #AF52DE;
+    --ios-red: #FF3B30;
+    --ios-teal: #5AC8FA;
+    --ios-yellow: #FFCC00;
+    
+    /* Text Colors */
+    --text-primary: rgba(0, 0, 0, 0.85);
+    --text-secondary: rgba(0, 0, 0, 0.6);
+    --text-tertiary: rgba(0, 0, 0, 0.4);
+    
+    /* Background Gradients */
+    --bg-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --bg-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --bg-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --bg-gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+/* Dark Mode Colors */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --glass-bg-dark: rgba(30, 30, 30, 0.72);
+        --glass-bg-dark-thick: rgba(30, 30, 30, 0.85);
+        --glass-bg-dark-thin: rgba(30, 30, 30, 0.5);
+        
+        --glass-border-dark: rgba(255, 255, 255, 0.16);
+        --glass-border-dark-subtle: rgba(255, 255, 255, 0.08);
+        
+        --shadow-dark: rgba(0, 0, 0, 0.3);
+        
+        --text-primary-dark: rgba(255, 255, 255, 0.92);
+        --text-secondary-dark: rgba(255, 255, 255, 0.6);
+        --text-tertiary-dark: rgba(255, 255, 255, 0.4);
+    }
+}
+
+================================================================================
+4. COMPONENT IMPLEMENTATION
+================================================================================
+
+------------------------------------------------------------------------------
+4.1 GLASS CARD
+------------------------------------------------------------------------------
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 6px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+/* Dark mode variant */
+.glass-card-dark {
+    background: rgba(30, 30, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+------------------------------------------------------------------------------
+4.2 NAVIGATION BAR (iOS Style)
+------------------------------------------------------------------------------
+
+.glass-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    z-index: 1000;
+}
+
+/* With saturation for more vibrant colors behind */
+/* saturate(180%) enhances color vibrancy through the glass */
+
+------------------------------------------------------------------------------
+4.3 BUTTONS
+------------------------------------------------------------------------------
+
+/* Primary Glass Button */
+.glass-button {
+    background: rgba(0, 122, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.glass-button:hover {
+    background: rgba(0, 122, 255, 0.9);
+    transform: scale(1.02);
+}
+
+.glass-button:active {
+    transform: scale(0.98);
+}
+
+/* Secondary Glass Button */
+.glass-button-secondary {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.glass-button-secondary:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+------------------------------------------------------------------------------
+4.4 MODAL / DIALOG
+------------------------------------------------------------------------------
+
+.glass-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.glass-modal {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 
+        0 24px 80px rgba(0, 0, 0, 0.15),
+        0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+------------------------------------------------------------------------------
+4.5 SIDEBAR
+------------------------------------------------------------------------------
+
+.glass-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-right: 0.5px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 16px;
+    overflow-y: auto;
+}
+
+------------------------------------------------------------------------------
+4.6 INPUT FIELDS
+------------------------------------------------------------------------------
+
+.glass-input {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.glass-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    border-color: var(--ios-blue);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+}
+
+.glass-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+------------------------------------------------------------------------------
+4.7 TAB BAR (Bottom Navigation)
+------------------------------------------------------------------------------
+
+.glass-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 83px; /* iOS standard height */
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+================================================================================
+5. TAILWIND CSS CONFIGURATION
+================================================================================
+
+Add these to your tailwind.config.js for easy glass utilities:
+
+/* tailwind.config.js */
+module.exports = {
+    theme: {
+        extend: {
+            backdropBlur: {
+                xs: '2px',
+                sm: '4px',
+                md: '12px',
+                lg: '16px',
+                xl: '24px',
+                '2xl': '40px',
+                '3xl': '60px',
+            },
+            backgroundColor: {
+                'glass': 'rgba(255, 255, 255, 0.7)',
+                'glass-thick': 'rgba(255, 255, 255, 0.85)',
+                'glass-thin': 'rgba(255, 255, 255, 0.5)',
+                'glass-dark': 'rgba(30, 30, 30, 0.7)',
+                'glass-dark-thick': 'rgba(30, 30, 30, 0.85)',
+            },
+            borderColor: {
+                'glass': 'rgba(255, 255, 255, 0.3)',
+                'glass-dark': 'rgba(255, 255, 255, 0.1)',
+            },
+            boxShadow: {
+                'glass': '0 8px 32px rgba(0, 0, 0, 0.1)',
+                'glass-lg': '0 16px 64px rgba(0, 0, 0, 0.15)',
+                'glass-sm': '0 4px 16px rgba(0, 0, 0, 0.08)',
+            },
+            borderRadius: {
+                'ios': '16px',
+                'ios-lg': '20px',
+                'ios-xl': '28px',
+            },
+        },
+    },
+    plugins: [
+        // Custom glass plugin
+        function({ addUtilities, addComponents }) {
+            addUtilities({
+                '.glass': {
+                    background: 'rgba(255, 255, 255, 0.7)',
+                    'backdrop-filter': 'blur(20px)',
+                    '-webkit-backdrop-filter': 'blur(20px)',
+                    'border': '1px solid rgba(255, 255, 255, 0.3)',
+                },
+                '.glass-dark': {
+                    background: 'rgba(30, 30, 30, 0.7)',
+                    'backdrop-filter': 'blur(20px)',
+                    '-webkit-backdrop-filter': 'blur(20px)',
+                    'border': '1px solid rgba(255, 255, 255, 0.1)',
+                },
+            });
+            
+            addComponents({
+                '.glass-card': {
+                    background: 'rgba(255, 255, 255, 0.7)',
+                    'backdrop-filter': 'blur(20px)',
+                    '-webkit-backdrop-filter': 'blur(20px)',
+                    'border': '1px solid rgba(255, 255, 255, 0.3)',
+                    'border-radius': '20px',
+                    'padding': '24px',
+                    'box-shadow': '0 8px 32px rgba(0, 0, 0, 0.1)',
+                },
+            });
+        },
+    ],
+};
+
+/* Usage in HTML/JSX with Tailwind: */
+/*
+<div class="bg-glass backdrop-blur-xl border border-glass rounded-ios-lg shadow-glass p-6">
+    Glass content here
+</div>
+*/
+
+================================================================================
+6. ANIMATION & TRANSITIONS
+================================================================================
+
+/* Smooth transitions for glass elements */
+.glass-animated {
+    transition: 
+        background 0.3s ease,
+        backdrop-filter 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+/* Fade in animation */
+@keyframes glassFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(20px);
+        transform: translateY(0);
+    }
+}
+
+.glass-fade-in {
+    animation: glassFadeIn 0.5s ease forwards;
+}
+
+/* Scale in animation (for modals) */
+@keyframes glassScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+        backdrop-filter: blur(40px);
+    }
+}
+
+.glass-scale-in {
+    animation: glassScaleIn 0.3s ease forwards;
+}
+
+/* Shimmer effect for loading states */
+@keyframes glassShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.glass-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0.5) 100%
+    );
+    background-size: 200% 100%;
+    animation: glassShimmer 2s infinite;
+}
+
+================================================================================
+7. BEST PRACTICES
+================================================================================
+
+PERFORMANCE:
+- backdrop-filter is GPU-intensive; use sparingly
+- Avoid stacking multiple blur layers
+- Use will-change: backdrop-filter for animated elements
+- Consider fallbacks for older browsers
+- Test on mobile devices for performance
+
+ACCESSIBILITY:
+- Ensure sufficient contrast ratio (4.5:1 for text)
+- Don't rely solely on blur for content separation
+- Provide solid background fallbacks when needed
+- Test with reduced motion preferences:
+  
+  @media (prefers-reduced-motion: reduce) {
+      .glass-animated {
+          transition: none;
+          animation: none;
+      }
+  }
+
+DESIGN TIPS:
+- Place colorful/vibrant content behind glass for best effect
+- Use gradients as backgrounds to showcase the blur
+- Maintain consistent blur values across your design
+- Layer multiple glass elements for depth
+- Combine with subtle animations for polish
+
+TYPOGRAPHY:
+- Use system fonts for authentic iOS feel:
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 
+               'SF Pro Text', 'Helvetica Neue', sans-serif;
+- Font weights: 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
+- Letter spacing: -0.02em for headings, normal for body
+
+SPACING & SIZING:
+- Border radius: 12px (small), 16px (medium), 20px (large), 28px (XL)
+- Padding: 16px, 20px, 24px, 32px
+- Gap between glass elements: 12px - 24px
+- Minimum touch target: 44x44px (iOS standard)
+
+================================================================================
+8. BROWSER COMPATIBILITY
+================================================================================
+
+backdrop-filter support:
+- Chrome 76+ (full support)
+- Firefox 103+ (full support)
+- Safari 9+ (with -webkit- prefix)
+- Edge 79+
+
+For older browsers, provide fallback:
+.glass {
+    /* Fallback for browsers without backdrop-filter */
+    background: rgba(255, 255, 255, 0.95);
+}
+
+@supports (backdrop-filter: blur(20px)) {
+    .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+    }
+}
+
+================================================================================
+9. COMPLETE EXAMPLE CODE
+================================================================================
+
+/* Full Page Example - Landing Page with Glass Elements */
+
+/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Glass Style Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 24px;
+        }
+
+        .glass-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .glass-hero {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 28px;
+            padding: 60px 40px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .glass-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.85);
+            margin-bottom: 16px;
+        }
+
+        .glass-hero p {
+            font-size: 18px;
+            color: rgba(0, 0, 0, 0.6);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+
+        .glass-button {
+            background: rgba(0, 122, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 16px 32px;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .glass-button:hover {
+            background: rgba(0, 122, 255, 0.95);
+            transform: scale(1.02);
+        }
+
+        .glass-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.75);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .glass-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.85);
+            margin-bottom: 12px;
+        }
+
+        .glass-card p {
+            color: rgba(0, 0, 0, 0.6);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <nav class="glass-nav">
+            <div style="font-weight: 600; font-size: 20px;">Logo</div>
+            <div style="display: flex; gap: 24px;">
+                <a href="#" style="color: rgba(0,0,0,0.7); text-decoration: none;">Home</a>
+                <a href="#" style="color: rgba(0,0,0,0.7); text-decoration: none;">About</a>
+                <a href="#" style="color: rgba(0,0,0,0.7); text-decoration: none;">Contact</a>
+            </div>
+        </nav>
+
+        <section class="glass-hero">
+            <h1>Welcome to Glass</h1>
+            <p>Experience the beauty of iOS-inspired glassmorphism design with frosted glass effects and elegant translucency.</p>
+            <button class="glass-button">Get Started</button>
+        </section>
+
+        <div class="glass-cards">
+            <div class="glass-card">
+                <h3>Beautiful Design</h3>
+                <p>Create stunning interfaces with frosted glass effects that let your content shine through.</p>
+            </div>
+            <div class="glass-card">
+                <h3>Smooth Animations</h3>
+                <p>Add polish with subtle transitions and animations that feel native and responsive.</p>
+            </div>
+            <div class="glass-card">
+                <h3>Modern Stack</h3>
+                <p>Built with modern CSS features like backdrop-filter for authentic glass effects.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+*/
+
+================================================================================
+10. REACT / NEXT.JS COMPONENT EXAMPLES
+================================================================================
+
+// GlassCard.tsx
+/*
+interface GlassCardProps {
+    children: React.ReactNode;
+    className?: string;
+    hover?: boolean;
+}
+
+export function GlassCard({ children, className = '', hover = true }: GlassCardProps) {
+    return (
+        <div className={`
+            bg-white/70 backdrop-blur-xl
+            border border-white/30
+            rounded-[20px] p-6
+            shadow-[0_8px_32px_rgba(0,0,0,0.1)]
+            ${hover ? 'hover:bg-white/80 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]' : ''}
+            transition-all duration-300
+            ${className}
+        `}>
+            {children}
+        </div>
+    );
+}
+*/
+
+// GlassNavbar.tsx
+/*
+export function GlassNavbar() {
+    return (
+        <nav className="
+            fixed top-0 left-0 right-0 h-16
+            bg-white/72 backdrop-blur-xl backdrop-saturate-[180%]
+            border-b border-black/10
+            flex items-center px-6
+            z-50
+        ">
+            <div className="font-semibold text-xl">Logo</div>
+            <div className="ml-auto flex gap-6">
+                <a href="#" className="text-black/70 hover:text-black/90 transition-colors">
+                    Home
+                </a>
+                <a href="#" className="text-black/70 hover:text-black/90 transition-colors">
+                    About
+                </a>
+                <a href="#" className="text-black/70 hover:text-black/90 transition-colors">
+                    Contact
+                </a>
+            </div>
+        </nav>
+    );
+}
+*/
+
+// GlassButton.tsx
+/*
+interface GlassButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant?: 'primary' | 'secondary';
+    children: React.ReactNode;
+}
+
+export function GlassButton({ variant = 'primary', children, className, ...props }: GlassButtonProps) {
+    const baseStyles = `
+        backdrop-blur-md
+        border rounded-xl
+        px-6 py-3
+        font-semibold text-base
+        transition-all duration-200
+        hover:scale-[1.02] active:scale-[0.98]
+        cursor-pointer
+    `;
+    
+    const variants = {
+        primary: `
+            bg-[rgba(0,122,255,0.85)] border-white/20
+            text-white
+            hover:bg-[rgba(0,122,255,0.95)]
+        `,
+        secondary: `
+            bg-white/50 border-white/30
+            text-black/85
+            hover:bg-white/70
+        `,
+    };
+
+    return (
+        <button 
+            className={`${baseStyles} ${variants[variant]} ${className}`}
+            {...props}
+        >
+            {children}
+        </button>
+    );
+}
+*/
+
+================================================================================
+END OF GUIDE
+================================================================================
+
+For questions or updates, refer to Apple's Human Interface Guidelines:
+https://developer.apple.com/design/human-interface-guidelines/
+
+Additional resources:
+- MDN backdrop-filter: https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter
+- Can I Use: https://caniuse.com/css-backdrop-filter
+- Tailwind CSS: https://tailwindcss.com/docs/backdrop-blur
+
+================================================================================
