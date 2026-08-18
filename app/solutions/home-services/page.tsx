@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Operating System for Home Services | Quanton Labs",
     description:
-      "Eight coordinated AI agents built for home services businesses. Estimate follow-up, technician scheduling, invoice collection, and customer communication — governed and automated.",
+      "Eight coordinated AI agents built for home services businesses. Estimate follow-up, technician scheduling, invoice collection, and customer communication , governed and automated.",
     url: "https://quantonlabs.com/solutions/home-services",
     siteName: "Quanton Labs",
     type: "website",

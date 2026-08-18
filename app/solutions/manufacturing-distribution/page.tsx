@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Operating System for Manufacturing and Distribution | Quanton Labs",
     description:
-      "Eight coordinated AI agents built for manufacturing and distribution. Production scheduling, inventory reorder, order fulfillment, and real-time financial visibility — governed and automated.",
+      "Eight coordinated AI agents built for manufacturing and distribution. Production scheduling, inventory reorder, order fulfillment, and real-time financial visibility , governed and automated.",
     url: "https://quantonlabs.com/solutions/manufacturing-distribution",
     siteName: "Quanton Labs",
     type: "website",

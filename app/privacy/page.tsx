@@ -52,7 +52,7 @@ export default function PrivacyPage() {
         {[
           {
             title: "Who we are",
-            body: `Quanton Labs is a trade name of Remington Enterprises LLC, a South Carolina limited liability company. We build and operate Quanton OS, an AI-integrated operating system for growth-stage businesses. References to "Quanton Labs", "we", "us", or "our" in this policy refer to Remington Enterprises LLC operating as Quanton Labs. Our primary website is quantonlabs.com.`,
+            body: `Quanton Labs is a trade name of Remington Enterprises LLC, a South Carolina limited liability company. We build and operate Quanton OS, an AI-native business system for established operators. References to "Quanton Labs", "we", "us", or "our" in this policy refer to Remington Enterprises LLC operating as Quanton Labs. Our primary website is quantonlabs.com.`,
           },
           {
             title: "What information we collect",
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
           },
           {
             title: "Data collection and AI systems",
-            body: `Quanton Labs is building AI-integrated infrastructure for growth-stage businesses. As part of our product development and service delivery, we may collect and process operational business data provided by clients during engagement phases. This data is used exclusively to configure, operate, and improve the Quanton OS deployment for the client and is governed by the terms of the applicable Engagement Agreement. We do not use client operational data for any purpose outside the scope of the engagement without explicit written consent.`,
+            body: `Quanton Labs is building AI-native business infrastructure for established operators. As part of our product development and service delivery, we may collect and process operational business data provided by clients during engagement phases. This data is used exclusively to configure, operate, and improve the Quanton OS deployment for the client and is governed by the terms of the applicable Engagement Agreement. We do not use client operational data for any purpose outside the scope of the engagement without explicit written consent.`,
           },
           {
             title: "Cookies and tracking",

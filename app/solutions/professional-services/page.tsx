@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Operating System for Professional Services | Quanton Labs",
     description:
-      "Eight coordinated AI agents built for professional services firms. Client onboarding, proposal generation, invoice tracking, and practice visibility — governed and automated.",
+      "Eight coordinated AI agents built for professional services firms. Client onboarding, proposal generation, invoice tracking, and practice visibility , governed and automated.",
     url: "https://quantonlabs.com/solutions/professional-services",
     siteName: "Quanton Labs",
     type: "website",

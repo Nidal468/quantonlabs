@@ -60,7 +60,7 @@ export default function Footer() {
             {/* Brand */}
             <div className="flex flex-col gap-4">
               <p style={{ color: "rgba(255,255,255,0.60)", fontSize: "14px", lineHeight: 1.7 }}>
-                Quanton OS is not software you install or a tool you configure yourself. It is a governed AI operating system built by Quanton Labs, deployed on our proprietary infrastructure, and connected directly to how your business already runs.
+                Quanton OS is not software you install or a tool you configure yourself. It is an AI-native business system built by Quanton Labs, operated on our infrastructure, and shaped around how your business actually runs. You own what we build.
               </p>
             </div>
 
@@ -117,12 +117,13 @@ export default function Footer() {
               <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.60)", marginBottom: "16px" }}>
                 Subscribe to receive platform updates and new feature announcements.
               </p>
-              <div className="flex gap-2">
+                           <div className="flex gap-2">
                 <input
                   type="email"
                   placeholder="Enter your email"
                   style={{
                     flex: 1,
+                    minWidth: 0,
                     padding: "8px 16px",
                     borderRadius: "8px",
                     background: "rgba(255,255,255,0.06)",
@@ -142,6 +143,8 @@ export default function Footer() {
                     fontWeight: 600,
                     border: "none",
                     cursor: "pointer",
+                    flexShrink: 0,
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Subscribe

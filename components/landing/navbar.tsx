@@ -125,7 +125,21 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
             >
               FAQ
             </Link>
-
+            <Link
+              href="/insights"
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.70)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+            >
+              Insights
+            </Link>
             {/* Solutions dropdown */}
             <div ref={dropdownRef} style={{ position: "relative" }}>
               <button
@@ -214,8 +228,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 
         <div className="flex items-center gap-4">
           <Link
-            href="/dashboard"
-            className="hidden md:inline-block px-6 py-2 rounded-full text-white font-medium text-[12px]"
+            href="/auth/signin"            className="hidden md:inline-block px-6 py-2 rounded-full text-white font-medium text-[12px]"
             style={{ background: GRADIENT }}
           >
             Log In
@@ -299,6 +312,23 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
               FAQ
             </Link>
 
+
+            <Link
+              href="/insights"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              Insights
+            </Link>
+            
             {/* Solutions — expandable within the mobile menu */}
             <div style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
               <button
@@ -356,8 +386,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
             </div>
 
             <Link
-              href="/dashboard"
-              onClick={closeMobileMenu}
+              href="/auth/signin"              onClick={closeMobileMenu}
               style={{
                 fontFamily: "Manrope, sans-serif",
                 fontSize: "15px",

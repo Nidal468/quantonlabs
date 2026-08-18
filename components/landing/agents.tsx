@@ -314,7 +314,7 @@ export default function Agents() {
               fontFamily: "Manrope, sans-serif",
             }}
           >
-            Seven functional agents cover every operational domain of your business. Each agent operates within its configured scope, reports activity and exceptions to the Governing Agent, and integrates directly with your existing platforms via API.
+            Seven functional agents cover every operational domain of your business. Each agent operates within its configured scope, reports activity and exceptions to the Governing Agent, and works directly against your operational core: one governed layer holding your customer, financial, inventory, and workflow data.
           </p>
         </motion.div>
 

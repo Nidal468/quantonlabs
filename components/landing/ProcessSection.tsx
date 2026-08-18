@@ -37,8 +37,8 @@ const howItWorks = [
     title: "Managed Services",
     duration: "Ongoing",
     description:
-      "Quanton Labs operates the system on your behalf. Agent hosting, API costs, system monitoring, workflow optimization, and quarterly strategic reviews are all included. Your business runs at the level its current structure cannot support. We surface the exceptions that need your attention and handle everything that does not.",
-    detail: "Fixed monthly retainer. Six-month minimum, then month-to-month.",
+      "Quanton Labs operates the system on your behalf. Agent hosting, model costs, system monitoring, workflow optimization, and quarterly strategic reviews are all included. Your business runs at the level its current structure cannot support. We surface the exceptions that need your attention and handle everything that does not.",
+    detail: "Fixed monthly investment. Six-month minimum, then month-to-month or a committed term.",
   },
 ];
 

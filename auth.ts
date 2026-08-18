@@ -1,4 +1,3 @@
-
 import bcrypt from "bcryptjs";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -6,6 +5,29 @@ import GoogleProvider from "next-auth/providers/google";
 
 import connectMongo from "./db/mongoose";
 import { User } from "./model/user";
+
+/**
+ * ACCESS CONTROL
+ *
+ * The Quanton OS workspace is not open for public registration.
+ * Only email addresses listed in ALLOWED_EMAILS may authenticate.
+ *
+ * Set in .env.local and in the Vercel project environment variables:
+ *   ALLOWED_EMAILS=ryan@quantonlabs.com,growth@quantonlabs.com
+ *
+ * If ALLOWED_EMAILS is empty or unset, all sign-in attempts are denied.
+ * This fails closed by design: a missing variable must never grant access.
+ */
+const allowedEmails = (process.env.ALLOWED_EMAILS ?? "")
+  .split(",")
+  .map(e => e.trim().toLowerCase())
+  .filter(Boolean);
+
+function isAllowed(email?: string | null): boolean {
+  if (!email) return false;
+  if (allowedEmails.length === 0) return false;
+  return allowedEmails.includes(email.toLowerCase().trim());
+}
 
 export const config: NextAuthOptions = {
   providers: [
@@ -21,45 +43,31 @@ export const config: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        await connectMongo();
-
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required");
         }
 
         const email = credentials.email.toLowerCase().trim();
-        const password = credentials.password;
 
-        let user = await User.findOne({ email });
-
-        if (!user) {
-          // Auto-create user for credential login
-          const hashedPassword = await bcrypt.hash(password, 12);
-          const username = email.split("@")[0];
-
-          try {
-            user = await User.create({
-              email,
-              password: hashedPassword,
-              username,
-              role: "user",
-              companies: [],
-            });
-          } catch (error) {
-            // Handle MongoDB duplicate key race conditions
-            if ((error as { code?: number }).code === 11000) {
-              throw new Error("Email already registered");
-            }
-            throw new Error("Failed to create account");
-          }
-        } else {
-          const isValid = await bcrypt.compare(password, user.password);
-          if (!isValid) {
-            throw new Error("Invalid email or password");
-          }
+        // Gate before any database work.
+        if (!isAllowed(email)) {
+          throw new Error("Access denied");
         }
 
-        // Return user in NextAuth expected format
+        await connectMongo();
+
+        const user = await User.findOne({ email });
+
+        // No auto-provisioning. Unknown accounts are rejected.
+        if (!user) {
+          throw new Error("Access denied");
+        }
+
+        const isValid = await bcrypt.compare(credentials.password, user.password);
+        if (!isValid) {
+          throw new Error("Access denied");
+        }
+
         return {
           id: user._id.toString(),
           email: user.email,
@@ -72,6 +80,11 @@ export const config: NextAuthOptions = {
 
   callbacks: {
     async signIn({ user, account }) {
+      // Applies to every provider, including Google.
+      if (!isAllowed(user.email)) {
+        return false;
+      }
+
       if (account?.provider === "google") {
         await connectMongo();
 
@@ -79,6 +92,7 @@ export const config: NextAuthOptions = {
           email: user.email?.toLowerCase(),
         });
 
+        // Record is created only for an already-allowlisted address.
         if (!dbUser) {
           dbUser = await User.create({
             username:
@@ -132,6 +146,7 @@ export const config: NextAuthOptions = {
 
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/signin",
   },
 
   session: {

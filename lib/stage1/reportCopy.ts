@@ -607,7 +607,7 @@ export const CLOSING_VARIANTS: Record<
     header: "What Comes Next",
     body: [
       "This report identifies where the structural gaps are. It does not tell you how to close them, because the right approach depends on the specifics of your business, your platforms, your team, and your constraints.",
-      "Quanton Labs deploys governed AI operating systems for businesses in exactly your range: $1M to $20M, founder-led or operator-led, experiencing the kind of structural drag this report describes. Our Phase 1 Discovery engagement produces a tailored architectural plan with Baseline Metrics and a prioritized implementation roadmap.",
+      "Quanton Labs builds and operates governed AI-native business systems for businesses in exactly your range: $1M to $20M, founder-led or operator-led, experiencing the kind of structural drag this report describes. Our Phase 1 Discovery engagement produces a tailored architectural plan with Baseline Metrics and a prioritized implementation roadmap.",
       "If you would like to explore what that would look like for [COMPANY NAME], the next step is a qualification conversation. We cover your operational reality in more depth, confirm fit, and determine whether Phase 1 makes sense.",
     ],
     primary_cta: "Schedule a qualification conversation",

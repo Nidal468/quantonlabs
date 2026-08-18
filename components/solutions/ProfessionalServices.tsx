@@ -144,7 +144,7 @@ const howItWorks = [
     title: "Infrastructure Deployment",
     duration: "8 to 16 weeks",
     description:
-      "All eight agents are configured and deployed against your specific integration environment: your CRM, your accounting platform, your project management tools. The Governing Agent goes live. Your leadership dashboard is built. SOPs are documented and your team is trained on how the approval gates work and what requires human judgment.",
+      "e build your operational core: the layer that holds your client records, engagement history, time and billing, and financials in one place. All eight agents are configured to work against it directly. The Governing Agent goes live. Your leadership dashboard is built. SOPs are documented and your team is trained on how the approval gates work and what requires human judgment.",
     detail: "Fixed investment. You own all deployed infrastructure on completion.",
   },
   {
@@ -153,8 +153,8 @@ const howItWorks = [
     title: "Managed Services",
     duration: "Ongoing",
     description:
-      "Once deployed, Quanton Labs operates the system on your behalf. We handle agent hosting, API costs, system monitoring, workflow optimization, and quarterly strategic reviews. Your practice keeps running at full capacity. We surface what needs your attention and handle everything that does not.",
-    detail: "Fixed monthly retainer. Six-month minimum, then month-to-month.",
+      "Once deployed, Quanton Labs operates the system on your behalf. We handle agent hosting, model costs, system monitoring, workflow optimization, and quarterly strategic reviews. Your practice keeps running at full capacity. We surface what needs your attention and handle everything that does not.",
+    detail: "Fixed monthly investment. Six-month minimum, then month-to-month or a committed term.",
   },
 ];
 
