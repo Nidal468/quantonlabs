@@ -1,176 +1,123 @@
-'use client';
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { blogPosts } from "@/db/blogs";
+import InsightArticle from "@/components/insights/InsightArticle";
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, User, Clock, Tag, Eye, Heart, Share2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { BlogPost, blogPosts } from '@/db/blogs';
+const SITE = "https://quantonlabs.com";
 
-export default function BlogPostPage() {
-    const router = useRouter();
-    const [blog, setBlog] = useState<BlogPost | null>(null);
-    const [loading, setLoading] = useState(true);
+export function generateStaticParams() {
+  return blogPosts.map(post => ({ id: String(post.id) }));
+}
 
-    useEffect(() => {
-        if (window) {
-            const id = window.location.pathname.split("/")[2];
-            setBlog(blogPosts[Number(id)])
-            setLoading(false)
-        }
-    }, [])
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const post = blogPosts.find(p => String(p.id) === id);
 
-    if (loading || !blog) {
-        return (
-            <div className="min-h-screen bg-[#041227] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-            </div>
-        );
-    }
+  if (!post) {
+    return { title: "Insight Not Found | Quanton Labs" };
+  }
 
-    return (
-        <div className="min-h-screen bg-[#041227] py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-                {/* Back Button */}
-                <button
-                    onClick={() => window.location.href = "/"}
-                    className="flex items-center space-x-2 text-white/70 hover:text-white transition-colors mb-8"
-                    aria-label="Go back to blogs"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span>Back to Blogs</span>
-                </button>
+  const description = post.excerpt ?? post.introduction?.slice(0, 155) ?? "";
 
-                {/* Blog Content */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-white/5 backdrop-blur-sm border shadow-slate-800 hover:shadow-2xl border-slate-700 rounded-xl p-6 hover:border-blue-400/30 transition-all duration-300"
-                >
-                    {/* Author Info */}
-                    <div className="flex items-center justify-between mb-6">
-                        <div className="flex items-center space-x-3">
-                            {blog.authorAvatar && (
-                                <img 
-                                    src={blog.authorAvatar} 
-                                    alt={blog.author}
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                            )}
-                            <div>
-                                <p className="text-white font-medium">{blog.author}</p>
-                                <div className="flex items-center space-x-2 text-sm text-white/70">
-                                    <Calendar className="w-4 h-4" />
-                                    <span>{blog.date}</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        {blog.readTime && (
-                            <div className="flex items-center space-x-1 text-sm text-white/70">
-                                <Clock className="w-4 h-4" />
-                                <span>{blog.readTime} min read</span>
-                            </div>
-                        )}
-                    </div>
+  return {
+    title: `${post.title} | Quanton Labs`,
+    description,
+    keywords: post.tags?.join(", "),
+    alternates: {
+      canonical: `${SITE}/insights/${post.id}`,
+    },
+    openGraph: {
+      title: post.title,
+      description,
+      url: `${SITE}/insights/${post.id}`,
+      siteName: "Quanton Labs",
+      type: "article",
+      publishedTime: post.date,
+      modifiedTime: post.updatedAt ?? post.date,
+      authors: [post.author],
+      tags: post.tags,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+    },
+  };
+}
 
-                    {/* Title */}
-                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                        {blog.title}
-                    </h1>
+export default async function InsightPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const post = blogPosts.find(p => String(p.id) === id);
 
-                    {/* Excerpt */}
-                    {blog.excerpt && (
-                        <p className="text-lg leading-relaxed text-white/90 mb-8 italic">
-                            {blog.excerpt}
-                        </p>
-                    )}
+  if (!post) notFound();
 
-                    {/* Introduction */}
-                    {blog.introduction && (
-                        <div className="prose prose-invert max-w-none mb-8">
-                            <p className="text-white/90 whitespace-pre-line">
-                                {blog.introduction}
-                            </p>
-                        </div>
-                    )}
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    articleBody: [post.introduction, post.content, post.conclusion]
+      .filter(Boolean)
+      .join("\n\n"),
+    datePublished: post.date,
+    dateModified: post.updatedAt ?? post.date,
+    keywords: post.tags?.join(", "),
+    articleSection: post.category,
+    author: {
+      "@type": "Organization",
+      name: post.author,
+      url: SITE,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Quanton Labs",
+      url: SITE,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE}/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE}/insights/${post.id}`,
+    },
+  };
 
-                    {blog.content && (
-                        <div className="prose prose-invert max-w-none mb-8">
-                            <p className="text-white/90 whitespace-pre-line">
-                                {blog.content}
-                            </p>
-                        </div>
-                    )}
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+      { "@type": "ListItem", position: 2, name: "Insights", item: `${SITE}/insights` },
+      { "@type": "ListItem", position: 3, name: post.title },
+    ],
+  };
 
-                    {/* Conclusion */}
-                    {blog.conclusion && (
-                        <div className="prose prose-invert max-w-none mt-8 pt-6 border-t border-slate-700">
-                            <p className="text-white/90 whitespace-pre-line">
-                                {blog.conclusion}
-                            </p>
-                        </div>
-                    )}
+  const related = (post.relatedPosts ?? [])
+    .map(rid => blogPosts.find(p => p.id === rid))
+    .filter((p): p is (typeof blogPosts)[0] => Boolean(p))
+    .slice(0, 3)
+    .map(p => ({ id: p.id, title: p.title }));
 
-                    {/* Tags */}
-                    {blog.tags && blog.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mt-6">
-                            {blog.tags.map((tag, index) => (
-                                <span 
-                                    key={index} 
-                                    className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-500/20 text-blue-300"
-                                >
-                                    <Tag className="w-3 h-3 mr-1" />
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Stats */}
-                    <div className="flex flex-wrap items-center gap-4 mt-8 pt-6 border-t border-slate-700">
-                        <div className="flex items-center space-x-2 text-sm text-white/70">
-                            <Eye className="w-4 h-4" />
-                            <span>{blog.viewCount || 0} views</span>
-                        </div>
-                        {blog.likes && (
-                            <div className="flex items-center space-x-2 text-sm text-white/70">
-                                <Heart className="w-4 h-4" />
-                                <span>{blog.likes} likes</span>
-                            </div>
-                        )}
-                        {blog.shareCount && (
-                            <div className="flex items-center space-x-2 text-sm text-white/70">
-                                <Share2 className="w-4 h-4" />
-                                <span>{blog.shareCount} shares</span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Related Posts */}
-                    {blog.relatedPosts && blog.relatedPosts.length > 0 && (
-                        <div className="mt-8 pt-6 border-t border-slate-700">
-                            <h3 className="text-lg font-semibold text-white mb-4">Related Posts</h3>
-                            <div className="flex flex-wrap gap-4">
-                                {blog.relatedPosts.slice(0, 3).map((postId) => (
-                                    <button
-                                        key={postId}
-                                        onClick={() => router.push(`/blogs/${postId}`)}
-                                        className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white/90 transition-colors"
-                                    >
-                                        {blogPosts.find(post => post.id === postId)?.title || `Post ${postId}`}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </motion.div>
-
-                {/* Footer */}
-                <footer className="mt-12 text-center text-white/50 text-sm">
-                    <p>© {new Date().getFullYear()} Company Name. All rights reserved.</p>
-                </footer>
-            </div>
-        </div>
-    );
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <InsightArticle post={post} related={related} />
+    </>
+  );
 }

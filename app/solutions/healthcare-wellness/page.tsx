@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Operating System for Health and Wellness | Quanton Labs",
     description:
-      "Eight coordinated AI agents built for wellness practices. Appointment reminders, rebooking workflows, client retention, and practice visibility — governed and automated.",
+      "Eight coordinated AI agents built for wellness practices. Appointment reminders, rebooking workflows, client retention, and practice visibility , governed and automated.",
     url: "https://quantonlabs.com/solutions/healthcare-wellness",
     siteName: "Quanton Labs",
     type: "website",

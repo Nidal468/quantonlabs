@@ -144,7 +144,7 @@ const howItWorks = [
     title: "Infrastructure Deployment",
     duration: "8 to 16 weeks",
     description:
-      "All eight agents are configured against your specific environment: your POS system, your e-commerce platform, your supplier network. The Governing Agent goes live. Your leadership dashboard is built. Inventory reorder workflows, abandoned cart sequences, post-purchase follow-ups, and marketing calendars are tested and governed. Your team is trained on what the system handles and what requires their decision.",
+      "We build your operational core: the layer that holds your inventory, customer records, order history, and financials in one place. All eight agents are configured to work against it directly. The Governing Agent goes live. Your leadership dashboard is built. Inventory reorder workflows, abandoned cart sequences, post-purchase follow-ups, and marketing calendars are tested and governed. Your team is trained on what the system handles and what requires their decision.",
     detail: "Fixed investment. You own all deployed infrastructure on completion.",
   },
   {
@@ -153,8 +153,8 @@ const howItWorks = [
     title: "Managed Services",
     duration: "Ongoing",
     description:
-      "Quanton Labs operates the system on your behalf. Agent hosting, API costs, system monitoring, workflow optimization, and quarterly strategic reviews are all included. Your store keeps running at full operational capacity. We surface the exceptions that need your attention and handle everything that does not.",
-    detail: "Fixed monthly retainer. Six-month minimum, then month-to-month.",
+      "Quanton Labs operates the system on your behalf. Agent hosting, model costs, system monitoring, workflow optimization, and quarterly strategic reviews are all included. Your store keeps running at full operational capacity. We surface the exceptions that need your attention and handle everything that does not.",
+    detail: "Fixed monthly investment. Six-month minimum, then month-to-month or a committed term.",
   },
 ];
 

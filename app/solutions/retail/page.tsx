@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Operating System for Retail | Quanton Labs",
     description:
-      "Eight coordinated AI agents built for independent retailers. Inventory management, customer retention, marketing automation, and margin visibility — governed and automated.",
+      "Eight coordinated AI agents built for independent retailers. Inventory management, customer retention, marketing automation, and margin visibility , governed and automated.",
     url: "https://quantonlabs.com/solutions/retail",
     siteName: "Quanton Labs",
     type: "website",

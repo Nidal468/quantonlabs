@@ -18,11 +18,11 @@ const productionUrl = "https://quantonlabs.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(productionUrl),
-  title: "AI Operating System for Business | Quanton Labs",
+  title: "AI-Native Business System for Established Operators | Quanton Labs",
   description:
-    "Quanton OS deploys eight coordinated AI agents on your business. One governing intelligence layer connects every function, integrates with your existing systems, and gives leadership real-time visibility. Built for businesses generating $1M to $20M annually.",
+    "Quanton OS is an AI-native business system. Eight coordinated AI agents run on one governed operational core built as your system of record, with a governing intelligence layer connecting every function and giving leadership real-time visibility. Built and operated for businesses generating $1M to $20M annually.",
   keywords:
-    "AI operating system for business, AI agents for business operations, governed AI system for growth-stage companies, business AI infrastructure",
+    "AI-native business system, AI agents for business operations, governed AI system, AI system of record, business AI infrastructure, AI operating system for business",
   alternates: {
     canonical: productionUrl,
   },
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Quanton OS | AI Operating System for Growth-Stage Businesses",
+    title: "Quanton OS | The AI-Native Business System",
     description:
-      "Eight coordinated AI agents. One governing intelligence layer. Complete business infrastructure deployed on your existing systems without migration.",
+      "Eight coordinated AI agents. One governing intelligence layer. Complete business infrastructure built as your system of record, consolidating a fragmented stack into one governed system you own.",
     url: productionUrl,
     siteName: "Quanton Labs",
     type: "website",
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Quanton OS | AI Operating System for Growth-Stage Businesses",
+    title: "Quanton OS | The AI-Native Business System",
     description:
-      "Quanton OS integrates strategy, automation, and intelligence into a single governed architecture. Built for owner-led businesses generating $1M to $20M that need an operating system, not more tools.",
+      "Quanton OS consolidates strategy, operations, and intelligence into a single governed architecture built as your system of record. For owner-led businesses generating $1M to $20M that need infrastructure, not more tools.",
     images: ["https://quantonlabs.com/images/assets/og-image.png"],
   },
   verification: {
@@ -72,7 +72,7 @@ const schemaOrg = {
   url: "https://quantonlabs.com",
   logo: "https://quantonlabs.com/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png",
   description:
-    "Quanton Labs deploys Quanton OS, a governed AI operating system for growth-stage businesses generating $1M to $20M annually.",
+    "Quanton Labs builds and operates Quanton OS, a governed AI-native business system for established operators generating $1M to $20M annually.",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+1-929-298-2162",
@@ -88,12 +88,12 @@ const schemaOrg = {
 
 const schemaProduct = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Service",
   name: "Quanton OS",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Cloud",
+  serviceType: "AI-native business system deployment and managed operations",
   description:
-    "An AI-integrated operating system that deploys eight coordinated AI agents for growth-stage businesses. Connects directly to existing business platforms via API without migration.",
+    "An AI-native business system that deploys eight coordinated AI agents against a governed operational core built as the client's system of record. Consolidates a fragmented stack into one system the client owns.",
+  areaServed: "US",
   offers: {
     "@type": "Offer",
     price: "7500",
