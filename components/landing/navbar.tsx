@@ -78,68 +78,6 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 
           <div className="hidden md:flex items-center gap-6">
 
-            <Link
-              href="/about"
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.70)",
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
-            >
-              About
-            </Link>
-
-            <Link
-              href="/case-studies"
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.70)",
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
-            >
-              Case Studies
-            </Link>
-
-            <Link
-              href="/faq"
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.70)",
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
-            >
-              FAQ
-            </Link>
-            <Link
-              href="/insights"
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "14px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.70)",
-                textDecoration: "none",
-                transition: "color 0.2s ease",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
-            >
-              Insights
-            </Link>
             {/* Solutions dropdown */}
             <div ref={dropdownRef} style={{ position: "relative" }}>
               <button
@@ -223,12 +161,61 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
               )}
             </div>
 
+            <Link
+              href="/architecture"
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.70)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+            >
+              Architecture
+            </Link>
+
+            <Link
+              href="/case-studies"
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.70)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+            >
+              Case Studies
+            </Link>
+
+            <Link
+              href="/insights"
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "14px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.70)",
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+            >
+              Insights
+            </Link>
+
           </div>
         </div>
 
         <div className="flex items-center gap-4">
           <Link
-            href="/auth/signin"            className="hidden md:inline-block px-6 py-2 rounded-full text-white font-medium text-[12px]"
+            href="/auth/signin"
+            className="hidden md:inline-block px-6 py-2 rounded-full text-white font-medium text-[12px]"
             style={{ background: GRADIENT }}
           >
             Log In
@@ -264,71 +251,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
           }}
         >
           <div className="flex flex-col px-6 py-4">
-            <Link
-              href="/about"
-              onClick={closeMobileMenu}
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "16px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.85)",
-                textDecoration: "none",
-                padding: "14px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              About
-            </Link>
 
-            <Link
-              href="/case-studies"
-              onClick={closeMobileMenu}
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "16px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.85)",
-                textDecoration: "none",
-                padding: "14px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              Case Studies
-            </Link>
-
-            <Link
-              href="/faq"
-              onClick={closeMobileMenu}
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "16px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.85)",
-                textDecoration: "none",
-                padding: "14px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              FAQ
-            </Link>
-
-
-            <Link
-              href="/insights"
-              onClick={closeMobileMenu}
-              style={{
-                fontFamily: "Manrope, sans-serif",
-                fontSize: "16px",
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.85)",
-                textDecoration: "none",
-                padding: "14px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              Insights
-            </Link>
-            
             {/* Solutions — expandable within the mobile menu */}
             <div style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
               <button
@@ -386,7 +309,56 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
             </div>
 
             <Link
-              href="/auth/signin"              onClick={closeMobileMenu}
+              href="/architecture"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              Architecture
+            </Link>
+
+            <Link
+              href="/case-studies"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              Case Studies
+            </Link>
+
+            <Link
+              href="/insights"
+              onClick={closeMobileMenu}
+              style={{
+                fontFamily: "Manrope, sans-serif",
+                fontSize: "16px",
+                fontWeight: 500,
+                color: "rgba(255,255,255,0.85)",
+                textDecoration: "none",
+                padding: "14px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              Insights
+            </Link>
+
+            <Link
+              href="/auth/signin"
+              onClick={closeMobileMenu}
               style={{
                 fontFamily: "Manrope, sans-serif",
                 fontSize: "15px",
