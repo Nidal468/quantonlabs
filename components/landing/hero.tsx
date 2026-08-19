@@ -247,7 +247,7 @@ export function HeroSection() {
     triggerShake();
     setTimeout(() => {
       animateCursor(() => {
-        // cursor click is visual only — does nothing
+        // cursor click is visual only - does nothing
       });
     }, 700);
   };

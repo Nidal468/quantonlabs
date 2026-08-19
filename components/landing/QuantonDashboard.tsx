@@ -205,20 +205,20 @@ const AGENT_CONFIG: Record<string, { tag: string; title: string }> = {
 };
 
 const INITIAL_GOV: GovItem[] = [
-  { icon: "sync", color: "#2B60EB", event: "SOP v2.1 approved — cross-domain applied", meta: "Operations Agent → all agents updated", badge: null },
+  { icon: "sync", color: "#2B60EB", event: "SOP v2.1 approved - cross-domain applied", meta: "Operations Agent → all agents updated", badge: null },
   { icon: "trending", color: "#584DEB", event: "Pipeline velocity up 18% this month", meta: "Synthesis: Sales + Marketing + CX", badge: { text: "insight", bg: "rgba(88,77,235,0.10)", color: "#534AB7" } },
-  { icon: "check", color: "#4655EB", event: "Payroll confirmed — $8,400 processed", meta: "People Agent → Finance Agent confirmed", badge: null },
-  { icon: "check", color: "#2B60EB", event: "Supplier ETA confirmed — no ops impact", meta: "Inventory Agent → Governing Agent", badge: null },
+  { icon: "check", color: "#4655EB", event: "Payroll confirmed - $8,400 processed", meta: "People Agent → Finance Agent confirmed", badge: null },
+  { icon: "check", color: "#2B60EB", event: "Supplier ETA confirmed - no ops impact", meta: "Inventory Agent → Governing Agent", badge: null },
 ];
 
 const INITIAL_MINI: Record<string, string[]> = {
-  people: ["Performance review queued — Q2", "New hire onboarding — Day 3 tasks sent", "Payroll processed — 14 employees"],
-  sales: ["Follow-up day 3 — Meridian Logistics", "Pipeline: 3 active, 1 deferred", "CRM updated — 6 records synced"],
-  cx: ["Inquiry routed → Finance (billing)", "Satisfaction score: 9/10 — Meridian", "Post-service follow-up sent"],
-  finance: ["P&L report queued — sends 8AM", "Payroll confirmed — $8,400 processed", "Expenses categorized — 84 transactions this week"],
-  ops: ["SOP v2.1 pending hard block approval", "Task completion: 91% this week", "Vendor PO submitted — IT supplier"],
-  marketing: ["14 posts scheduled — next: 9AM", "Lead signal: Acme Corp engaged 3×", "Email open rate: 34% this week"],
-  inventory: ["Stock healthy — 94% SKUs in range", "Supplier ETA confirmed — Tuesday", "Reorder triggered — SKU-1042", "Delivery tracking active — 3 inbound"],
+  people: ["Performance review queued - Q2", "New hire onboarding - Day 3 tasks sent", "Payroll processed - 14 employees"],
+  sales: ["Follow-up day 3 - Meridian Logistics", "Pipeline: 3 active, 1 deferred", "CRM updated - 6 records synced"],
+  cx: ["Inquiry routed → Finance (billing)", "Satisfaction score: 9/10 - Meridian", "Post-service follow-up sent"],
+  finance: ["P&L report queued - sends 8AM", "Payroll confirmed - $8,400 processed", "Expenses categorized - 84 transactions this week"],
+  ops: ["SOP v2.1 pending hard block approval", "Task completion: 91% this week", "Vendor PO submitted - IT supplier"],
+  marketing: ["14 posts scheduled - next: 9AM", "Lead signal: Acme Corp engaged 3�-", "Email open rate: 34% this week"],
+  inventory: ["Stock healthy - 94% SKUs in range", "Supplier ETA confirmed - Tuesday", "Reorder triggered - SKU-1042", "Delivery tracking active - 3 inbound"],
 };
 
 let idCounter = 0;
@@ -578,7 +578,7 @@ useEffect(() => {
 
       {isGov && approvalVisible && !rewardVisible && (
         <div style={{ marginTop: 12, borderRadius: 8, border: "1.5px solid #4655EB", background: "linear-gradient(135deg,rgba(43,96,235,0.04),rgba(139,55,234,0.06))", padding: 14 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#1E293B", marginBottom: 4, fontFamily: "Manrope, sans-serif" }}>Approval required — Shift coverage plan</div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "#1E293B", marginBottom: 4, fontFamily: "Manrope, sans-serif" }}>Approval required - Shift coverage plan</div>
           <div style={{ fontSize: 11, color: "#475569", lineHeight: 1.6, marginBottom: 12, fontFamily: "Manrope, sans-serif" }}>
             People Agent has escalated J. Walsh (no call/no show). Operations Agent has reviewed shift load. Proposed plan: redistribute Walsh's tasks across Martinez and Chen. Notify shift supervisor. Flag for HR review end of day. Your approval activates the plan across both agents.
           </div>
@@ -613,7 +613,7 @@ useEffect(() => {
         <div style={{ marginTop: 12, borderRadius: 8, border: "1.5px solid #4ADE80", background: "linear-gradient(135deg,rgba(74,222,128,0.06),rgba(43,96,235,0.06))", padding: 14 }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "#1E293B", marginBottom: 6, fontFamily: "Manrope, sans-serif" }}>Decision executed across three agents.</div>
           <div style={{ fontSize: 11, color: "#475569", lineHeight: 1.65, marginBottom: 12, fontFamily: "Manrope, sans-serif" }}>
-            People Agent logged the escalation. Operations Agent redistributed shift tasks. Governing Agent closed the exception and updated the audit trail. That is what governed AI infrastructure looks like in practice — not a chatbot, not a workflow. A system that coordinates, escalates, and acts on your approval.<br /><br />Want to see where your business stands today?
+            People Agent logged the escalation. Operations Agent redistributed shift tasks. Governing Agent closed the exception and updated the audit trail. That is what governed AI infrastructure looks like in practice: not a chatbot, not a workflow. A system that coordinates, escalates, and acts on your approval.<br /><br />Want to see where your business stands today?
           </div>
           <a
             href="https://quantonlabs.com/assessment"
@@ -707,50 +707,50 @@ export default function QuantonDashboard() {
 
       at(3000, () => {
         setNarration("Sales Agent recorded a $142,000 deal with Hartwell Group. Revenue posts to Finance and pipeline performance updates automatically.");
-        pushMiniRef.current("sales", "Deal closed — Hartwell Group $142,000", false);
-        pushGovRef.current({ icon: "dollar", color: "#059669", event: "Major sale closed — Hartwell Group $142,000", meta: "Sales Agent → Finance + CX coordination triggered", badge: { text: "major sale", bg: "rgba(5,150,105,0.10)", color: "#065F46" } });
+        pushMiniRef.current("sales", "Deal closed - Hartwell Group $142,000", false);
+        pushGovRef.current({ icon: "dollar", color: "#059669", event: "Major sale closed - Hartwell Group $142,000", meta: "Sales Agent → Finance + CX coordination triggered", badge: { text: "major sale", bg: "rgba(5,150,105,0.10)", color: "#065F46" } });
       });
 
       at(6000, () => {
         setNarration("Finance Agent issued the invoice. Customer Experience opened onboarding. Inventory and Supply Chain prepared the fulfillment and shipping quote.");
-        pushMiniRef.current("finance", "Invoice generated — $142,000 Hartwell Group", false);
-        pushMiniRef.current("cx", "Onboarding initiated — Hartwell Group", false);
-        pushMiniRef.current("inventory", "Fulfillment prepared — Hartwell Group shipping quote", false);
+        pushMiniRef.current("finance", "Invoice generated - $142,000 Hartwell Group", false);
+        pushMiniRef.current("cx", "Onboarding initiated - Hartwell Group", false);
+        pushMiniRef.current("inventory", "Fulfillment prepared - Hartwell Group shipping quote", false);
       });
 
       at(9000, () => {
         setNarration("People Agent flagged a missed clock-in after the grace window. No call, no show. The exception enters the governance queue.");
         setAlertCards(p => ({ ...p, people: true }));
         setBadgeCards(p => ({ ...p, people: true }));
-        pushMiniRef.current("people", "ALERT: J. Walsh — missed 6:00 AM clock-in, grace elapsed 6:15", true);
+        pushMiniRef.current("people", "ALERT: J. Walsh - missed 6:00 AM clock-in, grace elapsed 6:15", true);
         setExcVal("2 pending");
       });
 
       at(12000, () => {
         setNarration("People Agent called the employee. No answer. The Governing Agent is now tracking the exception across domains.");
-        pushMiniRef.current("people", "6:18 AM — Called J. Walsh (843) 291-7734 — no answer", true);
-        pushGovRef.current({ icon: "alert", color: "#EF4444", event: "People Agent escalation — J. Walsh no call/no show", meta: "6:18 AM — Mobile contact attempted, no answer", badge: { text: "urgent", bg: "rgba(239,68,68,0.12)", color: "#991B1B" } });
+        pushMiniRef.current("people", "6:18 AM - Called J. Walsh (843) 291-7734 - no answer", true);
+        pushGovRef.current({ icon: "alert", color: "#EF4444", event: "People Agent escalation - J. Walsh no call/no show", meta: "6:18 AM - Mobile contact attempted, no answer", badge: { text: "urgent", bg: "rgba(239,68,68,0.12)", color: "#991B1B" } });
         setAlertCards(p => ({ ...p, governing: true }));
         setBadgeCards(p => ({ ...p, governing: true }));
       });
 
       at(15000, () => {
         setNarration("People Agent sent a follow-up text and routed the case to Operations for shift coverage.");
-        pushMiniRef.current("people", "6:24 AM — Text sent, no reply. Emergency contact at 10 AM if no response", true);
-        pushMiniRef.current("people", "Routing summary to Operations Agent — shift coordination required", true);
+        pushMiniRef.current("people", "6:24 AM - Text sent, no reply. Emergency contact at 10 AM if no response", true);
+        pushMiniRef.current("people", "Routing summary to Operations Agent - shift coordination required", true);
       });
 
       at(18000, () => {
         setNarration("Operations Agent reviewed shift load and drafted a coverage plan to redistribute the open tasks.");
         setAlertCards(p => ({ ...p, ops: true }));
         setBadgeCards(p => ({ ...p, ops: true }));
-        pushMiniRef.current("ops", "Internal memo — J. Walsh no call/no show", true);
-        pushMiniRef.current("ops", "Review shift load — determine coverage next steps", true);
+        pushMiniRef.current("ops", "Internal memo - J. Walsh no call/no show", true);
+        pushMiniRef.current("ops", "Review shift load - determine coverage next steps", true);
       });
 
       at(21000, () => {
         setNarration("The Governing Agent assembled the plan and escalated one decision to you. Nothing executes until you approve.");
-        pushGovRef.current({ icon: "alert", color: "#7341EA", event: "Approval required — shift coverage plan ready", meta: "People + Operations → awaiting Managing Director decision", badge: { text: "action required", bg: "rgba(239,68,68,0.12)", color: "#991B1B" } });
+        pushGovRef.current({ icon: "alert", color: "#7341EA", event: "Approval required - shift coverage plan ready", meta: "People + Operations → awaiting Managing Director decision", badge: { text: "action required", bg: "rgba(239,68,68,0.12)", color: "#991B1B" } });
         setApprovalVisible(true);
         approvalTimerRef.current = setTimeout(() => {
           if (!guard()) return;
@@ -776,7 +776,7 @@ export default function QuantonDashboard() {
     };
   }, [sequenceRun, hasEntered]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // IntersectionObserver — track whether dashboard is in viewport
+  // IntersectionObserver - track whether dashboard is in viewport
     useEffect(() => {
     const el = dashboardRef.current;
     if (!el) return;
@@ -801,7 +801,7 @@ export default function QuantonDashboard() {
     setBadgeCards({});
     setExcVal("0 pending");
     setExcColor("#4ADE80");
-    pushGov({ icon: "check", color: "#4ADE80", event: "Shift coverage plan approved — exception closed", meta: "Governing Agent → People + Operations updated", badge: { text: "resolved", bg: "rgba(74,222,128,0.12)", color: "#166534" } });
+    pushGov({ icon: "check", color: "#4ADE80", event: "Shift coverage plan approved - exception closed", meta: "Governing Agent → People + Operations updated", badge: { text: "resolved", bg: "rgba(74,222,128,0.12)", color: "#166534" } });
     setNarration("Approved. The plan executed across People and Operations. The Governing Agent closed the exception and logged the audit trail.");
   }, [pushGov]);
 
@@ -834,7 +834,7 @@ export default function QuantonDashboard() {
         Eight agents. One coordinated system.
       </p>
       <p className="ql-bridge-tagline" style={{ fontSize: 16, fontWeight: 400, color: "#6B7280", margin: 0, lineHeight: 1.6 }}>
-        Not a workflow. Not a tool. An operating system.
+                Not a workflow. Not a tool. A business system..
       </p>
     </div>
 

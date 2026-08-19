@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment — Section C: Priority Surfacing
+// Stage 1 Assessment - Section C: Priority Surfacing
 // Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
 
 "use client";
@@ -98,7 +98,7 @@ export default function SectionCComponent({
         </p>
       </motion.div>
 
-      {/* C1 — Priority OS */}
+      {/* C1 - Priority OS */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -146,7 +146,7 @@ export default function SectionCComponent({
         </div>
       </motion.div>
 
-      {/* C2 — Outcome Framing */}
+      {/* C2 - Outcome Framing */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}

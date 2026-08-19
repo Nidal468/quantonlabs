@@ -158,7 +158,7 @@ const howItWorks = [
   },
 ];
 
-// ── MINI DASHBOARD DATA — Home Services ──────────────────────────────────────
+// ── MINI DASHBOARD DATA - Home Services ──────────────────────────────────────
 
 const dashMetrics = [
   { label: "Open Projects", value: "11", delta: "3 in final milestone" },

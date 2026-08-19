@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment — Results Preview & Handoff
+// Stage 1 Assessment - Results Preview & Handoff
 // Source: STRUCTURAL PATTERN REPORT TEMPLATE v1.0 Apr2026
 
 "use client";
@@ -22,9 +22,9 @@ const OS_LABELS: Record<OperatingSystem, string> = {
 
 const TIER_LABELS: Record<SeverityTier, string> = {
   architected: "Architected",
-  functional_gap: "Functional — Built on Effort",
-  structural_gap: "Fragmented — Structural Drag",
-  critical_gap: "Unstructured — Owner-Dependent",
+  functional_gap: "Functional - Built on Effort",
+  structural_gap: "Fragmented - Structural Drag",
+  critical_gap: "Unstructured - Owner-Dependent",
 };
 
 const TIER_SHORT_DIAGNOSTIC: Record<OperatingSystem,Record<SeverityTier, string>> = {
@@ -139,7 +139,7 @@ export default function ResultsComponent({
           Primary Focus Area
         </p>
         <h3 className="text-2xl font-bold text-gray-800 mb-3">
-          {OS_LABELS[topOS]} System — {TIER_LABELS[topTier]}
+          {OS_LABELS[topOS]} System - {TIER_LABELS[topTier]}
         </h3>
         <p className="text-gray-700 leading-relaxed">
           {TIER_SHORT_DIAGNOSTIC[topOS][topTier]} Your full report walks through

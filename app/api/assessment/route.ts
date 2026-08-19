@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Structural Diagnostic — Assessment Submission Handler
+// Stage 1 Structural Diagnostic - Assessment Submission Handler
 // Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
 //         STRUCTURAL INTELLIGENCE REPORT TEMPLATE v1.0 Apr2026
 
@@ -32,7 +32,7 @@ export const maxDuration = 60;
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const GMAIL_SCOPE = "https://www.googleapis.com/auth/gmail.send";
 
-// Sheet tab names — must match the Google Sheet exactly
+// Sheet tab names - must match the Google Sheet exactly
 const TAB_NAMES: Record<string, string> = {
   qualified: "Qualified",
   below_threshold: "Below_Threshold",
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       !submission.section_d
     ) {
       return NextResponse.json(
-        { error: "Incomplete submission — all four sections required." },
+        { error: "Incomplete submission - all four sections required." },
         { status: 400 }
       );
     }
@@ -452,7 +452,7 @@ async function sendGmailNotification(
       throw new Error("Missing Gmail environment variables.");
     }
 
-// Domain-wide delegation via Web Crypto signed JWT — bypasses OpenSSL
+// Domain-wide delegation via Web Crypto signed JWT - bypasses OpenSSL
     const now = Math.floor(Date.now() / 1000);
     const jwtPayload = {
       iss: clientEmail,
@@ -681,7 +681,7 @@ function buildNotificationBody(
     "",
     "REPORT",
     `HTML: ${reportUrl}`,
-    `PDF: ${pdfUrl || "(generation failed — see logs)"}`,
+    `PDF: ${pdfUrl || "(generation failed - see logs)"}`,
     "",
     "NEXT STEPS",
     ...nextStepsFor(scored.closing_variant),
@@ -694,11 +694,11 @@ function buildNotificationBody(
 function statusLabelFor(variant: string): string {
   switch (variant) {
     case "qualified":
-      return "Qualified — Stage 2 eligible";
+      return "Qualified - Stage 2 eligible";
     case "below_threshold":
-      return "Below Threshold — long-term nurture, no qualification call";
+      return "Below Threshold - long-term nurture, no qualification call";
     case "above_segment":
-      return "Above Segment — direct Ryan follow-up";
+      return "Above Segment - direct Ryan follow-up";
     default:
       return variant;
   }
@@ -723,7 +723,7 @@ function nextStepsFor(variant: string): string[] {
     case "above_segment":
       return [
         "1. Review full scored payload in Google Sheet",
-        "2. Direct outreach from Ryan — enterprise configuration conversation",
+        "2. Direct outreach from Ryan - enterprise configuration conversation",
         "3. Research company deeply before outreach",
         "4. Standard Stage 2 not applicable",
       ];

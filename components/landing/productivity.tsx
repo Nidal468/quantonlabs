@@ -128,7 +128,7 @@ export default function GoverningAgent() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
 
-            {/* Row 1 — Coordination */}
+            {/* Row 1 - Coordination */}
             <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
               <div
                 style={{
@@ -169,7 +169,7 @@ export default function GoverningAgent() {
               </div>
             </div>
 
-            {/* Row 2 — Decision */}
+            {/* Row 2 - Decision */}
             <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
               <div
                 style={{
@@ -210,7 +210,7 @@ export default function GoverningAgent() {
               </div>
             </div>
 
-            {/* Row 3 — Intelligence */}
+            {/* Row 3 - Intelligence */}
             <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
               <div
                 style={{
@@ -254,7 +254,7 @@ export default function GoverningAgent() {
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN — architecture visual */}
+        {/* RIGHT COLUMN - architecture visual */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -301,7 +301,7 @@ export default function GoverningAgent() {
               </div>
             </div>
 
-            {/* Connection lines + agent nodes — unified SVG */}
+            {/* Connection lines + agent nodes - unified SVG */}
             <div style={{ width: "100%", marginBottom: "16px" }}>
               <svg
                 width="100%"

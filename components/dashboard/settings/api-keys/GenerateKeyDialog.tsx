@@ -110,7 +110,7 @@ export function GenerateKeyDialog({ isOpen, onClose, onGenerate }: GenerateKeyDi
                     </CardTitle>
                     <CardDescription className="text-sm text-gray-500 mt-2 leading-relaxed">
                       {generatedKey 
-                        ? "Copy your key now — it won't be shown again."
+                        ? "Copy your key now - it won't be shown again."
                         : "Create a new secret key for external integrations and services."}
                     </CardDescription>
                   </div>

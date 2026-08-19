@@ -158,7 +158,7 @@ const howItWorks = [
   },
 ];
 
-// ── MINI DASHBOARD DATA — Manufacturing and Distribution ──────────────────────
+// ── MINI DASHBOARD DATA - Manufacturing and Distribution ──────────────────────
 
 const dashMetrics = [
   { label: "Active Production Orders", value: "18", delta: "4 due this week" },

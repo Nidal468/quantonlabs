@@ -257,7 +257,7 @@ export default function Integration() {
                             transition={{ delay: 0.4 }}
                             className="text-sm text-gray-400 bg-gradient-to-r from-gray-800/30 to-gray-900/30 rounded-xl p-4 border border-white/10 backdrop-blur-sm"
                         >
-                            <p>Seamlessly connect your AI automations, software, websites, social platforms, and applications with our powerful API keys, embedded components, and real-time webhooks — built for fast, flexible integration.</p>
+                            <p>Seamlessly connect your AI automations, software, websites, social platforms, and applications with our powerful API keys, embedded components, and real-time webhooks - built for fast, flexible integration.</p>
                         </motion.div>
                     </motion.div>
                 </div>
