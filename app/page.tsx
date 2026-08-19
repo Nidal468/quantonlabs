@@ -9,6 +9,8 @@ import Agents from "@/components/landing/agents";
 import GoverningAgentCTA from "@/components/landing/GoverningAgentCTA";
 import QuantonDashboard from "@/components/landing/QuantonDashboard";
 import ProcessSection from "@/components/landing/ProcessSection";
+import ContrastSection from "@/components/landing/ContrastSection";
+import WhatCompoundsSection from "@/components/landing/WhatCompoundsSection";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,7 +34,7 @@ return (
       <Navbar isScrolled={isScrolled} />
       <HeroSection />
       
-{/* FOUR SYSTEMS SECTION — hidden, revisit if needed
+{/* FOUR SYSTEMS SECTION - hidden, revisit if needed
       <Features />
       */}
       <Productivity />
@@ -40,7 +42,8 @@ return (
       <GoverningAgentCTA />
       <QuantonDashboard />
       <ProcessSection />
-      <CTA />
+      <ContrastSection />
+      <WhatCompoundsSection />
       <Footer />
     </div>
   </div>

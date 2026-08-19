@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment — Report Viewer
+// Stage 1 Assessment - Report Viewer
 // Serves the stored HTML report from Vercel Blob storage.
 
 import { notFound } from "next/navigation";
@@ -13,7 +13,7 @@ import { notFound } from "next/navigation";
 // Force Node.js runtime (list() from @vercel/blob requires it)
 export const runtime = "nodejs";
 
-// Revalidate every hour — reports are immutable once written, but
+// Revalidate every hour - reports are immutable once written, but
 // we allow occasional refresh in case Blob CDN needs a nudge.
 export const revalidate = 3600;
 
@@ -66,7 +66,7 @@ export default async function ReportViewerPage({ params }: PageProps) {
 export async function generateMetadata({ params }: PageProps) {
   const { submissionId } = await params;
   return {
-    title: `Structural Intelligence Report — Quanton Labs`,
+    title: `Structural Intelligence Report - Quanton Labs`,
     description: "Your Stage 1 Structural Diagnostic report from Quanton Labs.",
     robots: {
       index: false,

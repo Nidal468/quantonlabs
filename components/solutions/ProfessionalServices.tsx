@@ -158,7 +158,7 @@ const howItWorks = [
   },
 ];
 
-// ── MINI DASHBOARD DATA — Professional Services ───────────────────────────────
+// ── MINI DASHBOARD DATA - Professional Services ───────────────────────────────
 
 const dashMetrics = [
   { label: "Active Engagements", value: "4", delta: "+1 this month" },

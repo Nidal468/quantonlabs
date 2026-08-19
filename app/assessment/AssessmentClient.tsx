@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment — Wizard Orchestrator
+// Stage 1 Assessment - Wizard Orchestrator
 // Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
 
 "use client";

@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment — Section A: Structural Qualifiers
+// Stage 1 Assessment - Section A: Structural Qualifiers
 // Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
 
 "use client";
@@ -122,7 +122,7 @@ export default function SectionAComponent({
         </p>
       </motion.div>
 
-      {/* A1 — Revenue */}
+      {/* A1 - Revenue */}
       <QuestionBlock
         number="A1"
         label="What is your company's current annual revenue?"
@@ -140,7 +140,7 @@ export default function SectionAComponent({
         </div>
       </QuestionBlock>
 
-      {/* A2 — Team Size */}
+      {/* A2 - Team Size */}
       <QuestionBlock
         number="A2"
         label="How many people are on your team, including you?"
@@ -158,7 +158,7 @@ export default function SectionAComponent({
         </div>
       </QuestionBlock>
 
-      {/* A3 — Operational Surface */}
+      {/* A3 - Operational Surface */}
       <QuestionBlock
         number="A3"
         label="Which of the following are active parts of your operation today?"

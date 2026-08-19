@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment — Section D: Delivery
+// Stage 1 Assessment - Section D: Delivery
 // Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
 
 "use client";

@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 2 Assessment — Submission Handler
+// Stage 2 Assessment - Submission Handler
 
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 1. Process submission — build profile and calculate cost of inaction
+    // 1. Process submission - build profile and calculate cost of inaction
     const profile = processStage2Submission(submission, top_os, second_os);
 
     // 2. Generate Stage 2 ID and timestamp
@@ -788,7 +788,7 @@ console.log("[Sheet update] Found row", targetRow, "in tab", targetTab);
 }
 
 // ============================================================
-// GMAIL — OPS NOTIFICATION
+// GMAIL - OPS NOTIFICATION
 // ============================================================
 
 async function sendOpsNotification(
@@ -862,7 +862,7 @@ function getCallFramingNote(profile: Stage2Profile): string {
 }
 
 // ============================================================
-// GMAIL — BRIEF DELIVERY TO OWNER
+// GMAIL - BRIEF DELIVERY TO OWNER
 // ============================================================
 
 async function sendBriefDeliveryEmail(
@@ -876,7 +876,7 @@ async function sendBriefDeliveryEmail(
     if (!sendAs) throw new Error("Missing GMAIL_SEND_AS.");
 
     // Fetch contact info from Stage 1 sheet row
-    // For now we use a generic greeting — the submission_id can be used
+    // For now we use a generic greeting - the submission_id can be used
     // to look up first_name from the sheet if needed in a future pass
     const token = await getGmailToken();
 
@@ -902,7 +902,7 @@ async function sendBriefDeliveryEmail(
     ].join("\n");
 
     // We need the owner email. Fetch from sheet using submission_id.
-    // For now route to ops as a fallback — wire owner email lookup in next pass.
+    // For now route to ops as a fallback - wire owner email lookup in next pass.
     const toEmail = submission.owner_profile.vision_open_text
       ? sendAs // fallback until we thread email through submission
       : sendAs;

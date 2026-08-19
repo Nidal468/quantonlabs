@@ -158,7 +158,7 @@ const howItWorks = [
   },
 ];
 
-// ── MINI DASHBOARD DATA — Retail ─────────────────────────────────────────────
+// ── MINI DASHBOARD DATA - Retail ─────────────────────────────────────────────
 
 const dashMetrics = [
   { label: "SKUs Below Threshold", value: "7", delta: "3 reorders triggered today" },

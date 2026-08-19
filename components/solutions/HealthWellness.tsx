@@ -157,7 +157,7 @@ const howItWorks = [
   },
 ];
 
-// ── MINI DASHBOARD DATA — Health and Wellness ─────────────────────────────────
+// ── MINI DASHBOARD DATA - Health and Wellness ─────────────────────────────────
 
 const dashMetrics = [
   { label: "Appointments This Week", value: "94", delta: "4 no-shows recovered" },
@@ -577,7 +577,7 @@ export default function HealthWellness() {
         </div>
       </section>
 
-      {/* ── TESTIMONIAL — hidden until real testimonials are available ──
+      {/* ── TESTIMONIAL - hidden until real testimonials are available ──
       <section
         ref={testimonialRef}
         style={{

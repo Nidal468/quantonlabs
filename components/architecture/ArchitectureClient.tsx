@@ -518,8 +518,9 @@ export default function ArchitectureClient() {
           >
             Hard Block applies to every agent action affecting customers, revenue, or compliance.
             This is the architectural answer to AI risk. Agents cannot change their own governance
-            settings, and every action, exception, and approval is recorded in an audit trail that
-            cannot be altered after the fact.
+            settings, and every action, escalation, and approval is recorded in a complete audit
+            trail.
+            .
           </p>
         </div>
       </section>

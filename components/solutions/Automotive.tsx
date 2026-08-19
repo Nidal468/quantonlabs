@@ -158,7 +158,7 @@ const howItWorks = [
   },
 ];
 
-// ── MINI DASHBOARD DATA — Automotive ─────────────────────────────────────────
+// ── MINI DASHBOARD DATA - Automotive ─────────────────────────────────────────
 
 const dashMetrics = [
   { label: "Active Jobs", value: "14", delta: "3 awaiting parts" },

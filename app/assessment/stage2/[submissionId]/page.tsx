@@ -1,6 +1,6 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 2 Assessment — Wizard Orchestrator
+// Stage 2 Assessment - Wizard Orchestrator
 
 "use client";
 
@@ -163,7 +163,7 @@ export default function Stage2Page() {
   // Exit intent
   const [showExitOverlay, setShowExitOverlay] = useState(false);
 
-  // Browser history integration — prevents back button from exiting the wizard
+  // Browser history integration - prevents back button from exiting the wizard
   const isPopStateRef = useRef(false);
 
   useEffect(() => {
@@ -220,7 +220,7 @@ export default function Stage2Page() {
           setStage1Context(data);
         }
       } catch {
-        // Non-fatal — proceed without context
+        // Non-fatal - proceed without context
       } finally {
         setIsLoadingContext(false);
       }

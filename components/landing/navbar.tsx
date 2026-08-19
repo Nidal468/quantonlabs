@@ -252,7 +252,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
         >
           <div className="flex flex-col px-6 py-4">
 
-            {/* Solutions — expandable within the mobile menu */}
+            {/* Solutions - expandable within the mobile menu */}
             <div style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
               <button
                 onClick={() => setMobileSolutionsOpen(prev => !prev)}

@@ -28,7 +28,7 @@ const howItWorks = [
     title: "Infrastructure Deployment",
     duration: "8 to 16 weeks",
     description:
-      "All eight agents are configured against your specific environment: your CRM, your accounting platform, your scheduling tools, your communication channels. The Governing Agent goes live. Your leadership dashboard is built. Every workflow is tested, governed, and documented. Your team is trained on what the system handles and what requires their judgment.",
+      "Your operational core is built as the system of record for your business, absorbing what the fragmented stack used to hold: customer records, financials, inventory, workflows. All eight agents are configured against it. The Governing Agent goes live. Your leadership dashboard is built. Every workflow is tested, governed, and documented. Your team is trained on what the system handles and what requires their judgment.",
     detail: "Fixed investment. You own all deployed infrastructure on completion.",
   },
   {
@@ -37,7 +37,7 @@ const howItWorks = [
     title: "Managed Services",
     duration: "Ongoing",
     description:
-      "Quanton Labs operates the system on your behalf. Agent hosting, model costs, system monitoring, workflow optimization, and quarterly strategic reviews are all included. Your business runs at the level its current structure cannot support. We surface the exceptions that need your attention and handle everything that does not.",
+      "Quanton Labs operates the system on your behalf. Agent hosting, system monitoring, workflow optimization, and quarterly strategic reviews are included. Model consumption runs through accounts you control, so you see exactly what intelligence costs. Your business runs at the level its current structure cannot support. We surface the exceptions that need your attention and handle everything that does not.",
     detail: "Fixed monthly investment. Six-month minimum, then month-to-month or a committed term.",
   },
 ];
