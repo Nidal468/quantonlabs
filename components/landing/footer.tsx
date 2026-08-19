@@ -76,6 +76,12 @@ export default function Footer() {
                 <Link href="https://calendly.com/quantonlabs/30min" className="hover:text-white transition">
                   Book a Discovery Call
                 </Link>
+                <Link href="/faq" className="hover:text-white transition">
+                  FAQ
+                </Link>
+                <Link href="/about" className="hover:text-white transition">
+                  About
+                </Link>
                 <Link href="/auth/signin" className="hover:text-white transition">
                   Sign In
                 </Link>
@@ -88,7 +94,7 @@ export default function Footer() {
                 Contact
               </h3>
               <div className="flex flex-col gap-3" style={{ fontSize: "14px", color: "rgba(255,255,255,0.60)" }}>
-                
+
                 <a
                   href="tel:+19292982162"
                   className="flex items-center gap-2 hover:text-white transition"
@@ -97,7 +103,7 @@ export default function Footer() {
                   <Phone size={16} />
                   +1 929-298-2162
                 </a>
-                
+
                 <a
                   href="mailto:growth@quantonlabs.com"
                   className="flex items-center gap-2 hover:text-white transition"
@@ -117,7 +123,7 @@ export default function Footer() {
               <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.60)", marginBottom: "16px" }}>
                 Subscribe to receive platform updates and new feature announcements.
               </p>
-                           <div className="flex gap-2">
+              <div className="flex gap-2">
                 <input
                   type="email"
                   placeholder="Enter your email"
@@ -173,7 +179,7 @@ export default function Footer() {
             <div className="flex items-center gap-6">
               <p>© {new Date().getFullYear()} Quanton Labs. All rights reserved.</p>
               <div className="flex gap-4">
-                
+
                 <a
                   href="https://www.instagram.com/quantonlabs"
                   target="_blank"
@@ -183,7 +189,7 @@ export default function Footer() {
                 >
                   <Instagram size={16} />
                 </a>
-                
+
                 <a
                   href="https://linkedin.com/company/quantonlabs"
                   target="_blank"
@@ -193,7 +199,7 @@ export default function Footer() {
                 >
                   <Linkedin size={16} />
                 </a>
-                
+
                 <a
                   href="https://www.youtube.com/@QuantonLabsOfficial"
                   target="_blank"
@@ -214,22 +220,22 @@ export default function Footer() {
                   Terms
                 </Link>
               </div>
-         <Link 
-  href="/" 
-  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
->
-  <Image
-    src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
-    width={160}
-    height={48}
-    alt="Quanton Labs"
-    style={{
-      width: "160px",
-      height: "auto",
-      mixBlendMode: "screen",
-    }}
-  />
-</Link>
+              <Link
+                href="/"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              >
+                <Image
+                  src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
+                  width={160}
+                  height={48}
+                  alt="Quanton Labs"
+                  style={{
+                    width: "160px",
+                    height: "auto",
+                    mixBlendMode: "screen",
+                  }}
+                />
+              </Link>
             </div>
           </div>
 
