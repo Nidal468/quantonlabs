@@ -1,16 +1,23 @@
 "use client";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Productivity from "@/components/landing/productivity";
 import { HeroSection } from "@/components/landing/hero";
 import CTA from "@/components/landing/cta";
 import Footer from "@/components/landing/footer";
 import Navbar from "@/components/landing/navbar";
 import Agents from "@/components/landing/agents";
-import GoverningAgentCTA from "@/components/landing/GoverningAgentCTA";
-import QuantonDashboard from "@/components/landing/QuantonDashboard";
 import ProcessSection from "@/components/landing/ProcessSection";
 import ContrastSection from "@/components/landing/ContrastSection";
 import WhatCompoundsSection from "@/components/landing/WhatCompoundsSection";
+
+// The dashboard demo is roughly 400 DOM nodes of animated, below-fold content.
+// Loading it on demand keeps it off the critical render path on mobile. The
+// placeholder height preserves layout so CLS stays at zero.
+const QuantonDashboard = dynamic(
+  () => import("@/components/landing/QuantonDashboard"),
+  { ssr: false, loading: () => <div style={{ minHeight: 900 }} /> }
+);
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,10 +44,9 @@ return (
 {/* FOUR SYSTEMS SECTION - hidden, revisit if needed
       <Features />
       */}
+      <QuantonDashboard />
       <Productivity />
       <Agents />
-      <GoverningAgentCTA />
-      <QuantonDashboard />
       <ProcessSection />
       <ContrastSection />
       <WhatCompoundsSection />

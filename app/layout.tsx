@@ -81,7 +81,6 @@ const schemaOrg = {
   },
   sameAs: [
     "https://www.linkedin.com/company/quantonlabs",
-    "https://www.instagram.com/quantonlabs",
     "https://www.youtube.com/@QuantonLabsOfficial",
   ],
 };
@@ -115,30 +114,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CRKZ7L7PS0"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="gtag-init" strategy="afterInteractive">
+        <Script id="gtag-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-CRKZ7L7PS0');
-          `}
-        </Script>
-        <Script id="apollo-tracker" strategy="afterInteractive">
-          {`
-            function initApollo(){
-              var n = Math.random().toString(36).substring(7);
-              var o = document.createElement("script");
-              o.src = "https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache=" + n;
-              o.async = true;
-              o.defer = true;
-              o.onload = function(){ window.trackingFunctions.onLoad({appId:"69ea4aafe23c8a0019347e79"}) };
-              document.head.appendChild(o);
-            }
-            initApollo();
           `}
         </Script>
         <Script

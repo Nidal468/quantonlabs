@@ -35,13 +35,13 @@ export default function WhatCompoundsSection() {
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
   return (
-    <section ref={sectionRef} style={{ backgroundColor: "#FFFFFF", padding: "100px 24px" }}>
+    <section ref={sectionRef} style={{ backgroundColor: "#FFFFFF", padding: "64px 24px" }}>
       <div style={{ maxWidth: "1080px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: "easeOut" }}
-          style={{ textAlign: "center", marginBottom: "56px" }}
+          style={{ textAlign: "center", marginBottom: "40px" }}
         >
           <div
             style={{

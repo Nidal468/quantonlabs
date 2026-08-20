@@ -1,113 +1,123 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { BarChart2, Send, TrendingUp, MessageSquare, Users, Cpu, Truck, Activity, CpuIcon,} from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { BarChart2, Send, TrendingUp, MessageSquare, Users, Cpu, Truck, Activity, GitBranch, Layers } from "lucide-react";
 
+const GRADIENT = "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
 const gradientText = {
-  background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
+  background: GRADIENT,
   WebkitBackgroundClip: "text" as const,
   WebkitTextFillColor: "transparent" as const,
   backgroundClip: "text" as const,
 };
 
+// Seven functional agents, laid out along the base of the diagram.
+const AGENTS = [
+  { Icon: Send, label: "Marketing" },
+  { Icon: TrendingUp, label: "Sales" },
+  { Icon: MessageSquare, label: "Customer Experience" },
+  { Icon: Users, label: "People and Team" },
+  { Icon: Cpu, label: "Operations" },
+  { Icon: Truck, label: "Inventory" },
+  { Icon: BarChart2, label: "Finance" },
+];
+
+type Mode = "coordination" | "decision" | "intelligence";
+
+const MODES: {
+  key: Mode;
+  Icon: typeof Activity;
+  title: string;
+  body: string;
+}[] = [
+  {
+    key: "coordination",
+    Icon: Layers,
+    title: "Coordination",
+    body: "Seven agents operating from one shared state. Conflicts at departmental handoffs surface before they reach a customer.",
+  },
+  {
+    key: "decision",
+    Icon: GitBranch,
+    title: "Decision",
+    body: "Acts inside the boundary you configure. Anything beyond it escalates to you with the full context attached.",
+  },
+  {
+    key: "intelligence",
+    Icon: Activity,
+    title: "Intelligence",
+    body: "Every action, exception, and resolution synthesised into one live executive view.",
+  },
+];
+
+const HUB = { x: 210, y: 8 };
+const nodeX = (i: number) => 24 + i * 56 + 20;
+const NODE_Y = 92;
+
 export default function GoverningAgent() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const coordRef = useRef(null);
-  const coordInView = useInView(coordRef, { once: true, margin: "-80px" });
+  const [mode, setMode] = useState<Mode>("coordination");
+  const [userPicked, setUserPicked] = useState(false);
 
-  const decisionRef = useRef(null);
-  const decisionInView = useInView(decisionRef, { once: true, margin: "-80px" });
+  // Cycle the diagram until the reader chooses a behaviour to watch.
+  useEffect(() => {
+    if (userPicked || !isInView) return;
+    const order: Mode[] = ["coordination", "decision", "intelligence"];
+    const t = setInterval(() => {
+      setMode(m => order[(order.indexOf(m) + 1) % order.length]);
+    }, 5200);
+    return () => clearInterval(t);
+  }, [userPicked, isInView]);
 
-  const intelRef = useRef(null);
-  const intelInView = useInView(intelRef, { once: true, margin: "-80px" });
+  // Decision mode routes a single exception: agent 3 flags, agent 4 is directed.
+  const flagged = 3;
+  const directed = 4;
 
   return (
-    <section
-      id="governing-agent"
-      style={{ backgroundColor: "#041227", padding: "60px 0" }}
-    >
-      <style>{`
-        @keyframes pulse-ring-ga {
-          0% { box-shadow: 0 0 0 0 rgba(43,96,235,0.5); }
-          70% { box-shadow: 0 0 0 20px rgba(43,96,235,0); }
-          100% { box-shadow: 0 0 0 0 rgba(43,96,235,0); }
-        }
-        @property --angle-ga {
-          syntax: '<angle>';
-          initial-value: 0deg;
-          inherits: false;
-        }
-        @keyframes rotate-ga {
-          to { --angle-ga: 360deg; }
-        }
-        .arch-card {
-          position: relative;
-        }
-        .arch-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 20px;
-          padding: 1px;
-          background: linear-gradient(var(--angle-ga, 0deg), #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA, #2B60EB);
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          opacity: 0.35;
-          animation: rotate-ga 4s linear infinite;
-        }
-          @media (max-width: 768px) {
-          .ga-grid { grid-template-columns: 1fr !important; gap: 40px !important; padding: 0 20px !important; }
-          .ga-heading { font-size: 28px !important; }
-        }
-      `}</style>
-
-      {/* GOVERNING AGENT TWO-COLUMN LAYOUT */}
+    <section ref={sectionRef} id="governing-agent" style={{ backgroundColor: "#041227", padding: "56px 0" }}>
       <div
-        ref={sectionRef}
         className="ga-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "80px",
+          gap: "56px",
           alignItems: "center",
           maxWidth: "1200px",
           margin: "0 auto",
           padding: "0 48px",
         }}
       >
-        {/* LEFT COLUMN */}
+        {/* Left: claim and selectable behaviours */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <div
             style={{
               ...gradientText,
               fontFamily: "Manrope, sans-serif",
               fontWeight: 600,
-              fontSize: "16px",
-              letterSpacing: "0.08em",
+              fontSize: "12px",
+              letterSpacing: "0.12em",
               textTransform: "uppercase",
-              marginBottom: "20px",
+              marginBottom: "16px",
             }}
           >
-            THE GOVERNING AGENT
+            The Governing Agent
           </div>
 
-          <h2 className="ga-heading"
-
+          <h2
             style={{
               color: "#FFFFFF",
               fontFamily: "Manrope, sans-serif",
               fontWeight: 700,
-              fontSize: "42px",
+              fontSize: "clamp(26px, 3.4vw, 38px)",
               lineHeight: 1.2,
-              marginBottom: "24px",
+              marginBottom: "18px",
             }}
           >
             Without coordination, eight agents are just eight automations.
@@ -115,246 +125,284 @@ export default function GoverningAgent() {
 
           <p
             style={{
-              color: "rgba(255,255,255,0.70)",
-              fontSize: "18px",
+              color: "rgba(255,255,255,0.66)",
+              fontSize: "16px",
               fontFamily: "Manrope, sans-serif",
-              fontWeight: 400,
               lineHeight: 1.7,
-              marginBottom: "32px",
+              marginBottom: "26px",
+              maxWidth: "520px",
             }}
           >
-            The Governing Agent is the structural layer that makes Quanton OS a system rather than a collection of tools. It receives data and exception flags from every functional agent, decides within its configured boundary, directs agents to act, and escalates what requires human judgment. Every function in your business visible, coordinated, and governed from one view.
+            One layer sits above the seven functional agents and does three things
+            continuously. Pick one to watch it run.
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-
-            {/* Row 1 - Coordination */}
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "8px",
-                  background: "linear-gradient(135deg, #2B60EB, #4655EB)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <Activity size={16} color="white" />
-              </div>
-              <div>
-                <div
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {MODES.map(m => {
+              const active = mode === m.key;
+              return (
+                <button
+                  key={m.key}
+                  onClick={() => {
+                    setMode(m.key);
+                    setUserPicked(true);
+                  }}
+                  aria-pressed={active}
                   style={{
-                    color: "#FFFFFF",
+                    textAlign: "left",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "14px",
+                    padding: "14px 16px",
+                    borderRadius: "12px",
+                    border: active
+                      ? "1px solid rgba(112,130,245,0.55)"
+                      : "1px solid rgba(255,255,255,0.07)",
+                    background: active
+                      ? "linear-gradient(120deg, rgba(43,96,235,0.16), rgba(139,55,234,0.10))"
+                      : "transparent",
+                    cursor: "pointer",
+                    transition: "background 0.3s ease, border-color 0.3s ease",
                     fontFamily: "Manrope, sans-serif",
-                    fontWeight: 600,
-                    fontSize: "15px",
-                    marginBottom: "4px",
                   }}
                 >
-                  Coordination
-                </div>
-                <div
-                  style={{
-                    color: "rgba(255,255,255,0.60)",
-                    fontFamily: "Manrope, sans-serif",
-                    fontSize: "14px",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  All seven agents operate from unified shared state. Cross-functional conflicts detected and resolved automatically.
-                </div>
-              </div>
-            </div>
-
-            {/* Row 2 - Decision */}
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "8px",
-                  background: "linear-gradient(135deg, #584DEB, #7341EA)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <Cpu size={16} color="white" />
-              </div>
-              <div>
-                <div
-                  style={{
-                    color: "#FFFFFF",
-                    fontFamily: "Manrope, sans-serif",
-                    fontWeight: 600,
-                    fontSize: "15px",
-                    marginBottom: "4px",
-                  }}
-                >
-                  Decision
-                </div>
-                <div
-                  style={{
-                    color: "rgba(255,255,255,0.60)",
-                    fontFamily: "Manrope, sans-serif",
-                    fontSize: "14px",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Operates within its configured boundary without requiring human input on every action. Escalates what exceeds the boundary with full context.
-                </div>
-              </div>
-            </div>
-
-            {/* Row 3 - Intelligence */}
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "16px" }}>
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "8px",
-                  background: "linear-gradient(135deg, #7341EA, #8B37EA)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexShrink: 0,
-                }}
-              >
-                <BarChart2 size={16} color="white" />
-              </div>
-              <div>
-                <div
-                  style={{
-                    color: "#FFFFFF",
-                    fontFamily: "Manrope, sans-serif",
-                    fontWeight: 600,
-                    fontSize: "15px",
-                    marginBottom: "4px",
-                  }}
-                >
-                  Intelligence
-                </div>
-                <div
-                  style={{
-                    color: "rgba(255,255,255,0.60)",
-                    fontFamily: "Manrope, sans-serif",
-                    fontSize: "14px",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Every agent action, exception, and resolution synthesised into the leadership dashboard in real time.
-                </div>
-              </div>
-            </div>
-
+                  <div
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "9px",
+                      background: active ? GRADIENT : "rgba(255,255,255,0.06)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                      transition: "background 0.3s ease",
+                    }}
+                  >
+                    <m.Icon
+                      size={16}
+                      color={active ? "white" : "rgba(255,255,255,0.5)"}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        color: active ? "#FFFFFF" : "rgba(255,255,255,0.72)",
+                        fontWeight: 600,
+                        fontSize: "15px",
+                        marginBottom: "3px",
+                      }}
+                    >
+                      {m.title}
+                    </div>
+                    <div
+                      style={{
+                        color: active ? "rgba(255,255,255,0.72)" : "rgba(255,255,255,0.42)",
+                        fontSize: "13.5px",
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {m.body}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN - architecture visual */}
+        {/* Right: live diagram */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
         >
           <div
-            className="arch-card"
             style={{
-              background: "rgba(255,255,255,0.04)",
+              background: "rgba(255,255,255,0.035)",
               border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: "20px",
-              padding: "40px",
+              padding: "28px 24px 22px",
               position: "relative",
             }}
           >
-            {/* Central node */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "32px" }}>
-              <div
+            {/* Live executive view, only populated in intelligence mode */}
+            <div style={{ marginBottom: "18px", minHeight: "34px" }}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={mode}
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.25 }}
+                  style={{
+                    textAlign: "center",
+                    color: "rgba(255,255,255,0.38)",
+                    fontFamily: "Manrope, sans-serif",
+                    fontSize: "11px",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {mode === "decision"
+                    ? "Exception routing"
+                    : mode === "intelligence"
+                    ? "Executive synthesis"
+                    : "Shared state"}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Hub */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "10px" }}>
+              <motion.div
+                animate={{
+                  boxShadow:
+                    mode === "decision"
+                      ? [
+                          "0 0 0 0 rgba(139,55,234,0.0)",
+                          "0 0 0 14px rgba(139,55,234,0.16)",
+                          "0 0 0 0 rgba(139,55,234,0.0)",
+                        ]
+                      : [
+                          "0 0 0 0 rgba(43,96,235,0.0)",
+                          "0 0 0 16px rgba(43,96,235,0.12)",
+                          "0 0 0 0 rgba(43,96,235,0.0)",
+                        ],
+                }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut" }}
                 style={{
-                  width: "80px",
-                  height: "80px",
+                  width: "72px",
+                  height: "72px",
                   borderRadius: "50%",
                   background: "linear-gradient(135deg, #2B60EB, #8B37EA)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  animation: "pulse-ring-ga 2.5s ease-out infinite",
-                  position: "relative",
                 }}
               >
-                <Activity size={32} color="white" />
-              </div>
+                <Activity size={28} color="white" aria-hidden="true" />
+              </motion.div>
               <div
                 style={{
                   color: "#FFFFFF",
                   fontFamily: "Manrope, sans-serif",
                   fontWeight: 600,
                   fontSize: "13px",
-                  textAlign: "center",
-                  marginTop: "12px",
+                  marginTop: "10px",
                 }}
               >
                 Governing Agent
               </div>
             </div>
 
-            {/* Connection lines + agent nodes - unified SVG */}
-            <div style={{ width: "100%", marginBottom: "16px" }}>
-              <svg
-                width="100%"
-                viewBox="0 0 420 130"
-                preserveAspectRatio="xMidYMid meet"
-              >
-                {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-                  const x = 24 + i * 56;
-                  return (
-                    <line
-                      key={i}
-                      x1="210"
-                      y1="0"
-                      x2={x + 20}
-                      y2="82"
-                      stroke="rgba(43,96,235,0.45)"
-                      strokeWidth="1.5"
-                    />
-                  );
-                })}
-                {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-                  const x = 24 + i * 56;
-                  return (
-                    <g key={i}>
-                      <rect
-                        x={x}
-                        y={82}
-                        width={40}
-                        height={40}
-                        rx={10}
-                        fill="rgba(255,255,255,0.08)"
-                        stroke="rgba(255,255,255,0.18)"
-                        strokeWidth={1}
-                      />
-                    </g>
-                  );
-                })}
-                {[{ Icon: Send }, { Icon: TrendingUp }, { Icon: MessageSquare }, { Icon: Users }, { Icon: Cpu }, { Icon: Truck }, { Icon: BarChart2 }].map(({ Icon }, i) => {
-                  const x = 24 + i * 56 + 20;
-                  return (
-                    <foreignObject key={i} x={x - 9} y={96} width={18} height={18}>
-                      <Icon size={18} color="rgba(255,255,255,0.85)" />
-                    </foreignObject>
-                  );
-                })}
-              </svg>
-            </div>
+            {/* Signal paths */}
+            <svg width="100%" viewBox="0 0 420 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              {AGENTS.map((_, i) => {
+                const x = nodeX(i);
+                const lit =
+                  mode === "coordination" ||
+                  (mode === "intelligence") ||
+                  (mode === "decision" && (i === flagged || i === directed));
+                return (
+                  <line
+                    key={`l-${i}`}
+                    x1={HUB.x}
+                    y1={HUB.y}
+                    x2={x}
+                    y2={NODE_Y}
+                    stroke={
+                      mode === "decision" && i === flagged
+                        ? "rgba(245,158,11,0.65)"
+                        : lit
+                        ? "rgba(70,85,235,0.5)"
+                        : "rgba(255,255,255,0.09)"
+                    }
+                    strokeWidth={mode === "decision" && (i === flagged || i === directed) ? 2 : 1.4}
+                    style={{ transition: "stroke 0.4s ease" }}
+                  />
+                );
+              })}
 
-            {/* Stat line */}
+              {/* Travelling signals */}
+              {mode === "coordination" &&
+                AGENTS.map((_, i) => (
+                  <motion.circle
+                    key={`c-${i}`}
+                    r="3.5"
+                    fill="#7B8FF5"
+                    initial={{ cx: nodeX(i), cy: NODE_Y, opacity: 0 }}
+                    animate={{ cx: HUB.x, cy: HUB.y, opacity: [0, 1, 1, 0] }}
+                    transition={{ duration: 1.5, delay: i * 0.18, repeat: Infinity, repeatDelay: 0.9, ease: "easeInOut" }}
+                    style={{ filter: "drop-shadow(0 0 5px rgba(123,143,245,0.9))" }}
+                  />
+                ))}
+
+              {mode === "intelligence" &&
+                AGENTS.map((_, i) => (
+                  <motion.circle
+                    key={`i-${i}`}
+                    r="3"
+                    fill="#8B37EA"
+                    initial={{ cx: nodeX(i), cy: NODE_Y, opacity: 0 }}
+                    animate={{ cx: HUB.x, cy: HUB.y, opacity: [0, 1, 0] }}
+                    transition={{ duration: 2.2, delay: i * 0.28, repeat: Infinity, ease: "linear" }}
+                    style={{ filter: "drop-shadow(0 0 5px rgba(139,55,234,0.9))" }}
+                  />
+                ))}
+
+              {mode === "decision" && (
+                <>
+                  <motion.circle
+                    r="4"
+                    fill="#F59E0B"
+                    initial={{ cx: nodeX(flagged), cy: NODE_Y, opacity: 0 }}
+                    animate={{ cx: HUB.x, cy: HUB.y, opacity: [0, 1, 1, 0] }}
+                    transition={{ duration: 1.3, repeat: Infinity, repeatDelay: 1.9, ease: "easeInOut" }}
+                    style={{ filter: "drop-shadow(0 0 6px rgba(245,158,11,0.95))" }}
+                  />
+                  <motion.circle
+                    r="4"
+                    fill="#4ADE80"
+                    initial={{ cx: HUB.x, cy: HUB.y, opacity: 0 }}
+                    animate={{ cx: nodeX(directed), cy: NODE_Y, opacity: [0, 1, 1, 0] }}
+                    transition={{ duration: 1.3, delay: 1.5, repeat: Infinity, repeatDelay: 1.9, ease: "easeInOut" }}
+                    style={{ filter: "drop-shadow(0 0 6px rgba(74,222,128,0.95))" }}
+                  />
+                </>
+              )}
+
+              {/* Agent nodes */}
+              {AGENTS.map(({ Icon }, i) => {
+                const x = 24 + i * 56;
+                const isFlag = mode === "decision" && i === flagged;
+                const isDir = mode === "decision" && i === directed;
+                return (
+                  <g key={`n-${i}`}>
+                    <rect
+                      x={x}
+                      y={NODE_Y - 10}
+                      width={40}
+                      height={40}
+                      rx={10}
+                      fill={isFlag ? "rgba(245,158,11,0.16)" : isDir ? "rgba(74,222,128,0.14)" : "rgba(255,255,255,0.07)"}
+                      stroke={isFlag ? "rgba(245,158,11,0.7)" : isDir ? "rgba(74,222,128,0.6)" : "rgba(255,255,255,0.16)"}
+                      strokeWidth={1}
+                      style={{ transition: "fill 0.4s ease, stroke 0.4s ease" }}
+                    />
+                    <foreignObject x={x + 11} y={NODE_Y + 1} width={18} height={18}>
+                      <Icon size={18} color={isFlag ? "#F59E0B" : isDir ? "#4ADE80" : "rgba(255,255,255,0.8)"} />
+                    </foreignObject>
+                  </g>
+                );
+              })}
+            </svg>
+
             <div
               style={{
                 textAlign: "center",
-                marginTop: "24px",
+                marginTop: "14px",
                 ...gradientText,
                 fontFamily: "Manrope, sans-serif",
                 fontWeight: 600,
@@ -366,6 +414,16 @@ export default function GoverningAgent() {
           </div>
         </motion.div>
       </div>
-      </section>
-    );
-  }
+
+      <style>{`
+        @media (max-width: 900px) {
+          .ga-grid {
+            grid-template-columns: 1fr !important;
+            gap: 36px !important;
+            padding: 0 22px !important;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
