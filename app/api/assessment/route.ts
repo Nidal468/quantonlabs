@@ -621,7 +621,7 @@ async function sendSubmitterEmail(
       "This report is the output of your Stage 1 Structural Diagnostic. It maps your business across four operating systems and identifies where structural gaps are creating drag on growth, execution, and decision-making.",
       "",
       "If you have questions or would like to discuss your results, reply to this email or book a call directly:",
-      "https://calendly.com/quantonlabs",
+      "https://calendly.com/quantonlabs/30min",
       "",
       "Quanton Labs",
       "The Architecture of Intelligent Business",

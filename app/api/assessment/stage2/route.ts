@@ -469,8 +469,8 @@ function renderBrief(profile: Stage2Profile, stage2Id: string): string {
     <div class="section-label">Section 6</div>
     <div class="section-title">What Has to Change</div>
     <p>Closing the gap your assessment revealed is not a matter of working harder or making better decisions. The decisions you are making are reasonable given the infrastructure you have. The infrastructure is the problem.</p>
-    <p>What has to change is the underlying architecture of how your business perceives information, coordinates action, enforces consistency, and surfaces exceptions before they become crises. That is not a software problem. It is not a consulting problem. It is an operating system problem.</p>
-    <p>Quanton OS is the infrastructure layer that creates that state. It deploys eight coordinated AI agents across your business, each covering a specific functional domain, governed by a central coordination layer that synthesizes data, manages exceptions, and surfaces what requires your attention. It connects directly to the platforms you already use. It does not replace your team. It gives your team, and you, the architecture to perform at a level your current structure does not support.</p>
+    <p>What has to change is the underlying architecture of how your business perceives information, coordinates action, enforces consistency, and surfaces exceptions before they become crises. That is not a software problem. It is not a consulting problem. It is a systems architecture problem.</p>
+    <p>Quanton OS is the AI-native business system that creates that state. It deploys eight coordinated AI agents across your business, each covering a specific functional domain, governed by a central coordination layer that synthesizes data, manages exceptions, and surfaces what requires your attention. They run on an operational core built as your system of record: one governed layer holding your customer, financial, inventory, and workflow data. You own that core outright. It does not replace your team. It gives your team, and you, the architecture to perform at a level your current structure does not support.</p>
   </div>
 
   <!-- SECTION 7: WHAT PHASE 1 DISCOVERY ACTUALLY IS -->
@@ -901,24 +901,32 @@ async function sendBriefDeliveryEmail(
       "quantonlabs.com",
     ].join("\n");
 
-    // We need the owner email. Fetch from sheet using submission_id.
-    // For now route to ops as a fallback - wire owner email lookup in next pass.
-    const toEmail = submission.owner_profile.vision_open_text
-      ? sendAs // fallback until we thread email through submission
-      : sendAs;
+    // Owner email: prefer the value threaded through the submission payload.
+    // Fall back to the context lookup, then to ops as a last resort so a
+    // delivery failure is always visible rather than silent.
+    let ownerEmail = submission.work_email ?? "";
 
-    // Pull owner email from the Stage 2 submission contact lookup
-    let ownerEmail = sendAs;
-    try {
-      const ctx = await fetch(
-        `${process.env.NEXTAUTH_URL}/api/assessment/stage2/context?id=${submission.submission_id}`
-      );
-      if (ctx.ok) {
-        const ctxData = await ctx.json();
-        if (ctxData.work_email) ownerEmail = ctxData.work_email;
+    if (!ownerEmail) {
+      try {
+        const ctx = await fetch(
+          `${process.env.NEXTAUTH_URL}/api/assessment/stage2/context?id=${submission.submission_id}`
+        );
+        if (ctx.ok) {
+          const ctxData = await ctx.json();
+          if (ctxData.work_email) ownerEmail = ctxData.work_email;
+        }
+      } catch (lookupErr) {
+        console.error("[Stage 2 context lookup failed]", lookupErr);
       }
-    } catch {
-      // Non-fatal, fall back to ops
+    }
+
+    if (!ownerEmail) {
+      console.error(
+        "[Brief delivery] No owner email resolved for submission",
+        submission.submission_id,
+        "- routing to ops."
+      );
+      ownerEmail = sendAs;
     }
     const subject = `Your Extended Operator Brief - Quanton Labs`;
     const raw = buildMime(sendAs, ownerEmail, subject, body);

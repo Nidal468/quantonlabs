@@ -267,6 +267,8 @@ export interface Stage2Profile {
 
 export interface Stage2Submission {
   submission_id: string;            // from Stage 1, passed via URL
+  work_email?: string;              // threaded from Stage 1 so brief delivery
+                                    // does not depend on a lookup round trip
   owner_profile: OwnerProfile;
   section2: Section2Responses;
   section3: Section3Inputs;

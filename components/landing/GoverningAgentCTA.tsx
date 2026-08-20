@@ -43,7 +43,7 @@ export default function GoverningAgentCTA() {
         </h3>
         <p
           style={{
-            color: "rgba(255,255,255,0.55)",
+            color: "rgba(255,255,255,0.70)",
             fontFamily: "Manrope, sans-serif",
             fontSize: "16px",
             lineHeight: 1.7,
@@ -64,7 +64,7 @@ export default function GoverningAgentCTA() {
         >
           <div
             style={{
-              color: "rgba(255,255,255,0.30)",
+              color: "rgba(255,255,255,0.65)",
               fontFamily: "Manrope, sans-serif",
               fontSize: "12px",
               letterSpacing: "0.06em",
@@ -75,7 +75,7 @@ export default function GoverningAgentCTA() {
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path
               d="M10 4v12M4 10l6 6 6-6"
-              stroke="rgba(255,255,255,0.25)"
+              stroke="rgba(255,255,255,0.55)"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"

@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { Mail, Phone, Linkedin, Instagram, Youtube, ArrowUp } from "lucide-react";
+import { Mail, Phone, Linkedin, Youtube, ArrowUp } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Footer() {
@@ -22,10 +21,12 @@ export default function Footer() {
       {showTop && (
         <button
           onClick={scrollToTop}
+          aria-label="Back to top"
           style={{
             position: "fixed",
             bottom: "32px",
-            right: "32px",
+            left: "50%",
+            transform: "translateX(-50%)",
             zIndex: 50,
             width: "44px",
             height: "44px",
@@ -39,10 +40,10 @@ export default function Footer() {
             boxShadow: "0 4px 24px rgba(43,96,235,0.35)",
             transition: "opacity 0.2s ease, transform 0.2s ease",
           }}
-          onMouseEnter={e => (e.currentTarget.style.transform = "translateY(-2px)")}
-          onMouseLeave={e => (e.currentTarget.style.transform = "translateY(0)")}
+          onMouseEnter={e => (e.currentTarget.style.transform = "translateX(-50%) translateY(-2px)")}
+          onMouseLeave={e => (e.currentTarget.style.transform = "translateX(-50%)")}
         >
-          <ArrowUp size={18} color="white" />
+          <ArrowUp size={18} color="white" aria-hidden="true" />
         </button>
       )}
 
@@ -50,26 +51,26 @@ export default function Footer() {
         style={{
           backgroundColor: "#041227",
           borderTop: "1px solid rgba(255,255,255,0.08)",
-          paddingTop: "96px",
-          paddingBottom: "48px",
+          paddingTop: "32px",
+          paddingBottom: "16px",
         }}
       >
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-10">
+          <div className="grid md:grid-cols-4 gap-8">
 
             {/* Brand */}
             <div className="flex flex-col gap-4">
-              <p style={{ color: "rgba(255,255,255,0.60)", fontSize: "14px", lineHeight: 1.7 }}>
+              <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "14px", lineHeight: 1.7 }}>
                 Quanton OS is not software you install or a tool you configure yourself. It is an AI-native business system built by Quanton Labs, operated on our infrastructure, and shaped around how your business actually runs. You own what we build.
               </p>
             </div>
 
             {/* Links */}
             <div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "16px", fontFamily: "Manrope, sans-serif" }}>
+              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
                 Platform
               </h3>
-              <div className="flex flex-col gap-3" style={{ fontSize: "14px", color: "rgba(255,255,255,0.60)" }}>
+              <div className="flex flex-col gap-2" style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)" }}>
                 <Link href="/assessment" className="hover:text-white transition">
                   Assess Your Business
                 </Link>
@@ -82,34 +83,31 @@ export default function Footer() {
                 <Link href="/about" className="hover:text-white transition">
                   About
                 </Link>
-                <Link href="/auth/signin" className="hover:text-white transition">
-                  Sign In
-                </Link>
               </div>
             </div>
 
             {/* Contact */}
             <div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "16px", fontFamily: "Manrope, sans-serif" }}>
+              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
                 Contact
               </h3>
-              <div className="flex flex-col gap-3" style={{ fontSize: "14px", color: "rgba(255,255,255,0.60)" }}>
+              <div className="flex flex-col gap-2" style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)" }}>
 
                 <a
                   href="tel:+19292982162"
                   className="flex items-center gap-2 hover:text-white transition"
-                  style={{ color: "rgba(255,255,255,0.60)" }}
+                  style={{ color: "rgba(255,255,255,0.75)" }}
                 >
-                  <Phone size={16} />
+                  <Phone size={16} aria-hidden="true" />
                   +1 929-298-2162
                 </a>
 
                 <a
                   href="mailto:growth@quantonlabs.com"
                   className="flex items-center gap-2 hover:text-white transition"
-                  style={{ color: "rgba(255,255,255,0.60)" }}
+                  style={{ color: "rgba(255,255,255,0.75)" }}
                 >
-                  <Mail size={16} />
+                  <Mail size={16} aria-hidden="true" />
                   growth@quantonlabs.com
                 </a>
               </div>
@@ -117,16 +115,17 @@ export default function Footer() {
 
             {/* Newsletter */}
             <div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "16px", fontFamily: "Manrope, sans-serif" }}>
+              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
                 Product Updates
               </h3>
-              <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.60)", marginBottom: "16px" }}>
+              <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", marginBottom: "12px" }}>
                 Subscribe to receive platform updates and new feature announcements.
               </p>
               <div className="flex gap-2">
                 <input
                   type="email"
                   placeholder="Enter your email"
+                  aria-label="Email address"
                   style={{
                     flex: 1,
                     minWidth: 0,
@@ -164,8 +163,8 @@ export default function Footer() {
           <div
             style={{
               borderTop: "1px solid rgba(255,255,255,0.08)",
-              marginTop: "40px",
-              paddingTop: "24px",
+              marginTop: "20px",
+              paddingTop: "16px",
               display: "flex",
               flexWrap: "wrap",
               flexDirection: "row",
@@ -173,69 +172,46 @@ export default function Footer() {
               alignItems: "center",
               gap: "16px",
               fontSize: "13px",
-              color: "rgba(255,255,255,0.35)",
+              color: "rgba(255,255,255,0.70)",
             }}
           >
             <div className="flex items-center gap-6">
               <p>© {new Date().getFullYear()} Quanton Labs. All rights reserved.</p>
               <div className="flex gap-4">
 
-                <a
-                  href="https://www.instagram.com/quantonlabs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "rgba(255,255,255,0.60)" }}
-                  className="hover:text-white transition"
-                >
-                  <Instagram size={16} />
-                </a>
 
                 <a
                   href="https://linkedin.com/company/quantonlabs"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "rgba(255,255,255,0.60)" }}
+                  aria-label="Quanton Labs on LinkedIn"
+                  style={{ color: "rgba(255,255,255,0.75)" }}
                   className="hover:text-white transition"
                 >
-                  <Linkedin size={16} />
+                  <Linkedin size={16} aria-hidden="true" />
                 </a>
 
                 <a
                   href="https://www.youtube.com/@QuantonLabsOfficial"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: "rgba(255,255,255,0.60)" }}
+                  aria-label="Quanton Labs on YouTube"
+                  style={{ color: "rgba(255,255,255,0.75)" }}
                   className="hover:text-white transition"
                 >
-                  <Youtube size={16} />
+                  <Youtube size={16} aria-hidden="true" />
                 </a>
               </div>
             </div>
             <div className="flex items-center gap-6">
               <div className="flex gap-6">
-                <Link href="/privacy" style={{ color: "rgba(255,255,255,0.60)" }} className="hover:text-white transition">
+                <Link href="/privacy" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
                   Privacy
                 </Link>
-                <Link href="/terms" style={{ color: "rgba(255,255,255,0.60)" }} className="hover:text-white transition">
+                <Link href="/terms" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
                   Terms
                 </Link>
               </div>
-              <Link
-                href="/"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              >
-                <Image
-                  src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
-                  width={160}
-                  height={48}
-                  alt="Quanton Labs"
-                  style={{
-                    width: "160px",
-                    height: "auto",
-                    mixBlendMode: "screen",
-                  }}
-                />
-              </Link>
             </div>
           </div>
 

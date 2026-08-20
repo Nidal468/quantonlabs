@@ -14,7 +14,57 @@ const LOGO_B64 = "/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAA
 const GRADIENT = "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
 
 // Demo pacing. Higher is slower. Tune this one number.
-const PACE = 2.1;
+const PACE = 3.2;
+
+// ============================================================
+// GUIDED TUTORIAL
+// Click-driven walkthrough. Each step dims the dashboard, highlights one
+// card, and anchors an explanation to it. Source: QL Demo Script v1.
+// ============================================================
+
+type Scene = "cascade" | "exception" | "approval" | "resolved";
+
+interface TutorialStep {
+  chapter: number;
+  scene: Scene;
+  anchor: string;
+  title: string;
+  body: string;
+}
+
+const CHAPTERS = [
+  "A sale moves through",
+  "Something goes wrong",
+  "Where you decide",
+  "What you get back",
+];
+
+const TUTORIAL_STEPS: TutorialStep[] = [
+  // Act 1 follows the grid path: sales, then the governing block, then the
+  // remaining agents in the order they are laid out on screen.
+  { chapter: 0, scene: "cascade", anchor: "sales", title: "The trigger", body: "A deal closes above your configured threshold. The Sales Agent notifies your dashboard and hands off to every affected agent. Fully autonomous." },
+  { chapter: 0, scene: "cascade", anchor: "governing", title: "Coordination", body: "The Governing Agent receives the flag and sequences every downstream action across the domains it affects." },
+  { chapter: 0, scene: "cascade", anchor: "people", title: "People and team", body: "Commission and KPI attribution routes to People. Employees know where they stand in real time." },
+  { chapter: 0, scene: "cascade", anchor: "cx", title: "Customer experience", body: "The CX Agent runs your defined onboarding flow. The customer never has to ask what happens next." },
+  { chapter: 0, scene: "cascade", anchor: "finance", title: "Finance", body: "Invoice generated and sent. Revenue posted, reports updated, all against one system of record." },
+  { chapter: 0, scene: "cascade", anchor: "ops", title: "Operations", body: "The Operations Agent schedules the work against real capacity and holds the delivery date it just committed to." },
+  { chapter: 0, scene: "cascade", anchor: "marketing", title: "Marketing", body: "The Marketing Agent traces the source of the won deal and weights future content toward what actually converts." },
+  { chapter: 0, scene: "cascade", anchor: "inventory", title: "Inventory and supply chain", body: "Stock reserved, fulfillment prepared, shipping quoted. Availability checked against what is actually on hand." },
+  { chapter: 0, scene: "cascade", anchor: "governing", title: "One event, seven agents", body: "Every downstream action fired from a single trigger. No handoff anyone had to chase." },
+
+  { chapter: 1, scene: "exception", anchor: "people", title: "The exception", body: "A 6:00 AM clock-in is missed and the grace window elapses. The People Agent opens an exception rather than waiting." },
+  { chapter: 1, scene: "exception", anchor: "people", title: "Escalation", body: "Contact attempted, no answer. Follow-up sent. Every step logged with a timestamp." },
+  { chapter: 1, scene: "exception", anchor: "ops", title: "Coverage", body: "Routed to Operations, which reviews shift load and drafts a coverage plan. Two agents, one coordinated response." },
+  { chapter: 1, scene: "exception", anchor: "governing", title: "Cross-domain routing", body: "The Governing Agent saw a staffing gap the People Agent alone could not resolve, and sequenced the response." },
+
+  { chapter: 2, scene: "approval", anchor: "governing", title: "Every action carries a gate", body: "Three levels, set by you during deployment and written into your agreement." },
+  { chapter: 2, scene: "approval", anchor: "governing", title: "Full autonomy and silent approval", body: "Routine work executes without review. Prepared work proceeds after a review window unless you step in." },
+  { chapter: 2, scene: "approval", anchor: "governing", title: "Hard block", body: "Nothing happens without you. It covers anything touching customers, revenue, or compliance." },
+  { chapter: 2, scene: "approval", anchor: "governing", title: "Why this one waits", body: "Reassigning someone's work affects people. That is a hard block. The plan sits here until you approve it." },
+
+  { chapter: 3, scene: "resolved", anchor: "governing", title: "Executed", body: "The plan ran across People and Operations. The exception closed itself out." },
+  { chapter: 3, scene: "resolved", anchor: "governing", title: "On the record", body: "Every action, escalation, and approval is recorded. You can reconstruct any decision later." },
+];
 
 const IDLE_NARRATION = "Eight agents coordinating in real time. Watch a major sale and a staffing exception move through the system.";
 
@@ -64,9 +114,6 @@ const SHIMMER_CSS = `
   background: linear-gradient(to right, #EF4444, #F97316, #EF4444);
   background-size: 300% 100%;
   animation: bsh 3s ease infinite;
-}
-.ql-card.cursor-hidden * {
-  cursor: none !important;
 }
 .ql-pdot {
   animation: lp 2s ease-in-out infinite;
@@ -145,6 +192,19 @@ const SHIMMER_CSS = `
   width: 100%;
 }
 
+@media (max-width: 1100px) {
+  .ql-dashboard-grid { grid-template-columns: repeat(4, minmax(0,1fr)) !important; }
+  .ql-card { grid-row: auto !important; }
+  .ql-card:first-child { grid-column: span 4 !important; }
+  .ql-mini-inventory-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+
+@media (max-width: 820px) {
+  .ql-dashboard-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  .ql-card { grid-column: span 2 !important; }
+  .ql-tutorial-pop { width: min(280px, 84vw) !important; }
+}
+
 @media (max-width: 640px) {
   .ql-bridge-wrap { padding: 20px 16px 12px !important; }
   .ql-bridge-title { font-size: 30px !important; }
@@ -221,6 +281,47 @@ const INITIAL_MINI: Record<string, string[]> = {
   inventory: ["Stock healthy - 94% SKUs in range", "Supplier ETA confirmed - Tuesday", "Reorder triggered - SKU-1042", "Delivery tracking active - 3 inbound"],
 };
 
+
+// Feed content per scene. The walkthrough drives the dashboard rather than
+// annotating whatever the auto sequence happened to leave on screen.
+const CASCADE_GOV: GovItem[] = [
+  { icon: "dollar", color: "#059669", event: "Major sale closed - Hartwell Group $142,000", meta: "Sales Agent -> cross-domain sequence complete", badge: { text: "major sale", bg: "rgba(5,150,105,0.10)", color: "#065F46" } },
+  { icon: "check", color: "#4655EB", event: "Invoice issued and revenue posted", meta: "Finance Agent -> operational core updated", badge: null },
+  { icon: "check", color: "#2B60EB", event: "Fulfillment prepared, capacity confirmed", meta: "Inventory + Operations -> Governing Agent", badge: null },
+  { icon: "trending", color: "#584DEB", event: "Attribution logged, content weighting updated", meta: "Marketing Agent -> shared state", badge: { text: "insight", bg: "rgba(88,77,235,0.10)", color: "#534AB7" } },
+];
+
+const CASCADE_MINI: Record<string, string[]> = {
+  people: ["Commission attributed - 2 reps, profiles updated", "Performance review queued - Q2", "Payroll processed - 14 employees"],
+  sales: ["Deal closed - Hartwell Group $142,000", "Pipeline: 3 active, 1 deferred", "CRM updated - 6 records synced"],
+  cx: ["Onboarding initiated - Hartwell Group", "Welcome sequence sent - day 1 of 5", "Satisfaction score: 9/10 - Meridian"],
+  finance: ["Invoice generated - $142,000 Hartwell Group", "Revenue posted - reports updated", "Expenses categorized - 84 transactions"],
+  ops: ["Production slot scheduled - Hartwell order", "Delivery date confirmed against capacity", "Task completion: 91% this week"],
+  marketing: ["Attribution logged - source: industry content", "Content weighting updated", "14 posts scheduled - next: 9AM"],
+  inventory: ["Stock reserved - Hartwell fulfillment", "Shipping quoted - 3 inbound tracked", "Stock healthy - 94% SKUs in range"],
+};
+
+const EXCEPTION_GOV: GovItem[] = [
+  { icon: "alert", color: "#EF4444", event: "People Agent escalation - J. Walsh no call/no show", meta: "6:18 AM - Mobile contact attempted, no answer", badge: { text: "urgent", bg: "rgba(239,68,68,0.12)", color: "#991B1B" } },
+  ...CASCADE_GOV.slice(0, 3),
+];
+
+const EXCEPTION_MINI: Record<string, string[]> = {
+  ...CASCADE_MINI,
+  people: ["ALERT: J. Walsh - missed 6:00 AM clock-in", "6:18 AM - Called, no answer. Text sent", "Routing to Operations - coverage required"],
+  ops: ["Internal memo - J. Walsh no call/no show", "Reviewing shift load - drafting coverage", "Production slot scheduled - Hartwell order"],
+};
+
+const APPROVAL_GOV: GovItem[] = [
+  { icon: "alert", color: "#7341EA", event: "Approval required - shift coverage plan ready", meta: "People + Operations -> awaiting Managing Director decision", badge: { text: "action required", bg: "rgba(239,68,68,0.12)", color: "#991B1B" } },
+  ...EXCEPTION_GOV.slice(0, 3),
+];
+
+const RESOLVED_GOV: GovItem[] = [
+  { icon: "check", color: "#4ADE80", event: "Shift coverage plan approved - exception closed", meta: "Governing Agent -> People + Operations updated", badge: { text: "resolved", bg: "rgba(74,222,128,0.12)", color: "#166534" } },
+  ...APPROVAL_GOV.slice(0, 3),
+];
+
 let idCounter = 0;
 function makeItems(texts: string[]): MiniItem[] {
   return texts.map(t => ({ text: t, urgent: false, flash: "none", id: idCounter++ }));
@@ -253,7 +354,7 @@ function GovFeed({ items }: { items: GovItem[] }) {
                 </span>
               )}
             </div>
-            <div style={{ fontFamily: "Manrope, sans-serif", fontSize: 11, color: "#94A3B8", marginTop: 1 }}>{item.meta}</div>
+            <div style={{ fontFamily: "Manrope, sans-serif", fontSize: 11, color: "#64748B", marginTop: 1 }}>{item.meta}</div>
           </div>
         </div>
       ))}
@@ -291,6 +392,8 @@ function AgentCard({
   agentKey, alertCard, badge, govItems, miniItems,
   onDwellStart, onDwellEnd,
   approvalVisible, rewardVisible, onApprove,
+  tutorialStep, tutorialActive, stepIndex, stepCount,
+  onNext, onBack, onExit,
 }: {
   agentKey: string;
   alertCard: boolean;
@@ -302,6 +405,13 @@ function AgentCard({
   approvalVisible?: boolean;
   rewardVisible?: boolean;
   onApprove?: () => void;
+  tutorialStep?: TutorialStep | null;
+  tutorialActive?: boolean;
+  stepIndex?: number;
+  stepCount?: number;
+  onNext?: () => void;
+  onBack?: () => void;
+  onExit?: () => void;
 }) {
   const cfg = AGENT_CONFIG[agentKey];
   const isGov = agentKey === "governing";
@@ -310,12 +420,7 @@ function AgentCard({
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Approval cursor animation refs
-  const approvalCanvasRef = useRef<HTMLCanvasElement>(null);
-  const approvalAnimFrameRef = useRef<number>(0);
-  const approvalRepeatRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const approvalManualRef = useRef(false);
   const approvalBtnRef = useRef<HTMLButtonElement>(null);
-  const approvalCursorActiveRef = useRef(false);
 
   const gridColSpan: Record<string, string> = {
     governing: "span 4", people: "span 2", sales: "span 2",
@@ -323,190 +428,23 @@ function AgentCard({
     marketing: "span 3", inventory: "span 3",
   };
 
-  const easeInOut = (t: number) =>
-    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-  const drawCursor = (ctx: CanvasRenderingContext2D, x: number, y: number, scale: number) => {
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.scale(scale, scale);
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, 17);
-    ctx.lineTo(3.5, 12.5);
-    ctx.lineTo(6, 19);
-    ctx.lineTo(8, 18);
-    ctx.lineTo(5.5, 12);
-    ctx.lineTo(11, 12);
-    ctx.closePath();
-    ctx.fillStyle = "white";
-    ctx.fill();
-    ctx.strokeStyle = "#1a1a2e";
-    ctx.lineWidth = 1.2 / scale;
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-    ctx.stroke();
-    ctx.restore();
-  };
-
-  const sizeApprovalCanvas = () => {
-    const canvas = approvalCanvasRef.current;
-    const card = cardRef.current;
-    if (!canvas || !card) return;
-    canvas.width = card.offsetWidth;
-    canvas.height = card.offsetHeight;
-  };
-
-  const getApprovalBtnCenter = () => {
-    const btn = approvalBtnRef.current;
-    const canvas = approvalCanvasRef.current;
-    if (!btn || !canvas) return { x: 60, y: (canvas?.height ?? 200) - 40 };
-    const btnRect = btn.getBoundingClientRect();
-    const canvasRect = canvas.getBoundingClientRect();
-    return {
-      x: btnRect.left - canvasRect.left + btnRect.width / 2 - 6,
-      y: btnRect.top - canvasRect.top + btnRect.height / 2 - 4,
-    };
-  };
-
-  const stopApprovalPulse = () => {
-    if (!approvalBtnRef.current) return;
-    approvalBtnRef.current.style.animation = "none";
-    approvalBtnRef.current.style.boxShadow = "none";
-    approvalBtnRef.current.style.transform = "none";
-  };
-
-  const startApprovalPulse = () => {
-    if (!approvalBtnRef.current) return;
-    approvalBtnRef.current.style.animation = "btnGlow 2s ease-in-out infinite";
-  };
-
-  const triggerApprovalShake = () => {
-    if (approvalManualRef.current || !approvalBtnRef.current) return;
-    const btn = approvalBtnRef.current;
-    const frames = [0, -4, 4, -3, 3, -2, 2, -1, 1, 0, 0, 0];
-    let i = 0;
-    const shake = setInterval(() => {
-      btn.style.transform = `translateX(${frames[i]}px)`;
-      i++;
-      if (i >= frames.length) {
-        clearInterval(shake);
-        btn.style.transform = "none";
-      }
-    }, 55);
-  };
-
- const animateApprovalCursor = (onCursorClick: () => void) => {
-  const canvas = approvalCanvasRef.current;
-  if (!canvas || approvalManualRef.current) return;
-  sizeApprovalCanvas();
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  approvalCursorActiveRef.current = true;
-
-  const target = getApprovalBtnCenter();
-  const startX = canvas.width * 0.3;
-  const startY = canvas.height * 0.25;
-  const endX = target.x;
-  const endY = target.y;
-  cardRef.current?.classList.add("cursor-hidden");
-
-  const moveDuration = 1200;
-  const hoverDuration = 400;
-  const pressDuration = 180;
-  const releaseDuration = 180;
-  const fadeDuration = 400;
-
-  const start = performance.now();
-  let clickFired = false;
-
-  const step = (now: number) => {
-    if (approvalManualRef.current) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      approvalCursorActiveRef.current = false;
-      cardRef.current?.classList.remove("cursor-hidden");
-      return;
-    }
-    const e = now - start;
-
-    if (e < moveDuration) {
-      const t = easeInOut(e / moveDuration);
-      ctx.globalAlpha = Math.min(e / 200, 1);
-      drawCursor(ctx, startX + (endX - startX) * t, startY + (endY - startY) * t, 1);
-    } else if (e < moveDuration + hoverDuration) {
-      ctx.globalAlpha = 1;
-      drawCursor(ctx, endX, endY, 1);
-    } else if (e < moveDuration + hoverDuration + pressDuration) {
-      ctx.globalAlpha = 1;
-      drawCursor(ctx, endX, endY, 0.84);
-      if (!clickFired) {
-        clickFired = true;
-        onCursorClick();
-      }
-    } else if (e < moveDuration + hoverDuration + pressDuration + releaseDuration) {
-      ctx.globalAlpha = 1;
-      drawCursor(ctx, endX, endY, 1);
-    } else {
-      const fadeT = Math.min(
-        (e - moveDuration - hoverDuration - pressDuration - releaseDuration) / fadeDuration,
-        1
-      );
-      ctx.globalAlpha = 1 - fadeT;
-      drawCursor(ctx, endX, endY, 1);
-      if (fadeT >= 1) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        approvalCursorActiveRef.current = false;
-        cardRef.current?.classList.remove("cursor-hidden");
-        if (!approvalManualRef.current) {
-          approvalRepeatRef.current = setTimeout(fireApprovalSequence, 3500);
-        }
-        return;
-      }
-    }
-    approvalAnimFrameRef.current = requestAnimationFrame(step);
-  };
-
-  approvalAnimFrameRef.current = requestAnimationFrame(step);
-};
-
-  const fireApprovalSequence = () => {
-    if (approvalManualRef.current) return;
-    requestAnimationFrame(() => { if (approvalManualRef.current) return; triggerApprovalShake();
-    setTimeout(() => {
-      animateApprovalCursor(() => {});
-    }, 700);
-    });
-  };
-
 useEffect(() => {
-  if (!isGov) return;
-
-  if (!approvalVisible || rewardVisible) {
-    approvalManualRef.current = false;
-    cancelAnimationFrame(approvalAnimFrameRef.current);
-    if (approvalRepeatRef.current) clearTimeout(approvalRepeatRef.current);
-    const canvas = approvalCanvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      ctx?.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    stopApprovalPulse();
-    cardRef.current?.classList.remove("cursor-hidden");
-    return;
+  // The guided walkthrough now explains the approval gate, so the simulated
+  // cursor that used to point at the button has been removed.
+  if (!isGov || !approvalBtnRef.current) return;
+  const btn = approvalBtnRef.current;
+  if (approvalVisible && !rewardVisible) {
+    btn.style.animation = "btnGlow 2s ease-in-out infinite";
+  } else {
+    btn.style.animation = "none";
+    btn.style.boxShadow = "none";
   }
+}, [approvalVisible, rewardVisible, isGov]); // eslint-disable-line react-hooks/exhaustive-deps
+  const isTutorialTarget = Boolean(tutorialActive && tutorialStep && tutorialStep.anchor === agentKey);
+  // Cards on the lower rows open their popup upward, otherwise it renders
+  // past the dashboard frame and gets clipped by the next section.
+  const popupAbove = ["cx", "finance", "ops", "marketing", "inventory"].includes(agentKey);
 
-  sizeApprovalCanvas();
-  startApprovalPulse();
-  approvalRepeatRef.current = setTimeout(fireApprovalSequence, 2000);
-
-  return () => {
-    cancelAnimationFrame(approvalAnimFrameRef.current);
-    if (approvalRepeatRef.current) clearTimeout(approvalRepeatRef.current);
-    cardRef.current?.classList.remove("cursor-hidden");
-  };
-}, [approvalVisible, rewardVisible]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div
       ref={cardRef}
@@ -515,10 +453,21 @@ useEffect(() => {
         gridColumn: gridColSpan[agentKey],
         ...(isGov ? { gridRow: "span 2" } : {}),
         background: "#fff",
-        border: alertCard ? "0.5px solid #FCA5A5" : "0.5px solid #E2E8F0",
-        borderRadius: 10, padding: 12, position: "relative", overflow: "hidden",
-        boxShadow: alertCard ? "0 0 0 2px rgba(239,68,68,0.15)" : "none",
-        transition: "box-shadow 0.2s, border-color 0.2s",
+        border: isTutorialTarget
+          ? "1px solid #4655EB"
+          : alertCard
+          ? "0.5px solid #FCA5A5"
+          : "0.5px solid #E2E8F0",
+        borderRadius: 10, padding: 10, position: "relative",
+        overflow: isTutorialTarget ? "visible" : "hidden",
+        zIndex: isTutorialTarget ? 40 : "auto",
+        opacity: tutorialActive && !isTutorialTarget ? 0.32 : 1,
+        boxShadow: isTutorialTarget
+          ? "0 0 0 4px rgba(70,85,235,0.18), 0 12px 40px rgba(15,23,42,0.18)"
+          : alertCard
+          ? "0 0 0 2px rgba(239,68,68,0.15)"
+          : "none",
+        transition: "box-shadow 0.25s, border-color 0.25s, opacity 0.25s",
         fontFamily: "Manrope, sans-serif",
       }}
       onMouseEnter={() => {
@@ -539,27 +488,13 @@ useEffect(() => {
     >
       <div ref={dwellRef} className="dwell-bar" />
 
-      {isGov && (
-        <canvas
-          ref={approvalCanvasRef}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 20,
-            pointerEvents: "none",
-            borderRadius: 10,
-          }}
-        />
-      )}
-
       {badge && (
         <div className="notif-badge" style={{ position: "absolute", top: 8, right: 8, fontSize: 9, fontWeight: 700, padding: "2px 7px", borderRadius: 10, background: "#EF4444", color: "#fff", transform: "scale(0)" }}>
           !
         </div>
       )}
 
-      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: alertCard ? "#EF4444" : "#94A3B8", marginBottom: 5 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: alertCard ? "#EF4444" : "#64748B", marginBottom: 5 }}>
         {cfg.tag}
       </div>
 
@@ -586,16 +521,10 @@ useEffect(() => {
             <button
               ref={approvalBtnRef}
               onClick={() => {
-                approvalManualRef.current = true;
-                cancelAnimationFrame(approvalAnimFrameRef.current);
-                if (approvalRepeatRef.current) clearTimeout(approvalRepeatRef.current);
-                const canvas = approvalCanvasRef.current;
-                if (canvas) {
-                  const ctx = canvas.getContext("2d");
-                  ctx?.clearRect(0, 0, canvas.width, canvas.height);
+                if (approvalBtnRef.current) {
+                  approvalBtnRef.current.style.animation = "none";
+                  approvalBtnRef.current.style.boxShadow = "none";
                 }
-                cardRef.current?.classList.remove("cursor-hidden");
-                stopApprovalPulse();
                 if (onApprove) onApprove();
               }}
               style={{ fontFamily: "Manrope, sans-serif", fontSize: 11, fontWeight: 700, padding: "7px 16px", borderRadius: 6, border: "none", background: GRADIENT, color: "#fff", cursor: "pointer" }}
@@ -604,6 +533,98 @@ useEffect(() => {
             </button>
             <button style={{ fontFamily: "Manrope, sans-serif", fontSize: 11, fontWeight: 600, padding: "7px 12px", borderRadius: 6, border: "1px solid #E2E8F0", background: "#fff", color: "#64748B", cursor: "pointer" }}>
               Defer
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isTutorialTarget && tutorialStep && (
+        <div
+          className="ql-tutorial-pop"
+          role="dialog"
+          aria-label={tutorialStep.title}
+          style={{
+            position: "absolute",
+            ...(popupAbove
+              ? { bottom: "calc(100% + 12px)" }
+              : { top: "calc(100% + 12px)" }),
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(320px, 78vw)",
+            background: "#0B1B34",
+            border: "1px solid rgba(70,85,235,0.55)",
+            borderRadius: 12,
+            padding: "16px 18px 14px",
+            boxShadow: "0 18px 48px rgba(4,18,39,0.45)",
+            zIndex: 60,
+            fontFamily: "Manrope, sans-serif",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              ...(popupAbove ? { bottom: -7 } : { top: -7 }),
+              left: "50%",
+              marginLeft: -7,
+              width: 13,
+              height: 13,
+              background: "#0B1B34",
+              borderLeft: popupAbove ? "none" : "1px solid rgba(70,85,235,0.55)",
+              borderTop: popupAbove ? "none" : "1px solid rgba(70,85,235,0.55)",
+              borderRight: popupAbove ? "1px solid rgba(70,85,235,0.55)" : "none",
+              borderBottom: popupAbove ? "1px solid rgba(70,85,235,0.55)" : "none",
+              transform: "rotate(45deg)",
+            }}
+          />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#7B8FF5" }}>
+              Step {(stepIndex ?? 0) + 1} of {stepCount ?? 0}
+            </span>
+            <button
+              onClick={onExit}
+              aria-label="Exit walkthrough"
+              style={{ background: "none", border: "none", color: "rgba(255,255,255,0.55)", cursor: "pointer", fontSize: 12, padding: 0 }}
+            >
+              Skip
+            </button>
+          </div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: "#FFFFFF", marginBottom: 6 }}>
+            {tutorialStep.title}
+          </div>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: "rgba(255,255,255,0.78)", margin: "0 0 14px" }}>
+            {tutorialStep.body}
+          </p>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={onBack}
+              disabled={(stepIndex ?? 0) === 0}
+              style={{
+                flex: "0 0 auto",
+                fontSize: 12, fontWeight: 600,
+                padding: "7px 14px", borderRadius: 7,
+                border: "1px solid rgba(255,255,255,0.18)",
+                background: "transparent",
+                color: (stepIndex ?? 0) === 0 ? "rgba(255,255,255,0.28)" : "rgba(255,255,255,0.8)",
+                cursor: (stepIndex ?? 0) === 0 ? "default" : "pointer",
+                fontFamily: "Manrope, sans-serif",
+              }}
+            >
+              Back
+            </button>
+            <button
+              onClick={onNext}
+              style={{
+                flex: 1,
+                fontSize: 12, fontWeight: 700,
+                padding: "7px 14px", borderRadius: 7,
+                border: "none",
+                background: GRADIENT,
+                color: "#fff",
+                cursor: "pointer",
+                fontFamily: "Manrope, sans-serif",
+              }}
+            >
+              {(stepIndex ?? 0) + 1 === (stepCount ?? 0) ? "Finish" : "Next"}
             </button>
           </div>
         </div>
@@ -644,10 +665,13 @@ export default function QuantonDashboard() {
   const [rewardVisible, setRewardVisible] = useState(false);
   const [narration, setNarration] = useState(IDLE_NARRATION);
   const [hasEntered, setHasEntered] = useState(false);
+  const [tutorialActive, setTutorialActive] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
   const dwellTimers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const dashboardRef = useRef<HTMLDivElement>(null);
   const isInViewRef = useRef(true);
   const approvalTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tutorialActiveRef = useRef(false);
   const sequenceKeyRef = useRef(0);
 
   const pushGov = useCallback((item: GovItem) => {
@@ -700,7 +724,8 @@ export default function QuantonDashboard() {
 
     function runSequence() {
       const timers: ReturnType<typeof setTimeout>[] = [];
-      const guard = () => !cancelled && sequenceKeyRef.current === key;
+      const guard = () =>
+        !cancelled && sequenceKeyRef.current === key && !tutorialActiveRef.current;
       const at = (base: number, fn: () => void) => {
         timers.push(setTimeout(() => { if (guard()) fn(); }, base * PACE));
       };
@@ -813,48 +838,123 @@ export default function QuantonDashboard() {
     clearTimeout(dwellTimers.current[id]);
   }, []);
 
+  const applyScene = useCallback((scene: Scene) => {
+    if (scene === "cascade") {
+      setGovItems(CASCADE_GOV);
+      setMiniItems(Object.fromEntries(Object.entries(CASCADE_MINI).map(([k, v]) => [k, makeItems(v)])));
+      setAlertCards({});
+      setBadgeCards({});
+      setApprovalVisible(false);
+      setRewardVisible(false);
+      setExcVal("0 pending");
+      setExcColor("#4ADE80");
+      setNarration("A single closed deal moving through every affected agent.");
+    } else if (scene === "exception") {
+      setGovItems(EXCEPTION_GOV);
+      setMiniItems(Object.fromEntries(Object.entries(EXCEPTION_MINI).map(([k, v]) => [k, makeItems(v)])));
+      setAlertCards({ people: true, ops: true, governing: true });
+      setBadgeCards({ people: true, ops: true, governing: true });
+      setApprovalVisible(false);
+      setRewardVisible(false);
+      setExcVal("2 pending");
+      setExcColor("#F59E0B");
+      setNarration("A staffing exception no single agent can resolve alone.");
+    } else if (scene === "approval") {
+      setGovItems(APPROVAL_GOV);
+      setMiniItems(Object.fromEntries(Object.entries(EXCEPTION_MINI).map(([k, v]) => [k, makeItems(v)])));
+      setAlertCards({ governing: true });
+      setBadgeCards({ governing: true });
+      setApprovalVisible(true);
+      setRewardVisible(false);
+      setExcVal("1 pending");
+      setExcColor("#F59E0B");
+      setNarration("The system has prepared a plan and stopped for your decision.");
+    } else {
+      setGovItems(RESOLVED_GOV);
+      setMiniItems(Object.fromEntries(Object.entries(EXCEPTION_MINI).map(([k, v]) => [k, makeItems(v)])));
+      setAlertCards({});
+      setBadgeCards({});
+      setApprovalVisible(false);
+      setRewardVisible(true);
+      setExcVal("0 pending");
+      setExcColor("#4ADE80");
+      setNarration("Exception closed, audit trail written.");
+    }
+  }, []);
+
+  const startTutorial = useCallback((atStep = 0) => {
+    if (approvalTimerRef.current) clearTimeout(approvalTimerRef.current);
+    setIsPaused(true);
+    setPillLabel("Paused");
+    setTutorialActive(true);
+    setStepIndex(atStep);
+    applyScene(TUTORIAL_STEPS[atStep].scene);
+  }, [applyScene]);
+
+  const exitTutorial = useCallback(() => {
+    setTutorialActive(false);
+    setStepIndex(0);
+    setIsPaused(false);
+    setPillLabel("Live");
+    tutorialActiveRef.current = false;
+    resetAndReplay();
+  }, [resetAndReplay]);
+
+  const nextStep = useCallback(() => {
+    setStepIndex(i => {
+      if (i + 1 >= TUTORIAL_STEPS.length) {
+        setTutorialActive(false);
+        setIsPaused(false);
+        setPillLabel("Live");
+        return 0;
+      }
+      applyScene(TUTORIAL_STEPS[i + 1].scene);
+      return i + 1;
+    });
+  }, [applyScene]);
+
+  const prevStep = useCallback(() => {
+    setStepIndex(i => {
+      const next = Math.max(0, i - 1);
+      applyScene(TUTORIAL_STEPS[next].scene);
+      return next;
+    });
+  }, [applyScene]);
+
+  const jumpToChapter = useCallback((chapter: number) => {
+    const idx = TUTORIAL_STEPS.findIndex(st => st.chapter === chapter);
+    if (idx >= 0) startTutorial(idx);
+  }, [startTutorial]);
+
+  useEffect(() => {
+    tutorialActiveRef.current = tutorialActive;
+  }, [tutorialActive]);
+
+  const activeStep = tutorialActive ? TUTORIAL_STEPS[stepIndex] : null;
+
   const AGENT_ORDER = ["governing", "people", "sales", "cx", "finance", "ops", "marketing", "inventory"];
 
   return (
   <div id="dashboard-demo">
     <style>{SHIMMER_CSS}</style>
 
-    {/* Bridge copy */}
-    <div className="ql-bridge-wrap" style={{ textAlign: "center", padding: "24px 24px 16px", fontFamily: "Manrope, sans-serif" }}>
-    <h2 className="ql-bridge-title" style={{
-        fontSize: 48, fontWeight: 800, margin: "0 0 12px",
-        background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
-        WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-        fontFamily: "Manrope, sans-serif",
-        lineHeight: 1.1,
-      }}>
-        Quanton OS
-      </h2>
-      <p className="ql-bridge-subtitle" style={{ fontSize: 32, fontWeight: 700, color: "#1F2937", margin: "0 0 10px", letterSpacing: "-0.5px", lineHeight: 1.2 }}>
-        Eight agents. One coordinated system.
-      </p>
-      <p className="ql-bridge-tagline" style={{ fontSize: 16, fontWeight: 400, color: "#6B7280", margin: 0, lineHeight: 1.6 }}>
-                Not a workflow. Not a tool. A business system..
-      </p>
-    </div>
-
-   {/* Section window wrapper */}
+    {/* Section window wrapper */}
 <div className="ql-window-wrap" style={{      background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 100%)",
       borderRadius: 24,
-      padding: "32px 24px",
+      padding: "12px 10px",
       boxShadow: "0 8px 48px rgba(43,96,235,0.10), 0 2px 12px rgba(0,0,0,0.06)",
       border: "1px solid rgba(43,96,235,0.08)",
-      maxWidth: 1080,
+      maxWidth: "min(1560px, 95vw)",
       margin: "0 auto",
     }}>
       {/* Window chrome dots */}
-        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#F87171" }} />
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FBBF24" }} />
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#4ADE80" }} />
           <div style={{ flex: 1, height: 1, background: "rgba(43,96,235,0.10)", marginLeft: 8 }} />
         </div>
-        <div ref={dashboardRef} style={{ border: "0.5px solid #1E3A5F", borderRadius: 12, overflow: "hidden", fontFamily: "Manrope, sans-serif" }}>
+        <div ref={dashboardRef} style={{ border: "0.5px solid #1E3A5F", borderRadius: 12, overflow: "visible", fontFamily: "Manrope, sans-serif" }}>
 
         {/* Top bar */}
         <div style={{ background: "#041227", padding: "9px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -890,10 +990,63 @@ export default function QuantonDashboard() {
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 5 }}>
               {i > 0 && <div style={{ width: 1, height: 12, background: "rgba(255,255,255,0.12)", marginRight: 5 }} />}
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#94A3B8", letterSpacing: "0.07em", textTransform: "uppercase", fontFamily: "Manrope, sans-serif" }}>{item.label}</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: "#64748B", letterSpacing: "0.07em", textTransform: "uppercase", fontFamily: "Manrope, sans-serif" }}>{item.label}</span>
               <span style={{ fontSize: 11, fontWeight: 700, fontFamily: "Manrope, sans-serif", color: item.cls === "accent" ? "#60A5FA" : item.cls === "warn" ? excColor : "#fff" }}>{item.val}</span>
             </div>
           ))}
+        </div>
+
+        {/* Walkthrough control bar */}
+        <div className="ql-tutorial-bar" style={{ background: "#fff", borderBottom: "1px solid #E2E8F0", padding: "10px 16px", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <button
+            onClick={() => (tutorialActive ? exitTutorial() : startTutorial(0))}
+            style={{
+              fontFamily: "Manrope, sans-serif",
+              fontSize: 12, fontWeight: 700,
+              padding: "8px 16px", borderRadius: 7, border: "none",
+              background: tutorialActive ? "#E2E8F0" : GRADIENT,
+              color: tutorialActive ? "#1E293B" : "#fff",
+              cursor: "pointer", flexShrink: 0,
+            }}
+          >
+            {tutorialActive ? "Exit walkthrough" : "Take the walkthrough"}
+          </button>
+
+          <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+            {CHAPTERS.map((label, i) => {
+              const on = tutorialActive && activeStep?.chapter === i;
+              return (
+                <button
+                  key={label}
+                  onClick={() => jumpToChapter(i)}
+                  style={{
+                    fontFamily: "Manrope, sans-serif",
+                    fontSize: 11, fontWeight: 600,
+                    padding: "6px 10px", borderRadius: 6,
+                    border: on ? "1px solid #4655EB" : "1px solid #E2E8F0",
+                    background: on ? "rgba(70,85,235,0.08)" : "#fff",
+                    color: on ? "#4655EB" : "#64748B",
+                    cursor: "pointer", whiteSpace: "nowrap",
+                  }}
+                >
+                  {i + 1}. {label}
+                </button>
+              );
+            })}
+          </div>
+
+          {tutorialActive && (
+            <div style={{ flex: 1, minWidth: 80, height: 3, background: "#E2E8F0", borderRadius: 2, overflow: "hidden" }}>
+              <div
+                style={{
+                  height: "100%",
+                  width: `${((stepIndex + 1) / TUTORIAL_STEPS.length) * 100}%`,
+                  background: GRADIENT,
+                  transition: "width 0.25s ease",
+                }}
+              />
+            </div>
+          )}
         </div>
 
         {/* Narration strip */}
@@ -905,8 +1058,8 @@ export default function QuantonDashboard() {
         </div>
 
         {/* Dashboard grid */}
-        <div style={{ background: "#F1F5F9", padding: 10 }}>
-          <div className="ql-dashboard-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(0,1fr))", gridTemplateRows: "auto auto", gap: 8 }}>
+        <div style={{ background: "#F1F5F9", padding: 8, overflow: "visible" }}>
+          <div className="ql-dashboard-grid" style={{ display: "grid", gridTemplateColumns: "repeat(6, minmax(0,1fr))", gridTemplateRows: "auto auto", gap: 6, overflow: "visible" }}>
             {AGENT_ORDER.map(key => (
               <AgentCard
                 key={key}
@@ -920,6 +1073,13 @@ export default function QuantonDashboard() {
                 approvalVisible={approvalVisible}
                 rewardVisible={rewardVisible}
                 onApprove={handleApprove}
+                tutorialStep={activeStep}
+                tutorialActive={tutorialActive}
+                stepIndex={stepIndex}
+                stepCount={TUTORIAL_STEPS.length}
+                onNext={nextStep}
+                onBack={prevStep}
+                onExit={exitTutorial}
               />
             ))}
           </div>
