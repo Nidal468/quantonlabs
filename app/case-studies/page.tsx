@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CaseStudiesIndex from "@/components/case-studies/CaseStudiesIndex";
 import Navbar from "@/components/landing/navbar";
+import Footer from "@/components/landing/footer";
 export const metadata: Metadata = {
   title: "Case Studies | Quanton Labs",
   description:
@@ -36,5 +37,6 @@ return (
       />
       <Navbar isScrolled={false} />
       <CaseStudiesIndex />
+      <Footer />
     </>
   );}
