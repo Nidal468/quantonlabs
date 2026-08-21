@@ -92,11 +92,15 @@ function LayerCard({
   label,
   title,
   body,
+  depth = 0,
 }: {
   icon: React.ReactNode;
   label: string;
   title: string;
   body: string;
+  // Depth drives a stepped offset and accent weight so the three cards
+  // read as stacked layers rather than three equal columns.
+  depth?: number;
 }) {
   return (
     <div
@@ -105,8 +109,24 @@ function LayerCard({
         borderRadius: "14px",
         padding: "24px",
         background: "#ffffff",
+        position: "relative",
+        marginTop: `${depth * 18}px`,
+        boxShadow: `0 ${6 + depth * 6}px ${18 + depth * 10}px rgba(15,23,42,${0.04 + depth * 0.03})`,
       }}
     >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "24px",
+          right: "24px",
+          height: "3px",
+          borderRadius: "0 0 3px 3px",
+          background: GRADIENT,
+          opacity: 0.35 + depth * 0.32,
+        }}
+      />
       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
         <div
           style={{
@@ -167,16 +187,29 @@ const gateRows = [
     level: "Full Autonomy",
     what: "The agent acts without review.",
     where: "Scheduled reports, internal notifications, data categorization, log entries.",
+    examples: ["Scheduled reports", "Internal notifications", "Data categorization", "Log entries"],
+    // Share of the decision the system carries before anything reaches you.
+    systemShare: 100,
+    accent: "#22C55E",
+    note: "You see the outcome",
   },
   {
     level: "Silent Approval",
     what: "The agent prepares and queues, then proceeds after a review window unless you step in.",
     where: "Draft content, scheduled follow-ups, routine supplier communication.",
+    examples: ["Draft content", "Scheduled follow-ups", "Routine supplier comms"],
+    systemShare: 75,
+    accent: "#F59E0B",
+    note: "You can intervene",
   },
   {
     level: "Hard Block",
     what: "The agent prepares and presents. Nothing happens without your explicit approval.",
     where: "Client communications, proposals, invoices, pricing, hiring, compliance filings.",
+    examples: ["Client communications", "Proposals", "Invoices", "Pricing", "Hiring", "Compliance filings"],
+    systemShare: 0,
+    accent: "#4655EB",
+    note: "You decide",
   },
 ];
 
@@ -212,6 +245,117 @@ const buildSteps = [
   "Governing Agent synthesis expanded. Richer synthesis, cross-functional reasoning, deeper executive briefing.",
   "Strategic functions and full Governing Agent reasoning, where the deployment scope calls for it. The system becomes strategic.",
 ];
+
+function BuildStep({
+  step,
+  index,
+  isLast,
+}: {
+  step: string;
+  index: number;
+  isLast: boolean;
+}) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-20% 0px -20% 0px" });
+
+  return (
+    <motion.li
+      ref={ref}
+      initial={{ opacity: 0, x: -18 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+      style={{ display: "flex", gap: "18px", alignItems: "stretch" }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}>
+        <motion.span
+          initial={{ scale: 0.7, opacity: 0 }}
+          animate={inView ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "9px",
+            background: GRADIENT,
+            color: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontFamily: "Manrope, sans-serif",
+            fontWeight: 700,
+            fontSize: "13px",
+            boxShadow: inView ? "0 0 0 5px rgba(70,85,235,0.10)" : "none",
+            transition: "box-shadow 0.5s ease",
+          }}
+        >
+          {index + 1}
+        </motion.span>
+
+        {!isLast && (
+          <div
+            style={{
+              position: "relative",
+              width: "2px",
+              flex: 1,
+              minHeight: "34px",
+              margin: "6px 0",
+              background: "rgba(43,96,235,0.12)",
+              borderRadius: "2px",
+              overflow: "hidden",
+            }}
+          >
+            <motion.div
+              initial={{ height: "0%" }}
+              animate={inView ? { height: "100%" } : {}}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeInOut" }}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                background: "linear-gradient(to bottom, #2B60EB, #7341EA)",
+              }}
+            />
+            {inView && (
+              <motion.div
+                initial={{ top: "-15%", opacity: 0 }}
+                animate={{ top: "105%", opacity: [0, 1, 1, 0] }}
+                transition={{
+                  duration: 1.4,
+                  delay: 0.3,
+                  repeat: Infinity,
+                  repeatDelay: 1.6,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  marginLeft: "-3px",
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#8B37EA",
+                  boxShadow: "0 0 8px 2px rgba(139,55,234,0.7)",
+                }}
+              />
+            )}
+          </div>
+        )}
+      </div>
+
+      <span
+        style={{
+          fontFamily: "Manrope, sans-serif",
+          fontSize: "16px",
+          lineHeight: 1.75,
+          color: "#374151",
+          paddingBottom: isLast ? 0 : "24px",
+        }}
+      >
+        {step}
+      </span>
+    </motion.li>
+  );
+}
 
 export default function ArchitectureClient() {
   return (
@@ -342,18 +486,21 @@ export default function ArchitectureClient() {
           >
             <LayerCard
               icon={<Layers size={17} />}
+              depth={0}
               label="Layer 1"
               title="Foundational"
               body="The operational work each agent owns daily. Lead routing, invoice processing, purchase orders, expense handling, scheduled reporting, calendar coordination. Reliable and efficient. This is what makes the system functional from day one."
             />
             <LayerCard
               icon={<Cpu size={17} />}
+              depth={1}
               label="Layer 2"
               title="Intelligence"
               body="Analytical and predictive work producing intelligence the business does not currently have. Churn prediction, supplier profiling, lost-deal analysis, demand-driven replenishment, margin variance investigation. This is what makes the system intelligent."
             />
             <LayerCard
               icon={<GitBranch size={17} />}
+              depth={2}
               label="Layer 3"
               title="Strategic"
               body="High-leverage work that compounds. Cross-functional question answering, strategic anomaly detection, executive narrative synthesis, scenario modeling. This is what makes the system strategic."
@@ -459,12 +606,15 @@ export default function ArchitectureClient() {
             recommendation.
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {/* Autonomy spectrum. The bar shows how much of each decision the
+              system carries before anything reaches a person. */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
             {gateRows.map(row => (
               <div
                 key={row.level}
                 style={{
                   border: "1px solid #E5E7EB",
+                  borderLeft: `4px solid ${row.accent}`,
                   borderRadius: "14px",
                   padding: "22px 24px",
                   background: "#ffffff",
@@ -472,35 +622,105 @@ export default function ArchitectureClient() {
               >
                 <div
                   style={{
-                    fontFamily: "Manrope, sans-serif",
-                    fontWeight: 700,
-                    fontSize: "16px",
-                    color: "#1F2937",
-                    marginBottom: "8px",
+                    display: "flex",
+                    alignItems: "baseline",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    flexWrap: "wrap",
+                    marginBottom: "12px",
                   }}
                 >
-                  {row.level}
+                  <div
+                    style={{
+                      fontFamily: "Manrope, sans-serif",
+                      fontWeight: 700,
+                      fontSize: "17px",
+                      color: "#1F2937",
+                    }}
+                  >
+                    {row.level}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Manrope, sans-serif",
+                      fontWeight: 600,
+                      fontSize: "12px",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: row.accent,
+                    }}
+                  >
+                    {row.note}
+                  </div>
                 </div>
+
+                {/* System share bar */}
+                <div style={{ marginBottom: "14px" }}>
+                  <div
+                    style={{
+                      height: "8px",
+                      borderRadius: "6px",
+                      background: "#EEF1F6",
+                      overflow: "hidden",
+                      display: "flex",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${row.systemShare}%`,
+                        background: row.accent,
+                        transition: "width 0.6s ease",
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: "6px",
+                      fontFamily: "Manrope, sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      letterSpacing: "0.05em",
+                      textTransform: "uppercase",
+                      color: "#9CA3AF",
+                    }}
+                  >
+                    <span>System acts</span>
+                    <span>Human approves</span>
+                  </div>
+                </div>
+
                 <div
                   style={{
                     fontFamily: "Manrope, sans-serif",
                     fontSize: "15px",
                     lineHeight: 1.7,
                     color: "#374151",
-                    marginBottom: "10px",
+                    marginBottom: "14px",
                   }}
                 >
                   {row.what}
                 </div>
-                <div
-                  style={{
-                    fontFamily: "Manrope, sans-serif",
-                    fontSize: "14px",
-                    lineHeight: 1.6,
-                    color: "#6B7280",
-                  }}
-                >
-                  {row.where}
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "7px" }}>
+                  {row.examples.map(ex => (
+                    <span
+                      key={ex}
+                      style={{
+                        fontFamily: "Manrope, sans-serif",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        padding: "5px 11px",
+                        borderRadius: "6px",
+                        background: "#F6F8FC",
+                        border: "1px solid #E5E7EB",
+                        color: "#4B5563",
+                      }}
+                    >
+                      {ex}
+                    </span>
+                  ))}
                 </div>
               </div>
             ))}
@@ -610,44 +830,12 @@ export default function ArchitectureClient() {
 
           <ol style={{ margin: 0, paddingLeft: "0", listStyle: "none" }}>
             {buildSteps.map((step, i) => (
-              <li
+              <BuildStep
                 key={i}
-                style={{
-                  display: "flex",
-                  gap: "16px",
-                  marginBottom: "20px",
-                  alignItems: "flex-start",
-                }}
-              >
-                <span
-                  style={{
-                    flexShrink: 0,
-                    width: "28px",
-                    height: "28px",
-                    borderRadius: "8px",
-                    background: GRADIENT,
-                    color: "#ffffff",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: "Manrope, sans-serif",
-                    fontWeight: 700,
-                    fontSize: "13px",
-                  }}
-                >
-                  {i + 1}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "Manrope, sans-serif",
-                    fontSize: "16px",
-                    lineHeight: 1.75,
-                    color: "#374151",
-                  }}
-                >
-                  {step}
-                </span>
-              </li>
+                step={step}
+                index={i}
+                isLast={i === buildSteps.length - 1}
+              />
             ))}
           </ol>
         </div>
