@@ -128,23 +128,60 @@ export default function InsightArticle({
               </p>
             )}
 
-            {[post.introduction, post.content, post.conclusion]
-              .filter(Boolean)
-              .map((section, i) => (
-                <div
-                  key={i}
-                  style={{
-                    fontFamily: "Manrope, sans-serif",
-                    fontSize: "17px",
-                    lineHeight: 1.8,
-                    color: "#374151",
-                    whiteSpace: "pre-line",
-                    marginBottom: "28px",
-                  }}
-                >
-                  {section}
-                </div>
-              ))}
+            {/* Content is the single source of truth. introduction and
+                conclusion duplicate its opening and closing lines and exist
+                only to feed metadata and schema, so they are not rendered. */}
+            <div className="ql-article">
+              {post.content
+                .split("\n")
+                .map(line => line.trim())
+                .filter(Boolean)
+                .map((line, i) => {
+                  if (line.startsWith("## ")) {
+                    return (
+                      <h2 key={i} className="ql-h2">
+                        {line.slice(3)}
+                      </h2>
+                    );
+                  }
+                  return (
+                    <p key={i} className="ql-p">
+                      {line}
+                    </p>
+                  );
+                })}
+            </div>
+
+            <style>{`
+              .ql-article {
+                font-family: Manrope, sans-serif;
+                max-width: 68ch;
+              }
+              .ql-article .ql-p {
+                font-size: 18px;
+                line-height: 1.75;
+                color: #374151;
+                margin: 0 0 24px;
+              }
+              .ql-article .ql-h2 {
+                font-size: 26px;
+                font-weight: 700;
+                line-height: 1.3;
+                color: #1F2937;
+                margin: 48px 0 18px;
+                padding-top: 8px;
+                border-top: 2px solid #E5E7EB;
+              }
+              .ql-article .ql-h2:first-child {
+                margin-top: 0;
+                border-top: none;
+                padding-top: 0;
+              }
+              @media (max-width: 700px) {
+                .ql-article .ql-p { font-size: 17px; }
+                .ql-article .ql-h2 { font-size: 22px; margin: 36px 0 14px; }
+              }
+            `}</style>
 
             {post.tags && post.tags.length > 0 && (
               <div
