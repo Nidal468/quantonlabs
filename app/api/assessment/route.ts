@@ -95,7 +95,7 @@ const submittedAt = `${now.getUTCDate().toString().padStart(2,'0')}/${(now.getUT
         pdfUrl
       ),
       sendGmailNotification(submission, scoredPayload, reportUrl, pdfUrl),
-      sendSubmitterEmail(submission, reportUrl, pdfUrl),
+      sendSubmitterEmail(submission, reportUrl, pdfUrl, submissionId, scoredPayload),
     ]);
 
     // 7. Return scored payload + URLs to client
@@ -539,7 +539,9 @@ const sendResBody = await sendRes.json();
 async function sendSubmitterEmail(
   submission: AssessmentSubmission,
   reportUrl: string,
-  pdfUrl: string
+  pdfUrl: string,
+  submissionId: string,
+  scored: ScoredPayload
 ): Promise<void> {
   try {
     const privateKey = process.env.GOOGLE_PRIVATE_KEY;
@@ -608,6 +610,24 @@ async function sendSubmitterEmail(
     const { access_token: gmailToken } = await tokenRes.json();
 
     const firstName = submission.section_d.first_name;
+    const base = process.env.NEXTAUTH_URL ?? "https://quantonlabs.com";
+    const stage2Url = `${base}/assessment/stage2/${submissionId}`;
+    const isQualified = scored.closing_variant === "qualified";
+
+    // The Extended Brief was previously reachable only from inside the report,
+    // so anyone who read the email and stopped was never offered it.
+    const stage2Block = isQualified
+      ? [
+          "",
+          "NEXT STEP",
+          "",
+          "Your report names the gaps. The Extended Operator Brief puts a figure against them: annual cost per gap, where it compounds, and the sequence that resolves it.",
+          "",
+          "It takes about ten minutes and draws on everything you have already answered:",
+          stage2Url,
+        ]
+      : [];
+
     const emailBody = [
       `Hi ${firstName},`,
       "",
@@ -618,7 +638,8 @@ async function sendSubmitterEmail(
       "",
       pdfUrl ? `Download PDF: ${pdfUrl}` : "",
       "",
-      "This report is the output of your Stage 1 Structural Diagnostic. It maps your business across four operating systems and identifies where structural gaps are creating drag on growth, execution, and decision-making.",
+      "The report maps your business across four domains and identifies where structural gaps are creating drag on growth, execution, and decision-making.",
+      ...stage2Block,
       "",
       "If you have questions or would like to discuss your results, reply to this email or book a call directly:",
       "https://calendly.com/quantonlabs/30min",

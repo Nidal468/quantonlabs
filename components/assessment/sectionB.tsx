@@ -8,7 +8,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
 import type { SectionA, SectionB, QuestionWeight } from "@/lib/stage1";
-import { getActiveQuestions } from "@/lib/stage1";
+import { getActiveQuestions, getCoreQuestions, getRemainingQuestions } from "@/lib/stage1";
 
 // ============================================================
 // QUESTION TEXT LIBRARY
@@ -355,6 +355,12 @@ function remapScale4Weight(uiIndex: QuestionWeight): QuestionWeight {
 
 interface SectionBProps {
   sectionA: SectionA;
+  /**
+   * "core" renders the eight universal questions used by the Quick
+   * Diagnostic. "remaining" renders the conditional questions that follow
+   * the email gate. Omitting it preserves the original behaviour.
+   */
+  mode?: "core" | "remaining" | "all";
   initialValue?: SectionB;
   onComplete: (sectionB: SectionB) => void;
   onBack: () => void;
@@ -362,19 +368,29 @@ interface SectionBProps {
 
 export default function SectionBComponent({
   sectionA,
+  mode = "all",
   initialValue,
   onComplete,
   onBack,
 }: SectionBProps) {
-  // Compute active questions from Section A responses
-  const activeQuestions = useMemo(
-    () => getActiveQuestions(sectionA.team_size, sectionA.operational_surface),
-    [sectionA.team_size, sectionA.operational_surface]
-  );
+  // Which questions this pass renders. Core answers persist in wizard state,
+  // so the remaining pass never re-asks them.
+  const activeQuestions = useMemo(() => {
+    if (mode === "core") return getCoreQuestions();
+    if (mode === "remaining")
+      return getRemainingQuestions(sectionA.team_size, sectionA.operational_surface);
+    return getActiveQuestions(sectionA.team_size, sectionA.operational_surface);
+  }, [mode, sectionA.team_size, sectionA.operational_surface]);
 
   const [responses, setResponses] = useState<SectionB>(initialValue ?? {});
 
-  const answeredCount = Object.keys(responses).length;
+  const activeIds = useMemo(
+    () => new Set(activeQuestions.map((q) => q.id)),
+    [activeQuestions]
+  );
+  const answeredCount = Object.keys(responses).filter((id) =>
+    activeIds.has(id)
+  ).length;
   const totalCount = activeQuestions.length;
   const allAnswered = answeredCount === totalCount;
 
@@ -401,17 +417,20 @@ export default function SectionBComponent({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-12"
+        className="mb-9"
       >
-        <p className="text-sm font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
-          Section B, 2 of 4
+        <p className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
+          {mode === "core" ? "Step 2 of 3" : "Full diagnostic"}
         </p>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-          Symptom Diagnostic
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+          {mode === "core"
+            ? "Eight questions"
+            : "The rest of the picture"}
         </h1>
-        <p className="text-lg text-gray-600 mb-6">
-          Questions scoped to your operational surface. There are no right or
-          wrong answers. The honest one is the useful one.
+        <p className="text-base text-gray-600 mb-5">
+          {mode === "core"
+            ? "Answer these and you will see where your business stands. There are no right or wrong answers. The honest one is the useful one."
+            : "These are scoped to the operational surface you described. They are what turn a direction into a number."}
         </p>
 
         {/* Progress indicator */}
@@ -431,7 +450,7 @@ export default function SectionBComponent({
       </motion.div>
 
       {/* Questions */}
-      <div className="space-y-10">
+      <div className="space-y-8">
         {activeQuestions.map((q, idx) => {
           const content = QUESTION_CONTENT[q.id];
           if (!content) return null;
@@ -455,7 +474,7 @@ export default function SectionBComponent({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.2 }}
-        className="flex justify-between items-center mt-16"
+        className="flex justify-between items-center mt-12"
       >
         <button
           onClick={onBack}
@@ -466,13 +485,13 @@ export default function SectionBComponent({
         <button
           onClick={handleSubmit}
           disabled={!allAnswered}
-          className={`px-8 py-4 rounded-lg font-semibold text-white transition-all ${
+          className={`px-7 py-3.5 rounded-lg font-semibold text-white transition-all ${
             allAnswered
               ? "bg-gradient-to-r from-[#2B60EB] via-[#584DEB] to-[#8B37EA] hover:shadow-lg hover:shadow-[#4655EB]/20 cursor-pointer"
               : "bg-gray-300 cursor-not-allowed"
           }`}
         >
-          Continue to Section C
+          {mode === "core" ? "See my read" : "Continue"}
         </button>
       </motion.div>
     </div>
@@ -507,7 +526,7 @@ function QuestionBlock({
       transition={{ duration: 0.4, delay }}
     >
 <div className="mb-4">
-  <span className="text-lg font-semibold text-gray-800">{prompt}</span>
+  <span className="text-base font-semibold text-gray-800">{prompt}</span>
 </div>
       <div className="grid grid-cols-1 gap-2">
         {options.map((optText, idx) => {
@@ -518,7 +537,7 @@ function QuestionBlock({
               key={idx}
               type="button"
               onClick={() => onSelect(weight)}
-              className={`text-left px-5 py-3.5 rounded-lg border-2 transition-all ${
+              className={`text-left px-4 py-3 rounded-lg border-2 transition-all ${
                 isSelected
                   ? "border-[#4655EB] bg-[#4655EB]/5 text-gray-800"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
@@ -534,7 +553,7 @@ function QuestionBlock({
                     <span className="w-2.5 h-2.5 rounded-full bg-[#4655EB]" />
                   )}
                 </span>
-                <span className="text-sm md:text-base">{optText}</span>
+                <span className="text-sm md:text-[15px] leading-snug">{optText}</span>
               </div>
             </button>
           );

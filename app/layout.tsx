@@ -7,6 +7,7 @@ import Providers from "./providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SessionProvider } from "next-auth/react";
 import "@/lib/dns";
+import PageviewTracker from '@/components/PageviewTracker';
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -147,6 +148,7 @@ export default function RootLayout({
             {children}
           </TooltipProvider>
         </Providers>
+        <PageviewTracker />
       </body>
     </html>
   );

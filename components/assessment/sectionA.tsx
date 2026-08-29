@@ -108,17 +108,17 @@ export default function SectionAComponent({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-12"
+        className="mb-9"
       >
-        <p className="text-sm font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
-          Section A, 1 of 4
+        <p className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
+          Step 1 of 3
         </p>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-          Structural Qualifiers
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+          First, some context
         </h1>
-        <p className="text-lg text-gray-600">
-          Three quick questions to establish qualification status and the
-          operational surface of your business.
+        <p className="text-base text-gray-600">
+          Three questions so the diagnostic reads your business rather than a
+          generic one.
         </p>
       </motion.div>
 
@@ -183,18 +183,18 @@ export default function SectionAComponent({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.4 }}
-        className="flex justify-end mt-12"
+        className="flex justify-end mt-10"
       >
         <button
           onClick={handleSubmit}
           disabled={!canProceed}
-          className={`px-8 py-4 rounded-lg font-semibold text-white transition-all ${
+          className={`px-7 py-3.5 rounded-lg font-semibold text-white transition-all ${
             canProceed
               ? "bg-gradient-to-r from-[#2B60EB] via-[#584DEB] to-[#8B37EA] hover:shadow-lg hover:shadow-[#4655EB]/20 cursor-pointer"
               : "bg-gray-300 cursor-not-allowed"
           }`}
         >
-          Continue to Section B
+          Continue
         </button>
       </motion.div>
     </div>
@@ -225,13 +225,13 @@ function QuestionBlock({
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}
-      className="mb-10"
+      className="mb-8"
     >
-      <div className="mb-5">
+      <div className="mb-4">
         <span className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mr-2">
           {number}
         </span>
-        <span className="text-lg font-semibold text-gray-800">{label}</span>
+        <span className="text-base font-semibold text-gray-800">{label}</span>
         {sublabel && (
           <p className="text-sm text-gray-500 mt-1">{sublabel}</p>
         )}
@@ -253,14 +253,14 @@ function OptionCard({ label, selected, onClick, multi }: OptionCardProps) {
     <button
       type="button"
       onClick={onClick}
-      className={`text-left px-5 py-4 rounded-lg border-2 transition-all ${
+      className={`text-left px-4 py-3 rounded-lg border-2 transition-all ${
         selected
           ? "border-[#4655EB] bg-[#4655EB]/5 text-gray-800"
           : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
       }`}
     >
       <div className="flex items-center justify-between">
-        <span className="font-medium">{label}</span>
+        <span className="font-medium text-sm md:text-[15px]">{label}</span>
         {multi ? (
           <span
             className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ml-4 ${
