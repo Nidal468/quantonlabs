@@ -15,7 +15,9 @@ import SectionBComponent from "@/components/assessment/sectionB";
 import SectionCComponent from "@/components/assessment/sectionC";
 import SectionDComponent from "@/components/assessment/sectionD";
 import ResultsComponent from "@/components/assessment/results";
+import Verdict from "@/components/assessment/verdict";
 
+import { scoreAssessment, getCoreQuestions } from "@/lib/stage1";
 import type {
   AssessmentSubmission,
   ScoredPayload,
@@ -29,7 +31,10 @@ import type {
 // TYPES
 // ============================================================
 
-type WizardStep = "a" | "b" | "c" | "d" | "results";
+// The Quick Diagnostic runs a -> core -> verdict. The email gate sits inside
+// Section D's contact capture, which now happens before the conditional
+// questions rather than at the end.
+type WizardStep = "a" | "core" | "verdict" | "gate" | "full" | "c" | "d" | "results";
 
 interface ApiResponse {
   submission_id: string;
@@ -56,34 +61,43 @@ export default function AssessmentClient() {
 
   const handleSectionAComplete = (data: SectionA) => {
     setSectionA(data);
-    setStep("b");
+    setStep("core");
     scrollToTop();
   };
 
-  const handleSectionBComplete = (data: SectionB) => {
-    const normalized = { ...data };
-    setSectionB(normalized);
+  // Quick Diagnostic complete. Score the eight core answers and show the
+  // verdict before asking for anything.
+  const handleCoreComplete = (data: SectionB) => {
+    setSectionB({ ...data });
+    setStep("verdict");
+    scrollToTop();
+  };
+
+  // Contact captured. The conditional questions follow.
+  const handleGateComplete = (data: SectionD) => {
+    setSectionD(data);
+    setStep("full");
+    scrollToTop();
+  };
+
+  // Conditional questions complete. Merge with the core answers already held.
+  const handleFullComplete = (data: SectionB) => {
+    setSectionB((prev) => ({ ...(prev ?? {}), ...data }));
     setStep("c");
     scrollToTop();
   };
 
-  const handleSectionCComplete = (data: SectionC) => {
+  const handleSectionCComplete = async (data: SectionC) => {
     setSectionC(data);
-    setStep("d");
-    scrollToTop();
+    if (sectionD) await submitAssessment(data, sectionD);
   };
 
-  const handleSectionDComplete = async (data: SectionD) => {
-    setSectionD(data);
-    await submitAssessment(data);
-  };
+  const handleBackFromCore = () => { setStep("a"); scrollToTop(); };
+  const handleBackFromFull = () => { setStep("verdict"); scrollToTop(); };
+  const handleBackFromC = () => { setStep("full"); scrollToTop(); };
 
-  const handleBackFromB = () => { setStep("a"); scrollToTop(); };
-  const handleBackFromC = () => { setStep("b"); scrollToTop(); };
-  const handleBackFromD = () => { setStep("c"); scrollToTop(); };
-
-  const submitAssessment = async (dData: SectionD) => {
-    if (!sectionA || !sectionB || !sectionC) {
+  const submitAssessment = async (cData: SectionC, dData: SectionD) => {
+    if (!sectionA || !sectionB) {
       setSubmitError("Missing section data. Please refresh and try again.");
       return;
     }
@@ -94,7 +108,7 @@ export default function AssessmentClient() {
     const payload: AssessmentSubmission = {
       section_a: sectionA,
       section_b: sectionB,
-      section_c: sectionC,
+      section_c: cData,
       section_d: dData,
     };
 
@@ -129,6 +143,14 @@ export default function AssessmentClient() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
+
+  // Scored against the eight core questions only. Passing the full active
+  // set would count unanswered conditional questions in max_possible and
+  // report every domain as healthier than it is.
+  const quickScores =
+    sectionA && sectionB
+      ? scoreAssessment(sectionA, sectionB, getCoreQuestions())
+      : null;
 
   const progress = computeProgress(step);
 
@@ -176,7 +198,7 @@ export default function AssessmentClient() {
             </Link>
           )}
         </div>
-        {step !== "results" && (
+        {step !== "results" && step !== "verdict" && (
           <div className="container mx-auto px-6 pb-3">
             <div className="flex items-center gap-3">
               <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
@@ -189,7 +211,7 @@ export default function AssessmentClient() {
                 />
               </div>
               <span className="text-xs font-medium whitespace-nowrap" style={{ color: "rgba(255,255,255,0.50)" }}>
-                Section {stepLabel(step)} of 4
+                {stepLabel(step)}
               </span>
             </div>
           </div>
@@ -211,12 +233,39 @@ export default function AssessmentClient() {
                 onComplete={handleSectionAComplete}
               />
             )}
-            {step === "b" && sectionA && (
+            {step === "core" && sectionA && (
               <SectionBComponent
                 sectionA={sectionA}
+                mode="core"
                 initialValue={sectionB ?? undefined}
-                onComplete={handleSectionBComplete}
-                onBack={handleBackFromB}
+                onComplete={handleCoreComplete}
+                onBack={handleBackFromCore}
+              />
+            )}
+            {step === "verdict" && sectionA && sectionB && (
+              <Verdict
+                sectionA={sectionA}
+                sectionB={sectionB}
+                scores={quickScores!.scores}
+                rankedOs={quickScores!.ranked_os}
+                onContinue={() => { setStep("gate"); scrollToTop(); }}
+              />
+            )}
+            {step === "gate" && (
+              <SectionDComponent
+                initialValue={sectionD ?? undefined}
+                onComplete={handleGateComplete}
+                onBack={() => { setStep("verdict"); scrollToTop(); }}
+                isSubmitting={false}
+              />
+            )}
+            {step === "full" && sectionA && (
+              <SectionBComponent
+                sectionA={sectionA}
+                mode="remaining"
+                initialValue={sectionB ?? undefined}
+                onComplete={handleFullComplete}
+                onBack={handleBackFromFull}
               />
             )}
             {step === "c" && sectionA && sectionB && (
@@ -226,13 +275,6 @@ export default function AssessmentClient() {
                 initialValue={sectionC ?? undefined}
                 onComplete={handleSectionCComplete}
                 onBack={handleBackFromC}
-              />
-            )}
-            {step === "d" && (
-              <SectionDComponent
-                initialValue={sectionD ?? undefined}
-                onComplete={handleSectionDComplete}
-                onBack={handleBackFromD}
                 isSubmitting={isSubmitting}
               />
             )}
@@ -241,13 +283,18 @@ export default function AssessmentClient() {
                 scored={apiResponse.scored}
                 reportUrl={apiResponse.report_url}
                 pdfUrl={apiResponse.pdf_url}
+                stage2Url={
+                  apiResponse.scored.closing_variant === "qualified"
+                    ? `/assessment/stage2/${apiResponse.submission_id}`
+                    : null
+                }
                 firstName={sectionD.first_name}
               />
             )}
           </motion.div>
         </AnimatePresence>
 
-        {submitError && step === "d" && (
+        {submitError && step === "c" && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -268,20 +315,26 @@ export default function AssessmentClient() {
 
 function computeProgress(step: WizardStep): number {
   switch (step) {
-    case "a": return 15;
-    case "b": return 45;
-    case "c": return 70;
-    case "d": return 90;
+    case "a": return 10;
+    case "core": return 30;
+    case "verdict": return 45;
+    case "gate": return 55;
+    case "full": return 75;
+    case "c": return 90;
+    case "d": return 95;
     case "results": return 100;
   }
 }
 
 function stepLabel(step: WizardStep): string {
   switch (step) {
-    case "a": return "A";
-    case "b": return "B";
-    case "c": return "C";
-    case "d": return "D";
+    case "a": return "Context";
+    case "core": return "Quick diagnostic";
+    case "verdict": return "Your read";
+    case "gate": return "Your details";
+    case "full": return "Full diagnostic";
+    case "c": return "Priorities";
+    case "d": return "Your details";
     default: return "";
   }
 }

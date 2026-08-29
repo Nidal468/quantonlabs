@@ -14,9 +14,9 @@ import type { OperatingSystem, SeverityTier } from "./types";
 
 export const TIER_LABELS: Record<SeverityTier, string> = {
   architected: "Architected",
-  functional_gap: "Functional — Built on Effort",
-  structural_gap: "Fragmented — Structural Drag",
-  critical_gap: "Unstructured — Owner-Dependent",
+  functional_gap: "Functional, Built on Effort",
+  structural_gap: "Fragmented, Structural Drag",
+  critical_gap: "Unstructured, Owner-Dependent",
 };
 
 // OS display names (respondent-facing capitalization)
@@ -90,7 +90,7 @@ export const DIAGNOSTIC_LINES: Record<
     structural_gap:
       "Quality control is reactive. Your team absorbs preventable errors because execution is improvised within loose boundaries.",
     critical_gap:
-      "No documented process layer. You are the operating procedure — every execution decision routes through you.",
+      "No documented process layer. You are the operating procedure. Every execution decision routes through you.",
   },
   growth: {
     architected:
@@ -275,7 +275,7 @@ export const TIER_BLOCKS: Record<
       headline: "Your Growth System is architected.",
       pattern: [
         "Growth in your business is a standing capability rather than an event. You have designed channels that produce demand reliably, a sales motion that converts that demand through documented stages, and a retention structure that keeps existing customers engaged on system rather than on individual relationship. Revenue is not constrained by your personal bandwidth.",
-        "This is rare. Most businesses in your range run on growth activity rather than a growth system — campaigns happen, deals close, customers stay, but the mechanics sit in the founder's head or in a handful of key relationships. You have built something more structural. The engine runs whether or not you are pushing it.",
+        "This is rare. Most businesses in your range run on growth activity rather than a growth system. Campaigns happen, deals close, customers stay, but the mechanics sit in the founder's head or in a handful of key relationships. You have built something more structural. The engine runs whether or not you are pushing it.",
       ],
       implication:
         "A strong Growth System at this tier means the ceiling on revenue is not founder bandwidth. The question is whether the other operating systems are architected to absorb what Growth produces, whether Operations can deliver consistently, whether Platform carries the data to see what is working, whether Strategy defines where growth should go next.",
@@ -612,7 +612,7 @@ export const CLOSING_VARIANTS: Record<
     ],
     primary_cta: "Schedule a qualification conversation",
     secondary_body:
-      "You can also continue with the optional Deep Dive extension of this assessment, which produces an expanded Operator Brief with agent-level analysis for [TOP OS NAME] and [SECOND OS NAME] — your two focus areas. It takes an additional 8 to 10 minutes.",
+      "You can also continue with the optional Deep Dive extension of this assessment, which produces an expanded Operator Brief with agent-level analysis for [TOP OS NAME] and [SECOND OS NAME], your two focus areas. It takes an additional 8 to 10 minutes.",
     secondary_cta: "Continue to Deep Dive",
   },
   below_threshold: {
@@ -628,7 +628,7 @@ export const CLOSING_VARIANTS: Record<
     header: "A Different Conversation",
     body: [
       "Your profile sits above Quanton Labs' typical engagement segment. The structural patterns this report describes apply to your business, but the implementation approach that works for a $5M company and the implementation approach that works for a $40M company are not the same.",
-      "If the patterns in this report resonate, the right next step is not a standard qualification conversation. It is a direct conversation with Ryan Remington, Managing Director, about whether a tailored engagement makes sense for a business at your scale. These engagements look different from our standard Phase 1 Discovery — the scope, the timeline, and the approach all adjust to match.",
+      "If the patterns in this report resonate, the right next step is not a standard qualification conversation. It is a direct conversation with Ryan Remington, Managing Director, about whether a tailored engagement makes sense for a business at your scale. These engagements look different from our standard Phase 1 Discovery. The scope, the timeline, and the approach all adjust to match.",
     ],
     primary_cta: "Request a direct conversation with Ryan Remington",
     secondary_body:

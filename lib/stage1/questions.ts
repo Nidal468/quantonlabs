@@ -48,6 +48,10 @@ export const QUESTION_BANK: QuestionDefinition[] = [
     id: "B.Core.5",
     block: "core",
     primary_os: "platform",
+    // Platform connectivity governs how work actually moves, so Operations
+    // carries it as a secondary. Without this the Quick Diagnostic rests
+    // Operations on two answers alone.
+    secondary_os: "operations",
     activation: { type: "always" },
   },
   {
@@ -67,6 +71,9 @@ export const QUESTION_BANK: QuestionDefinition[] = [
     id: "B.Core.8",
     block: "core",
     primary_os: "strategy",
+    // Structured KPI review is the discipline growth compounds on, and it
+    // gives Growth a third input in the Quick Diagnostic.
+    secondary_os: "growth",
     activation: { type: "always" },
   },
 
@@ -305,6 +312,37 @@ export function getActiveQuestions(
         return false;
     }
   });
+}
+
+/**
+ * Returns only the eight universal B.Core questions, ignoring activation
+ * rules entirely.
+ *
+ * Used by the Quick Diagnostic, which runs before the email gate. These
+ * eight carry a balanced primary OS distribution (two each across strategy,
+ * platform, operations, and growth), so scoreAssessment produces a valid
+ * four-domain reading from them alone. computeOSScores normalizes against
+ * max_possible, which recalculates from whichever questions are present,
+ * so no scoring change is required.
+ */
+export function getCoreQuestions(): QuestionDefinition[] {
+  return QUESTION_BANK.filter((q) => q.block === "core");
+}
+
+/**
+ * Returns the conditional questions only: everything active for this
+ * respondent that is not already covered by the Quick Diagnostic.
+ *
+ * Used for the Full Diagnostic, which runs after the email gate, so the
+ * respondent is never asked the same question twice.
+ */
+export function getRemainingQuestions(
+  teamSize: string,
+  operationalSurface: string[]
+): QuestionDefinition[] {
+  return getActiveQuestions(teamSize, operationalSurface).filter(
+    (q) => q.block !== "core"
+  );
 }
 
 /**

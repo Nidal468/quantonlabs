@@ -30,6 +30,8 @@ interface SectionCProps {
   initialValue?: SectionC;
   onComplete: (sectionC: SectionC) => void;
   onBack: () => void;
+  // Section C now fires the submission, so it owns the pending state.
+  isSubmitting?: boolean;
 }
 
 export default function SectionCComponent({
@@ -38,6 +40,7 @@ export default function SectionCComponent({
   initialValue,
   onComplete,
   onBack,
+  isSubmitting = false,
 }: SectionCProps) {
   // Preliminary scoring to determine C1 option labels
   const { top_os, second_os } = useMemo(
@@ -84,17 +87,17 @@ export default function SectionCComponent({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-12"
+        className="mb-9"
       >
-        <p className="text-sm font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
-          Section C, 3 of 4
+        <p className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
+          Last step
         </p>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-          Priority Surfacing
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+          What matters most to you
         </h1>
-        <p className="text-lg text-gray-600">
-          Two quick questions to calibrate your report to what you actually
-          care about.
+        <p className="text-base text-gray-600">
+          Two questions so the report is calibrated to what you actually care
+          about rather than what scored worst.
         </p>
       </motion.div>
 
@@ -109,7 +112,7 @@ export default function SectionCComponent({
           <span className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mr-2">
             C1
           </span>
-          <span className="text-lg font-semibold text-gray-800">
+          <span className="text-base font-semibold text-gray-800">
             Based on what you have just described, which of the following would
             create the most value if resolved first?
           </span>
@@ -121,7 +124,7 @@ export default function SectionCComponent({
               key={opt.value}
               type="button"
               onClick={() => setPriorityOS(opt.value)}
-              className={`text-left px-5 py-4 rounded-lg border-2 transition-all ${
+              className={`text-left px-4 py-3 rounded-lg border-2 transition-all ${
                 priorityOS === opt.value
                   ? "border-[#4655EB] bg-[#4655EB]/5 text-gray-800"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50"
@@ -157,7 +160,7 @@ export default function SectionCComponent({
           <span className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mr-2">
             C2
           </span>
-          <span className="text-lg font-semibold text-gray-800">
+          <span className="text-base font-semibold text-gray-800">
             If that one thing were resolved, what would change for the business?
           </span>
           <p className="text-sm text-gray-500 mt-1">
@@ -194,20 +197,23 @@ export default function SectionCComponent({
       >
         <button
           onClick={onBack}
-          className="px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors"
+          disabled={isSubmitting}
+          className="px-6 py-3 text-gray-600 disabled:opacity-50 hover:text-gray-800 transition-colors"
         >
           Back
         </button>
         <button
           onClick={handleSubmit}
-          disabled={!canProceed}
-          className={`px-8 py-4 rounded-lg font-semibold text-white transition-all ${
-            canProceed
+          disabled={!canProceed || isSubmitting}
+          className={`px-7 py-3.5 rounded-lg font-semibold text-white transition-all min-w-[190px] ${
+            isSubmitting
+              ? "bg-gray-400 cursor-wait"
+              : canProceed
               ? "bg-gradient-to-r from-[#2B60EB] via-[#584DEB] to-[#8B37EA] hover:shadow-lg hover:shadow-[#4655EB]/20 cursor-pointer"
               : "bg-gray-300 cursor-not-allowed"
           }`}
         >
-          Continue to Section D
+          {isSubmitting ? "Preparing your report…" : "Send my report"}
         </button>
       </motion.div>
     </div>

@@ -29,7 +29,13 @@ export {
   deriveConfigurationProfile,
   determineClosingVariant,
 } from "./flags";
-export { getActiveQuestions, getQuestionById } from "./questions";
+export * from "./verdictCopy";
+export {
+  getActiveQuestions,
+  getCoreQuestions,
+  getRemainingQuestions,
+  getQuestionById,
+} from "./questions";
 
 // ============================================================
 // FULL SCORING PIPELINE

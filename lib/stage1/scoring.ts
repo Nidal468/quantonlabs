@@ -43,12 +43,21 @@ const TIER_THRESHOLDS = {
  * The ranking places the MOST structurally deficient OS first, which
  * aligns the report with what Quanton OS would resolve first.
  */
-export function scoreAssessment(sectionA: SectionA, sectionB: SectionB) {
-  // 1. Determine which questions should have been shown
-  const activeQuestions = getActiveQuestions(
-    sectionA.team_size,
-    sectionA.operational_surface
-  );
+export function scoreAssessment(
+  sectionA: SectionA,
+  sectionB: SectionB,
+  questionSet?: QuestionDefinition[]
+) {
+  // 1. Determine which questions should have been shown.
+  //
+  // A caller may pass an explicit set. The Quick Diagnostic does exactly
+  // that: it holds only the eight core answers, and scoring against the
+  // full active set would put unanswered questions into max_possible,
+  // diluting every score toward zero and reporting healthy domains that
+  // are not healthy.
+  const activeQuestions =
+    questionSet ??
+    getActiveQuestions(sectionA.team_size, sectionA.operational_surface);
 
   // 2. Compute raw + max_possible per OS
   const scores = computeOSScores(activeQuestions, sectionB);

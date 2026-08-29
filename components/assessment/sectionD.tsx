@@ -131,16 +131,17 @@ export default function SectionDComponent({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="mb-12"
+        className="mb-9"
       >
-        <p className="text-sm font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
-          Section D, 4 of 4
+        <p className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
+          Step 3 of 3
         </p>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-          Your full Structural Pattern Report is ready.
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
+          Where should we send the report?
         </h1>
-        <p className="text-lg text-gray-600">
-          Where should we send it?
+        <p className="text-base text-gray-600">
+          The full diagnostic follows. Your report arrives whether or not we
+          ever speak, and nothing else follows it unless you ask.
         </p>
       </motion.div>
 
@@ -227,17 +228,25 @@ export default function SectionDComponent({
         />
 
         <p className="text-sm text-gray-500 pt-2">
-          We use this to tailor your report, send follow-up that is relevant to
-          your business, and prepare properly if we speak. We do not share your
-          information.
+          We use this to tailor your report and to prepare properly if we
+          speak. We do not share your information.
         </p>
+
+        <a
+          href="https://calendly.com/quantonlabs/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block text-sm font-semibold text-[#4655EB] hover:underline"
+        >
+          Rather just talk it through? Book a call
+        </a>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.2 }}
-        className="flex justify-between items-center mt-12"
+        className="flex justify-between items-center mt-10"
       >
         <button
           onClick={onBack}
@@ -249,13 +258,13 @@ export default function SectionDComponent({
         <button
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className={`px-8 py-4 rounded-lg font-semibold text-white transition-all min-w-[180px] ${
+          className={`px-7 py-3.5 rounded-lg font-semibold text-white transition-all min-w-[180px] ${
             isSubmitting
               ? "bg-gray-400 cursor-wait"
               : "bg-gradient-to-r from-[#2B60EB] via-[#584DEB] to-[#8B37EA] hover:shadow-lg hover:shadow-[#4655EB]/20 cursor-pointer"
           }`}
         >
-          {isSubmitting ? "Preparing your report…" : "Send My Report"}
+          {isSubmitting ? "One moment…" : "Continue to the full diagnostic"}
         </button>
       </motion.div>
     </div>
@@ -420,4 +429,4 @@ function normalizeUrl(url: string): string {
   if (!trimmed) return "";
   if (/^https?:\/\//i.test(trimmed)) return trimmed.toLowerCase();
   return `https://${trimmed.toLowerCase()}`;
-}
+} 

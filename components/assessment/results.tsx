@@ -62,6 +62,8 @@ interface ResultsProps {
   scored: ScoredPayload;
   reportUrl: string;
   pdfUrl: string;
+  // Present only when the respondent is Stage 2 eligible.
+  stage2Url?: string | null;
   firstName: string;
 }
 
@@ -69,6 +71,7 @@ export default function ResultsComponent({
   scored,
   reportUrl,
   pdfUrl,
+  stage2Url,
   firstName,
 }: ResultsProps) {
   const topOS = scored.top_os;
@@ -180,6 +183,36 @@ export default function ResultsComponent({
       >
         A copy has also been sent to your inbox.
       </motion.p>
+
+      {/* Stage 2 was previously reachable only from inside the report, so
+          anyone who stopped here was never offered it. */}
+      {stage2Url && (
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.95 }}
+          className="mt-12 rounded-2xl border border-[#4655EB]/25 bg-[#4655EB]/[0.04] px-7 py-7"
+        >
+          <p className="text-xs font-semibold tracking-wide uppercase text-[#4655EB] mb-3">
+            One more step, if you want the numbers
+          </p>
+          <h3 className="text-xl font-bold text-gray-800 mb-3">
+            Put a figure against what this is costing you
+          </h3>
+          <p className="text-base text-gray-600 leading-relaxed mb-6">
+            Your report names the gaps. The Extended Operator Brief quantifies
+            them: annual cost per gap, where it compounds, and the sequence
+            that resolves it. About ten minutes, and it builds on everything
+            you have already answered.
+          </p>
+          <Link
+            href={stage2Url}
+            className="inline-block px-7 py-3.5 rounded-lg font-semibold text-white bg-gradient-to-r from-[#2B60EB] via-[#584DEB] to-[#8B37EA] hover:shadow-lg hover:shadow-[#4655EB]/20 transition-all"
+          >
+            Continue to the Extended Brief
+          </Link>
+        </motion.div>
+      )}
     </div>
   );
 }
@@ -195,6 +228,15 @@ interface SeverityRowProps {
   delay: number;
 }
 
+// Severity has to be visible at a glance. A single accent colour made a
+// critical gap and an architected domain look identical.
+const TIER_DOT: Record<SeverityTier, string> = {
+  architected: "#22C55E",
+  functional_gap: "#EAB308",
+  structural_gap: "#F97316",
+  critical_gap: "#EF4444",
+};
+
 function SeverityRow({ os, tier, dots, delay }: SeverityRowProps) {
   return (
     <motion.div
@@ -207,9 +249,10 @@ function SeverityRow({ os, tier, dots, delay }: SeverityRowProps) {
         {[1, 2, 3, 4, 5].map((i) => (
           <span
             key={i}
-            className={`w-2.5 h-2.5 rounded-full ${
-              i <= dots ? "bg-[#4655EB]" : "bg-gray-200"
-            }`}
+            className="w-2.5 h-2.5 rounded-full"
+            style={{
+              background: i <= dots ? TIER_DOT[tier] : "#E5E7EB",
+            }}
           />
         ))}
       </div>
