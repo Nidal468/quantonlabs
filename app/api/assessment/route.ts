@@ -15,6 +15,8 @@ import {
   type ScoredPayload,
   type SheetRow,
 } from "@/lib/stage1";
+import { selectModularAgent, AGENT_NAME_PROVISIONAL } from "@/lib/stage1";
+import type { ModularSelection } from "@/lib/stage1";
 import { renderReport } from "@/lib/stage1/reportRenderer";
 import { renderPdf } from "@/lib/stage1/pdfRenderer";
 
@@ -69,13 +71,46 @@ export async function POST(req: NextRequest) {
     // 2. Score
     const scoredPayload = processSubmission(submission, websiteVerified);
 
+    // 2b. Modular Agent Program routing, below threshold only for v1.
+    //
+    // Instrumented rather than assumed correct: fallback rate above roughly
+    // one in ten means the surface filter is still wrong somewhere, and a
+    // collapsed tiebreak distribution means the filter is already resolving
+    // Operations and the tiebreak is dead logic.
+    const modular =
+      scoredPayload.closing_variant === "below_threshold"
+        ? selectModularAgent(
+            submission.section_a,
+            scoredPayload.scores,
+            scoredPayload.ranked_os,
+            scoredPayload.flags
+          )
+        : null;
+
+    if (modular) {
+      console.log(
+        "[Modular routing]",
+        JSON.stringify({
+          agent: modular.agent,
+          agent_name: modular.agent ? AGENT_NAME_PROVISIONAL[modular.agent] : null,
+          selected_by: modular.selected_by,
+          filtered_out: modular.filtered_out,
+          fallback: modular.fallback,
+          owner_bottleneck: scoredPayload.flags.owner_bottleneck,
+          top_os: scoredPayload.top_os,
+          second_os: scoredPayload.second_os,
+          operational_surface: submission.section_a.operational_surface,
+        })
+      );
+    }
+
     // 3. Identifiers
     const submissionId = generateSubmissionId();
     const now = new Date();
 const submittedAt = `${now.getUTCDate().toString().padStart(2,'0')}/${(now.getUTCMonth()+1).toString().padStart(2,'0')}/${now.getUTCFullYear()} ${now.getUTCHours().toString().padStart(2,'0')}:${now.getUTCMinutes().toString().padStart(2,'0')} UTC`;
 
     // 4. Render HTML report (needed for both the client response and PDF)
-    const html = renderReport(submission, scoredPayload, submissionId);
+    const html = renderReport(submission, scoredPayload, submissionId, modular);
 
    // 5. Generate PDF + upload HTML and PDF to Blob in parallel
     const [pdfUrl, htmlBlobUrl] = await Promise.all([
@@ -92,9 +127,10 @@ const submittedAt = `${now.getUTCDate().toString().padStart(2,'0')}/${(now.getUT
         submission,
         scoredPayload,
         reportUrl,
-        pdfUrl
+        pdfUrl,
+        modular
       ),
-      sendGmailNotification(submission, scoredPayload, reportUrl, pdfUrl),
+      sendGmailNotification(submission, scoredPayload, reportUrl, pdfUrl, modular),
       sendSubmitterEmail(submission, reportUrl, pdfUrl, submissionId, scoredPayload),
     ]);
 
@@ -237,7 +273,8 @@ async function writeToSheet(
   submission: AssessmentSubmission,
   scored: ScoredPayload,
   reportUrl: string,
-  pdfUrl: string
+  pdfUrl: string,
+  modular: ModularSelection | null
 ): Promise<void> {
   try {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
@@ -253,7 +290,8 @@ async function writeToSheet(
       submission,
       scored,
       reportUrl,
-      pdfUrl
+      pdfUrl,
+      modular
     );
 
     const response = await fetch(
@@ -285,7 +323,8 @@ function buildSheetRow(
   submission: AssessmentSubmission,
   scored: ScoredPayload,
   reportUrl: string,
-  pdfUrl: string
+  pdfUrl: string,
+  modular: ModularSelection | null
 ): SheetRow {
   const { section_a, section_c, section_d } = submission;
 
@@ -366,6 +405,12 @@ function buildSheetRow(
     agreement_executed: "",
     lifecycle_stage: "stage_1_complete",
 
+    // Modular routing, empty for anything other than below threshold
+    modular_agent: modular?.agent ? AGENT_NAME_PROVISIONAL[modular.agent] : "",
+    modular_selected_by: modular?.selected_by ?? "",
+    modular_filtered_out: modular?.filtered_out.join(", ") ?? "",
+    modular_fallback: modular?.fallback ?? false,
+
     // Ops
     notes: "",
     last_updated: submittedAt,
@@ -428,6 +473,10 @@ function rowToArray(row: SheetRow): (string | number | boolean)[] {
     row.agreement_sent,
     row.agreement_executed,
     row.lifecycle_stage,
+    row.modular_agent,
+    row.modular_selected_by,
+    row.modular_filtered_out,
+    row.modular_fallback,
     row.notes,
     row.last_updated,
   ];
@@ -441,7 +490,8 @@ async function sendGmailNotification(
   submission: AssessmentSubmission,
   scored: ScoredPayload,
   reportUrl: string,
-  pdfUrl: string
+  pdfUrl: string,
+  modular: ModularSelection | null
 ): Promise<void> {
   try {
     const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
@@ -510,7 +560,7 @@ const pemBody = privateKey
 const { access_token: gmailToken } = await tokenRes.json();
     console.log("[Gmail token obtained]", gmailToken ? "token present" : "token missing");
 
-    const emailBody = buildNotificationBody(submission, scored, reportUrl, pdfUrl);
+    const emailBody = buildNotificationBody(submission, scored, reportUrl, pdfUrl, modular);
     const subject = "A New Assessment has been Completed";
     const raw = buildMimeMessage(sendAs, sendAs, subject, emailBody);
 
@@ -650,7 +700,22 @@ async function sendSubmitterEmail(
     ].join("\n");
 
     const subject = `Your Structural Intelligence Report from Quanton Labs`;
-    const raw = buildMimeMessage(sendAs, toEmail, subject, emailBody);
+
+    const html = buildSubmitterHtml({
+      firstName,
+      reportUrl,
+      pdfUrl,
+      stage2Url: isQualified ? stage2Url : null,
+      scored,
+    });
+
+    const raw = buildMultipartMessage(
+      sendAs,
+      toEmail,
+      subject,
+      emailBody,
+      html
+    );
 
     const sendRes = await fetch(
       "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
@@ -678,7 +743,8 @@ function buildNotificationBody(
   submission: AssessmentSubmission,
   scored: ScoredPayload,
   reportUrl: string,
-  pdfUrl: string
+  pdfUrl: string,
+  modular: ModularSelection | null
 ): string {
   const { section_d } = submission;
   const statusLabel = statusLabelFor(scored.closing_variant);
@@ -703,6 +769,7 @@ function buildNotificationBody(
     "REPORT",
     `HTML: ${reportUrl}`,
     `PDF: ${pdfUrl || "(generation failed - see logs)"}`,
+    ...modularLines(modular, scored),
     "",
     "NEXT STEPS",
     ...nextStepsFor(scored.closing_variant),
@@ -712,12 +779,45 @@ function buildNotificationBody(
   ].join("\n");
 }
 
+/**
+ * What the respondent was actually shown. Without this, a below-threshold
+ * prospect can book a call off the back of a specific agent recommendation
+ * and the call happens without knowing which one.
+ */
+function modularLines(
+  modular: ModularSelection | null,
+  scored: ScoredPayload
+): string[] {
+  if (!modular) return [];
+
+  if (modular.fallback) {
+    return [
+      "",
+      "MODULAR ROUTING (internal signal, provisional)",
+      "No agent indicated. Report showed the scoped-conversation fallback.",
+      `Weakest domain: ${scored.top_os}, second: ${scored.second_os}`,
+      `Agents filtered out by surface: ${modular.filtered_out.join(", ") || "none"}`,
+    ];
+  }
+
+  return [
+    "",
+    "MODULAR ROUTING (internal signal, provisional)",
+    "The report did not name an agent. It framed a modular engagement and",
+    "routed to a conversation. Use the below to prepare, not to quote.",
+    `Indicated: ${modular.agent ? AGENT_NAME_PROVISIONAL[modular.agent] : "none"}`,
+    `Selected by: ${modular.selected_by} (weakest: ${scored.top_os})`,
+    `Owner bottleneck: ${scored.flags.owner_bottleneck ? "yes" : "no"}`,
+    `Ruled out by operational surface: ${modular.filtered_out.join(", ") || "none"}`,
+  ];
+}
+
 function statusLabelFor(variant: string): string {
   switch (variant) {
     case "qualified":
       return "Qualified - Stage 2 eligible";
     case "below_threshold":
-      return "Below Threshold - long-term nurture, no qualification call";
+      return "Below Threshold - Modular routing, scoping conversation offered";
     case "above_segment":
       return "Above Segment - direct Ryan follow-up";
     default:
@@ -736,10 +836,10 @@ function nextStepsFor(variant: string): string[] {
       ];
     case "below_threshold":
       return [
-        "1. Report delivered automatically",
-        "2. Added to long-term nurture sequence",
-        "3. No qualification call offered",
-        "4. Re-engage if revenue crosses $1M threshold",
+        "1. Report delivered automatically, framing a modular engagement",
+        "2. Review the routing signal above before reaching out. No agent was named to the respondent",
+        "3. Scoping conversation offered, not a qualification call",
+        "4. Route to Quanton OS pipeline if scope grows past three agents",
       ];
     case "above_segment":
       return [
@@ -751,6 +851,253 @@ function nextStepsFor(variant: string): string[] {
     default:
       return ["Review submission in Google Sheet"];
   }
+}
+
+/**
+ * Multipart/alternative message. Carries the plain-text body and an HTML
+ * version of the same content; the client renders whichever it supports.
+ *
+ * The text part is not optional. It supplies the inbox preview snippet,
+ * carries deliverability weight against spam filtering, and is what plain
+ * text clients and screen readers receive.
+ */
+
+// ============================================================
+// SUBMITTER EMAIL, HTML PART
+// ============================================================
+
+/**
+ * Table-based layout with inline styles only. Email clients do not support
+ * flexbox, grid, or external stylesheets, and Outlook renders through Word,
+ * so structure comes from tables and colour from background attributes.
+ *
+ * No images are load-bearing. Most clients block them by default, so every
+ * element has to survive as text and background colour.
+ */
+function buildSubmitterHtml(opts: {
+  firstName: string;
+  reportUrl: string;
+  pdfUrl: string;
+  stage2Url: string | null;
+  scored: ScoredPayload;
+}): string {
+  const { firstName, reportUrl, pdfUrl, stage2Url, scored } = opts;
+
+  const DOMAIN_LABEL: Record<string, string> = {
+    strategy: "Strategy",
+    platform: "Platform",
+    operations: "Operations",
+    growth: "Growth",
+  };
+
+  const TIER_LABEL: Record<string, string> = {
+    architected: "Architected",
+    functional_gap: "Functional, Built on Effort",
+    structural_gap: "Fragmented, Structural Drag",
+    critical_gap: "Unstructured, Owner-Dependent",
+  };
+
+  const TIER_COLOR: Record<string, string> = {
+    architected: "#22C55E",
+    functional_gap: "#EAB308",
+    structural_gap: "#F97316",
+    critical_gap: "#EF4444",
+  };
+
+  const rows = scored.ranked_os
+    .map(os => {
+      const sc = scored.scores[os];
+      return `
+      <tr>
+        <td style="padding:12px 0;border-bottom:1px solid #EEF1F6;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="border-left:4px solid ${TIER_COLOR[sc.tier]};padding-left:14px;">
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#1F2937;">
+                  ${DOMAIN_LABEL[os]}
+                </div>
+                <div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:${TIER_COLOR[sc.tier]};padding-top:3px;">
+                  ${TIER_LABEL[sc.tier]}
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>`;
+    })
+    .join("");
+
+  const stage2Block = stage2Url
+    ? `
+      <tr>
+        <td style="padding:8px 0 28px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                 style="border:1px solid #C7D0F5;border-radius:10px;background-color:#F6F8FF;">
+            <tr>
+              <td style="padding:22px 24px;font-family:Arial,Helvetica,sans-serif;">
+                <div style="font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#4655EB;padding-bottom:8px;">
+                  Next step
+                </div>
+                <div style="font-size:17px;font-weight:bold;color:#1F2937;padding-bottom:10px;">
+                  Put a figure against what this is costing you
+                </div>
+                <div style="font-size:14px;line-height:22px;color:#4B5563;padding-bottom:18px;">
+                  Your report names the gaps. The Extended Operator Brief puts a
+                  figure against them: annual cost per gap, where it compounds,
+                  and the sequence that resolves it. About ten minutes, and it
+                  builds on everything you have already answered.
+                </div>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td style="background-color:#4655EB;border-radius:8px;">
+                      <a href="${stage2Url}"
+                         style="display:inline-block;padding:13px 26px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;text-decoration:none;">
+                        Continue to the Extended Brief
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>`
+    : "";
+
+  const pdfLink = pdfUrl
+    ? `<div style="font-family:Arial,Helvetica,sans-serif;font-size:13px;padding-top:12px;">
+         <a href="${pdfUrl}" style="color:#4655EB;text-decoration:none;">Download the PDF</a>
+       </div>`
+    : "";
+
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background-color:#F4F6FA;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F4F6FA;">
+    <tr>
+      <td align="center" style="padding:28px 12px;">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"
+               style="max-width:600px;width:100%;background-color:#ffffff;border-radius:14px;overflow:hidden;">
+
+          <tr><td style="height:4px;background-color:#4655EB;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+          <tr>
+            <td style="background-color:#041227;padding:22px 28px;font-family:Arial,Helvetica,sans-serif;">
+              <div style="font-size:17px;font-weight:bold;color:#ffffff;letter-spacing:0.5px;">Quanton Labs</div>
+              <div style="font-size:12px;color:#8FA0BF;padding-top:4px;">Structural Intelligence Report</div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:30px 28px 8px;font-family:Arial,Helvetica,sans-serif;">
+              <div style="font-size:15px;color:#374151;line-height:24px;">
+                Hi ${firstName},
+              </div>
+              <div style="font-size:15px;color:#374151;line-height:24px;padding-top:14px;">
+                Your report is ready. It maps your business across four domains
+                and identifies where structural gaps are creating drag on
+                growth, execution, and decision-making.
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:22px 28px 4px;font-family:Arial,Helvetica,sans-serif;">
+              <div style="font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#9CA3AF;padding-bottom:6px;">
+                Ranked by structural gap
+              </div>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                ${rows}
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:26px 28px 22px;font-family:Arial,Helvetica,sans-serif;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background-color:#4655EB;border-radius:8px;">
+                    <a href="${reportUrl}"
+                       style="display:inline-block;padding:14px 30px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;">
+                      View your full report
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              ${pdfLink}
+            </td>
+          </tr>
+
+          <tr><td style="padding:0 28px;"><div style="height:1px;background-color:#EEF1F6;font-size:0;line-height:0;">&nbsp;</div></td></tr>
+
+          <tr><td style="padding:22px 28px 0;">&nbsp;</td></tr>
+          ${stage2Block ? `<tr><td style="padding:0 28px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${stage2Block}</table></td></tr>` : ""}
+
+          <tr>
+            <td style="padding:4px 28px 30px;font-family:Arial,Helvetica,sans-serif;">
+              <div style="font-size:14px;line-height:22px;color:#4B5563;">
+                Questions, or want to talk it through? Reply to this email or
+                <a href="https://calendly.com/quantonlabs/30min" style="color:#4655EB;text-decoration:none;">book a call</a>.
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="background-color:#F6F8FC;padding:20px 28px;font-family:Arial,Helvetica,sans-serif;border-top:1px solid #EEF1F6;">
+              <div style="font-size:13px;font-weight:bold;color:#1F2937;">Quanton Labs</div>
+              <div style="font-size:12px;color:#6B7280;padding-top:3px;">The Architecture of Intelligent Business</div>
+              <div style="font-size:12px;padding-top:8px;">
+                <a href="https://quantonlabs.com" style="color:#4655EB;text-decoration:none;">quantonlabs.com</a>
+              </div>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+
+function buildMultipartMessage(
+  from: string,
+  to: string,
+  subject: string,
+  textBody: string,
+  htmlBody: string,
+  displayName: string = "Quanton Labs"
+): string {
+  const boundary = `ql_${Date.now().toString(36)}`;
+
+  const message = [
+    "From: " + displayName + " <" + from + ">",
+    `To: ${to}`,
+    `Subject: ${subject}`,
+    "MIME-Version: 1.0",
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    "",
+    `--${boundary}`,
+    "Content-Type: text/plain; charset=utf-8",
+    "Content-Transfer-Encoding: 7bit",
+    "",
+    textBody,
+    "",
+    `--${boundary}`,
+    "Content-Type: text/html; charset=utf-8",
+    "Content-Transfer-Encoding: 7bit",
+    "",
+    htmlBody,
+    "",
+    `--${boundary}--`,
+  ].join("\r\n");
+
+  return Buffer.from(message)
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
 function buildMimeMessage(

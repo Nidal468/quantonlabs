@@ -14,7 +14,7 @@ import {
   buildSecondSignal,
   DOMAIN_LABEL,
   TIER_LABEL,
-  WEAKEST_DOMAIN_COPY,
+  buildWeakestDomain,
   NO_GAP_COPY,
   GATE_REASON,
   CALENDLY_URL,
@@ -61,6 +61,7 @@ export default function Verdict({
 
   const opening = buildOpening(sectionA, sectionB, avgSeverity);
   const scaleLine = buildScaleLine(sectionA, avgSeverity);
+  const weakestCopy = buildWeakestDomain(rankedOs[0], sectionB);
   const secondSignal = buildSecondSignal(sectionA, sectionB);
   const weakest = rankedOs[0];
   const nothingWeak = scores[weakest].tier === "architected";
@@ -185,21 +186,69 @@ export default function Verdict({
       </motion.div>
 
       {/* Weakest domain */}
-      <motion.p
+      <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.24, ease: "easeOut" }}
         style={{
-          fontSize: "17px",
-          lineHeight: 1.8,
-          color: "#374151",
-          marginBottom: secondSignal ? "28px" : "44px",
+          marginBottom: "28px",
           paddingLeft: "20px",
           borderLeft: `3px solid ${TIER_COLOR[scores[weakest].tier]}`,
         }}
       >
-        {nothingWeak ? NO_GAP_COPY : WEAKEST_DOMAIN_COPY[weakest]}
-      </motion.p>
+        {nothingWeak ? (
+          <p style={{ fontSize: "17px", lineHeight: 1.8, color: "#374151", margin: 0 }}>
+            {NO_GAP_COPY}
+          </p>
+        ) : (
+          <>
+            <p style={{ fontSize: "17px", lineHeight: 1.8, color: "#374151", margin: "0 0 14px" }}>
+              {weakestCopy.lead}
+            </p>
+
+            {/* Their own answers, restated. Nothing generic about the domain. */}
+            <ul
+              style={{
+                margin: "0 0 16px",
+                padding: 0,
+                listStyle: "none",
+              }}
+            >
+              {weakestCopy.observations.map((obs, i) => (
+                <li
+                  key={i}
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.7,
+                    color: "#4B5563",
+                    marginBottom: "10px",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "11px",
+                  }}
+                >
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      width: "5px",
+                      height: "5px",
+                      borderRadius: "50%",
+                      background: "#9CA3AF",
+                      flexShrink: 0,
+                      marginTop: "10px",
+                    }}
+                  />
+                  <span>{obs}</span>
+                </li>
+              ))}
+            </ul>
+
+            <p style={{ fontSize: "17px", lineHeight: 1.8, color: "#374151", margin: 0 }}>
+              {weakestCopy.consequence}
+            </p>
+          </>
+        )}
+      </motion.div>
 
       {/* What the scale means for what happens next. Revenue drives every
           routing decision but never appeared on this screen. */}

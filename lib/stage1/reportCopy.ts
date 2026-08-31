@@ -619,10 +619,10 @@ export const CLOSING_VARIANTS: Record<
     header: "Where to Go From Here",
     body: [
       "This report is yours regardless of what comes next. The structural patterns it identifies hold whether you address them now, in a year, or incrementally as the business grows.",
-      "Quanton Labs typically engages with businesses generating $1M or more in annual revenue, where the operational complexity justifies the architectural investment our engagement model requires. If that is where your business is heading, the insights in this report will remain relevant as you approach that scale.",
-      "In the meantime, we publish writing on operational architecture, AI infrastructure, and the structural patterns that determine whether growth compounds or fragments. If you would like to stay connected, you can continue to receive that material.",
+      "A full system deployment is built for operational complexity your business has not reached yet, and recommending one at this stage would be the wrong advice. That does not mean the answer is to wait. Most of the drag described above traces back to one constraint rather than four, and a single agent installed against that constraint changes the week without changing the business.",
+      "The useful conversation is a short one about which constraint that is. It costs nothing, it is not a qualification call, and if the honest answer is that nothing should be built yet, you will hear that.",
     ],
-    primary_cta: "Stay connected with Quanton Labs",
+    primary_cta: "Book a scoping conversation",
   },
   above_segment: {
     header: "A Different Conversation",

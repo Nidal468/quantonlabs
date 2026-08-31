@@ -290,6 +290,14 @@ export interface SheetRow {
   lifecycle_stage: string;
 
   // Ops
+  // Modular Agent Program routing, below-threshold submissions only.
+  // Needed as columns rather than logs so fallback rate and tiebreak
+  // distribution can be measured against real submissions.
+  modular_agent: string;
+  modular_selected_by: string;
+  modular_filtered_out: string;
+  modular_fallback: boolean;
+
   notes: string;
   last_updated: string;
 }
