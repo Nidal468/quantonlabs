@@ -144,6 +144,9 @@ export default function AssessmentClient() {
     }
   };
 
+  // Scored from the eight core answers only. computeOSScores normalizes
+  // against max_possible, so a partial question set still produces valid
+  // four-domain readings.
   // Scored against the eight core questions only. Passing the full active
   // set would count unanswered conditional questions in max_possible and
   // report every domain as healthier than it is.
@@ -178,9 +181,9 @@ export default function AssessmentClient() {
         <div className="flex items-center justify-between container mx-auto h-[66px] px-6">
           <Link href="/" className="flex items-center">
             <Image
-              src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png"
-              width={200}
-              height={60}
+              src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_1_Aug2026.png"
+              width={611}
+              height={184}
               alt="Quanton Labs"
               priority
               style={{ width: "200px", height: "auto", mixBlendMode: "screen" }}

@@ -30,6 +30,7 @@ export {
   determineClosingVariant,
 } from "./flags";
 export * from "./verdictCopy";
+export * from "./modularRouting";
 export {
   getActiveQuestions,
   getCoreQuestions,

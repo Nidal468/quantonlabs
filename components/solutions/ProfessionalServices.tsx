@@ -144,7 +144,7 @@ const howItWorks = [
     title: "Infrastructure Deployment",
     duration: "8 to 16 weeks",
     description:
-      "e build your operational core: the layer that holds your client records, engagement history, time and billing, and financials in one place. All eight agents are configured to work against it directly. The Governing Agent goes live. Your leadership dashboard is built. SOPs are documented and your team is trained on how the approval gates work and what requires human judgment.",
+      "We build your operational core: the layer that holds your client records, engagement history, time and billing, and financials in one place. All eight agents are configured to work against it directly. The Governing Agent goes live. Your leadership dashboard is built. SOPs are documented and your team is trained on how the approval gates work and what requires human judgment.",
     detail: "Fixed investment. You own all deployed infrastructure on completion.",
   },
   {

@@ -92,10 +92,21 @@ export function buildOpening(
   const bottleneck = sectionB["B.Core.3"];
   const frequency = bottleneck === 3 ? "constantly" : "daily";
 
+  // A solo operator being told decisions route through them is being told
+  // something they already know and cannot act on. The constraint at that
+  // scale is transferability, not delegation.
+  if (sectionA.team_size === "solo") {
+    return {
+      observation: `You are running ${domains} operational domains on your own.`,
+      implication:
+        "The constraint is not hours. Every process in the business currently lives in your head, which works exactly as long as you do, and nothing built that way can be handed over, scaled, or sold with you outside it.",
+    };
+  }
+
   if (typeof bottleneck === "number" && bottleneck >= 2) {
     return {
       observation: `You are running ${team} across ${domains} operational domains, and decisions still route through you ${frequency}.`,
-      implication: `That is not a workload problem. One person is the integration layer for ${domains} domains, and there is a ceiling on that no matter how the hours are arranged.`,
+      implication: `That is not a workload problem. You have people, and the work still stops at you, which means the ceiling is structural rather than personal.`,
     };
   }
 
@@ -119,19 +130,96 @@ export function buildOpening(
 // ============================================================
 
 /**
- * One paragraph naming the specific failure the score implies, in language an
- * operator would use to describe their own week.
+ * What the respondent actually chose, restated as an observation.
+ *
+ * Only the two weakest answers per question carry an entry. Someone who
+ * answered well on a question should never see it named. The point is to
+ * repeat their own answers back, not to describe the domain in general.
  */
-export const WEAKEST_DOMAIN_COPY: Record<OperatingSystem, string> = {
-  strategy:
-    "Your weakest reading is Strategy, which is rarely about the plan. It is about what happens to the plan between the decision and the work. Priorities get set, then get renegotiated in the moment by whoever is closest to the problem. Six months later the business is somewhere nobody chose.",
-  platform:
-    "Your weakest reading is Platform. Every question that spans two systems becomes an errand: someone exports, someone reconciles, someone decides which number to believe. The cost is not the exporting. It is that the decision waits, and the decisions that wait are the ones that matter.",
-  operations:
-    "Your weakest reading is Operations. Work is moving on attention rather than on process, which is why it holds when the right people are watching and falls apart the week they are not. Quality is currently a function of who is present.",
-  growth:
-    "Your weakest reading is Growth. Revenue is arriving through effort, not through a system, which works until volume exceeds what personal attention can cover. That ceiling does not announce itself. It shows up as a good quarter followed by three bad ones.",
+const ANSWER_OBSERVATION: Record<string, { 2: string; 3: string }> = {
+  "B.Core.1": {
+    2: "a lead arriving after hours waits until someone sees it the next morning",
+    3: "what happens to an after-hours lead depends on who catches it first",
+  },
+  "B.Core.2": {
+    2: "you would be working from intuition and sporadic reports if asked which area is losing the most money",
+    3: "you would have to guess which operational area is losing the most money",
+  },
+  "B.Core.3": {
+    2: "you are the clearing house for decisions across the business, daily",
+    3: "nothing moves without you",
+  },
+  "B.Core.4": {
+    2: "if a key person left, most of what they know would leave with them",
+    3: "if a key person left, you would lose months of productivity",
+  },
+  "B.Core.5": {
+    2: "platforms are mostly disconnected, so data gets exported, reconciled, and re-entered",
+    3: "everything lives in separate places, with spreadsheets tying it together",
+  },
+  "B.Core.6": {
+    2: "AI use in the business is largely your own",
+    3: "AI is not being used in any meaningful way",
+  },
+  "B.Core.7": {
+    2: "initiatives start with energy and stop when you stop pushing them",
+    3: "initiatives get discussed more often than they get run",
+  },
+  "B.Core.8": {
+    2: "performance gets reviewed when something goes wrong",
+    3: "performance is rarely reviewed in any structured way",
+  },
 };
+
+// Which core questions feed which domain, primary questions first.
+const DOMAIN_QUESTIONS: Record<OperatingSystem, string[]> = {
+  strategy: ["B.Core.2", "B.Core.8", "B.Core.3", "B.Core.6"],
+  platform: ["B.Core.5", "B.Core.6", "B.Core.2", "B.Core.4"],
+  operations: ["B.Core.3", "B.Core.4", "B.Core.5"],
+  growth: ["B.Core.1", "B.Core.7", "B.Core.8"],
+};
+
+// The consequence, drawn once their own answers have been named.
+const DOMAIN_CONSEQUENCE: Record<OperatingSystem, string> = {
+  strategy:
+    "Priorities get set and then renegotiated in the moment by whoever is closest to the problem. Six months later the business is somewhere nobody chose.",
+  platform:
+    "The cost is not the reconciling. It is that decisions wait on it, and the decisions that wait are the ones that matter.",
+  operations:
+    "Work is moving on attention rather than on process, which holds while the right people are watching and stops when they are not.",
+  growth:
+    "Revenue is arriving through effort rather than through a system. That works until volume exceeds what personal attention can cover.",
+};
+
+export interface WeakestDomainCopy {
+  lead: string;
+  observations: string[];
+  consequence: string;
+}
+
+/**
+ * Builds the weakest-domain block from the answers that actually drove the
+ * score, rather than describing the domain in the abstract.
+ */
+export function buildWeakestDomain(
+  topOs: OperatingSystem,
+  sectionB: SectionB
+): WeakestDomainCopy {
+  const observations = DOMAIN_QUESTIONS[topOs]
+    .map((qid) => {
+      const w = sectionB[qid];
+      if (w === 2 || w === 3) return ANSWER_OBSERVATION[qid]?.[w];
+      return null;
+    })
+    .filter((x): x is string => Boolean(x))
+    .slice(0, 3);
+
+  return {
+    lead: `${DOMAIN_LABEL[topOs]} scored weakest, and these are the answers that put it there.`,
+    observations,
+    consequence: DOMAIN_CONSEQUENCE[topOs],
+  };
+}
 
 /**
  * Replaces the weakest-domain paragraph when nothing is actually weak. The
@@ -194,20 +282,35 @@ export function buildScaleLine(
   avgSeverity: number
 ): string {
   const rev = REVENUE_PHRASE[sectionA.revenue];
+  const strained = avgSeverity >= 55;
 
-  if (sectionA.revenue === "under_1m") {
-    return `${rev}, the gaps above are real but the answer is rarely a full system. Businesses at this stage get further by fixing the single thing costing the most hours than by rebuilding everything at once.`;
+  switch (sectionA.revenue) {
+    case "under_1m":
+      return `${rev}, the gaps above are real but the answer is rarely a full system. Businesses at this stage get further by fixing the single thing costing the most hours than by rebuilding everything at once.`;
+
+    case "1m_3m":
+      return strained
+        ? `${rev}, this is usually the first time informal operations stop working. What carried the business to here will not carry it much further, and the gaps above are where it gives first.`
+        : `${rev}, the structure is still mostly personal, and at this size that is normal. The question is what gets built before the next hire makes it everyone's problem.`;
+
+    case "3m_8m":
+      return strained
+        ? `${rev}, the business has outgrown the way it is run. Nothing above is new, it has simply stopped being absorbable, and every additional customer makes it more expensive.`
+        : `${rev}, you have held things together further than most. The gaps above are the ones that will surface when volume rises rather than when it does not.`;
+
+    case "8m_15m":
+      return strained
+        ? `${rev}, gaps this size stop being operational friction and start setting the ceiling. A business at this scale does not fail on these. It just stops growing and nobody can say exactly why.`
+        : `${rev}, most of the structure is working. What remains is the difference between a business that runs and one that could be handed to someone else.`;
+
+    case "15m_20m":
+      return strained
+        ? `${rev}, this is not a business that lacks systems. It is a business whose systems were built for a smaller version of itself, and the gaps above are where the seams are showing.`
+        : `${rev}, the architecture is largely sound. At this scale the remaining gaps are worth resolving because they are what a buyer, a lender, or a successor would find.`;
+
+    case "over_20m":
+      return `${rev}, structural gaps stop being an efficiency question and start being a valuation one. What holds a business together at this scale is architecture, and the gaps above are where it is thin.`;
   }
-
-  if (sectionA.revenue === "over_20m") {
-    return `${rev}, structural gaps stop being an efficiency question and start being a valuation one. What holds a business together at this scale is architecture, and the gaps above are where it is thin.`;
-  }
-
-  if (avgSeverity >= 60) {
-    return `${rev}, this is the range where informal operations stop working. The gaps above are the ones that widen fastest as revenue grows, because volume finds every seam.`;
-  }
-
-  return `${rev}, you are in the band where structure either compounds or starts costing you. What you have built is holding. The question is whether it holds at the next level.`;
 }
 
 // ============================================================
@@ -238,14 +341,14 @@ export function buildGateCopy(
   const base: GateCopy = {
     heading: "Where should we send it?",
     support:
-      "Two fields. The report is yours whether or not we ever speak, and nothing follows it unless you ask.",
+      "The full diagnostic follows, and your report is generated at the end of it. Nothing else follows unless you ask.",
     button: "Continue to the full diagnostic",
   };
 
   if (closingVariant === "below_threshold") {
     return {
       ...base,
-      note: "One thing worth saying now: at your stage the answer is usually not a full system. It is one agent aimed at the single thing costing you the most hours. The report will name which one.",
+      note: "One thing worth saying now: at your stage the answer is usually not a full system. A single agent aimed at your sharpest constraint does more than a rebuild. Your report covers where that constraint sits, and we can scope the rest on a call.",
     };
   }
 

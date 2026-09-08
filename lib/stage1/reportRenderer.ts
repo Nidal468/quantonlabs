@@ -10,6 +10,8 @@ import type {
   SectionB,
   SeverityTier,
 } from "./types";
+import { buildModularBlock } from "./modularRouting";
+import type { ModularSelection } from "./modularRouting";
 import {
   C1_OS_PHRASING,
   C1_STANDARD_OPTIONS,
@@ -32,6 +34,10 @@ import {
 
 const COLORS = {
   blueIndigo: "#4655EB",
+  tierArchitected: "#22C55E",
+  tierFunctional: "#EAB308",
+  tierStructural: "#F97316",
+  tierCritical: "#EF4444",
   gray800: "#1F2937",
   gray700: "#374151",
   gray500: "#6B7280",
@@ -55,7 +61,8 @@ const GRADIENT =
 export function renderReport(
   submission: AssessmentSubmission,
   scored: ScoredPayload,
-  submissionId: string
+  submissionId: string,
+  modular?: ModularSelection | null
 ): string {
   const { section_a, section_b, section_c, section_d } = submission;
   const companyName = extractCompanyName(section_d.website);
@@ -68,7 +75,7 @@ export function renderReport(
   const focusAreas = renderStructuralFocusAreas(scored, section_b);
   const otherOS = renderOtherOperatingSystems(scored);
   const whatYouToldUs = renderWhatYouToldUs(section_c, scored);
-  const closing = renderClosingSection(companyName, scored, submissionId);
+  const closing = renderClosingSection(companyName, scored, submissionId, modular);
 
   return wrapInPage({
     title: `Structural Intelligence Report — ${companyName}`,
@@ -130,7 +137,10 @@ function renderStructuralSummary(
   const paragraph1 = `${esc(companyName)} is operating with ${esc(descriptor)} across the business. The most pronounced gaps sit in ${esc(topOS)} and ${esc(secondOS)}, where structural design has not yet caught up with what the business needs. ${esc(thirdOS)} and ${esc(fourthOS)} show lower severity, and in your case, they are almost certainly connected to the patterns above.`;
 
   const c1Text = getC1DisplayText(sectionC.priority_os, scored);
-  const paragraph2 = `You told us your priority is ${esc(c1Text)}. This report is built around that goal.`;
+  // C1 option labels may already end in punctuation, which produced a double
+  // period when the sentence closed.
+  const c1Clean = c1Text.trim().replace(/[.!?]+$/, "");
+  const paragraph2 = `You told us your priority is ${esc(c1Clean)}. This report is built around that goal.`;
 
   return `
     <section class="section-summary">
@@ -150,12 +160,12 @@ function renderSeverityMap(scored: ScoredPayload): string {
       const score = scored.scores[os];
       const tierLabel = TIER_LABELS[score.tier];
       const diagnostic = DIAGNOSTIC_LINES[os][score.tier];
-      const dots = renderDots(score.dots);
+      const dots = renderDots(score.dots, score.tier);
       return `
         <div class="severity-row">
           <div class="severity-dots">${dots}</div>
           <div class="severity-body">
-            <div class="severity-title">${esc(OS_LABELS[os])} <span class="severity-tier">${esc(tierLabel)}</span></div>
+            <div class="severity-title">${esc(OS_LABELS[os])} <span class="severity-tier ${TIER_DOT_CLASS[score.tier]}">${esc(tierLabel)}</span></div>
             <div class="severity-diagnostic">${esc(diagnostic)}</div>
           </div>
         </div>
@@ -171,11 +181,20 @@ function renderSeverityMap(scored: ScoredPayload): string {
   `;
 }
 
-function renderDots(count: 1 | 2 | 3 | 4 | 5): string {
+// A single accent colour made a critical gap and an architected domain look
+// identical. Severity has to be visible before the label is read.
+const TIER_DOT_CLASS: Record<SeverityTier, string> = {
+  architected: "tier-architected",
+  functional_gap: "tier-functional",
+  structural_gap: "tier-structural",
+  critical_gap: "tier-critical",
+};
+
+function renderDots(count: 1 | 2 | 3 | 4 | 5, tier: SeverityTier): string {
   let html = "";
   for (let i = 1; i <= 5; i++) {
-    const filled = i <= count ? "filled" : "empty";
-    html += `<span class="dot ${filled}"></span>`;
+    const cls = i <= count ? `filled ${TIER_DOT_CLASS[tier]}` : "empty";
+    html += `<span class="dot ${cls}"></span>`;
   }
   return html;
 }
@@ -304,22 +323,36 @@ function renderWhatYouToldUs(
 function renderClosingSection(
   companyName: string,
   scored: ScoredPayload,
-  submissionId: string
+  submissionId: string,
+  modular?: ModularSelection | null
 ): string {
-  const variant = CLOSING_VARIANTS[scored.closing_variant];
+  // Below-threshold respondents get the Modular block, which names a single
+  // agent selected against their weakest domain, or the scoped-conversation
+  // fallback where nothing maps. Everyone else gets the standard close.
+  const variant =
+    scored.closing_variant === "below_threshold" && modular
+      ? buildModularBlock(modular, scored.top_os)
+      : CLOSING_VARIANTS[scored.closing_variant];
 
   // Interpolate placeholders in body and secondary_body
   const bodyHtml = variant.body
     .map((p) => `<p>${esc(interpolate(p, companyName, scored))}</p>`)
     .join("");
 
-  const secondaryBodyHtml = variant.secondary_body
-    ? `<p class="secondary-intro">${esc(interpolate(variant.secondary_body, companyName, scored))}</p>`
+  // Only the standard variants carry a secondary block. The Modular block
+  // has a single call to action by design.
+  const secondary = variant as {
+    secondary_body?: string;
+    secondary_cta?: string;
+  };
+
+  const secondaryBodyHtml = secondary.secondary_body
+    ? `<p class="secondary-intro">${esc(interpolate(secondary.secondary_body, companyName, scored))}</p>`
     : "";
 
-  const secondaryCtaHtml = variant.secondary_cta
-  ? `<a class="cta cta-secondary" href="/assessment/stage2/${submissionId}" target="_top">${esc(variant.secondary_cta)}</a>`
-  : "";
+  const secondaryCtaHtml = secondary.secondary_cta
+    ? `<a class="cta cta-secondary" href="/assessment/stage2/${submissionId}" target="_top">${esc(secondary.secondary_cta)}</a>`
+    : "";
 
   return `
     <section class="section-closing">
@@ -544,9 +577,17 @@ p {
 .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
 .dot.filled { background: ${COLORS.blueIndigo}; }
 .dot.empty { background: ${COLORS.gray200}; }
+.dot.tier-architected { background: ${COLORS.tierArchitected}; }
+.dot.tier-functional { background: ${COLORS.tierFunctional}; }
+.dot.tier-structural { background: ${COLORS.tierStructural}; }
+.dot.tier-critical { background: ${COLORS.tierCritical}; }
 .severity-body { flex: 1; }
 .severity-title { font-weight: 600; color: ${COLORS.gray800}; font-size: 16px; }
-.severity-tier { font-weight: 400; color: ${COLORS.gray500}; font-size: 14px; margin-left: 8px; }
+.severity-tier { font-weight: 500; color: ${COLORS.gray500}; font-size: 14px; margin-left: 8px; }
+.severity-tier.tier-architected { color: ${COLORS.tierArchitected}; }
+.severity-tier.tier-functional { color: ${COLORS.tierFunctional}; }
+.severity-tier.tier-structural { color: ${COLORS.tierStructural}; }
+.severity-tier.tier-critical { color: ${COLORS.tierCritical}; }
 .severity-diagnostic { font-size: 14px; color: ${COLORS.gray700}; margin-top: 4px; }
 
 /* Focus Areas */
