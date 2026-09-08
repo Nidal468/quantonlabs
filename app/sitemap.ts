@@ -52,6 +52,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     })),
     {
+      url: `${baseUrl}/solutions`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/solutions/home-services`,
       lastModified,
       changeFrequency: "monthly",

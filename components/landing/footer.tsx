@@ -4,6 +4,27 @@ import Link from "next/link";
 import { Mail, Phone, Linkedin, Youtube, ArrowUp } from "lucide-react";
 import { useState, useEffect } from "react";
 
+const solutions = [
+  { label: "Professional Services", href: "/solutions/professional-services" },
+  { label: "Home Services", href: "/solutions/home-services" },
+  { label: "Automotive", href: "/solutions/automotive" },
+  { label: "Health and Wellness", href: "/solutions/healthcare-wellness" },
+  { label: "Manufacturing and Distribution", href: "/solutions/manufacturing-distribution" },
+  { label: "Retail", href: "/solutions/retail" },
+];
+
+const headingStyle: React.CSSProperties = {
+  color: "#FFFFFF",
+  fontWeight: 600,
+  marginBottom: "12px",
+  fontFamily: "Manrope, sans-serif",
+};
+
+const columnStyle: React.CSSProperties = {
+  fontSize: "14px",
+  color: "rgba(255,255,255,0.75)",
+};
+
 export default function Footer() {
   const [showTop, setShowTop] = useState(false);
 
@@ -56,7 +77,7 @@ export default function Footer() {
         }}
       >
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
 
             {/* Brand */}
             <div className="flex flex-col gap-4">
@@ -65,17 +86,18 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Links */}
+            {/* Platform */}
             <div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
-                Platform
-              </h3>
-              <div className="flex flex-col gap-2" style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)" }}>
-                <Link href="/assessment" className="hover:text-white transition">
-                  Assess Your Business
+              <h3 style={headingStyle}>Platform</h3>
+              <div className="flex flex-col gap-2" style={columnStyle}>
+                <Link href="/architecture" className="hover:text-white transition">
+                  Architecture
                 </Link>
-                <Link href="https://calendly.com/quantonlabs/30min" className="hover:text-white transition">
-                  Book a Discovery Call
+                <Link href="/case-studies" className="hover:text-white transition">
+                  Case Studies
+                </Link>
+                <Link href="/insights" className="hover:text-white transition">
+                  Insights
                 </Link>
                 <Link href="/faq" className="hover:text-white transition">
                   FAQ
@@ -86,13 +108,32 @@ export default function Footer() {
               </div>
             </div>
 
+            {/* Solutions */}
+            <div>
+              <h3 style={headingStyle}>
+                <Link href="/solutions" className="hover:text-white transition" style={{ color: "#FFFFFF", textDecoration: "none" }}>
+                  Solutions
+                </Link>
+              </h3>
+              <div className="flex flex-col gap-2" style={columnStyle}>
+                {solutions.map(item => (
+                  <Link key={item.href} href={item.href} className="hover:text-white transition">
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             {/* Contact */}
             <div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
-                Contact
-              </h3>
-              <div className="flex flex-col gap-2" style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)" }}>
-
+              <h3 style={headingStyle}>Contact</h3>
+              <div className="flex flex-col gap-2" style={columnStyle}>
+                <Link href="/assessment" className="hover:text-white transition">
+                  Assess Your Business
+                </Link>
+                <Link href="https://calendly.com/quantonlabs/30min" className="hover:text-white transition">
+                  Book a Discovery Call
+                </Link>
                 <a
                   href="tel:+19292982162"
                   className="flex items-center gap-2 hover:text-white transition"
@@ -101,7 +142,6 @@ export default function Footer() {
                   <Phone size={16} aria-hidden="true" />
                   +1 929-298-2162
                 </a>
-
                 <a
                   href="mailto:growth@quantonlabs.com"
                   className="flex items-center gap-2 hover:text-white transition"
@@ -115,9 +155,7 @@ export default function Footer() {
 
             {/* Newsletter */}
             <div>
-              <h3 style={{ color: "#FFFFFF", fontWeight: 600, marginBottom: "12px", fontFamily: "Manrope, sans-serif" }}>
-                Product Updates
-              </h3>
+              <h3 style={headingStyle}>Product Updates</h3>
               <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", marginBottom: "12px" }}>
                 Subscribe to receive platform updates and new feature announcements.
               </p>
@@ -178,8 +216,6 @@ export default function Footer() {
             <div className="flex items-center gap-6">
               <p>© {new Date().getFullYear()} Quanton Labs. All rights reserved.</p>
               <div className="flex gap-4">
-
-
                 <a
                   href="https://linkedin.com/company/quantonlabs"
                   target="_blank"
@@ -190,7 +226,6 @@ export default function Footer() {
                 >
                   <Linkedin size={16} aria-hidden="true" />
                 </a>
-
                 <a
                   href="https://www.youtube.com/@QuantonLabsOfficial"
                   target="_blank"
