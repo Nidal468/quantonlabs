@@ -81,7 +81,7 @@ const schemaOrg = {
     contactType: "sales",
   },
   sameAs: [
-    "https://www.linkedin.com/company/quantonlabs",
+    "https://www.linkedin.com/company/quanton-labs",
     "https://www.youtube.com/@QuantonLabsOfficial",
   ],
 };
