@@ -5,7 +5,6 @@
 //         STRUCTURAL INTELLIGENCE REPORT TEMPLATE v1.0 Apr2026
 
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 
 import {
   processSubmission,
@@ -18,7 +17,8 @@ import {
 import { selectModularAgent, AGENT_NAME_PROVISIONAL } from "@/lib/stage1";
 import type { ModularSelection } from "@/lib/stage1";
 import { renderReport } from "@/lib/stage1/reportRenderer";
-import { renderPdf } from "@/lib/stage1/pdfRenderer";
+import { putPrivateHtml } from "@/lib/assessment/privateStore";
+import { reportUrl as signedReportUrl, reportPdfUrl as signedReportPdfUrl } from "@/lib/assessment/linkToken";
 
 // ============================================================
 // CONFIG
@@ -40,10 +40,6 @@ const TAB_NAMES: Record<string, string> = {
   below_threshold: "Below_Threshold",
   above_segment: "Above_Segment",
 };
-function generateReportUrl(submissionId: string): string {
-  const base = process.env.NEXTAUTH_URL ?? "https://quantonlabs.com";
-  return `${base}/assessment/report/${submissionId}`;
-}
 // ============================================================
 // POST HANDLER
 // ============================================================
@@ -112,12 +108,20 @@ const submittedAt = `${now.getUTCDate().toString().padStart(2,'0')}/${(now.getUT
     // 4. Render HTML report (needed for both the client response and PDF)
     const html = renderReport(submission, scoredPayload, submissionId, modular);
 
-   // 5. Generate PDF + upload HTML and PDF to Blob in parallel
-    const [pdfUrl, htmlBlobUrl] = await Promise.all([
-      safeUploadPdf(submissionId, html),
-      safeUploadHtml(submissionId, html),
-    ]);
-    const reportUrl = generateReportUrl(submissionId);
+    // 5. Store the HTML in the private Blob store. The PDF is not stored;
+    //    /report/[token]?format=pdf renders it on request. A failed store
+    //    fails the submission: every link would otherwise return not found.
+    try {
+      await putPrivateHtml("report", submissionId, html);
+    } catch (err) {
+      console.error("[Report store failed]", err);
+      return NextResponse.json(
+        { error: "Report could not be stored." },
+        { status: 500 }
+      );
+    }
+    const reportUrl = signedReportUrl(submissionId);
+    const pdfUrl = signedReportPdfUrl(submissionId);
 
     // 6. Fire sheet write and Gmail notify in parallel (non-blocking)
  await Promise.allSettled([
@@ -147,52 +151,6 @@ const submittedAt = `${now.getUTCDate().toString().padStart(2,'0')}/${(now.getUT
       { error: "Submission processing failed." },
       { status: 500 }
     );
-  }
-}
-
-// ============================================================
-// PDF UPLOAD (VERCEL BLOB)
-// ============================================================
-
-async function safeUploadPdf(
-  submissionId: string,
-  html: string
-): Promise<string> {
-  try {
-    const pdfBuffer = await renderPdf(html);
-    const filename = `reports/${submissionId}.pdf`;
-
-    const blob = await put(filename, pdfBuffer, {
-      access: "public",
-      contentType: "application/pdf",
-      addRandomSuffix: false,
-    });
-
-    return blob.url;
-  } catch (err) {
-    console.error("[PDF upload failed]", err);
-    return "";
-  }
-}
-
-async function safeUploadHtml(
-  submissionId: string,
-  html: string
-): Promise<string> {
-  try {
-    const filename = `reports/${submissionId}.html`;
-
-  const blob = await put(filename, html, {
-      access: "public",
-      contentType: "text/html; charset=utf-8",
-      addRandomSuffix: false,
-    });
-
-    console.log("[HTML Blob URL]", blob.url);
-    return blob.url;
-  } catch (err) {
-    console.error("[HTML upload failed]", err);
-    return "";
   }
 }
 
