@@ -10,19 +10,24 @@ import { put, get, del } from "@vercel/blob";
 // ============================================================
 
 /**
- * The project carries two Blob stores. The public one holds brand assets
- * (logo) and is referenced by the report templates and the CSP. Reports and
- * briefs live in a separate private store. Every call here passes that
- * store's token explicitly so the SDK can never fall back to the public
- * store's BLOB_READ_WRITE_TOKEN.
+ * The project carries two Blob stores. The public one (quantonlabs-blob)
+ * holds brand assets and still uses the legacy BLOB_READ_WRITE_TOKEN. The
+ * private one (ql-assessment-private) holds reports and briefs and is
+ * connected through OIDC: Vercel injects BLOB_STORE_ID and a short-lived
+ * VERCEL_OIDC_TOKEN that the SDK reads on its own.
  *
- * Set PRIVATE_BLOB_READ_WRITE_TOKEN in Vercel to the token Vercel generated
- * when the private store was connected. If the generated variable has a
- * different name, map it: PRIVATE_BLOB_READ_WRITE_TOKEN=${THAT_NAME}.
+ * Every call here passes storeId explicitly and no token. The SDK resolves
+ * credentials as explicit token, then OIDC with the store ID, then
+ * BLOB_READ_WRITE_TOKEN, so naming the store keeps these calls off the
+ * public store. Requires @vercel/blob 2.8.0 or later.
+ *
+ * Local development: `vercel env pull .env.local` writes BLOB_STORE_ID and a
+ * VERCEL_OIDC_TOKEN that expires after some hours; pull again when writes
+ * start failing with an authentication error.
  */
-function token(): string {
-  const value = process.env.PRIVATE_BLOB_READ_WRITE_TOKEN;
-  if (!value) throw new Error("PRIVATE_BLOB_READ_WRITE_TOKEN is missing.");
+function storeId(): string {
+  const value = process.env.BLOB_STORE_ID;
+  if (!value) throw new Error("BLOB_STORE_ID is missing.");
   return value;
 }
 
@@ -52,7 +57,7 @@ export async function putPrivateHtml(
     contentType: "text/html; charset=utf-8",
     addRandomSuffix: false,
     allowOverwrite: true,
-    token: token(),
+    storeId: storeId(),
   });
 }
 
@@ -72,7 +77,7 @@ export async function getPrivateHtml(
   const result = await get(documentPath(kind, submissionId), {
     access: "private",
     useCache: false,
-    token: token(),
+    storeId: storeId(),
   });
 
   if (!result || result.statusCode !== 200 || !result.stream) return null;
@@ -88,5 +93,5 @@ export async function deletePrivateHtml(
   kind: StoredDocument,
   submissionId: string
 ): Promise<void> {
-  await del(documentPath(kind, submissionId), { token: token() });
+  await del(documentPath(kind, submissionId), { storeId: storeId() });
 }
