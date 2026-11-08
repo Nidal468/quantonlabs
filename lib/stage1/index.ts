@@ -98,26 +98,14 @@ export function processSubmission(
 // ============================================================
 
 /**
- * Generates a deterministic submission ID.
- * Format: QL-STG1-{timestamp}-{random}
- * Example: QL-STG1-20260418T1532-k7m3p9
- *
- * Used as the primary key in the Google Sheet and in report URLs.
- * Includes timestamp for chronological sorting and a random suffix
- * to prevent collisions on simultaneous submissions.
+ * Generates the submission ID: a version 4 UUID from the platform CSPRNG.
+ * Primary key in the Google Sheet and the private Blob pathname. Never
+ * exposed on its own in a URL; links carry a signed token
+ * (lib/assessment/linkToken.ts). Timestamps live in submitted_at.
+ * Source: DEVELOPER BRIEF ASSESSMENT, Launch Blocker 1.
  */
 export function generateSubmissionId(): string {
-  const now = new Date();
-  const yyyy = now.getUTCFullYear();
-  const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(now.getUTCDate()).padStart(2, "0");
-  const hh = String(now.getUTCHours()).padStart(2, "0");
-  const mi = String(now.getUTCMinutes()).padStart(2, "0");
-  const timestamp = `${yyyy}${mm}${dd}T${hh}${mi}`;
-
-  const randomSuffix = Math.random().toString(36).substring(2, 8);
-
-  return `QL-STG1-${timestamp}-${randomSuffix}`;
+  return globalThis.crypto.randomUUID();
 }
 
 // ============================================================
