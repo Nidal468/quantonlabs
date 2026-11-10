@@ -22,10 +22,10 @@ function useProgress(ref: React.RefObject<HTMLElement | null>) {
 
 /* A. Hero: type and facts, no imagery (the homepage carries the dashboard) */
 const FACTS: [string, string][] = [
-  ["System of record", "Owned by the company"],
-  ["Departments", "Seven, coordinated by a Governing Agent"],
-  ["Approval levels", "Full Autonomy, Silent Approval, Hard Block"],
-  ["Every figure", "Computed in code from the record"],
+  ["Margin and cash", "On every job, engagement, and order"],
+  ["Forward view", "Cash, capacity, and demand"],
+  ["Problems", "Surfaced while they are still small"],
+  ["Company value", "Ready for a lender or buyer at any moment"],
 ];
 function Hero() {
   const words = "Quanton Labs builds the system that runs the company.".split(" ");
@@ -111,66 +111,72 @@ function Statement() {
   );
 }
 
-/* C. The product moment: departments go live */
-const DEPTS = [
-  { k: "Sales", wait: "Quote Q-1188 waiting on a call back", live: "Lead routed in 4 minutes. Quote drafted from the cost database.", n: 4 },
-  { k: "Customer Experience", wait: "Six inquiries unanswered since Friday", live: "Inquiries routed. Status updates sent from approved templates.", n: 3 },
-  { k: "Operations", wait: "Tomorrow's schedule built by hand tonight", live: "43 jobs scheduled. Two at risk, flagged with cause and owner.", n: 3 },
-  { k: "Inventory", wait: "Stock count disagrees with the shelf", live: "4 SKUs reserved against the order. Reorder under threshold.", n: 3 },
-  { k: "Finance", wait: "Close running three weeks behind", live: "84 transactions coded. Close day 3 of 5, on track.", n: 4 },
-  { k: "People", wait: "Timesheets chased one by one", live: "Payroll computed for 14. Certifications tracked with act-by dates.", n: 3 },
-  { k: "Marketing", wait: "Listings out of date, no calendar", live: "14 pieces queued. Warm signal handed to Sales.", n: 2 },
+/* C. The product moment: one decision reaches leadership with the analysis done */
+const FROM: [string, string][] = [
+  ["Operations", "Three crews committed through the 20th"],
+  ["Inventory", "Materials on hand and reserved"],
+  ["Finance", "Margin at bid 31.4%. Deposit received."],
+  ["Sales", "Start date promised in writing"],
+];
+const OPTS: { k: string; t: string; m: string; c: string }[] = [
+  { k: "A", t: "Add two subcontract crews and start on schedule", m: "27.9%", c: "-$6,500" },
+  { k: "B", t: "Move the start six days with the customer's agreement", m: "31.4%", c: "Receipt one week later" },
+  { k: "C", t: "Swap the start with Job 2391, its customer notified by Friday", m: "31.4% on both", c: "No change" },
 ];
 function Board() {
   const ref = useRef<HTMLElement>(null);
   const pinned = usePinned();
   const p = useProgress(ref);
-  const live = pinned ? Math.max(0, Math.min(DEPTS.length, Math.floor((p - 0.1) / 0.085) + 1)) : DEPTS.length;
-  const shown = pinned && p < 0.1 ? 0 : live;
+  const from = pinned ? Math.max(0, Math.min(FROM.length, Math.floor((p - 0.14) / 0.07) + 1)) : FROM.length;
+  const opts = !pinned || p > 0.48;
+  const done = !pinned || p > 0.78;
   return (
     <section ref={ref} className={`qx-ink stage h2-board${pinned ? "" : " free"}`}>
       <div className="pin"><div className="wrap gr">
         <div>
           <div className="qx-lab"><b>02</b> The system</div>
           <h2 className="qx-d2" style={{ marginTop: 28 }}>Quanton OS carries operating and managing as a system.</h2>
-          <p className="qx-body" style={{ marginTop: 28, maxWidth: "36ch" }}>Each department runs inside the approval levels leadership sets. Anything that needs a decision reaches the right person with the analysis already done.</p>
+          <p className="qx-body" style={{ marginTop: 28, maxWidth: "36ch" }}>Seven departments do the work inside the rules and approvals leadership sets. Each decision reaches the right person with the analysis already done.</p>
         </div>
-        <div className="bd" aria-label="Illustrative department view">
-          <div className="top"><b>Leadership Dashboard</b><span>Departments · illustrative</span></div>
-          <div className="grid">
-            {DEPTS.map((d, i) => {
-              const on = i < shown;
-              return (
-                <div key={d.k} className={`dep${on ? " on" : ""}`}>
-                  <div className="h">{d.k}
-                    <AnimatePresence mode="wait"><motion.span key={on ? "a" : "b"} className="s" {...fade}><i />{on ? "Running" : "Waiting"}</motion.span></AnimatePresence>
-                  </div>
-                  <AnimatePresence mode="wait"><motion.div key={on ? "a" : "b"} className="t" {...fade}>{on ? d.live : d.wait}</motion.div></AnimatePresence>
-                </div>
-              );
-            })}
-            <div className="dep dec">
-              <div className="h">Governing Agent<span className="s"><i />Routed</span></div>
-              <div className="t">Hartwell Group start date: 490 crew hours short. Three options routed to the President.</div>
-            </div>
+        <div className="dc" aria-label="Illustrative decision routed to the President">
+          <div className="top"><b>Decision · Job 2417</b><span>Routed to the President · illustrative</span></div>
+          <div className="ex">
+            <span className="lb">Surfaced 9 days before start</span>
+            <p>Job 2417 starts in nine days. Crew capacity is 490 hours short.</p>
           </div>
-          <div className="ft"><span>Every action carries its approval level</span><span>Illustrative data</span></div>
+          <div className="fr">
+            {FROM.map(([k, v], i) => (
+              <motion.div key={k} className="fr-r" initial={false} animate={{ opacity: i < from ? 1 : 0.18 }} transition={{ duration: 0.4 }}>
+                <span>{k}</span><em>{v}</em>
+              </motion.div>
+            ))}
+          </div>
+          <motion.div className="op" initial={false} animate={{ opacity: opts ? 1 : 0.18 }} transition={{ duration: 0.5 }}>
+            <div className="op-h"><span>Option</span><span>Job margin</span><span>Cash, 13 weeks</span></div>
+            {OPTS.map((o) => (
+              <div key={o.k} className={"op-r" + (done && o.k === "B" ? " pick" : "")}>
+                <span className="t"><b>{o.k}</b>{o.t}</span><span className="m">{o.m}</span><span className="c">{o.c}</span>
+              </div>
+            ))}
+          </motion.div>
+          <div className="ft">
+            <AnimatePresence mode="wait">
+              <motion.span key={done ? "d" : "w"} {...fade} className={done ? "ok" : ""}>{done ? "Option B approved by the President. Customer notice drafted for review." : "Waiting on the President. Nothing moves until approved."}</motion.span>
+            </AnimatePresence>
+          </div>
         </div>
       </div></div>
     </section>
   );
 }
 
-/* D. The record: what lives on it, as the record itself */
+/* D. The record: what one owned record changes for leadership */
 const RECORD: [string, string, string][] = [
-  ["Customers", "214 accounts", "09:14"],
-  ["Jobs and orders", "43 active", "09:14"],
-  ["Inventory", "312 SKUs", "09:14"],
-  ["General ledger", "84 postings today", "09:40"],
-  ["People", "14 on payroll", "09:21"],
-  ["Documents", "Contracts, bills, photos", "09:32"],
-  ["Obligations", "Act-by dates and owners", "08:55"],
-  ["Audit trail", "Every action and approval", "09:40"],
+  ["Margin on every job", "Known after the close", "Kept current as work posts"],
+  ["Cash", "Today's bank balance", "Thirteen weeks forward"],
+  ["Problems", "Found when they are expensive", "Surfaced while still small"],
+  ["A key person leaves", "What they knew leaves too", "Knowledge stays on the record"],
+  ["A lender or buyer asks", "Weeks of preparation", "Ready at any moment"],
 ];
 function Record() {
   return (
@@ -178,17 +184,16 @@ function Record() {
       <div className="wrap gr">
         <motion.div {...rise}>
           <div className="qx-lab"><b>03</b> The record</div>
-          <h2 className="qx-d2" style={{ marginTop: 28 }}>Every transaction on one record the company owns.</h2>
-          <p className="qx-body" style={{ marginTop: 24, maxWidth: "44ch" }}>Bids and purchasing through payroll and the month-end close write to the same record, and code computes every figure from it. The client owns the delivered operational core and all of its data outright.</p>
+          <h2 className="qx-d2" style={{ marginTop: 28 }}>A company on one record is easier to scale, finance, and sell.</h2>
+          <p className="qx-body" style={{ marginTop: 24, maxWidth: "44ch" }}>Every transaction, document, and obligation lives in one system of record the company owns, and code computes every figure from it.</p>
         </motion.div>
-        <div className="rl" aria-label="Illustrative system of record">
-          <div className="rl-h"><span>System of record</span><span>Owned by the company</span></div>
-          {RECORD.map(([a, b, t], i) => (
-            <motion.div key={a} className="rl-r" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "0px 0px -10% 0px" }} transition={{ duration: 0.5, delay: i * 0.06 }}>
-              <b>{a}</b><span>{b}</span><em>last write {t}</em>
+        <div className="rl" aria-label="What changes when the company runs on one record">
+          <div className="rl-h"><span /><span>Run on memory</span><span>Run on the record</span></div>
+          {RECORD.map(([a, b, c], i) => (
+            <motion.div key={a} className="rl-r" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "0px 0px -10% 0px" }} transition={{ duration: 0.5, delay: i * 0.07 }}>
+              <b>{a}</b><span>{b}</span><strong>{c}</strong>
             </motion.div>
           ))}
-          <div className="rl-f">Illustrative data</div>
         </div>
       </div>
     </section>
@@ -197,9 +202,9 @@ function Record() {
 
 /* E. The rules: a quiet mosaic */
 const RULES = [
-  { n: "Full Autonomy", df: "The agent acts without review.", it: { t: "Ledger posting", s: "Done 09:02", m: "84 transactions coded" }, kind: "done" },
-  { n: "Silent Approval", df: "The agent prepares and queues the action. It proceeds after a review window unless leadership steps in.", it: { t: "Follow-up, Meridian Logistics", s: "Sends in 18:42", m: "Approved template, day 3" }, kind: "wait" },
-  { n: "Hard Block", df: "The agent prepares and presents. Nothing happens until leadership explicitly approves.", it: { t: "Quote Q-1188, Pinecrest", s: "$38,400", m: "36.2% margin, computed from the record" }, kind: "act" },
+  { n: "Full Autonomy", df: "The agent acts without review.", it: { t: "Ledger posting", s: "Done 09:02", m: "Rule-mapped, no review needed" }, kind: "done" },
+  { n: "Silent Approval", df: "The agent prepares and queues the action. It proceeds after a review window unless leadership steps in.", it: { t: "Collection reminder, 30 days", s: "Sends in 18:42", m: "$12,400 outstanding, approved template" }, kind: "wait" },
+  { n: "Hard Block", df: "The agent prepares and presents. Nothing happens until leadership explicitly approves.", it: { t: "Quote Q-1188", s: "$38,400", m: "36.2% margin, computed from the record" }, kind: "act" },
   { n: "Fixed for every client", df: "Obligations always wait for explicit approval. An outbound output that breaks a business rule always goes to a person.", it: { t: "License renewal", s: "Act-by Fri", m: "Owner: Operations lead" }, kind: "act" },
 ];
 function Rules() {
@@ -208,7 +213,7 @@ function Rules() {
       <div className="wrap">
         <div className="hd">
           <motion.div {...rise}><div className="qx-lab"><b>04</b> The rules</div><h2 className="qx-d2" style={{ marginTop: 28 }}>Work runs inside the rules leadership sets.</h2></motion.div>
-          <motion.p className="qx-body" {...rise}>Every action carries an approval level, enforced in the system at the point of action. Agents cannot change their own governance settings.</motion.p>
+          <motion.p className="qx-body" {...rise}>Every action that affects customers, revenue, or compliance waits for a person or a review window. Approval levels are enforced in the system at the point of action.</motion.p>
         </div>
         <div className="mo">
           {RULES.map((r, i) => (
