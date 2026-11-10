@@ -63,7 +63,7 @@ function Statement() {
     <section ref={ref} className={`qx-paper stage h2-say${pinned ? "" : " free"}`}>
       <div className="pin"><div className="wrap" style={{ width: "100%" }}>
         <div className="qx-lab"><b>01</b> The work</div>
-        <p className="txt">{words.map((w, i) => <span key={i} style={{ color: i < lit ? "var(--qx-text)" : "#c9c4b9" }}>{w}{i < words.length - 1 ? " " : ""}</span>)}</p>
+        <p className="txt">{words.map((w, i) => <span key={i} style={{ color: i < lit ? "var(--qx-text)" : "#c2c7ce" }}>{w}{i < words.length - 1 ? " " : ""}</span>)}</p>
       </div></div>
     </section>
   );
@@ -85,17 +85,13 @@ function Board() {
   const p = useProgress(ref);
   const live = pinned ? Math.max(0, Math.min(DEPTS.length, Math.floor((p - 0.1) / 0.085) + 1)) : DEPTS.length;
   const shown = pinned && p < 0.1 ? 0 : live;
-  const waiting = 1 + DEPTS.slice(shown).reduce((a, d) => a + d.n, 0);
   return (
     <section ref={ref} className={`qx-ink stage h2-board${pinned ? "" : " free"}`}>
       <div className="pin"><div className="wrap gr">
         <div>
           <div className="qx-lab"><b>02</b> The system</div>
           <h2 className="qx-d2" style={{ marginTop: 28 }}>Quanton OS carries operating and managing as a system.</h2>
-          <div className="count">
-            <AnimatePresence mode="wait"><motion.strong key={waiting} {...fade}>{waiting}</motion.strong></AnimatePresence>
-            <span>{waiting === 1 ? "decision left for leadership" : "items waiting on leadership"}</span>
-          </div>
+          <p className="qx-body" style={{ marginTop: 28, maxWidth: "36ch" }}>Each department runs inside the approval levels leadership sets. Anything that needs a decision reaches the right person with the analysis already done.</p>
         </div>
         <div className="bd" aria-label="Illustrative department view">
           <div className="top"><b>Leadership Dashboard</b><span>Departments · illustrative</span></div>
@@ -243,7 +239,7 @@ function Leadership() {
         </motion.div>
         <div className="gr">
           <figure ref={fig} className="ph" style={{ position: "sticky" }}>
-            <motion.img src="/images/site/founder.jpg" alt="Ryan Remington, Founder and Managing Director of Quanton Labs" style={{ y }} />
+            <motion.img src="/images/site/founder-bw.jpg" alt="Ryan Remington, Founder and Managing Director of Quanton Labs" style={{ y }} />
             <figcaption><b>Ryan Remington</b><span>Founder and Managing Director</span></figcaption>
           </figure>
           <div>

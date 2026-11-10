@@ -61,7 +61,7 @@
 .h2-rules{padding:16vh 0;background:var(--qx-paper2)}
 .h2-rules .hd{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px;align-items:end;margin-bottom:56px}
 .h2-rules .mo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.tile{background:#fbfaf7;border:1px solid var(--qx-line);border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:300px}
+.tile{background:#f9fafb;border:1px solid var(--qx-line);border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:14px;min-height:300px}
 .tile .n{font:500 12px var(--qx-mono);color:var(--qx-text3)}
 .tile .df{font-size:15.5px;line-height:1.6;color:var(--qx-text2);max-width:40ch}
 .tile .it{margin-top:auto;border:1px solid var(--qx-line);border-radius:8px;background:#fff;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
@@ -94,8 +94,8 @@
 /* H. leadership */
 .h2-lead{padding:18vh 0 12vh}
 .h2-lead .gr{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:80px;align-items:start;margin-top:72px}
-.h2-lead .ph{position:sticky;top:96px;margin:0;border-radius:6px;overflow:hidden;aspect-ratio:4/5;background:#ddd}
-.h2-lead .ph img{width:100%;height:112%;object-fit:cover}
+.h2-lead .ph{position:sticky;top:96px;margin:0;border-radius:4px;overflow:hidden;aspect-ratio:4/5;background:#1a1c20;max-width:400px}
+.h2-lead .ph img{width:100%;height:108%;object-fit:cover;object-position:50% 20%}
 .h2-lead .ph figcaption{position:absolute;left:0;right:0;bottom:0;padding:20px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.7));display:flex;flex-direction:column;gap:2px;font-size:13px}
 .h2-lead .ph figcaption b{font-size:17px;font-weight:600}
 .h2-lead .intro{font-size:19px;line-height:1.6;color:var(--qx-text2);max-width:46ch;margin-top:24px!important}
@@ -130,3 +130,6 @@
   .h2-rec .fact{grid-template-columns:1fr;gap:4px}
   .h2-close .cta{justify-content:flex-start}
 }
+
+/* one grade across all photography */
+.ab2 .img img,.h2-rec .ph img{filter:saturate(.72) contrast(1.06)}

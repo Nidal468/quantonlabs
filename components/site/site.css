@@ -94,7 +94,7 @@
 @media (max-width:900px){.qx-close .box{grid-template-columns:1fr;padding:32px}}
 
 /* ===== v2 art direction: paper and ink ===== */
-.qx{--qx-paper:#f3f1ec;--qx-paper2:#ebe8e1;--qx-ink0:#0c0d10;--qx-ink1:#15171c;--qx-text:#16181d;--qx-text2:#4a4f59;--qx-text3:#7a7f88;--qx-line:#d9d5cc;--qx-line-d:rgba(255,255,255,.12)}
+.qx{--qx-paper:#f0f1f3;--qx-paper2:#e5e7ea;--qx-ink0:#0b0c0e;--qx-ink1:#141619;--qx-text:#111316;--qx-text2:#454a52;--qx-text3:#7a8089;--qx-line:#d2d6db;--qx-line-d:rgba(255,255,255,.12)}
 .qx-paper{background:var(--qx-paper);color:var(--qx-text)}
 .qx-ink{background:var(--qx-ink0);color:#fff}
 .qx-d1{font-size:clamp(48px,min(7.2vw,11vh),120px);line-height:.98;letter-spacing:-.045em;font-weight:500}
@@ -111,7 +111,7 @@
 
 /* nav: overlay over a full-bleed image, solid paper once scrolled */
 .qx-nav.overlay{position:fixed;left:0;right:0;background:transparent;border-bottom-color:transparent;color:#fff;backdrop-filter:none;transition:background .3s,color .3s,border-color .3s}
-.qx-nav.overlay.solid{background:rgba(243,241,236,.94);color:var(--qx-text);border-bottom-color:var(--qx-line);backdrop-filter:blur(10px)}
+.qx-nav.overlay.solid{background:rgba(240,241,243,.94);color:var(--qx-text);border-bottom-color:var(--qx-line);backdrop-filter:blur(10px)}
 .qx-nav.overlay .login{border-color:rgba(255,255,255,.35)}
 .qx-nav.overlay.solid .login{border-color:var(--qx-line)}
-.qx-nav.paper{background:rgba(243,241,236,.94);border-bottom-color:var(--qx-line);color:var(--qx-text)}
+.qx-nav.paper{background:rgba(240,241,243,.94);border-bottom-color:var(--qx-line);color:var(--qx-text)}
