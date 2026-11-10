@@ -32,14 +32,14 @@
 .pg .p2 .cd{background:var(--qx-paper)}
 .pg .qx-ink .cd{background:#111317;border-color:rgba(255,255,255,.1)}
 .pg .cd .k{font:500 10.5px var(--qx-mono);color:var(--qx-text3);text-transform:uppercase;letter-spacing:.05em}
-.pg .qx-ink .cd .k{color:rgba(255,255,255,.45)}
+.pg .qx-ink .cd .k{color:rgba(255,255,255,.62)}
 .pg .cd h3{font-size:20px;font-weight:500;letter-spacing:-.02em;line-height:1.25}
 .pg .cd p{font-size:14.5px;line-height:1.6;color:var(--qx-text2)}
 .pg .qx-ink .cd p{color:rgba(255,255,255,.65)}
 .pg .cd ul{padding-left:16px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5;color:var(--qx-text2)}
 .pg .qx-ink .cd ul{color:rgba(255,255,255,.65)}
 .pg .cd .ft{margin-top:auto;padding-top:14px;border-top:1px solid var(--qx-line);font:500 11px var(--qx-mono);color:var(--qx-text3)}
-.pg .qx-ink .cd .ft{border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.45)}
+.pg .qx-ink .cd .ft{border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.62)}
 .pg .fig{font-size:clamp(40px,3.8vw,60px);font-weight:500;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
 
 /* figure strip */
@@ -54,14 +54,24 @@
 
 /* table */
 .pg-tb{border-top:1px solid var(--qx-text)}
-.pg-tb.dk{border-color:rgba(255,255,255,.5)}
+.pg-tb.dk{border-color:rgba(255,255,255,.62)}
 .pg-tb .tr{display:grid;gap:24px;padding:16px 0;border-bottom:1px solid var(--qx-line);font-size:14.5px;line-height:1.55;color:var(--qx-text2);align-items:baseline}
 .pg-tb.dk .tr{border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
 .pg-tb .tr span:first-child{color:var(--qx-text);font-weight:600}
 .pg-tb.dk .tr span:first-child{color:#fff}
 .pg-tb .th{padding:12px 0}
 .pg-tb .th span,.pg-tb .th span:first-child{font:500 10.5px var(--qx-mono);color:var(--qx-text3);text-transform:uppercase;letter-spacing:.05em;font-weight:500}
-.pg-tb.dk .th span{color:rgba(255,255,255,.45)}
+.pg-tb.dk .th span{color:rgba(255,255,255,.62)}
+.pg-tb .th span{font-size:12px;color:var(--qx-text2)}
+/* highlighted column (Quanton OS): indigo band, larger header */
+.pg-tb.has-hl .tr{padding:0}
+.pg-tb.has-hl .tr span{padding:18px 0}
+.pg-tb.has-hl .tr span.hl{padding:18px 20px;background:rgba(70,85,235,.06);color:var(--qx-text)}
+.pg-tb.has-hl .th span{padding:16px 0}
+.pg-tb.has-hl .th span.hl{padding:16px 20px;background:rgba(70,85,235,.12);color:#3138b8;font-size:14px;font-family:inherit;font-weight:700;letter-spacing:.02em;border-radius:8px 8px 0 0}
+.pg-tb.has-hl .tr:last-child span.hl{border-radius:0 0 8px 8px}
+.pg-tb.dk.has-hl .tr span.hl{background:rgba(143,153,255,.08);color:#fff}
+.pg-tb.dk.has-hl .th span.hl{background:rgba(143,153,255,.16);color:#a9b1ff}
 
 /* prose */
 .pg .prose{max-width:68ch}
@@ -105,6 +115,7 @@
   .pg .figs>div,.pg .figs>div+div{padding:18px 16px 18px 0;border-left:0}
   .pg-tb .tr{grid-template-columns:1fr!important;gap:6px}
   .pg-tb .th{display:none}
+  .pg-tb.has-hl .tr span.hl::before{content:"Quanton OS";display:block;font:700 11px var(--qx-mono);letter-spacing:.05em;text-transform:uppercase;color:#3138b8;margin-bottom:6px}
   .pg-close .cta{justify-content:flex-start}
   .pg .qs .a .fq-th{display:none}.pg .qs .a .fq-tr{grid-template-columns:1fr!important;gap:4px}
 }

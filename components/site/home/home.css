@@ -469,13 +469,14 @@ html:has(.hm.xpd) .qx-nav{visibility:hidden}
 .hm .hero h1{color:#fff;font-weight:500;letter-spacing:-.04em;font-size:clamp(40px,min(4.6vw,7.4vh),72px);line-height:1.02;max-width:17ch}
 .hm .sub{color:rgba(255,255,255,.7);font-weight:400;font-size:17px;line-height:1.65}
 .hm .hero .btn{background:#fff;color:#0b0c0e;font-weight:600;border-radius:8px;height:52px;padding:0 24px}
-.hm .hero .btn:hover{background:#e5e7ea}
+.hm .hero .btn:hover{background:#fff}
 .hm .hero .link{color:#fff;text-decoration:underline;text-underline-offset:4px}
-.hm .scrollcue{font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.45)}
+.hm .scrollcue{font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.62)}
 .hm .caps .cap b{font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:#a9b1ff}
 .hm .caps .cap span{color:rgba(255,255,255,.82)}
 .hm .caps .steps i{background:rgba(255,255,255,.18)}
 .hm .caps .steps i.on{background:#a9b1ff}
 .hm .xlink{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
 .hm .xlink:hover{background:rgba(255,255,255,.08)}
+.hm .decide,.hm .dash .decide{display:inline-flex!important;align-items:center;min-height:29px!important;min-width:29px;box-sizing:border-box}
 .hm .dash{box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 80px -40px rgba(0,0,0,.8)}

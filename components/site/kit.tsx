@@ -16,7 +16,7 @@ export function Page({ children, nav = "dark" }: { children: React.ReactNode; na
   return (
     <div className="qx pg">
       <SiteNav theme={nav} />
-      <main>{children}</main>
+      <main id="main">{children}</main>
       <SiteFooter />
     </div>
   );
@@ -27,7 +27,7 @@ export function Words({ text, delay = 0 }: { text: string; delay?: number }) {
   return (
     <>
       {text.split(" ").map((w, i) => (
-        <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: delay + 0.05 * i, ease }}>{w}</motion.span>
+        <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0.01, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: delay + 0.05 * i, ease }}>{w}</motion.span>
       ))}
     </>
   );
@@ -81,13 +81,14 @@ export function Close({ second }: { second?: { label: string; href: string } }) 
 }
 
 /** Ruled table with a fixed column template. */
-export function Table({ head, rows, cols, dark }: { head: string[]; rows: React.ReactNode[][]; cols: string; dark?: boolean }) {
+export function Table({ head, rows, cols, dark, hl }: { head: string[]; rows: React.ReactNode[][]; cols: string; dark?: boolean; hl?: number }) {
+  const c = (j: number) => (j === hl ? "hl" : undefined);
   return (
-    <div className={`pg-tb${dark ? " dk" : ""}`} role="table">
-      {head.some(Boolean) && <div className="tr th" role="row" style={{ gridTemplateColumns: cols }}>{head.map((h, i) => <span key={i} role="columnheader">{h}</span>)}</div>}
+    <div className={`pg-tb${dark ? " dk" : ""}${hl !== undefined ? " has-hl" : ""}`} role="table">
+      {head.some(Boolean) && <div className="tr th" role="row" style={{ gridTemplateColumns: cols }}>{head.map((h, i) => <span key={i} className={c(i)} role="columnheader">{h}</span>)}</div>}
       {rows.map((r, i) => (
         <motion.div key={i} className="tr" role="row" style={{ gridTemplateColumns: cols }} {...stagger(i)}>
-          {r.map((c, j) => <span key={j} role="cell">{c}</span>)}
+          {r.map((v, j) => <span key={j} className={c(j)} role="cell">{v}</span>)}
         </motion.div>
       ))}
     </div>

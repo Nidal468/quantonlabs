@@ -4,7 +4,7 @@
   --qx-ink:#1c2230; --qx-ink3:#5f6775; --qx-rule:#e6e8ee;
   --qx-acc:#4655EB; --qx-acc-l:#8d99ff; --qx-acc-xl:#c9cfff;
   --qx-amber:#f3c45c; --qx-green:#4bd6a5;
-  --qx-w90:rgba(255,255,255,.9); --qx-w72:rgba(255,255,255,.72); --qx-w55:rgba(255,255,255,.55); --qx-w40:rgba(255,255,255,.4);
+  --qx-w90:rgba(255,255,255,.9); --qx-w72:rgba(255,255,255,.72); --qx-w55:rgba(255,255,255,.55); --qx-w40:rgba(255,255,255,.62);
   --qx-w14:rgba(255,255,255,.14); --qx-w08:rgba(255,255,255,.08); --qx-w05:rgba(255,255,255,.05);
   --qx-mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
   --qx-max:1240px; --qx-gut:max(24px,calc((100vw - var(--qx-max))/2 + 24px));
@@ -94,14 +94,14 @@
 @media (max-width:900px){.qx-close .box{grid-template-columns:1fr;padding:32px}}
 
 /* ===== v2 art direction: paper and ink ===== */
-.qx{--qx-paper:#f0f1f3;--qx-paper2:#e5e7ea;--qx-ink0:#0b0c0e;--qx-ink1:#141619;--qx-text:#111316;--qx-text2:#454a52;--qx-text3:#7a8089;--qx-line:#d2d6db;--qx-line-d:rgba(255,255,255,.12)}
+.qx{--qx-paper:#f0f1f3;--qx-paper2:#e5e7ea;--qx-ink0:#0b0c0e;--qx-ink1:#141619;--qx-text:#111316;--qx-text2:#454a52;--qx-text3:#5d636c;--qx-line:#d2d6db;--qx-line-d:rgba(255,255,255,.12)}
 .qx-paper{background:var(--qx-paper);color:var(--qx-text)}
 .qx-ink{background:var(--qx-ink0);color:#fff}
 .qx-d1{font-size:clamp(48px,min(7.2vw,11vh),120px);line-height:.98;letter-spacing:-.045em;font-weight:500}
 .qx-d2{font-size:clamp(36px,min(4.6vw,7.4vh),76px);line-height:1.02;letter-spacing:-.04em;font-weight:500}
 .qx-d3{font-size:clamp(26px,2.4vw,38px);line-height:1.12;letter-spacing:-.03em;font-weight:500}
 .qx-lab{font:500 12px var(--qx-mono);letter-spacing:.04em;color:var(--qx-text3);display:flex;gap:14px;align-items:center}
-.qx-ink .qx-lab{color:rgba(255,255,255,.5)}
+.qx-ink .qx-lab{color:rgba(255,255,255,.62)}
 .qx-lab b{font-weight:500;color:var(--qx-text)}
 .qx-ink .qx-lab b{color:#fff}
 .qx-body{font-size:17px;line-height:1.65;color:var(--qx-text2)}
@@ -138,10 +138,22 @@
 
 /* buttons and links: a small, consistent response */
 .qx .b1,.qx .b2,.pg .b1,.pg .b2,.sx-close .b1,.sx-close .b2,.h2-close .b1,.h2-close .b2{transition:background .2s,color .2s,border-color .2s,translate .25s}
-.qx .b1:hover,.pg .b1:hover,.sx-close .b1:hover,.h2-close .b1:hover{background:#dfe2e7}
+/* the glow paints behind the button: its container is the stacking context */
+.pg-close .cta,.sx-close .cta,.h2-close .cta,.hm .hero .cta{position:relative;z-index:0}
+/* primary CTA: a full gradient-blue glow, brighter than the card glow, with a quiet halo at rest */
+.qx .b1,.pg .b1,.sx-close .b1,.h2-close .b1,.hm .hero .btn{position:relative;box-shadow:0 0 0 1px rgba(255,255,255,.9),0 0 28px -6px rgba(70,85,235,.55);transition:box-shadow .35s,background .2s,translate .25s}
+.qx .b1::before,.pg .b1::before,.sx-close .b1::before,.h2-close .b1::before,.hm .hero .btn::before{content:"";position:absolute;inset:-3px;border-radius:11px;z-index:-1;background:linear-gradient(100deg,#2B60EB,#4655EB 35%,#7341EA 70%,#8B37EA);filter:blur(14px);opacity:.35;transition:opacity .35s,filter .35s,inset .35s}
+.qx .b1:hover,.pg .b1:hover,.sx-close .b1:hover,.h2-close .b1:hover,.hm .hero .btn:hover{background:#fff;box-shadow:0 0 0 1.5px #6d7bff,0 0 22px 2px rgba(70,85,235,.75),0 0 64px 10px rgba(115,65,234,.45)}
+.qx .b1:hover::before,.pg .b1:hover::before,.sx-close .b1:hover::before,.h2-close .b1:hover::before,.hm .hero .btn:hover::before{opacity:1;inset:-6px;filter:blur(22px)}
 .qx .b2:hover,.pg .b2:hover,.sx-close .b2:hover,.h2-close .b2:hover{border-color:currentColor}
 .qx .b1:active,.qx .b2:active{translate:0 1px}
 .qx-nav ul a{position:relative}
 .qx-nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
 .qx-nav ul a:hover::after,.qx-nav ul a.on::after{transform:none}
 @media (prefers-reduced-motion:reduce){.mx-glow,.mx-glow::before,.mx-glow::after{transition:none}.mx-glow:hover{translate:none}}
+
+/* accessibility */
+.qx-skip{position:absolute;left:12px;top:-60px;z-index:300;padding:10px 16px;border-radius:8px;background:#fff;color:#0b0c0e;font-weight:600;font-size:14px;box-shadow:0 0 0 2px #4655EB;transition:top .2s}
+.qx-skip:focus{top:12px}
+.qx a:focus-visible,.qx button:focus-visible,.qx summary:focus-visible,.pg a:focus-visible,.pg summary:focus-visible{outline:2px solid #4655EB;outline-offset:3px;border-radius:4px}
+.qx-nav .logo img{width:auto}

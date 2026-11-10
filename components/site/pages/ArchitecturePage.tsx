@@ -140,7 +140,7 @@ export default function ArchitecturePage() {
       <section className="sec p2">
         <div className="wrap">
           <Head n="07" lab="What Quanton OS is not" h2="The alternatives, and where each one stops." />
-          <Table cols="190px minmax(0,1fr) minmax(0,1fr)" head={["Alternative", "Where it stops", "Quanton OS"]} rows={[
+          <Table hl={2} cols="190px minmax(0,1fr) minmax(0,1fr)" head={["Alternative", "Where it stops", "Quanton OS"]} rows={[
             ["Point solutions", "One function each. No shared state and no awareness of the rest of the business. When a vendor fails, its customers are left with nothing running.", "The whole business on one system of record: a Governing Agent and seven department leads directing specialist agents, on shared engines, under governance enforced in the system."],
             ["CRM-based agent suites", "Agents bounded by a single vendor's ecosystem, seeing only what lives inside that platform. Built and sold for enterprise buyers.", "Agents operating on a core built for the business, where engines compute from the full record, not from whatever a vendor exposes."],
             ["Self-service AI platforms", "Toolboxes the company designs, builds, and runs itself. No coordination, no governance.", "A deployed governed system with coordination, a rules check on every output, approval levels, and shared state from day one."],

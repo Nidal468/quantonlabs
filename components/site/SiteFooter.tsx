@@ -24,7 +24,7 @@ export default function SiteFooter({ theme = "light" }: { theme?: "light" | "dar
         <div className="g">
           <div className="b">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={dark ? "/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_1_Aug2026.png" : "/images/site/ql-wordmark.png"} alt="Quanton Labs" />
+            <img src={dark ? "/images/site/logo-white@2x.png" : "/images/site/logo-ink@2x.png"} width={dark ? 100 : 109} height={30} alt="Quanton Labs" />
             <p>Quanton OS runs the company so its leadership can lead it.</p>
             <a href="mailto:growth@quantonlabs.com">growth@quantonlabs.com</a>
           </div>

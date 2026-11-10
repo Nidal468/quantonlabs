@@ -244,7 +244,7 @@ export default function SolutionPage({ d, x }: { d: SolutionData; x: SolutionExt
   return (
     <div className="qx sx">
       <SiteNav theme="dark" />
-      <main>
+      <main id="main">
         <Hero d={d} x={x} />
         <Breaks d={d} x={x} />
         <Proof d={d} />

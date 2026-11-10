@@ -60,7 +60,7 @@ export default function ModularPage() {
       <section className="sec qx-paper">
         <div className="wrap">
           <Head n="04" lab="The limit" h2="The program stops at three agents." lead="Past three, a business is coordinating agents across functions, and agents working from separate records give separate answers. Coordination on one record the company owns is what Quanton OS is built for. A third agent opens that conversation." />
-          <Table cols="180px minmax(0,1fr) minmax(0,1fr)" head={["", "Modular Agent Program", "Quanton OS"]} rows={[
+          <Table hl={2} cols="180px minmax(0,1fr) minmax(0,1fr)" head={["", "Modular Agent Program", "Quanton OS"]} rows={[
             ["Scope", "One to three functions", "Every function"],
             ["Record", "The tools already in use", "One system of record the company owns"],
             ["Coordination", "Each agent on its own", "A Governing Agent across seven departments"],

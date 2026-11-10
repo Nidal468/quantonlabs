@@ -25,8 +25,10 @@ export default function HomeClient() {
   return (
     <>
       <SiteNav theme="dark" />
-      <div ref={ref} className="hm" dangerouslySetInnerHTML={{ __html: BODY }} />
-      <HomeSections />
+      <main id="main">
+        <div ref={ref} className="hm" dangerouslySetInnerHTML={{ __html: BODY }} />
+        <HomeSections />
+      </main>
       <SiteFooter />
     </>
   );

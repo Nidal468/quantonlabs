@@ -81,7 +81,7 @@ function Statement() {
       <div className="pin"><div className="wrap sg">
         <div>
           <div className="qx-lab"><b>01</b> The work</div>
-          <p className="txt">{words.map((w, i) => <span key={i} style={{ color: i < lit ? "var(--qx-text)" : "#c2c7ce" }}>{w}{i < words.length - 1 ? " " : ""}</span>)}</p>
+          <p className="txt">{words.map((w, i) => <span key={i} style={{ color: i < lit ? "var(--qx-text)" : "#868b94" }}>{w}{i < words.length - 1 ? " " : ""}</span>)}</p>
         </div>
         <figure className="lag" aria-label="Illustrative: when a company run by hand knows its numbers. Revenue on day 8 after month end, margin by job on day 22, net profit on day 30. Labor productivity, a 13-week cash view, and company value are not produced.">
           <div className="lag-h"><span>When leadership knows its numbers</span><span>Illustrative</span></div>
@@ -322,7 +322,7 @@ export default function AboutClient() {
   return (
     <div className="qx ab2">
       <SiteNav theme="dark" />
-      <main>
+      <main id="main">
         <Hero />
         <Statement />
         <Board />

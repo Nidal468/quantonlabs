@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -17,6 +17,12 @@ const manrope = Manrope({
 
 const productionUrl = "https://quantonlabs.com";
 
+export const viewport: Viewport = {
+  themeColor: "#0b0c0e",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(productionUrl),
   title: "AI-Native Business System for Established Operators | Quanton Labs",
@@ -29,15 +35,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/assets/ql-favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: [
-      { url: "/images/assets/ql-favicon-180.png", sizes: "180x180", type: "image/png" },
-    ],
-    other: [
-      { rel: "mask-icon", url: "/images/assets/ql-favicon.svg" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "Quanton OS | The AI-Native Business System",
     description:

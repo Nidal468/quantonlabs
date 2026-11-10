@@ -14,7 +14,7 @@
 .in-hero .bk{display:inline-flex}
 .in-hero h1{margin-top:26px!important;max-width:24ch}
 .in-hero .lead{margin-top:24px!important;font-size:18px;line-height:1.6;color:rgba(255,255,255,.7);max-width:62ch}
-.in-hero .m{margin-top:36px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5)}
+.in-hero .m{margin-top:36px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.62)}
 .in-body{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,3fr);gap:72px}
 .in-body aside{position:sticky;top:96px;align-self:start;display:flex;flex-direction:column;gap:36px}
 .in-body .tags ul{list-style:none;padding:0;margin-top:12px!important;display:flex;flex-wrap:wrap;gap:6px}

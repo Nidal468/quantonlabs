@@ -7,10 +7,10 @@
 .ar-planes.free .pin{position:relative;height:auto;padding:16vh 0}
 .ar-planes .gr{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:center;width:100%}
 .ar-planes .stack{display:flex;flex-direction:column;gap:10px}
-.ar-planes .pl{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:20px 24px;background:#0f1114;opacity:.4;transition:opacity .5s,background .5s,border-color .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
-.ar-planes .pl.past{opacity:.7}
+.ar-planes .pl{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:20px 24px;background:#0f1114;opacity:.78;transition:opacity .5s,background .5s,border-color .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.ar-planes .pl.past{opacity:.88}
 .ar-planes .pl.on{opacity:1;background:#15171c;border-color:rgba(70,85,235,.6);transform:translateX(-8px)}
-.ar-planes .pl .r{display:flex;justify-content:space-between;font:500 10.5px var(--qx-mono);color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.05em}
+.ar-planes .pl .r{display:flex;justify-content:space-between;font:500 10.5px var(--qx-mono);color:rgba(255,255,255,.62);text-transform:uppercase;letter-spacing:.05em}
 .ar-planes .pl.on .r span:first-child{color:#a9b1ff}
 .ar-planes .pl h3{margin-top:10px!important;font-size:24px;font-weight:500;letter-spacing:-.02em}
 .ar-planes .pl p{margin-top:8px!important;font-size:14px;line-height:1.55;color:rgba(255,255,255,.65);max-width:60ch}

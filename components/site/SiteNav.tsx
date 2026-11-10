@@ -55,11 +55,12 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
   const cls = theme === "overlay" ? ` overlay${solid ? " solid" : ""}` : theme === "dark" ? " dark" : theme === "paper" ? " paper" : "";
   return (
     <>
+      <a href="#main" className="qx-skip">Skip to content</a>
       <nav className={`qx qx-nav${cls}`} aria-label="Main">
         <div className="in">
           <Link href="/" className="logo" aria-label="Quanton Labs home">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={dark ? "/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_1_Aug2026.png" : "/images/site/ql-wordmark.png"} alt="Quanton Labs" />
+            <img src={dark ? "/images/site/logo-white@2x.png" : "/images/site/logo-ink@2x.png"} width={dark ? 100 : 109} height={30} alt="Quanton Labs" />
           </Link>
           <ul>
             <li className={`dd${open ? " open" : ""}`} ref={dd} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
