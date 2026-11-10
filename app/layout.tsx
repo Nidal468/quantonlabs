@@ -98,12 +98,6 @@ const schemaProduct = {
   description:
     "An AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.",
   areaServed: "US",
-  offers: {
-    "@type": "Offer",
-    price: "7500",
-    priceCurrency: "USD",
-    description: "Discovery and Diagnostic engagement starting at $7,500",
-  },
   provider: {
     "@type": "Organization",
     name: "Quanton Labs",

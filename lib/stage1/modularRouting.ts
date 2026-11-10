@@ -3,6 +3,8 @@
 // Modular Agent Program - Below-Threshold Routing
 //
 // Routes below-threshold respondents toward the Modular Agent Program.
+// Instrumentation only: nothing this module computes reaches a respondent
+// (DEVELOPER BRIEF ASSESSMENT, Stage 1 item 10).
 //
 // PROVISIONAL. The agent identifiers below are not governed. The Modular
 // Agent Program is not yet versioned in the OS Framework, the Pricing
@@ -48,40 +50,17 @@ export const AGENT_NAME_PROVISIONAL: Record<ModularAgent, string> = {
 // ============================================================
 
 /**
- * Tests function presence, not platform presence.
- *
- * Absence of an Integration Category means one of two things: the business
- * does not perform that function, or it performs it without a formal system.
- * For lead follow-up the second case is the norm below $1M and is the
- * qualifying signal rather than a disqualifier, so the agent is presumed
- * present.
- *
- * Invoicing and booking are genuinely not universal, so their absence is
- * informative and does filter.
- *
- * Note: operational_surface is the respondent's raw A3 selection. It is
- * deliberately not passed through the baseline forcing applied in
- * getActiveQuestions, which treats core data and financial systems as always
- * active for scoring purposes. Using the forced set here would make the
- * Invoice filter unable to exclude anything.
+ * Tests function presence from the respondent's A3 selection. Lead follow-up
+ * is presumed present; invoicing is always present because Finance is always
+ * active; booking needs the Customer service and scheduling function.
  */
 function agentIsAvailable(agent: ModularAgent, sectionA: SectionA): boolean {
-  const surface = new Set(sectionA.operational_surface);
-
   switch (agent) {
     case "lead_follow_up":
-      // Presumed present. No exclusion condition in v1; instrumentation will
-      // show whether one is ever needed.
-      return true;
-
     case "invoice_and_receivables":
-      return (
-        surface.has("financial_systems") ||
-        surface.has("commerce_and_transactions")
-      );
-
+      return true;
     case "booking_and_confirmation":
-      return surface.has("scheduling_and_workflow");
+      return sectionA.functions.includes("customer");
   }
 }
 
@@ -139,10 +118,10 @@ export function selectModularAgent(
       return { agent: candidates[0], selected_by: os, filtered_out, fallback: false };
     }
 
-    // Owner bottleneck present favours Booking and Confirmation: scheduling
+    // Leadership bottleneck present favours Booking and Confirmation: scheduling
     // decisions are the higher-frequency owner interrupt. Absent, receivables
     // is the heavier drag.
-    const agent = flags.owner_bottleneck
+    const agent = flags.leadership_bottleneck
       ? candidates.find(a => a === "booking_and_confirmation") ?? candidates[0]
       : candidates.find(a => a === "invoice_and_receivables") ?? candidates[0];
 
@@ -150,61 +129,4 @@ export function selectModularAgent(
   }
 
   return { agent: null, selected_by: null, filtered_out, fallback: true };
-}
-
-// ============================================================
-// REPORT COPY
-// ============================================================
-
-/**
- * Deliberately empty of capability claims.
- *
- * The Modular Agent Program is not yet versioned in the OS Framework, the
- * Pricing Strategy, or the Definitions Index. Until it is, there is no
- * authoritative source for what each agent does, how long installation
- * takes, or what it costs, and inventing those details for a client-facing
- * report is not acceptable.
- *
- * The agent name itself is governed and can be used. Everything else waits
- * for the documents. When they land, the specifics belong here.
- */
-
-export interface ModularReportBlock {
-  header: string;
-  body: string[];
-  primary_cta: string;
-}
-
-/**
- * Client-facing block. Names no agent.
- *
- * Naming one commits the engagement before a conversation has happened, and
- * the names are not governed in any case. The report establishes that a
- * modular engagement is the right shape and routes to a person.
- */
-export function buildModularBlock(
-  selection: ModularSelection,
-  topOs: OperatingSystem
-): ModularReportBlock {
-  if (selection.fallback) {
-    return {
-      header: "Where to Go From Here",
-      body: [
-        "A full system deployment is built for operational complexity your business has not reached yet, and recommending one at this stage would be the wrong advice.",
-        "What this diagnostic found does not point at a single obvious fix either, which makes the useful next step a conversation rather than a recommendation.",
-        "It costs nothing, it is not a qualification call, and if the honest answer is that nothing should be built yet, you will hear that.",
-      ],
-      primary_cta: "Book a scoping conversation",
-    };
-  }
-
-  return {
-    header: "Where to Go From Here",
-    body: [
-      "A full system deployment is built for operational complexity your business has not reached yet, and recommending one at this stage would be the wrong advice. That does not mean the answer is to wait.",
-      `Most of the drag described above traces back to one constraint rather than four, and in your case it sits in the ${topOs} layer. That is the shape our Modular Agent Program is built for: a single agent installed against the one thing costing you the most, rather than a rebuild.`,
-      "Which agent, what it would take, and whether it is the right call at all are worth a short conversation. Someone from Quanton Labs will reach out, or you can book that conversation now. It costs nothing and it is not a qualification call.",
-    ],
-    primary_cta: "Book a scoping conversation",
-  };
 }

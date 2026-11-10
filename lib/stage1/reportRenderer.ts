@@ -1,21 +1,13 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Structural Diagnostic — HTML Report Renderer
-// Source: STRUCTURAL PATTERN REPORT TEMPLATE v1.0 Apr2026
+// Stage 1 Structural Pattern Report - HTML Renderer
+// Source: STRUCTURAL PATTERN REPORT TEMPLATE (Report Structure, Render Specification, Report Assembly)
 
-import type {
-  AssessmentSubmission,
-  OperatingSystem,
-  ScoredPayload,
-  SectionB,
-  SeverityTier,
-} from "./types";
-import { buildModularBlock } from "./modularRouting";
-import type { ModularSelection } from "./modularRouting";
+import type { AssessmentSubmission, OperatingSystem, ScoredPayload, SectionB, SeverityTier } from "./types";
+import { getQuestionById, weightOf, C1_OPTIONS } from "./questions";
+import { companyNameFromWebsite } from "./index";
 import {
-  C1_OS_PHRASING,
-  C1_STANDARD_OPTIONS,
-  CALLOUT_TRIGGERS,
+  CALLOUTS,
   CLOSING_VARIANTS,
   COVER_HEADLINES,
   DIAGNOSTIC_LINES,
@@ -23,21 +15,14 @@ import {
   OS_LABELS,
   PATTERN_DESCRIPTORS,
   PATTERN_SUMMARIES,
+  SUMMARY_PENDING,
   SYSTEM_FRAMINGS,
   TIER_BLOCKS,
   TIER_LABELS,
 } from "./reportCopy";
 
-// ============================================================
-// BRAND TOKENS
-// ============================================================
-
 const COLORS = {
   blueIndigo: "#4655EB",
-  tierArchitected: "#22C55E",
-  tierFunctional: "#EAB308",
-  tierStructural: "#F97316",
-  tierCritical: "#EF4444",
   gray800: "#1F2937",
   gray700: "#374151",
   gray500: "#6B7280",
@@ -45,429 +30,170 @@ const COLORS = {
   gray50: "#F9FAFB",
   white: "#FFFFFF",
 };
+const GRADIENT = "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quantonlabs.com";
+const CALENDLY = "https://calendly.com/quantonlabs/30min";
+const LINKEDIN = "https://www.linkedin.com/company/quanton-labs";
 
-const GRADIENT =
-  "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
-
-// ============================================================
-// PRIMARY RENDERER
-// ============================================================
-
-/**
- * Renders the complete Structural Intelligence Report as HTML.
- * Assembles all sections per STRUCTURAL Intelligence REPORT TEMPLATE v1.0
- * Report Assembly Logic (steps 1-9).
- */
-export function renderReport(
-  submission: AssessmentSubmission,
-  scored: ScoredPayload,
-  submissionId: string,
-  modular?: ModularSelection | null
-): string {
-  const { section_a, section_b, section_c, section_d } = submission;
-  const companyName = extractCompanyName(section_d.website);
-  const fullName = `${section_d.first_name} ${section_d.last_name}`;
-  const date = formatDate(new Date());
-
-  const cover = renderCoverPanel(fullName, companyName, date, scored);
-  const summary = renderStructuralSummary(companyName, scored, section_c);
-  const severityMap = renderSeverityMap(scored);
-  const focusAreas = renderStructuralFocusAreas(scored, section_b);
-  const otherOS = renderOtherOperatingSystems(scored);
-  const whatYouToldUs = renderWhatYouToldUs(section_c, scored);
-  const closing = renderClosingSection(companyName, scored, submissionId, modular);
-
-  return wrapInPage({
-    title: `Structural Intelligence Report — ${companyName}`,
-    body: [cover, summary, severityMap, focusAreas, otherOS, whatYouToldUs, closing].join("\n"),
-    submissionId,
-  });
+/** Report assembly steps 1 to 8. The route stores the result and sends the email (step 9). */
+export function renderReport(submission: AssessmentSubmission, scored: ScoredPayload, submissionId: string): string {
+  const { section_b, section_c, section_d } = submission;
+  const company = companyNameFromWebsite(section_d.website);
+  const body = [
+    cover(`${section_d.first_name} ${section_d.last_name}`, company, scored),
+    summary(company, scored, section_c.priority),
+    severityMap(scored),
+    focusAreas(scored, section_b),
+    otherSystems(scored),
+    whatYouToldUs(section_c.outcome_text, scored),
+    closing(company, scored, submissionId),
+  ].join("\n");
+  return wrapInPage({ title: `Structural Pattern Report: ${company}`, body, submissionId });
 }
 
-// ============================================================
-// COVER PANEL
-// ============================================================
-
-function renderCoverPanel(
-  fullName: string,
-  companyName: string,
-  date: string,
-  scored: ScoredPayload
-): string {
-  const topTier = scored.scores[scored.top_os].tier;
-  const headline = COVER_HEADLINES[topTier];
-
+function cover(fullName: string, company: string, scored: ScoredPayload): string {
+  const date = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   return `
     <section class="cover-panel">
       <div class="cover-header">
-        <img
-src="https://eru8zvxsrt6fabfe.public.blob.vercel-storage.com/QL%20LOGO%20BLACK%20VERSION%20WITH%20TAGLINE%20v1.0%20Feb2026.png"          alt="Quanton Labs"
-          class="cover-logo"
-        />
-        <div class="cover-contact">
-          <span>Growth@QuantonLabs.com</span>
-          <span>(929) 298-2162</span>
-          <span>quantonlabs.com</span>
-        </div>
+        <img src="${SITE}/images/site/logo-ink@2x.png" alt="Quanton Labs" class="cover-logo" width="180" />
+        <div class="cover-contact"><span>growth@quantonlabs.com</span><span>(929) 298-2162</span><span>quantonlabs.com</span></div>
       </div>
-      <div class="cover-meta">Prepared for ${esc(fullName)} &nbsp;|&nbsp; ${esc(companyName)}</div>
+      <div class="cover-meta">Prepared for ${esc(fullName)} &nbsp;|&nbsp; ${esc(company)}</div>
       <div class="cover-date">${esc(date)}</div>
-      <h1 class="cover-headline">${esc(headline)}</h1>
-    </section>
-  `;
+      <h1 class="cover-headline">${esc(COVER_HEADLINES[scored.scores[scored.top_os].tier])}</h1>
+    </section>`;
 }
 
-// ============================================================
-// STRUCTURAL SUMMARY
-// ============================================================
+function averageTier(scored: ScoredPayload): SeverityTier {
+  const s = scored.scores;
+  const avg = (s.strategy.normalized + s.platform.normalized + s.operations.normalized + s.growth.normalized) / 4;
+  return avg <= 25 ? "architected" : avg <= 50 ? "functional_gap" : avg <= 75 ? "structural_gap" : "critical_gap";
+}
 
-function renderStructuralSummary(
-  companyName: string,
-  scored: ScoredPayload,
-  sectionC: AssessmentSubmission["section_c"]
-): string {
-  const averageTier = computeAverageTier(scored);
-  const descriptor = PATTERN_DESCRIPTORS[averageTier];
-  const topOS = OS_LABELS[scored.top_os];
-  const secondOS = OS_LABELS[scored.second_os];
-  const thirdOS = OS_LABELS[scored.ranked_os[2]];
-  const fourthOS = OS_LABELS[scored.ranked_os[3]];
-  const topTier = TIER_LABELS[scored.scores[scored.top_os].tier];
-
-  const paragraph1 = `${esc(companyName)} is operating with ${esc(descriptor)} across the business. The most pronounced gaps sit in ${esc(topOS)} and ${esc(secondOS)}, where structural design has not yet caught up with what the business needs. ${esc(thirdOS)} and ${esc(fourthOS)} show lower severity, and in your case, they are almost certainly connected to the patterns above.`;
-
-  const c1Text = getC1DisplayText(sectionC.priority_os, scored);
-  // C1 option labels may already end in punctuation, which produced a double
-  // period when the sentence closed.
-  const c1Clean = c1Text.trim().replace(/[.!?]+$/, "");
-  const paragraph2 = `You told us your priority is ${esc(c1Clean)}. This report is built around that goal.`;
-
+function summary(company: string, scored: ScoredPayload, priority: string): string {
+  const [a, b, c, d] = scored.ranked_os.map((os) => OS_LABELS[os]);
+  const p1 = `${company} is operating with ${PATTERN_DESCRIPTORS[averageTier(scored)]} across all four operating systems. The most pronounced gaps sit in ${a} and ${b}, where ${SUMMARY_PENDING.diagnostic}. ${c} and ${d} show ${SUMMARY_PENDING.relative}, and the four are connected: ${SUMMARY_PENDING.synthesis}.`;
+  const insertion = (C1_OPTIONS[priority] ?? C1_OPTIONS[scored.top_os]).insertion;
+  const p2 = `You told us your priority is ${insertion}. This report is built around that goal.`;
   return `
     <section class="section-summary">
-      <p>${paragraph1}</p>
-      <p>${paragraph2}</p>
-    </section>
-  `;
+      <h2>Structural Summary</h2>
+      <p>${esc(p1)}</p>
+      <p>${esc(p2)}</p>
+    </section>`;
 }
 
-// ============================================================
-// SEVERITY MAP
-// ============================================================
+function dots(n: number): string {
+  return Array.from({ length: 5 }, (_, i) => `<span class="dot ${i < n ? "filled" : "empty"}"></span>`).join("");
+}
 
-function renderSeverityMap(scored: ScoredPayload): string {
+function severityMap(scored: ScoredPayload): string {
   const rows = scored.ranked_os
     .map((os) => {
-      const score = scored.scores[os];
-      const tierLabel = TIER_LABELS[score.tier];
-      const diagnostic = DIAGNOSTIC_LINES[os][score.tier];
-      const dots = renderDots(score.dots, score.tier);
+      const s = scored.scores[os];
       return `
         <div class="severity-row">
-          <div class="severity-dots">${dots}</div>
+          <div class="severity-dots" aria-label="${s.dots} of 5">${dots(s.dots)}</div>
           <div class="severity-body">
-            <div class="severity-title">${esc(OS_LABELS[os])} <span class="severity-tier ${TIER_DOT_CLASS[score.tier]}">${esc(tierLabel)}</span></div>
-            <div class="severity-diagnostic">${esc(diagnostic)}</div>
+            <div class="severity-title">${esc(OS_LABELS[os])} <span class="severity-tier">${esc(TIER_LABELS[s.tier])}</span></div>
+            <div class="severity-diagnostic">${esc(DIAGNOSTIC_LINES[os][s.tier])}</div>
           </div>
-        </div>
-      `;
+        </div>`;
     })
     .join("");
-
   return `
     <section class="section-severity">
       <h2>Severity Map</h2>
       <div class="severity-map">${rows}</div>
-    </section>
-  `;
+    </section>`;
 }
 
-// A single accent colour made a critical gap and an architected domain look
-// identical. Severity has to be visible before the label is read.
-const TIER_DOT_CLASS: Record<SeverityTier, string> = {
-  architected: "tier-architected",
-  functional_gap: "tier-functional",
-  structural_gap: "tier-structural",
-  critical_gap: "tier-critical",
-};
-
-function renderDots(count: 1 | 2 | 3 | 4 | 5, tier: SeverityTier): string {
-  let html = "";
-  for (let i = 1; i <= 5; i++) {
-    const cls = i <= count ? `filled ${TIER_DOT_CLASS[tier]}` : "empty";
-    html += `<span class="dot ${cls}"></span>`;
-  }
-  return html;
+/** Up to three callouts from questions shown and scored 2 or 3, ranked by weight. */
+function callouts(os: OperatingSystem, b: SectionB): string {
+  const hits = CALLOUTS[os]
+    .map((c, order) => ({ ...c, order, w: weightOf(getQuestionById(c.id)!, b[c.id]) }))
+    .filter((c) => typeof c.w === "number" && c.w >= (c.minWeight ?? 2))
+    .sort((x, y) => (y.w as number) - (x.w as number) || x.order - y.order)
+    .slice(0, 3);
+  return hits.map((c) => `<div class="callout"><p>${esc(c.text)}</p></div>`).join("");
 }
 
-// ============================================================
-// STRUCTURAL FOCUS AREAS (top two OS)
-// ============================================================
-
-function renderStructuralFocusAreas(
-  scored: ScoredPayload,
-  sectionB: SectionB
-): string {
-  const focusSet = [scored.top_os, scored.second_os];
-
-  const blocks = focusSet
+function focusAreas(scored: ScoredPayload, b: SectionB): string {
+  return [scored.top_os, scored.second_os]
     .map((os) => {
-      const tier = scored.scores[os].tier;
-      const framing = SYSTEM_FRAMINGS[os]
-        .map((p) => `<p>${esc(p)}</p>`)
-        .join("");
-      const block = TIER_BLOCKS[os][tier];
-      const callouts = renderCallouts(os, sectionB);
-
+      const block = TIER_BLOCKS[os][scored.scores[os].tier];
       return `
         <section class="section-focus">
           <h2>${esc(OS_LABELS[os])} System</h2>
-          <div class="framing">${framing}</div>
+          <div class="framing"><p>${esc(SYSTEM_FRAMINGS[os])}</p></div>
           <h3>${esc(block.headline)}</h3>
           <p>${esc(block.pattern[0])}</p>
           <p>${esc(block.pattern[1])}</p>
           <div class="implication"><p>${esc(block.implication)}</p></div>
-          ${callouts}
-        </section>
-      `;
+          ${callouts(os, b)}
+        </section>`;
     })
     .join("");
-
-  return blocks;
 }
 
-function renderCallouts(os: OperatingSystem, sectionB: SectionB): string {
-  const triggers = CALLOUT_TRIGGERS[os];
-  const triggered = triggers
-    .filter((t) => {
-      const weight = sectionB[t.question_id];
-      return typeof weight === "number" && weight >= t.min_weight;
-    })
-    .map((t) => ({
-      ...t,
-      actualWeight: sectionB[t.question_id] as number,
-    }))
-    .sort((a, b) => b.actualWeight - a.actualWeight)
-    .slice(0, 3);
-
-  if (triggered.length === 0) return "";
-
-  const items = triggered
-    .map((t) => `<li>${esc(t.copy)}</li>`)
-    .join("");
-
-  return `
-    <div class="callouts">
-      <h4>What Drove This Assessment</h4>
-      <ul>${items}</ul>
-    </div>
-  `;
-}
-
-// ============================================================
-// OTHER OPERATING SYSTEMS (bottom two OS)
-// ============================================================
-
-function renderOtherOperatingSystems(scored: ScoredPayload): string {
-  const bottomTwo = [scored.ranked_os[2], scored.ranked_os[3]];
-
-  const blocks = bottomTwo
+function otherSystems(scored: ScoredPayload): string {
+  const blocks = [scored.ranked_os[2], scored.ranked_os[3]]
     .map((os) => {
-      const tier = scored.scores[os].tier;
-      const headline = DIAGNOSTIC_LINES[os][tier];
-      const summary = PATTERN_SUMMARIES[os][tier];
+      const t = scored.scores[os].tier;
       return `
         <div class="other-os-block">
           <h3>${esc(OS_LABELS[os])}</h3>
-          <p class="other-os-headline">${esc(headline)}</p>
-          <p>${esc(summary)}</p>
-        </div>
-      `;
+          <p class="other-os-headline">${esc(DIAGNOSTIC_LINES[os][t])}</p>
+          <p>${esc(PATTERN_SUMMARIES[t])}</p>
+        </div>`;
     })
     .join("");
-
   return `
     <section class="section-other">
       <h2>Other Operating Systems</h2>
       ${blocks}
-    </section>
-  `;
+    </section>`;
 }
 
-// ============================================================
-// WHAT YOU TOLD US
-// ============================================================
-
-function renderWhatYouToldUs(
-  sectionC: AssessmentSubmission["section_c"],
-  scored: ScoredPayload
-): string {
-  const text = (sectionC.outcome_text ?? "").trim();
+/** Rendered only when C2 is 20 characters or longer; otherwise omitted with no substitute. */
+function whatYouToldUs(outcome: string | null, scored: ScoredPayload): string {
+  const text = (outcome ?? "").trim();
   if (text.length < 20) return "";
-
-  const topTier = scored.scores[scored.top_os].tier;
-  const close = INTERPRETIVE_CLOSES[topTier];
-
   return `
     <section class="section-told-us">
       <h2>What You Told Us</h2>
-      <blockquote class="respondent-quote">${esc(text)}</blockquote>
-      <p class="interpretive-close">${esc(close)}</p>
-    </section>
-  `;
+      <blockquote class="respondent-quote">&ldquo;${esc(text)}&rdquo;</blockquote>
+      <p class="interpretive-close">${esc(INTERPRETIVE_CLOSES[scored.scores[scored.top_os].tier])}</p>
+    </section>`;
 }
 
-// ============================================================
-// CLOSING SECTION
-// ============================================================
-
-function renderClosingSection(
-  companyName: string,
-  scored: ScoredPayload,
-  submissionId: string,
-  modular?: ModularSelection | null
-): string {
-  // Below-threshold respondents get the Modular block, which names a single
-  // agent selected against their weakest domain, or the scoped-conversation
-  // fallback where nothing maps. Everyone else gets the standard close.
-  const variant =
-    scored.closing_variant === "below_threshold" && modular
-      ? buildModularBlock(modular, scored.top_os)
-      : CLOSING_VARIANTS[scored.closing_variant];
-
-  // Interpolate placeholders in body and secondary_body
-  const bodyHtml = variant.body
-    .map((p) => `<p>${esc(interpolate(p, companyName, scored))}</p>`)
-    .join("");
-
-  // Only the standard variants carry a secondary block. The Modular block
-  // has a single call to action by design.
-  const secondary = variant as {
-    secondary_body?: string;
-    secondary_cta?: string;
-  };
-
-  const secondaryBodyHtml = secondary.secondary_body
-    ? `<p class="secondary-intro">${esc(interpolate(secondary.secondary_body, companyName, scored))}</p>`
-    : "";
-
-  const secondaryCtaHtml = secondary.secondary_cta
-    ? `<a class="cta cta-secondary" href="/assessment/stage2/${submissionId}" target="_top">${esc(secondary.secondary_cta)}</a>`
-    : "";
-
+function closing(company: string, scored: ScoredPayload, submissionId: string): string {
+  const v = CLOSING_VARIANTS[scored.closing_variant];
+  const fill = (t: string) =>
+    t.replace(/\[COMPANY NAME\]/g, company).replace(/\[TOP OS NAME\]/g, OS_LABELS[scored.top_os]).replace(/\[SECOND OS NAME\]/g, OS_LABELS[scored.second_os]);
+  const secondaryHref = v.brief ? `${SITE}/assessment/stage2/${encodeURIComponent(submissionId)}` : LINKEDIN;
   return `
     <section class="section-closing">
-      <h2>${esc(variant.header)}</h2>
-      ${bodyHtml}
-<a class="cta cta-primary" href="https://calendly.com/quantonlabs/30min" target="_blank">${esc(variant.primary_cta)}</a>      ${secondaryBodyHtml}
-      ${secondaryCtaHtml}
-    </section>
-  `;
+      <h2>${esc(v.header)}</h2>
+      ${v.body.map((p) => `<p>${esc(fill(p))}</p>`).join("")}
+      <a class="cta cta-primary" href="${CALENDLY}" target="_blank" rel="noopener">${esc(v.primary_cta)}</a>
+      ${v.secondary_body ? `<p class="secondary-intro">${esc(fill(v.secondary_body))}</p>` : ""}
+      <a class="cta cta-secondary" href="${secondaryHref}" target="_top">${esc(v.secondary_cta)}</a>
+    </section>`;
 }
 
-// ============================================================
-// HELPERS
-// ============================================================
-
-function computeAverageTier(scored: ScoredPayload): SeverityTier {
-  const avg =
-    (scored.scores.strategy.normalized +
-      scored.scores.platform.normalized +
-      scored.scores.operations.normalized +
-      scored.scores.growth.normalized) /
-    4;
-
-  if (avg <= 25) return "architected";
-  if (avg <= 50) return "functional_gap";
-  if (avg <= 75) return "structural_gap";
-  return "critical_gap";
-}
-
-function getC1DisplayText(
-  priorityOption: string,
-  scored: ScoredPayload
-): string {
-  switch (priorityOption) {
-    case "strategy_phrased":
-      return C1_OS_PHRASING.strategy;
-    case "platform_phrased":
-      return C1_OS_PHRASING.platform;
-    case "operations_phrased":
-      return C1_OS_PHRASING.operations;
-    case "growth_phrased":
-      return C1_OS_PHRASING.growth;
-    case "owner_capacity":
-      return C1_STANDARD_OPTIONS.owner_capacity;
-    case "visibility_reporting":
-      return C1_STANDARD_OPTIONS.visibility_reporting;
-    default:
-      return C1_OS_PHRASING[scored.top_os];
-  }
-}
-
-function interpolate(
-  template: string,
-  companyName: string,
-  scored: ScoredPayload
-): string {
-  return template
-    .replace(/\[COMPANY NAME\]/g, companyName)
-    .replace(/\[TOP OS NAME\]/g, OS_LABELS[scored.top_os])
-    .replace(/\[SECOND OS NAME\]/g, OS_LABELS[scored.second_os]);
-}
-
-function extractCompanyName(website: string): string {
-  if (!website) return "Your Company";
-  const cleaned = website
-    .trim()
-    .replace(/^https?:\/\//i, "")
-    .replace(/^www\./i, "")
-    .split("/")[0]
-    .split(".")[0]
-    .toLowerCase();
-  // Known brand corrections
-  const corrections: Record<string, string> = {
-    quantonlabs: "Quanton Labs",
-  };
-  if (corrections[cleaned]) return corrections[cleaned];
-  return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
-}
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-// HTML escape to prevent injection from respondent input
 function esc(text: string): string {
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+  return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-// ============================================================
-// PAGE WRAPPER (full HTML document with styles)
-// ============================================================
-
-function wrapInPage({
-  title,
-  body,
-  submissionId,
-}: {
-  title: string;
-  body: string;
-  submissionId: string;
-}): string {
+function wrapInPage({ title, body, submissionId }: { title: string; body: string; submissionId: string }): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
 <title>${esc(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -577,52 +303,25 @@ p {
 .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
 .dot.filled { background: ${COLORS.blueIndigo}; }
 .dot.empty { background: ${COLORS.gray200}; }
-.dot.tier-architected { background: ${COLORS.tierArchitected}; }
-.dot.tier-functional { background: ${COLORS.tierFunctional}; }
-.dot.tier-structural { background: ${COLORS.tierStructural}; }
-.dot.tier-critical { background: ${COLORS.tierCritical}; }
 .severity-body { flex: 1; }
 .severity-title { font-weight: 600; color: ${COLORS.gray800}; font-size: 16px; }
 .severity-tier { font-weight: 500; color: ${COLORS.gray500}; font-size: 14px; margin-left: 8px; }
-.severity-tier.tier-architected { color: ${COLORS.tierArchitected}; }
-.severity-tier.tier-functional { color: ${COLORS.tierFunctional}; }
-.severity-tier.tier-structural { color: ${COLORS.tierStructural}; }
-.severity-tier.tier-critical { color: ${COLORS.tierCritical}; }
 .severity-diagnostic { font-size: 14px; color: ${COLORS.gray700}; margin-top: 4px; }
 
 /* Focus Areas */
 .framing { margin-bottom: 16px; }
-.implication {
-  border-left: 4px solid ${COLORS.blueIndigo};
-  padding: 8px 0 8px 16px;
-  margin: 20px 0;
-}
-.implication p { margin-bottom: 0; font-style: italic; color: ${COLORS.gray700}; }
+.implication { margin: 20px 0; }
+.implication p { margin-bottom: 0; font-weight: 600; color: ${COLORS.gray800}; }
 
-/* Callouts */
-.callouts {
+/* Callouts: 4 px Blue-Indigo left border, 16 px padding, italic */
+.callout {
+  border-left: 4px solid ${COLORS.blueIndigo};
+  padding: 16px;
+  margin: 16px 0 0 0;
+  font-style: italic;
   background: ${COLORS.gray50};
-  padding: 20px 24px;
-  margin-top: 24px;
-  border-radius: 4px;
 }
-.callouts h4 { margin-top: 0; }
-.callouts ul { list-style: none; padding: 0; }
-.callouts li {
-  padding: 8px 0 8px 20px;
-  position: relative;
-  font-size: 15px;
-  color: ${COLORS.gray700};
-}
-.callouts li:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 16px;
-  width: 8px;
-  height: 2px;
-  background: ${COLORS.blueIndigo};
-}
+.callout p { margin: 0; }
 
 /* Other OS */
 .other-os-block { margin-bottom: 28px; }
@@ -654,9 +353,9 @@ p {
   color: ${COLORS.white};
 }
 .cta-secondary {
-  background: ${GRADIENT};
-  color: ${COLORS.white};
-  opacity: 0.85;
+  background: ${COLORS.white};
+  color: ${COLORS.blueIndigo};
+  border: 2px solid ${COLORS.blueIndigo};
 }
 .secondary-intro { margin-top: 32px; }
 
@@ -683,6 +382,16 @@ p {
   section { page-break-inside: avoid; }
   .cover-panel { page-break-after: always; }
   .section-focus { page-break-before: always; }
+  .section-other { page-break-before: always; }
+}
+@media (max-width: 767px) {
+  body { font-size: 16px; }
+  .report { padding: 40px 20px; }
+  .cover-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cover-contact { align-items: flex-start; }
+  .cover-headline { font-size: 30px; }
+  h2 { font-size: 24px; }
+  .cta { display: block; text-align: center; margin-right: 0; }
 }
 `;
 }

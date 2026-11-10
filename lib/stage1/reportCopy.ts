@@ -1,25 +1,17 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Structural Diagnostic — Report Copy Library
-// Source: STRUCTURAL Intelligence REPORT TEMPLATE v1.0 Apr2026
+// Stage 1 Structural Pattern Report - Copy Library
+// Source: STRUCTURAL PATTERN REPORT TEMPLATE (copy verbatim)
 
-import type { OperatingSystem, SeverityTier } from "./types";
-
-// ============================================================
-// TIER LABELS
-// ============================================================
-// Internal tier keys → respondent-facing labels
-// Internal keys used for scoring and routing; respondent labels
-// appear in the rendered report.
+import type { ClosingVariant, OperatingSystem, SeverityTier } from "./types";
 
 export const TIER_LABELS: Record<SeverityTier, string> = {
   architected: "Architected",
-  functional_gap: "Functional, Built on Effort",
-  structural_gap: "Fragmented, Structural Drag",
-  critical_gap: "Unstructured, Owner-Dependent",
+  functional_gap: "Functional: Built on Effort",
+  structural_gap: "Fragmented: Structural Drag",
+  critical_gap: "Unstructured: Leadership-Dependent",
 };
 
-// OS display names (respondent-facing capitalization)
 export const OS_LABELS: Record<OperatingSystem, string> = {
   strategy: "Strategy",
   platform: "Platform",
@@ -27,115 +19,66 @@ export const OS_LABELS: Record<OperatingSystem, string> = {
   growth: "Growth",
 };
 
-// ============================================================
-// COVER PANEL HEADLINES
-// ============================================================
-// One headline renders on the cover panel, selected by the
-// tier of the top-scoring operating system.
-
 export const COVER_HEADLINES: Record<SeverityTier, string> = {
-  architected: "A Business Operating with Structural Discipline",
-  functional_gap: "A Business Running on Effort Rather Than Architecture",
-  structural_gap: "A Business Operating Through Structural Drag",
-  critical_gap: "A Business Carried by Its Owner",
+  architected: "A Company Operating with Structural Discipline",
+  functional_gap: "A Company Running on Effort Instead of Architecture",
+  structural_gap: "A Company Operating Through Structural Drag",
+  critical_gap: "A Company Carried by Its Leadership",
 };
-
-// ============================================================
-// STRUCTURAL SUMMARY — PATTERN DESCRIPTORS
-// ============================================================
-// Selected based on the average tier across all four OS.
 
 export const PATTERN_DESCRIPTORS: Record<SeverityTier, string> = {
   architected: "structural discipline",
   functional_gap: "effort-based execution",
   structural_gap: "structural drag",
-  critical_gap: "owner-dependent operation",
+  critical_gap: "leadership-dependent operation",
 };
 
-// ============================================================
-// SEVERITY MAP — PER-OS DIAGNOSTIC LINES
-// ============================================================
-// One diagnostic line per OS per tier. Sixteen total.
-// Displayed in the severity map next to each OS row.
+/**
+ * Structural Summary paragraph 1 fill-ins. The template fixes the sentence
+ * structure and the pattern descriptor; it does not supply the tier-specific
+ * diagnostic, relative severity, or synthesis libraries. These carry the
+ * wording the report used before the rebuild, pending ratification in the
+ * Core OS project.
+ */
+export const SUMMARY_PENDING = {
+  diagnostic: "structural design has not yet caught up with what the company needs",
+  relative: "lower severity",
+  synthesis: "a gap in one system shows up as load on the others",
+};
 
-export const DIAGNOSTIC_LINES: Record<
-  OperatingSystem,
-  Record<SeverityTier, string>
-> = {
+export const DIAGNOSTIC_LINES: Record<OperatingSystem, Record<SeverityTier, string>> = {
   strategy: {
-    architected:
-      "Strategic clarity is architected. Review cadence and metric framework operate independently of any single person.",
-    functional_gap:
-      "Strategic clarity exists, but it lives in your head. The cadence and framework that would make it persist have not been built.",
-    structural_gap:
-      "Review happens reactively. Performance data lives in pieces rather than being assembled into a coherent picture.",
-    critical_gap:
-      "No structured review, no defined metrics, no decision framework. The business moves because you move it.",
+    architected: "The numbers leadership decides from are current: margin, cost structure, and cash are known, not estimated.",
+    functional_gap: "Leadership knows the numbers, but assembling them takes effort, and some of them live in a few people's heads.",
+    structural_gap: "Key numbers are partial or late. Margin, cost, or cash is reconstructed when someone needs it.",
+    critical_gap: "Leadership decides without knowing margin, break-even, or cash with confidence. The company moves because its leaders push it.",
   },
   platform: {
-    architected:
-      "Platforms are connected. Data moves between systems without manual reconciliation.",
-    functional_gap:
-      "Core platforms are in place but the connective tissue between them is human effort.",
-    structural_gap:
-      "Data is trapped where it sits. Your platforms operate in isolation and are bridged by manual effort.",
-    critical_gap:
-      "No platform layer. Spreadsheets, email threads, and memory hold the business together.",
+    architected: "One record holds the company's truth. Numbers match no matter who pulls them.",
+    functional_gap: "The records exist, but people keep them aligned by hand.",
+    structural_gap: "The truth lives in several places. Reconciling them is a recurring job.",
+    critical_gap: "No single record. Spreadsheets, inboxes, and memory hold the company together.",
   },
   operations: {
-    architected:
-      "Operations are architected. Documented processes, clear ownership, consistent execution independent of who is doing the work.",
-    functional_gap:
-      "Work gets done, but consistency depends on who is doing it. Your best team members produce excellent outcomes; others are uneven.",
-    structural_gap:
-      "Quality control is reactive. Your team absorbs preventable errors because execution is improvised within loose boundaries.",
-    critical_gap:
-      "No documented process layer. You are the operating procedure. Every execution decision routes through you.",
+    architected: "Work, commitments, and decisions run on defined rules, independent of who is on shift.",
+    functional_gap: "Work gets done well when the right people are involved, and unevenly when they are not.",
+    structural_gap: "Errors, missed commitments, and rework are absorbed as a normal cost of operating.",
+    critical_gap: "Leadership is the operating procedure. Decisions and exceptions route through the same few people.",
   },
   growth: {
-    architected:
-      "Growth is a standing capability. Designed channels, documented sales motion, retention running on system not relationship.",
-    functional_gap:
-      "Revenue happens because you drive it personally. The engine works, but you are the engine.",
-    structural_gap:
-      "Momentum does not compound. Each growth cycle starts close to zero because the handoffs between stages leak.",
-    critical_gap:
-      "No defined growth motion. Revenue comes from your network and your effort; there is no engine.",
+    architected: "Revenue comes from designed channels and a sales motion that does not depend on any one person.",
+    functional_gap: "Revenue arrives because a few people drive it. The engine works, and those people are the engine.",
+    structural_gap: "Momentum does not compound. Leads and opportunities leak between stages.",
+    critical_gap: "No defined growth motion. Revenue depends on relationships and effort, not a system.",
   },
 };
 
-// ============================================================
-// SYSTEM FRAMINGS
-// ============================================================
-// Two-paragraph framing displayed when an OS is a Structural Focus Area.
-// Rendered once per OS at the start of its Focus Area section.
-
-export const SYSTEM_FRAMINGS: Record<OperatingSystem, string[]> = {
-  strategy: [
-    "The Strategy System is the Intelligence layer of your business. It governs how the business sees itself: what the priorities are, what the metrics are, and how decisions get made when tradeoffs surface. When it is strong, the business has direction that persists without constant owner intervention. When it is weak, the business runs on whatever the owner happened to focus on this week.",
-    "The Strategy System covers three dimensions: strategic visibility (what is actually happening in the business), review cadence (how often and how structurally that visibility gets examined), and decision architecture (who makes calls, with what information, and on what authority).",
-  ],
-  platform: [
-    "The Platform System is the Architecture layer of your business. It is the technical and structural foundation that every other operating system runs on: the platforms, data pipelines, integrations, and infrastructure that determine whether information moves freely or gets trapped.",
-    "The Platform System covers three dimensions: platform integration (do your tools talk to each other), data integrity (is information current and trustworthy where you need it), and system fragmentation (does work require moving between disconnected environments).",
-  ],
-  operations: [
-    "The Operations System is the Precision layer of your business. It governs how work actually gets done: the processes, the documentation, the handoffs, the accountability. When it is strong, execution is consistent and independent of who happens to be handling a given task. When it is weak, consistency depends on individual effort and institutional memory.",
-    "The Operations System covers three dimensions: process architecture (is how work happens documented and repeatable), execution accountability (do outcomes get surfaced and owned), and coordination integrity (does work move cleanly between people and functions).",
-  ],
-  growth: [
-    "The Growth System is the Momentum layer of your business. It governs how revenue gets generated and compounds: the channels, the sales motion, the retention, the attribution. When it is strong, growth is a standing capability that runs on architecture. When it is weak, growth is an event that depends on the founder's effort.",
-    "The Growth System covers three dimensions: demand architecture (where leads come from and how consistently), conversion motion (how prospects become customers), and retention structure (what happens after the sale).",
-  ],
+export const SYSTEM_FRAMINGS: Record<OperatingSystem, string> = {
+  strategy: "The Strategy System is the Intelligence layer of the company. It is how leadership knows what is true and decides where the company goes. Three dimensions: financial truth (margin by job or order, the cost of an hour of labor, break-even, and cash ahead), leadership attention (how much of leadership's week goes to managing instead of leading), and decision architecture (how priorities and approvals get resolved).",
+  platform: "The Platform System is the Architecture layer of the company: the record everything else runs on. Three dimensions: one version of the truth (does every number come from one place), record currency (are the books closed and the field captured on time), and intelligence readiness (is AI working on a governed record or scattered across individual tools).",
+  operations: "The Operations System is the Precision layer: how work, commitments, and decisions actually get done. Three dimensions: execution (is work defined and consistent), commitments (are obligations tracked to the date they are due), and decision flow (do routine decisions run on rules or route to leadership).",
+  growth: "The Growth System is the Momentum layer: how revenue is generated and whether that motion depends on a few people. Three dimensions: response (how fast leads are engaged), pipeline (can leadership see and trust it), and conversion (does the company know why it wins and loses).",
 };
-
-// ============================================================
-// TIER BLOCKS — FULL COPY FOR STRUCTURAL FOCUS AREAS
-// ============================================================
-// Rendered for the top two OS by severity. Each block contains:
-//   - headline: diagnostic headline
-//   - pattern: two-paragraph pattern explanation (array of 2 strings)
-//   - implication: operational implication paragraph
 
 export interface TierBlock {
   headline: string;
@@ -143,496 +86,248 @@ export interface TierBlock {
   implication: string;
 }
 
-export const TIER_BLOCKS: Record<
-  OperatingSystem,
-  Record<SeverityTier, TierBlock>
-> = {
+export const TIER_BLOCKS: Record<OperatingSystem, Record<SeverityTier, TierBlock>> = {
   strategy: {
     architected: {
       headline: "Your Strategy System is architected.",
       pattern: [
-        "Strategic review is a structured activity in your business. Priorities are defined, metrics are tracked against a cadence, and decisions escalate through a documented framework rather than through ad hoc conversation. When competing priorities surface, resolution follows a process rather than depending on whoever is in the room.",
-        "This is uncommon at your scale. Most businesses in the $1M to $20M band operate on strategic intuition rather than strategic architecture, which produces consistency when the founder is engaged and drift when the founder's attention is elsewhere. You have built something more durable than that.",
+        "Leadership decides from numbers that are current and computed. Margin is known by job or order, the cost of labor is calculated, break-even is tracked, and cash is visible months ahead. Leadership's time goes mostly to direction because the managing work runs on structure.",
+        "This is the discipline most companies try to build and rarely finish. The question now is whether the other operating systems carry the same discipline, because a strong strategic layer is only as useful as the record and the operations underneath it.",
       ],
-      implication:
-        "A strong Strategy System at this tier means your business has the intelligence layer that the other operating systems can run on. The question is whether Platform, Operations, and Growth are architected to match or whether strategic clarity is reaching an execution layer that cannot carry it.",
+      implication: "Strategic clarity is not your constraint. The leverage now sits in execution: the systems that turn what leadership decides into consistent output. The rest of this report shows where.",
     },
     functional_gap: {
-      headline:
-        "Your Strategy System works, but it works because of you.",
+      headline: "Your Strategy System works, but it runs on effort instead of structure.",
       pattern: [
-        "You have strategic clarity. You know what the priorities are, you know which metrics matter, and you know how to interpret performance against them. The challenge is that this clarity lives in your head rather than in a structured system. When you are engaged, the business moves in the right direction. When your attention is elsewhere, the strategic signal gets weaker.",
-        "This pattern is common in founder-led businesses that grew through the founder's strategic instinct. What it produces is a business that is directionally sound as long as the founder is actively in the loop, and directionally uncertain when the founder steps back. The ceiling is not strategic thinking, the ceiling is how much strategic thinking can be held in one person's head without a structured framework to carry it.",
+        "Leadership can answer most questions about performance, but getting to the answer takes work. Someone builds the margin report, someone estimates cash, someone carries the cost structure in their head. The numbers exist when people make them exist.",
+        "The cost is twofold. Leadership time goes to assembling the picture instead of acting on it. And the picture degrades whenever the people who assemble it are busy, away, or gone.",
       ],
-      implication:
-        "A Functional Strategy System is a Strategy System with a single point of failure, and that point is you. The work ahead is converting the strategic clarity in your head into a structured cadence and a set of tracked metrics that persist whether you are in the room or not.",
+      implication: "The work ahead is turning the numbers leadership already relies on into figures the company computes on its own, every day, from one record.",
     },
     structural_gap: {
-      headline:
-        "Your Strategy System is fragmented, and it is creating visible operational drag.",
+      headline: "Your Strategy System is fragmented, and it is creating visible drag.",
       pattern: [
-        "Strategic direction exists, but it is not connected to daily operations in a way that produces consistent outcomes. Reviews happen reactively, often in response to something that went wrong. Performance data is available in pieces but not assembled into a coherent picture. When priorities compete, resolution depends on whoever is in the conversation rather than on a documented framework.",
-        "The operational effect of this pattern is friction. Team members optimize for different signals because there is no unified set of priorities. Decisions take longer than they should because the context required to make them is scattered. You carry the full cognitive load of holding the business together strategically because no other structure is doing it.",
+        "Some key numbers are missing or late. Margin is known in total but not by job. Labor cost or break-even is estimated. Cash is read from the bank balance. Leadership meetings spend their time reconstructing what is true before anything can be decided.",
+        "The effect is decisions made on partial information and priorities that drift. Pricing, hiring, and investment calls carry more risk than they should because the cost structure underneath them is not computed.",
       ],
-      implication:
-        "Fragmentation at the Strategy level propagates downward. Platform fragmentation, operational inconsistency, and uneven growth execution are often symptoms of strategic fragmentation rather than independent problems. Addressing Strategy first often resolves issues that appear elsewhere. Your report likely shows elevated severity across at least one other operating system for this reason.",
+      implication: "Fragmentation at the Strategy level spreads. Pricing that ignores overhead, jobs that lose money unseen, and cash surprises often trace back to numbers the company does not compute. Fixing the financial truth often resolves problems that look like they belong elsewhere.",
     },
     critical_gap: {
-      headline:
-        "Your Strategy System is not designed. You are the Strategy System.",
+      headline: "Your Strategy System is not designed. Leadership is carrying it.",
       pattern: [
-        "There is no structured strategic review cadence, no defined set of metrics that get examined on a schedule, and no framework that determines how competing priorities get resolved. The business moves forward because you move it forward. Every strategic decision, every reallocation of attention, every priority call comes back to you.",
-        "This is not a sign of failure. Most founder-led businesses at this stage operate this way because they grew faster than their structure. What it does signal is a ceiling. The business cannot grow beyond your personal bandwidth, and your personal bandwidth is the limit on how much strategic thinking can happen. Strategic bottlenecks become operational bottlenecks, which become revenue bottlenecks.",
+        "The company does not know its margin by job, its labor burden, or its break-even with confidence, and cash is visible only day to day. Most of leadership's week goes to managing. Decisions get made, but on judgment and memory instead of computed numbers.",
+        "This is common in companies that grew faster than their structure. It sets a ceiling: the company can only be as well run as its leaders' available attention, and every new job, location, or hire adds to the load.",
       ],
-      implication:
-        "At this tier, the work is not optimization. It is architecture. Building a Strategy System means defining the strategic frame, the review cadence, the metric set, and the decision authority that can operate independently of your direct intervention. Until that architecture exists, every other operating system will be constrained by the same bottleneck.",
+      implication: "The work is architecture, not optimization: a record that computes margin, cost, and cash, and a structure that takes the managing load off leadership so it can lead.",
     },
   },
   platform: {
     architected: {
       headline: "Your Platform System is architected.",
       pattern: [
-        "Your platforms are connected. Data moves between systems without manual reconciliation, and the information you see in one place reflects the reality of what is happening in another. When a customer record updates, financial reporting catches it. When an order ships, inventory adjusts. The platforms have been selected and integrated deliberately, not accumulated over time.",
-        "This is rare in the $1M to $20M band. Most businesses in this range run on a collection of tools that were adopted one at a time to solve isolated problems, and the connective tissue between those tools was never built. You have built the connective tissue. The infrastructure is capable of supporting what comes next.",
+        "The company's numbers come from one record. Two people pulling sales or cash get the same answer. The books close promptly, and work done in the field reaches the record the same day.",
+        "A clean record is the hardest part of the foundation to build. It also means a move onto a single operational core starts from strength: the core becomes the record for every function, and platforms that work well can stay connected by choice.",
       ],
-      implication:
-        "A strong Platform System at this tier means data friction is no longer what is slowing you down. The architecture is ready to carry additional intelligence layers, automation, and coordinated agent activity. The question is whether the other operating systems are architected to match.",
+      implication: "Data friction is not slowing you down. The question is whether operations and growth are designed to use what the record already makes possible.",
     },
     functional_gap: {
-      headline:
-        "Your Platform System functions, but the connective tissue is human effort.",
+      headline: "Your Platform System works, but people hold it together.",
       pattern: [
-        "Your core platforms are in place and mostly doing what they should. The problem is between them. Data gets copied, reconciled, and re-entered by people. Someone exports a report from one system and uploads it to another. Someone notices a discrepancy and chases it down. The work gets done, but the cost is measured in hours that could be spent elsewhere and in the errors that slip through when attention lapses.",
-        "This pattern is common and invisible. No single act of manual reconciliation feels expensive. The cumulative cost, measured across a month or a quarter, is substantial. It also carries a structural risk: the people doing the reconciliation become the integration layer, and if they leave, the platforms revert to operating in isolation.",
+        "The records exist, and they are mostly right, because people keep them aligned. Someone reconciles, re-enters, and checks. The numbers match after someone makes them match.",
+        "No single act of reconciling feels expensive. Across a year it adds up to real hours, and the people doing it become the integration layer. When they are busy or leave, the records drift apart.",
       ],
-      implication:
-        "The work ahead is converting the human effort that currently bridges your platforms into actual integration. This is rarely a rip-and-replace exercise. It is usually a matter of building the connections that should have existed from the start.",
+      implication: "The work ahead is replacing the human effort that keeps your records aligned with one record that holds the truth on its own.",
     },
     structural_gap: {
-      headline:
-        "Your Platform System is fragmented, and data is trapped where it sits.",
+      headline: "Your Platform System is fragmented, and the truth lives in several places.",
       pattern: [
-        "Your platforms operate in isolation. What happens in your CRM does not automatically reach your accounting software. What happens in email does not reach your customer record. What happens on your website does not connect to your pipeline. Each system has its own truth, and reconciling them into a single picture of the business requires deliberate effort every time you need an answer.",
-        "The operational effect of this pattern is slow decisions and imperfect data. You cannot answer questions quickly because the information lives in multiple places. You cannot trust what you are looking at because you know it may be out of sync with another system. Team members do the best they can with what they have, which often means working off outdated information or building their own informal systems to fill the gaps.",
+        "Sales, operations, finance, and the field each keep their own version. Numbers disagree depending on who pulls them. The books close late, and field information arrives at week end or at billing.",
+        "The effect is slow decisions and numbers leadership cannot fully trust. Teams build their own spreadsheets to fill the gaps, which adds another version of the truth.",
       ],
-      implication:
-        "Platform fragmentation is rarely isolated. It typically shows up alongside Strategy fragmentation and Operations fragmentation, because you cannot run coordinated operations on uncoordinated platforms. Addressing the Platform System often unlocks improvements that appear to be about other operating systems entirely.",
+      implication: "You cannot coordinate a company on records that do not agree. Building one record often unlocks improvements that look like they belong to Strategy and Operations.",
     },
     critical_gap: {
-      headline:
-        "Your Platform System is not designed. Spreadsheets and memory hold it together.",
+      headline: "Your Platform System is not designed. Spreadsheets and memory hold it together.",
       pattern: [
-        "The tools your business runs on do not form a system. They are a collection. Information lives in spreadsheets, email threads, text messages, and people's heads. When you need to know something, you ask someone or go dig. When something important needs to get remembered across time, it depends on whoever happens to be involved.",
-        "This is not uncommon at earlier stages, but it becomes a structural liability as a business grows. The absence of a platform layer means every new customer, team member, or product line adds friction that would not exist with infrastructure in place. The business runs on memory and manual coordination, and both of those scale poorly.",
+        "There is no single record of the company. Information lives in spreadsheets, inboxes, texts, and people's heads. Answers come from asking someone.",
+        "This works while the company is small enough for a few people to remember everything. Each new customer, job, or hire makes it harder, and the knowledge leaves with anyone who leaves.",
       ],
-      implication:
-        "At this tier, the work is building platform infrastructure, not optimizing what exists. This is usually the foundational step that makes every other operating system improvement possible. A Strategy System without data cannot function. A Growth System without a CRM cannot scale. Platform is typically the first operating system that needs architectural investment.",
+      implication: "At this tier the record comes first. Margin, cash, commitments, and every other number depend on one place that holds the truth.",
     },
   },
   operations: {
     architected: {
       headline: "Your Operations System is architected.",
       pattern: [
-        "Your business has documented processes for its core functions, and those processes are followed. When a task needs to happen, it is clear who owns it, how it should be executed, and how completion gets confirmed. When someone new joins the team, they can step into the work because the work is described. When someone leaves, the business does not lose institutional knowledge because the knowledge lives in the system, not in the person.",
-        "This is unusual at your scale. Most businesses in the $1M to $20M band operate on a combination of documented intent and undocumented execution, where the procedures that exist do not fully reflect how work actually happens. You have closed that gap. Your operational architecture is a real asset.",
+        "Work runs on defined procedures, commitments are tracked with due dates and responsible people, and routine decisions run on clear rules. When someone joins, the work is described; when someone leaves, the knowledge stays.",
+        "That is a real asset. The cost of adding volume is not chaos.",
       ],
-      implication:
-        "A strong Operations System at this tier means the cost of adding scale is not operational chaos. The question is whether the systems that feed Operations (Strategy, Platform) are architected to match, and whether Growth is structured to drive demand that the operational layer can absorb.",
+      implication: "The question is whether the record and the numbers that feed Operations are architected to match, and whether Growth can bring in the demand the operation can absorb.",
     },
     functional_gap: {
-      headline:
-        "Your Operations System runs, but consistency depends on who is doing the work.",
+      headline: "Your Operations System runs, but consistency depends on who is doing the work.",
       pattern: [
-        "The core work of your business gets done, and it gets done acceptably. The challenge is that acceptable varies. When your best team members handle a task, the outcome is excellent. When someone newer or less experienced handles the same task, the outcome is uneven. The difference is not documented process. It is individual skill, judgment, and effort.",
-        "This pattern carries two costs. The first is operational: you cannot predict the output of your own business because consistency is not architected. The second is personal: you end up involved in more execution than you should be, because you are the quality control mechanism for work that does not have a documented standard. The business works, but it works because of who is doing it, not because of how it is designed.",
+        "Work gets done, and done well when the right people handle it. Commitments are tracked by whoever owns the spreadsheet. Routine decisions reach leadership more often than they should.",
+        "Two costs follow. Output is hard to predict because quality depends on people, not design. And leadership becomes the quality control and the decision clearing house for work that has no defined standard.",
       ],
-      implication:
-        "The work ahead is converting what your best team members do implicitly into documented procedures that anyone can follow. This is not about removing judgment from the business. It is about capturing the structural components of good execution so that quality is not contingent on who shows up that day.",
+      implication: "The work ahead is capturing what your best people do as defined procedures and rules, so consistency does not depend on who shows up.",
     },
     structural_gap: {
-      headline:
-        "Your Operations System is fragmented, and quality control is reactive.",
+      headline: "Your Operations System is fragmented, and errors are absorbed as normal.",
       pattern: [
-        "Processes exist for some things and not for others. Documentation is inconsistent. Handoffs between people and functions lose context more often than they should. When something goes wrong, the diagnosis is usually we thought someone else was handling that or we have done it differently the last few times. Execution is not architected. It is improvised within loose boundaries.",
-        "The operational effect of this pattern is a business that absorbs a steady level of preventable error. Customer issues that should not have happened. Internal rework that adds no value. Decisions made with incomplete information because the information never reached the right person. Your team is not underperforming. The system they are operating within is not supporting them.",
+        "Procedures exist for some work and not for others. Commitments live in email and memory. Handoffs lose context, rework recurs, and leadership learns about problems late.",
+        "The company absorbs a steady level of preventable error: rework, missed renewals, customers chasing status, decisions made without the right information. No single failure is a crisis, and together they take real margin and capacity.",
       ],
-      implication:
-        "Operational fragmentation is expensive and largely invisible, because no single error is catastrophic. The cumulative cost shows up in margin, in team capacity, and in the share of your time you spend cleaning up work that should have cleaned up itself. Addressing Operations often produces immediate, measurable gains.",
+      implication: "Operational fragmentation is expensive and mostly invisible. Defined procedures, tracked commitments, and decision rules often produce the fastest measurable gains.",
     },
     critical_gap: {
-      headline:
-        "Your Operations System is not designed. You are the operating procedure.",
+      headline: "Your Operations System is not designed. Leadership is the operating procedure.",
       pattern: [
-        "There is no documented process layer for the core work of your business. How things get done depends on who is doing them and what they remember about the last time a similar thing came up. When a question comes up that no one has seen before, it routes to you. When something goes wrong, the explanation is that there was no system to catch it. When someone new joins the team, they learn by watching and asking.",
-        "This is common in founder-led businesses that grew through the founder's direct involvement. What it produces is a business that cannot function without the founder present. Every operational decision either gets made by you or gets made by someone trying to guess what you would decide. The business is not a system. It is an extension of your attention.",
+        "How work gets done depends on who is doing it and what they remember. Commitments surface when they lapse. Routine decisions and exceptions route to the same few leaders, and the company cannot run well without them present.",
+        "The company works because its leaders hold it together. That is also its limit: every new job, location, or hire adds to the load on the same people.",
       ],
-      implication:
-        "At this tier, the work is building operational architecture from the ground up. Documented procedures for core functions. Defined ownership. Handoff protocols. Quality standards. This is substantial work, but it is also the work that converts a founder-dependent business into a business that can run on its own, and it is the prerequisite for almost every other kind of scale.",
+      implication: "The work is building the operating layer from the ground up: procedures, commitment tracking, decision rules, and handoffs that run without leadership stepping in.",
     },
   },
   growth: {
     architected: {
       headline: "Your Growth System is architected.",
       pattern: [
-        "Growth in your business is a standing capability rather than an event. You have designed channels that produce demand reliably, a sales motion that converts that demand through documented stages, and a retention structure that keeps existing customers engaged on system rather than on individual relationship. Revenue is not constrained by your personal bandwidth.",
-        "This is rare. Most businesses in your range run on growth activity rather than a growth system. Campaigns happen, deals close, customers stay, but the mechanics sit in the founder's head or in a handful of key relationships. You have built something more structural. The engine runs whether or not you are pushing it.",
+        "Leads are engaged promptly, the pipeline is visible and current, and the company knows its win rate and why it loses. Marketing runs on a plan with tracked results. Revenue does not depend on any one person.",
+        "A designed revenue engine is worth protecting and extending.",
       ],
-      implication:
-        "A strong Growth System at this tier means the ceiling on revenue is not founder bandwidth. The question is whether the other operating systems are architected to absorb what Growth produces, whether Operations can deliver consistently, whether Platform carries the data to see what is working, whether Strategy defines where growth should go next.",
+      implication: "The question is whether Operations can absorb the demand it generates and whether the company's numbers show which work is worth winning.",
     },
     functional_gap: {
-      headline:
-        "Your Growth System works, but revenue depends on your effort.",
+      headline: "Your Growth System generates revenue, because a few people push it.",
       pattern: [
-        "Revenue happens in your business, and it happens at meaningful volume. The challenge is where that revenue comes from. It comes from your network, your relationships, your personal involvement in deals, and campaigns you drive. The engine is not broken, you are the engine. When you step back from growth activity, growth slows.",
-        "This pattern produces real revenue but creates a structural ceiling. The business cannot grow beyond your personal bandwidth for growth work, because no other structure is producing it. Marketing happens when you make it happen. Deals close when you push them. Retention holds because customers have a relationship with you. These are not sustainable architectures for scaling revenue.",
+        "Revenue is real, and it depends on the people who generate it. Leads get answered when those people are available. The pipeline is clear when they update it. Deals close because they close them.",
+        "The results stop when those people stop. Campaigns fade when attention moves, and opportunities stall when the key people are busy.",
       ],
-      implication:
-        "The work ahead is converting founder-driven revenue activity into a system that produces revenue without requiring founder energy as the fuel. This does not mean removing the founder from growth, it means building the structural layer that keeps growth running when the founder is focused elsewhere.",
+      implication: "The work ahead is turning the growth motion a few people run personally into a structure that runs without their constant push.",
     },
     structural_gap: {
-      headline:
-        "Your Growth System is fragmented, and momentum does not compound.",
+      headline: "Your Growth System is fragmented, and momentum does not compound.",
       pattern: [
-        "Growth activities happen, but they do not build on each other. Each marketing push starts close to zero because the pipeline from the last one did not get maintained. Each sales cycle is its own puzzle because the process is not documented. Each new customer is onboarded slightly differently because the handoff from sales to delivery leaks context. The business grows, but the cost of that growth is higher than it should be.",
-        "The operational effect of this pattern is revenue that feels harder than it should. You run campaigns that produce leads that do not convert because the follow-up was inconsistent. You close deals that do not retain because the onboarding lost the early momentum. You build reputation with customers who do not return because no retention structure was built. The effort is real. The compounding is not.",
+        "Growth activity happens, but the stages do not connect. Leads wait, the pipeline is assembled on request, and the reasons for lost work are not tracked. Each cycle starts close to zero.",
+        "Demand is generated, and a meaningful share leaks before it becomes revenue.",
       ],
-      implication:
-        "Growth fragmentation usually indicates an upstream structural issue. When Platform is fragmented, attribution fails. When Operations is fragmented, delivery is uneven. When Strategy is fragmented, growth priorities shift before any one channel compounds. Growth rarely resolves on its own, it resolves when the structure feeding it gets architected.",
+      implication: "The lead generation may be working. The leak is what happens after a lead arrives. Fixing the full path from lead to customer often produces outsized returns.",
     },
     critical_gap: {
-      headline:
-        "Your Growth System is not designed. Revenue comes from you.",
+      headline: "Your Growth System is not designed. Revenue comes from relationships and effort.",
       pattern: [
-        "There is no defined growth motion in your business. Revenue comes from your network, your direct effort, and the customers who happened to find you. There is no pipeline in any meaningful sense, there are conversations you are in. There is no retention structure, there are relationships you maintain. When you step back from growth activity, growth stops.",
-        "This is common at earlier stages and becomes a liability as the business matures. The ceiling is your personal capacity for relationship work and direct selling. The risk is that every growth channel is a single point of failure, because the channel is you. The business has revenue, but it does not have a revenue system.",
+        "There is no defined path from lead to customer. Leads are handled when someone sees them, the pipeline lives in people's heads, and nobody tracks why work is won or lost.",
+        "The company's revenue ceiling is the capacity of the people who generate it.",
       ],
-      implication:
-        "At this tier, the work is building a Growth System from the ground up. Defined channels. Documented sales motion. Structured retention. This is not about replacing the founder's relationships, those remain valuable. It is about building the structural layer underneath them so that revenue is not capped by how many conversations the founder can hold at once.",
+      implication: "The work is building revenue architecture: response, pipeline, and conversion that run as a system the company owns.",
     },
   },
 };
 
-// ============================================================
-// OTHER OPERATING SYSTEMS — PATTERN SUMMARIES
-// ============================================================
-// Lighter analysis for the bottom two OS by severity.
-// Single paragraph per OS per tier. Sixteen total.
-
-export const PATTERN_SUMMARIES: Record< 
-  OperatingSystem,
-  Record<SeverityTier, string>
-> = {
-  strategy: {
-    architected:
-      "Strategic clarity is architected. Review cadence, metrics, and decision authority operate independently of any single person. This is an asset and a constraint that is not constraining.",
-    functional_gap:
-      "Strategy runs on your energy rather than on structure. The clarity exists in your head but the cadence and framework that would make it persist without you have not been built.",
-    structural_gap:
-      "Strategic review happens reactively. Performance data exists in pieces but is not assembled into a coherent picture. Revenue and margin visibility depend on estimate rather than on a structured model.",
-    critical_gap:
-      "No structured strategic review, no defined metric set, no decision framework. The business moves forward because you move it forward. Every strategic call routes through you.",
-  },
-  platform: {
-    architected:
-      "Platforms are integrated. Data moves between systems automatically. The information infrastructure is capable of supporting additional intelligence layers and coordinated activity.",
-    functional_gap:
-      "Core platforms are in place but the connective tissue is human effort. Manual reconciliation between systems works at current scale but carries a structural risk as the business grows.",
-    structural_gap:
-      "Platforms operate largely in isolation. Data is copied and reconciled manually rather than flowing between systems. Addressing Platform typically unlocks improvements that look like they belong to other operating systems.",
-    critical_gap:
-      "No platform layer. Spreadsheets, email, and memory hold the business together. The absence of infrastructure makes every new customer, team member, or product line add friction that would not otherwise exist.",
-  },
-  operations: {
-    architected:
-      "Operations are architected. Documented processes, clear ownership, and consistent execution independent of individual effort. The cost of adding scale is not operational chaos.",
-    functional_gap:
-      "Work gets done but consistency depends on who is doing it. Your best team members produce excellent outcomes; others are uneven because the difference is individual skill rather than documented process.",
-    structural_gap:
-      "Processes exist for some things and not others. Handoffs lose context. Your team absorbs preventable errors because execution is improvised within loose boundaries.",
-    critical_gap:
-      "No documented process layer for core work. Every operational decision either gets made by you or gets made by someone guessing what you would decide. The business cannot function without you present.",
-  },
-  growth: {
-    architected:
-      "Growth is a standing capability. Designed channels, documented sales motion, retention running on system rather than on relationship. Revenue is not constrained by founder bandwidth.",
-    functional_gap:
-      "Revenue happens because you drive it. The engine works, but you are the engine. Campaigns, deals, and retention all depend on your direct involvement.",
-    structural_gap:
-      "Growth activities happen but do not compound. Each cycle starts near zero because handoffs between stages leak. The business grows, but the cost of that growth is higher than it should be.",
-    critical_gap:
-      "No defined growth motion. Revenue comes from network and founder activity. Pipeline is a concept more than a system, and retention depends on individual relationships rather than on structure.",
-  },
-};
-
-// ============================================================
-// WHAT DROVE THIS ASSESSMENT — CALLOUT TRIGGERS
-// ============================================================
-// Per-OS callout library. Each entry defines:
-//   - question_id: the Section B question that triggers it
-//   - min_weight: minimum score to trigger (2 = fragmented, 3 = absent)
-//   - copy: the callout text shown to the respondent
-//
-// Assembly logic: filter by triggered entries for the focus OS,
-// rank by combined weight, cap at 3 per OS. Omit section if none
-// triggered (all weights 0 or 1).
-
-export interface CalloutTrigger {
-  question_id: string;
-  min_weight: 2 | 3;
-  copy: string;
-}
-
-export const CALLOUT_TRIGGERS: Record<OperatingSystem, CalloutTrigger[]> = {
+/** Callouts by question ID. minWeight 3 applies to B.Core.8 (behind where we should be). */
+export const CALLOUTS: Record<OperatingSystem, { id: string; text: string; minWeight?: 3 }[]> = {
   strategy: [
-    {
-      question_id: "B.Core.2",
-      min_weight: 2,
-      copy: "You indicated you would need to guess or piece together data from multiple places to identify which operational area is losing the most money.",
-    },
-    {
-      question_id: "B.Core.8",
-      min_weight: 2,
-      copy: "Strategic performance review happens reactively in your business, not on a structured schedule.",
-    },
-    {
-      question_id: "B.Financial.1",
-      min_weight: 2,
-      copy: "Revenue forecasting in your business is based on rough estimates or judgment, not a structured model.",
-    },
-    {
-      question_id: "B.Financial.2",
-      min_weight: 2,
-      copy: "Cost changes reach your reporting after the margin impact has already occurred.",
-    },
-    {
-      question_id: "B.External.1",
-      min_weight: 2,
-      copy: "External data and benchmarks are not actively integrated into your decision-making.",
-    },
-    {
-      question_id: "B.Scale.3",
-      min_weight: 2,
-      copy: "Approval routing in your business happens case-by-case rather than through a defined matrix.",
-    },
+    { id: "B.Core.1", text: "More than half of leadership's week goes to managing instead of setting direction." },
+    { id: "B.Core.3", text: "Margin is not known job by job or order by order while the work is still in progress." },
+    { id: "B.Core.4", text: "The fully burdened cost of an hour of labor is estimated or unknown." },
+    { id: "B.Core.5", text: "Neither the revenue needed to break even nor the revenue needed to hit a profit target has been calculated." },
+    { id: "B.Core.6", text: "Cash is visible only a few weeks ahead, or only as today's balance." },
+    { id: "B.Core.11", text: "A clean financial package for a lender or buyer would take a month or more to produce." },
+    { id: "B.Prod.2", text: "The actual cost of what the company produces is partly or wholly unknown." },
+    { id: "B.Est.1", text: "Overhead is not calculated into prices, quotes, or bids." },
+    { id: "B.Scale.3", text: "Approvals above a threshold are routed case by case instead of through a defined matrix." },
   ],
   platform: [
-    {
-      question_id: "B.Core.5",
-      min_weight: 2,
-      copy: "You described platforms that are mostly disconnected or tied together by spreadsheets rather than by integration.",
-    },
-    {
-      question_id: "B.Core.6",
-      min_weight: 2,
-      copy: "AI usage in your business is fragmented or absent rather than structured into coordinated workflows.",
-    },
-    {
-      question_id: "B.CoreData.2",
-      min_weight: 2,
-      copy: "Customer records in your business are partial or thin, with context living outside the system of record.",
-    },
-    {
-      question_id: "B.Commerce.1",
-      min_weight: 2,
-      copy: "Inventory position is tracked manually or approximately rather than in a real-time system.",
-    },
-    {
-      question_id: "B.Commerce.2",
-      min_weight: 2,
-      copy: "Order fulfillment operates through individual judgment or playbooks rather than system-enforced workflow.",
-    },
-    {
-      question_id: "B.Financial.2",
-      min_weight: 2,
-      copy: "Cost and margin changes do not flow through your reporting automatically.",
-    },
+    { id: "B.Core.2", text: "The same number often comes out differently depending on who pulls it." },
+    { id: "B.Core.14", text: "AI use is individual and uncoordinated, or absent, instead of working on a governed record." },
+    { id: "B.Fin.1", text: "The books are closed late or irregularly." },
+    { id: "B.Field.2", text: "Information from the field reaches the record late, or is rebuilt from memory." },
   ],
   operations: [
-    {
-      question_id: "B.Core.3",
-      min_weight: 2,
-      copy: "You indicated that daily or constant owner involvement is required to move operational work forward.",
-    },
-    {
-      question_id: "B.Core.4",
-      min_weight: 2,
-      copy: "Process documentation in your business is inconsistent or mostly absent.",
-    },
-    {
-      question_id: "B.Communication.1",
-      min_weight: 2,
-      copy: "Customer inquiries are resolved based on availability rather than defined routing.",
-    },
-    {
-      question_id: "B.Scheduling.1",
-      min_weight: 2,
-      copy: "Delivery milestones and deadlines are surfaced reactively rather than through system alerts.",
-    },
-    {
-      question_id: "B.Scheduling.2",
-      min_weight: 2,
-      copy: "Customer onboarding execution varies by who handles it rather than following a documented sequence.",
-    },
-    {
-      question_id: "B.People.1",
-      min_weight: 2,
-      copy: "New team member onboarding is loose or informal rather than structured with defined milestones.",
-    },
-    {
-      question_id: "B.People.2",
-      min_weight: 2,
-      copy: "Team certifications, training, or compliance tracking is manual or reactive.",
-    },
-    {
-      question_id: "B.Commerce.3",
-      min_weight: 2,
-      copy: "Inventory reorder decisions happen through individual judgment rather than automated triggers.",
-    },
-    {
-      question_id: "B.Scale.1",
-      min_weight: 2,
-      copy: "Delegation to senior team members requires more owner involvement than the boundaries should require.",
-    },
-    {
-      question_id: "B.Scale.2",
-      min_weight: 2,
-      copy: "Cross-functional coordination depends on the individuals involved rather than on defined handoffs.",
-    },
-    {
-      question_id: "B.Scale.4",
-      min_weight: 3,
-      copy: "Compliance obligations exist and governance is behind where the business needs it to be.",
-    },
+    { id: "B.Core.7", text: "Commitments such as renewals, filings, and warranties are tracked across email and memory, or found when they lapse." },
+    { id: "B.Core.8", text: "Compliance obligations are behind where they should be.", minWeight: 3 },
+    { id: "B.Core.9", text: "Many routine decisions reach leadership that clear rules could resolve." },
+    { id: "B.Core.10", text: "Losing a key person would take much of how the work gets done with them." },
+    { id: "B.Field.1", text: "Field crews get their day's work through calls and texts instead of a prepared task list." },
+    { id: "B.Prod.1", text: "Production is scheduled day to day instead of against real capacity." },
+    { id: "B.Supply.1", text: "Inventory is tracked by hand or counted only when needed." },
+    { id: "B.Supply.2", text: "Supplier invoices are paid without matching them to the order and the receipt." },
+    { id: "B.Cust.1", text: "Customer requests are resolved by availability instead of defined routing." },
+    { id: "B.Cust.2", text: "Customers learn status when they ask, or chase it." },
+    { id: "B.People.1", text: "New hires are onboarded informally." },
+    { id: "B.People.2", text: "Certifications and required credentials are tracked informally or before an audit." },
+    { id: "B.Scale.1", text: "Delegated work often returns to leadership." },
+    { id: "B.Scale.2", text: "Work moving between departments loses context." },
   ],
   growth: [
-    {
-      question_id: "B.Core.1",
-      min_weight: 2,
-      copy: "Lead response outside business hours depends on who catches it rather than on structured automation.",
-    },
-    {
-      question_id: "B.Core.7",
-      min_weight: 2,
-      copy: "Growth initiatives in your business lose momentum when you stop pushing them.",
-    },
-    {
-      question_id: "B.CoreData.1",
-      min_weight: 2,
-      copy: "Sales pipeline visibility requires asking someone or interpreting data rather than a live dashboard.",
-    },
-    {
-      question_id: "B.CoreData.3",
-      min_weight: 2,
-      copy: "Proposal and quote generation is manual or built from scratch rather than from structured templates.",
-    },
-    {
-      question_id: "B.Content.1",
-      min_weight: 2,
-      copy: "Content production is inconsistent or driven by circumstance rather than an editorial calendar.",
-    },
-    {
-      question_id: "B.Content.2",
-      min_weight: 2,
-      copy: "Marketing channel attribution is partial or absent.",
-    },
-    {
-      question_id: "B.Financial.1",
-      min_weight: 2,
-      copy: "Revenue forecasting is estimate-based rather than model-based.",
-    },
+    { id: "B.Core.12", text: "After-hours leads wait until someone sees them, or are handled inconsistently." },
+    { id: "B.Core.13", text: "The pipeline is not visible without asking someone or piecing records together." },
+    { id: "B.Est.2", text: "The company does not know its win rate or why it loses quotes and bids." },
+    { id: "B.Mkt.1", text: "The source of new leads is captured partially or not at all." },
+    { id: "B.Mkt.2", text: "Marketing runs when someone has time instead of on a plan." },
   ],
 };
 
-// ============================================================
-// C1 PRIORITY OPTION PHRASING
-// ============================================================
-// OS-specific phrasing for Section C1 priority options.
-// Top two OS get their phrased variant; fallbacks are the two
-// standard options (owner capacity, visibility and reporting).
-
-export const C1_OS_PHRASING: Record<OperatingSystem, string> = {
-  strategy:
-    "Clearer strategic visibility into what is working, what is not, and where to focus.",
-  platform:
-    "A connected system where tools, data, and workflows actually talk to each other.",
-  operations:
-    "Documented operations that run consistently without my direct involvement.",
-  growth:
-    "A predictable revenue engine that does not depend on me pushing it.",
+export const PATTERN_SUMMARIES: Record<SeverityTier, string> = {
+  architected: "This is an asset: it is not the constraint on the company.",
+  functional_gap: "It works at current scale and carries risk as the company grows.",
+  structural_gap: "It adds friction that shows up in the focus areas above.",
+  critical_gap: "It depends on leadership's direct involvement to function.",
 };
-
-export const C1_STANDARD_OPTIONS = {
-  owner_capacity:
-    "Taking myself out of the day-to-day so I can focus on the direction of the business.",
-  visibility_reporting:
-    "Real-time visibility into the metrics that actually matter.",
-};
-
-// ============================================================
-// WHAT YOU TOLD US — INTERPRETIVE CLOSES
-// ============================================================
-// One interpretive close per top-OS tier. Displayed under the C2
-// callout block. Reflects the respondent's stated outcome back
-// through the lens of their structural pattern.
 
 export const INTERPRETIVE_CLOSES: Record<SeverityTier, string> = {
-  architected:
-    "You have built the architecture that most businesses at your scale have not. What comes next is extending that discipline into the systems that can still benefit from it.",
-  functional_gap:
-    "The outcome you are describing is the difference between a business that runs on your effort and a business that runs on architecture. The work ahead is converting one into the other.",
-  structural_gap:
-    "This is the pattern the architecture is producing. Not a capacity problem. Not a team problem. A structural problem that has you functioning as the operating system your business has not built yet.",
-  critical_gap:
-    "Every founder-led business at your stage faces this ceiling. The path forward is not working harder. It is architecting the systems that can carry the load you are currently carrying personally.",
+  architected: "You have built structure many companies have not. What comes next is extending that discipline to the systems that can still benefit from it.",
+  functional_gap: "What you describe is the difference between a company that runs on its people's effort and one that runs on structure. The work ahead converts one into the other.",
+  structural_gap: "This is what the structure is producing. Not a talent problem. Not an effort problem. A structural one, with leadership filling the gaps the structure leaves.",
+  critical_gap: "The path forward is not working harder. It is building the structure that can carry the load leadership is carrying today.",
 };
-
-// ============================================================
-// CLOSING SECTION VARIANTS
-// ============================================================
 
 export interface ClosingVariantCopy {
   header: string;
-  body: string[]; // array of paragraphs
+  body: string[];
   primary_cta: string;
-  secondary_cta?: string;
-  secondary_body?: string; // descriptive body above secondary CTA
+  secondary_cta: string;
+  /** Brief invitation copy; absent for Below Threshold. */
+  secondary_body?: string;
+  brief: boolean;
 }
 
-export const CLOSING_VARIANTS: Record< 
-  "qualified" | "below_threshold" | "above_segment",
-  ClosingVariantCopy
-> = {
+const BRIEF_SECONDARY =
+  "The Extended Operator Brief puts numbers on what this report found: break-even, margin, leadership time, and the annual cost of the current structure, for [TOP OS NAME] and [SECOND OS NAME]. It takes about 10 minutes and builds on what you already answered.";
+
+export const CLOSING_VARIANTS: Record<ClosingVariant, ClosingVariantCopy> = {
   qualified: {
     header: "What Comes Next",
     body: [
-      "This report identifies where the structural gaps are. It does not tell you how to close them, because the right approach depends on the specifics of your business, your platforms, your team, and your constraints.",
-      "Quanton Labs builds and operates governed AI-native business systems for businesses in exactly your range: $1M to $20M, founder-led or operator-led, experiencing the kind of structural drag this report describes. Our Phase 1 Discovery engagement produces a tailored architectural plan with Baseline Metrics and a prioritized implementation roadmap.",
-      "If you would like to explore what that would look like for [COMPANY NAME], the next step is a qualification conversation. We cover your operational reality in more depth, confirm fit, and determine whether Phase 1 makes sense.",
+      "This report shows where the structural gaps are. Closing them depends on the specifics of your company: how it operates, what it runs on, and how leadership wants it to run.",
+      "Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead. It computes margin and cash on every job and order, tracks every commitment to its due date, and runs inside the rules and approvals leadership sets. Phase 1 Discovery and Diagnostic produces a Diagnostic Report with Baseline Metrics and a prioritized roadmap, and you own it on delivery.",
+      "If you want to explore what that would look like for [COMPANY NAME], the next step is a qualification conversation.",
     ],
     primary_cta: "Schedule a qualification conversation",
-    secondary_body:
-      "You can also continue with the optional Deep Dive extension of this assessment, which produces an expanded Operator Brief with agent-level analysis for [TOP OS NAME] and [SECOND OS NAME], your two focus areas. It takes an additional 8 to 10 minutes.",
-    secondary_cta: "Continue to Deep Dive",
+    secondary_cta: "Continue to the Extended Operator Brief",
+    secondary_body: BRIEF_SECONDARY,
+    brief: true,
   },
   below_threshold: {
     header: "Where to Go From Here",
     body: [
-      "This report is yours regardless of what comes next. The structural patterns it identifies hold whether you address them now, in a year, or incrementally as the business grows.",
-      "A full system deployment is built for operational complexity your business has not reached yet, and recommending one at this stage would be the wrong advice. That does not mean the answer is to wait. Most of the drag described above traces back to one constraint rather than four, and a single agent installed against that constraint changes the week without changing the business.",
-      "The useful conversation is a short one about which constraint that is. It costs nothing, it is not a qualification call, and if the honest answer is that nothing should be built yet, you will hear that.",
+      "This report is yours regardless of what comes next. The patterns it identifies hold whether you address them now or as the company grows.",
+      "Quanton OS is built for companies whose operational complexity calls for a full system of record. Where that is not yet the case, the right starting point is the Modular Agent Program: one to three agents in the functions this report shows carry the most drag. It is a separate program sized to where the company is today, not a smaller version of Quanton OS. A short conversation will tell us which path fits.",
     ],
-    primary_cta: "Book a scoping conversation",
+    primary_cta: "Talk to us about the right starting point",
+    secondary_cta: "Stay connected with Quanton Labs",
+    brief: false,
   },
   above_segment: {
     header: "A Different Conversation",
     body: [
-      "Your profile sits above Quanton Labs' typical engagement segment. The structural patterns this report describes apply to your business, but the implementation approach that works for a $5M company and the implementation approach that works for a $40M company are not the same.",
-      "If the patterns in this report resonate, the right next step is not a standard qualification conversation. It is a direct conversation with Ryan Remington, Managing Director, about whether a tailored engagement makes sense for a business at your scale. These engagements look different from our standard Phase 1 Discovery. The scope, the timeline, and the approach all adjust to match.",
+      "Your answers place the company above the scale Quanton Labs typically works with. The patterns in this report still apply. Whether Quanton OS fits a company of your size is a question we would rather answer with you directly than assume.",
+      "The next step is a direct conversation with Ryan Remington, Managing Director. We will look at how the company operates and tell you plainly whether it fits what Quanton Labs builds.",
     ],
-    primary_cta: "Request a direct conversation with Ryan Remington",
-    secondary_body:
-      "The Stage 2 Deep Dive is also available if you would like an expanded operator brief before the conversation. It takes an additional 8 to 10 minutes.",
-    secondary_cta: "Continue to Deep Dive",
+    primary_cta: "Request a conversation with Ryan Remington",
+    secondary_cta: "Continue to the Extended Operator Brief",
+    secondary_body: BRIEF_SECONDARY,
+    brief: true,
   },
 };

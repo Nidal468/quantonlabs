@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import AssessmentClient from "./AssessmentClient";
 
+// Copy: ASSESSMENT FRAMES AND TRANSITIONS, Stage 1 landing page.
+const description =
+  "Running a company takes operating, managing, and leading. This 6 to 9 minute diagnostic shows where managing is consuming the time leadership should spend leading, across Strategy, Platform, Operations, and Growth.";
+
 export const metadata: Metadata = {
-  title: "Operational Assessment | Quanton Labs",
-  description:
-    "A five-minute structural assessment across all eight functional domains of your business. Identifies where work falls between functions and quantifies what it costs. No commitment required.",
-  alternates: {
-    canonical: "https://quantonlabs.com/assessment",
-  },
+  title: "Structural Diagnostic | Quanton Labs",
+  description,
+  alternates: { canonical: "https://quantonlabs.com/assessment" },
   openGraph: {
-    title: "See where your operations stand | Quanton Labs",
-    description:
-      "Five minutes, eight domains, one structural diagnostic of how your business actually runs.",
+    title: "Where Is Your Company Under-Architected? | Quanton Labs",
+    description,
     url: "https://quantonlabs.com/assessment",
     siteName: "Quanton Labs",
     type: "website",
@@ -23,18 +23,15 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
-    { "@type": "ListItem", position: 2, name: "Assessment" },
+    { "@type": "ListItem", position: 2, name: "Structural Diagnostic" },
   ],
 };
 
 export default function AssessmentPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <AssessmentClient />
     </>
   );
-}  
+}

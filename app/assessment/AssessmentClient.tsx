@@ -1,343 +1,447 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 1 Assessment - Wizard Orchestrator
-// Source: ASSESSMENT STAGE 1 QUESTION BANK v1.1 Apr2026
-
+// Stage 1 Structural Diagnostic - Wizard
+// Source: ASSESSMENT FRAMES AND TRANSITIONS (Stage 1, sections 1 to 6);
+//         ASSESSMENT STAGE 1 QUESTION BANK (questions, branching)
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-
-import SectionAComponent from "@/components/assessment/sectionA";
-import SectionBComponent from "@/components/assessment/sectionB";
-import SectionCComponent from "@/components/assessment/sectionC";
-import SectionDComponent from "@/components/assessment/sectionD";
-import ResultsComponent from "@/components/assessment/results";
-import Verdict from "@/components/assessment/verdict";
-
-import { scoreAssessment, getCoreQuestions } from "@/lib/stage1";
-import type {
-  AssessmentSubmission,
-  ScoredPayload,
-  SectionA,
-  SectionB,
-  SectionC,
-  SectionD,
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Page, Words, ease } from "@/components/site/kit";
+import {
+  A1, A2, A3, A4, C1_OPTIONS, C1_TEXT, C2_TEXT, ROLE_OPTIONS,
+  getActiveQuestions, scoreAssessment,
+  type CompanyFunction, type Locations, type PriorityOption, type RespondentRole,
+  type RevenueBand, type SectionA, type SectionB, type TeamSize,
 } from "@/lib/stage1";
+import { OS_LABELS, TIER_LABELS } from "@/lib/stage1/reportCopy";
+import "./assessment.css";
 
-// ============================================================
-// TYPES
-// ============================================================
+type Step = "intro" | "a" | "b" | "c" | "d" | "done";
 
-// The Quick Diagnostic runs a -> core -> verdict. The email gate sits inside
-// Section D's contact capture, which now happens before the conditional
-// questions rather than at the end.
-type WizardStep = "a" | "core" | "verdict" | "gate" | "full" | "c" | "d" | "results";
-
-interface ApiResponse {
-  submission_id: string;
+interface Result {
   report_url: string;
-  pdf_url: string;
-  scored: ScoredPayload;
+  brief_url: string | null;
+  top_os_name: string;
+  second_os_name: string;
 }
 
-// ============================================================
-// COMPONENT
-// ============================================================
+const CALENDLY = "https://calendly.com/quantonlabs/30min";
 
-export default function AssessmentClient() {
-  const [step, setStep] = useState<WizardStep>("a");
+const MSG = {
+  required: "This one is required to move forward. Choose what comes closest to how the company runs today.",
+  email: "That email address does not look valid. Check the format and try again.",
+  phone: "That phone number format is not recognized. Any standard format works, with or without country code, dashes, parentheses, or spaces.",
+  website: "That website does not resolve to a live domain. Check for typos or try another address.",
+  a3: "Select at least one to continue: the functions closest to how the company runs today, even where they run on spreadsheets or by hand.",
+};
 
-  const [sectionA, setSectionA] = useState<SectionA | null>(null);
-  const [sectionB, setSectionB] = useState<SectionB | null>(null);
-  const [sectionC, setSectionC] = useState<SectionC | null>(null);
-  const [sectionD, setSectionD] = useState<SectionD | null>(null);
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [apiResponse, setApiResponse] = useState<ApiResponse | null>(null);
-
-  const handleSectionAComplete = (data: SectionA) => {
-    setSectionA(data);
-    setStep("core");
-    scrollToTop();
-  };
-
-  // Quick Diagnostic complete. Score the eight core answers and show the
-  // verdict before asking for anything.
-  const handleCoreComplete = (data: SectionB) => {
-    setSectionB({ ...data });
-    setStep("verdict");
-    scrollToTop();
-  };
-
-  // Contact captured. The conditional questions follow.
-  const handleGateComplete = (data: SectionD) => {
-    setSectionD(data);
-    setStep("full");
-    scrollToTop();
-  };
-
-  // Conditional questions complete. Merge with the core answers already held.
-  const handleFullComplete = (data: SectionB) => {
-    setSectionB((prev) => ({ ...(prev ?? {}), ...data }));
-    setStep("c");
-    scrollToTop();
-  };
-
-  const handleSectionCComplete = async (data: SectionC) => {
-    setSectionC(data);
-    if (sectionD) await submitAssessment(data, sectionD);
-  };
-
-  const handleBackFromCore = () => { setStep("a"); scrollToTop(); };
-  const handleBackFromFull = () => { setStep("verdict"); scrollToTop(); };
-  const handleBackFromC = () => { setStep("full"); scrollToTop(); };
-
-  const submitAssessment = async (cData: SectionC, dData: SectionD) => {
-    if (!sectionA || !sectionB) {
-      setSubmitError("Missing section data. Please refresh and try again.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitError(null);
-
-    const payload: AssessmentSubmission = {
-      section_a: sectionA,
-      section_b: sectionB,
-      section_c: cData,
-      section_d: dData,
-    };
-
-    try {
-      const response = await fetch("/api/assessment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error ?? `Submission failed (${response.status})`);
-      }
-
-      const data: ApiResponse = await response.json();
-      setApiResponse(data);
-      setStep("results");
-      scrollToTop();
-    } catch (err) {
-      console.error("[Assessment submission]", err);
-      setSubmitError(
-        err instanceof Error ? err.message : "Something went wrong. Please try again."
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const scrollToTop = () => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
-
-  // Scored from the eight core answers only. computeOSScores normalizes
-  // against max_possible, so a partial question set still produces valid
-  // four-domain readings.
-  // Scored against the eight core questions only. Passing the full active
-  // set would count unanswered conditional questions in max_possible and
-  // report every domain as healthier than it is.
-  const quickScores =
-    sectionA && sectionB
-      ? scoreAssessment(sectionA, sectionB, getCoreQuestions())
-      : null;
-
-  const progress = computeProgress(step);
-
-  return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "radial-gradient(circle, rgba(70, 85, 235, 0.15) 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-            opacity: 0.3,
-          }}
-        />
-      </div>
-
-      <header className="relative z-10 w-full" style={{ background: "#041227" }}>
-        <div
-          style={{
-            height: "2px",
-            width: "100%",
-            background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)",
-          }}
-        />
-        <div className="flex items-center justify-between container mx-auto h-[66px] px-6">
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_1_Aug2026.png"
-              width={611}
-              height={184}
-              alt="Quanton Labs"
-              priority
-              style={{ width: "200px", height: "auto", mixBlendMode: "screen" }}
-            />
-          </Link>
-          {step !== "results" && (
-            <Link
-              href="/"
-              className="text-sm font-medium duration-200"
-              style={{ color: "rgba(255,255,255,0.70)" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
-            >
-              Exit
-            </Link>
-          )}
-        </div>
-        {step !== "results" && step !== "verdict" && (
-          <div className="container mx-auto px-6 pb-3">
-            <div className="flex items-center gap-3">
-              <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.1)" }}>
-                <motion.div
-                  className="h-full"
-                  style={{ background: "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)" }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
-                />
-              </div>
-              <span className="text-xs font-medium whitespace-nowrap" style={{ color: "rgba(255,255,255,0.50)" }}>
-                {stepLabel(step)}
-              </span>
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="relative z-10 px-6 py-16 md:py-20">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3 }}
-          >
-            {step === "a" && (
-              <SectionAComponent
-                initialValue={sectionA ?? undefined}
-                onComplete={handleSectionAComplete}
-              />
-            )}
-            {step === "core" && sectionA && (
-              <SectionBComponent
-                sectionA={sectionA}
-                mode="core"
-                initialValue={sectionB ?? undefined}
-                onComplete={handleCoreComplete}
-                onBack={handleBackFromCore}
-              />
-            )}
-            {step === "verdict" && sectionA && sectionB && (
-              <Verdict
-                sectionA={sectionA}
-                sectionB={sectionB}
-                scores={quickScores!.scores}
-                rankedOs={quickScores!.ranked_os}
-                onContinue={() => { setStep("gate"); scrollToTop(); }}
-              />
-            )}
-            {step === "gate" && (
-              <SectionDComponent
-                initialValue={sectionD ?? undefined}
-                onComplete={handleGateComplete}
-                onBack={() => { setStep("verdict"); scrollToTop(); }}
-                isSubmitting={false}
-              />
-            )}
-            {step === "full" && sectionA && (
-              <SectionBComponent
-                sectionA={sectionA}
-                mode="remaining"
-                initialValue={sectionB ?? undefined}
-                onComplete={handleFullComplete}
-                onBack={handleBackFromFull}
-              />
-            )}
-            {step === "c" && sectionA && sectionB && (
-              <SectionCComponent
-                sectionA={sectionA}
-                sectionB={sectionB}
-                initialValue={sectionC ?? undefined}
-                onComplete={handleSectionCComplete}
-                onBack={handleBackFromC}
-                isSubmitting={isSubmitting}
-              />
-            )}
-            {step === "results" && apiResponse && sectionD && (
-              <ResultsComponent
-                scored={apiResponse.scored}
-                reportUrl={apiResponse.report_url}
-                pdfUrl={apiResponse.pdf_url}
-                stage2Url={
-                  apiResponse.scored.closing_variant === "qualified"
-                    ? `/assessment/stage2/${apiResponse.submission_id}`
-                    : null
-                }
-                firstName={sectionD.first_name}
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {submitError && step === "c" && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-3xl mx-auto mt-8 p-4 rounded-lg border-2 border-red-200 bg-red-50"
-          >
-            <p className="text-sm font-semibold text-red-800 mb-1">Submission failed</p>
-            <p className="text-sm text-red-700">{submitError}</p>
-          </motion.div>
-        )}
-      </main>
-    </div>
-  );
-}
+const SECTIONS = {
+  a: { tracker: "Section 1 of 4: About the Company", intro: "A few details about the company. They decide which questions apply to how it runs." },
+  b: { tracker: "Section 2 of 4: How the Company Runs", intro: "When a question says leadership, it means whoever sets the direction of the company: an owner, a founder, or an executive team. Choose the answer closest to how things work today, even where it is not the answer you would like." },
+  c: { tracker: "Section 3 of 4: What Would Matter Most", intro: "Two short questions about where the value would be highest if one thing changed." },
+  d: { tracker: "Section 4 of 4: Delivery", intro: "Your Structural Pattern Report is ready. Here is a preview of the severity map from your answers." },
+};
 
 // ============================================================
 // HELPERS
 // ============================================================
 
-function computeProgress(step: WizardStep): number {
-  switch (step) {
-    case "a": return 10;
-    case "core": return 30;
-    case "verdict": return 45;
-    case "gate": return 55;
-    case "full": return 75;
-    case "c": return 90;
-    case "d": return 95;
-    case "results": return 100;
-  }
+const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
+const validPhone = (p: string) => { const n = p.replace(/\D/g, "").length; return n >= 7 && n <= 15; };
+const normPhone = (p: string) => { const d = p.replace(/\D/g, ""); return d.length === 10 ? `+1${d}` : `+${d}`; };
+const validDomain = (u: string) => /^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(u.trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, ""));
+const normUrl = (u: string) => (/^https?:\/\//i.test(u.trim()) ? u.trim().toLowerCase() : `https://${u.trim().toLowerCase()}`);
+
+function Dots({ n }: { n: number }) {
+  return (
+    <span className="as-dots" aria-label={`${n} of 5`}>
+      {Array.from({ length: 5 }, (_, i) => <i key={i} className={i < n ? "on" : undefined} />)}
+    </span>
+  );
 }
 
-function stepLabel(step: WizardStep): string {
-  switch (step) {
-    case "a": return "Context";
-    case "core": return "Quick diagnostic";
-    case "verdict": return "Your read";
-    case "gate": return "Your details";
-    case "full": return "Full diagnostic";
-    case "c": return "Priorities";
-    case "d": return "Your details";
-    default: return "";
-  }
+function Choice({ name, label, checked, onChange, multi }: { name: string; label: string; checked: boolean; onChange: () => void; multi?: boolean }) {
+  return (
+    <label className={`as-opt${checked ? " on" : ""}`}>
+      <input type={multi ? "checkbox" : "radio"} name={name} checked={checked} onChange={onChange} />
+      <span className="mk" aria-hidden="true" />
+      <span className="tx">{label}</span>
+    </label>
+  );
+}
+
+function Err({ msg }: { msg: string | null }) {
+  return msg ? <p className="as-err" role="alert">{msg}</p> : null;
+}
+
+// ============================================================
+// WIZARD
+// ============================================================
+
+export default function AssessmentClient() {
+  const [step, setStep] = useState<Step>("intro");
+  const [a, setA] = useState<Partial<SectionA>>({ functions: [] });
+  const [b, setB] = useState<SectionB>({});
+  const [bi, setBi] = useState(0);
+  const [priority, setPriority] = useState<PriorityOption | null>(null);
+  const [outcome, setOutcome] = useState("");
+  const [d, setD] = useState({ first_name: "", last_name: "", work_email: "", phone: "", website: "", role: "" as RespondentRole | "", location: "" });
+  const [errs, setErrs] = useState<Record<string, string | null>>({});
+  const [sending, setSending] = useState(false);
+  const [sendErr, setSendErr] = useState<string | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
+  const [sentTo, setSentTo] = useState("");
+  const aStart = useRef(0);
+  const pace = useRef(15);
+  const topRef = useRef<HTMLDivElement>(null);
+
+  const aDone = !!(a.revenue && a.team_size && a.locations && a.functions?.length);
+  const questions = useMemo(() => (aDone ? getActiveQuestions(a as SectionA) : []), [aDone, a]);
+  const scored = useMemo(() => (aDone && step !== "intro" && step !== "a" && step !== "b" ? scoreAssessment(a as SectionA, b) : null), [aDone, a, b, step]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [step, bi]);
+
+  // Supplementary tracker line, from the respondent's own pace through Section A.
+  const remaining = (() => {
+    if (step === "intro" || step === "a" || step === "done") return null;
+    const left = step === "b" ? questions.length - bi + 2 : step === "c" ? 2 : 0;
+    const secs = left * pace.current + 60; // Section D capture
+    const n = Math.round(secs / 60);
+    return secs <= 60 ? "Less than a minute" : `About ${n} ${n === 1 ? "minute" : "minutes"} remaining`;
+  })();
+
+  const go = (s: Step) => { setErrs({}); setStep(s); };
+  const clear = (k: string) => setErrs((e) => (e[k] ? { ...e, [k]: null } : e));
+  const setAF = (k: string, next: Partial<SectionA>) => { setA(next); clear(k); };
+  const setDF = (k: keyof typeof d, v: string) => { setD({ ...d, [k]: v }); clear(k); };
+
+  // ---------- Section A ----------
+  const submitA = () => {
+    const e: Record<string, string | null> = {
+      A1: a.revenue ? null : MSG.required,
+      A2: a.team_size ? null : MSG.required,
+      A3: a.functions?.length ? null : MSG.a3,
+      A4: a.locations ? null : MSG.required,
+    };
+    setErrs(e);
+    if (Object.values(e).some(Boolean)) return;
+    pace.current = Math.min(30, Math.max(6, (Date.now() - aStart.current) / 1000 / 4));
+    setBi(0);
+    go("b");
+  };
+
+  // ---------- Section B ----------
+  const q = questions[bi];
+  const answerB = (key: string) => {
+    setB((prev) => ({ ...prev, [q.id]: key }));
+    setErrs({});
+    window.setTimeout(() => {
+      if (bi + 1 < questions.length) setBi(bi + 1);
+      else go("c");
+    }, 220);
+  };
+
+  // ---------- Section C ----------
+  const c1Keys: PriorityOption[] = scored ? [scored.top_os, scored.second_os, "leadership_capacity", "visibility"] : [];
+  const submitC = () => {
+    if (!priority || !c1Keys.includes(priority)) return setErrs({ C1: MSG.required });
+    go("d");
+  };
+
+  // ---------- Section D ----------
+  const checkD = async () => {
+    const e: Record<string, string | null> = {
+      first_name: d.first_name.trim() ? null : MSG.required,
+      last_name: d.last_name.trim() ? null : MSG.required,
+      work_email: !d.work_email.trim() ? MSG.required : validEmail(d.work_email) ? null : MSG.email,
+      phone: !d.phone.trim() ? MSG.required : validPhone(d.phone) ? null : MSG.phone,
+      website: !d.website.trim() ? MSG.required : validDomain(d.website) ? null : MSG.website,
+      role: d.role ? null : MSG.required,
+    };
+    if (!e.website) {
+      try {
+        const r = await fetch(`/api/assessment/check-website?url=${encodeURIComponent(normUrl(d.website))}`);
+        if (!(await r.json()).ok) e.website = MSG.website;
+      } catch {
+        /* network trouble here should not block the respondent */
+      }
+    }
+    setErrs(e);
+    return !Object.values(e).some(Boolean);
+  };
+
+  const submitD = async () => {
+    if (sending) return;
+    setSendErr(null);
+    setSending(true);
+    try {
+      if (!(await checkD())) return;
+      const payload = {
+        section_a: a,
+        section_b: Object.fromEntries(questions.map((x) => [x.id, b[x.id]])),
+        section_c: { priority, outcome_text: outcome.trim() || null },
+        section_d: {
+          first_name: d.first_name.trim(),
+          last_name: d.last_name.trim(),
+          work_email: d.work_email.trim().toLowerCase(),
+          phone: normPhone(d.phone),
+          website: normUrl(d.website),
+          role: d.role,
+          location: d.location.trim() || null,
+        },
+      };
+      const res = await fetch("/api/assessment", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      if (!res.ok) throw new Error("submit");
+      setResult(await res.json());
+      setSentTo(payload.section_d.work_email);
+      go("done");
+    } catch {
+      setSendErr("Something went wrong sending the report. Try again in a moment, or contact growth@quantonlabs.com.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  // ============================================================
+  // RENDER
+  // ============================================================
+
+  if (step === "intro") return <Intro onStart={() => { aStart.current = Date.now(); go("a"); }} />;
+
+  const sec = step === "done" ? null : SECTIONS[step];
+  const progress = step === "a" ? 6 : step === "b" ? 10 + (bi / Math.max(1, questions.length)) * 62 : step === "c" ? 78 : step === "d" ? 92 : 100;
+
+  return (
+    <Page nav="paper">
+      <div className="as qx-paper" ref={topRef}>
+        {sec && (
+          <div className="as-track" aria-live="polite">
+            <div className="wrap">
+              <div className="row">
+                <span className="lab">{sec.tracker}</span>
+                {remaining && <span className="rem">{remaining}</span>}
+              </div>
+              <div className="bar"><motion.i animate={{ width: `${progress}%` }} transition={{ duration: 0.5, ease }} /></div>
+            </div>
+          </div>
+        )}
+
+        <div className="wrap as-body">
+          <AnimatePresence mode="wait">
+            <motion.div key={step === "b" ? `b${bi}` : step} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.32, ease }}>
+              {sec && (step !== "b" || bi === 0) && <p className="as-intro">{sec.intro}</p>}
+
+              {step === "a" && (
+                <div className="as-stack">
+                  <fieldset className="as-q">
+                    <legend><span className="id">A1</span>{A1.text}</legend>
+                    <div className="as-grid">{A1.options.map((o) => <Choice key={o.key} name="A1" label={o.label} checked={a.revenue === o.key} onChange={() => setAF("A1", { ...a, revenue: o.key as RevenueBand })} />)}</div>
+                    <Err msg={errs.A1 ?? null} />
+                  </fieldset>
+                  <fieldset className="as-q">
+                    <legend><span className="id">A2</span>{A2.text}</legend>
+                    <div className="as-grid">{A2.options.map((o) => <Choice key={o.key} name="A2" label={o.label} checked={a.team_size === o.key} onChange={() => setAF("A2", { ...a, team_size: o.key as TeamSize })} />)}</div>
+                    <Err msg={errs.A2 ?? null} />
+                  </fieldset>
+                  <fieldset className="as-q">
+                    <legend><span className="id">A3</span>{A3.text}</legend>
+                    <div className="as-list">
+                      {A3.options.map((o) => {
+                        const on = a.functions!.includes(o.key as CompanyFunction);
+                        return <Choice key={o.key} multi name="A3" label={o.label} checked={on} onChange={() => setAF("A3", { ...a, functions: on ? a.functions!.filter((f) => f !== o.key) : [...a.functions!, o.key as CompanyFunction] })} />;
+                      })}
+                    </div>
+                    <Err msg={errs.A3 ?? null} />
+                  </fieldset>
+                  <fieldset className="as-q">
+                    <legend><span className="id">A4</span>{A4.text}</legend>
+                    <div className="as-grid g4">{A4.options.map((o) => <Choice key={o.key} name="A4" label={o.label} checked={a.locations === o.key} onChange={() => setAF("A4", { ...a, locations: o.key as Locations })} />)}</div>
+                    <Err msg={errs.A4 ?? null} />
+                  </fieldset>
+                  <div className="as-nav"><span /><button className="as-b1" onClick={submitA}>Continue</button></div>
+                </div>
+              )}
+
+              {step === "b" && q && (
+                <fieldset className="as-q solo">
+                  <legend className="big"><span className="as-count">{bi + 1} of {questions.length}</span>{q.text}</legend>
+                  <div className="as-list">{q.options.map((o) => <Choice key={o.key} name={q.id} label={o.label} checked={b[q.id] === o.key} onChange={() => answerB(o.key)} />)}</div>
+                  <Err msg={errs.B ?? null} />
+                  <div className="as-nav">
+                    <button className="as-b2" onClick={() => (bi === 0 ? go("a") : setBi(bi - 1))}>Back</button>
+                    {b[q.id] && <button className="as-b1" onClick={() => (bi + 1 < questions.length ? setBi(bi + 1) : go("c"))}>Next</button>}
+                  </div>
+                </fieldset>
+              )}
+
+              {step === "c" && (
+                <div className="as-stack">
+                  <fieldset className="as-q">
+                    <legend><span className="id">C1</span>{C1_TEXT}</legend>
+                    <div className="as-list">{c1Keys.map((k) => <Choice key={k} name="C1" label={C1_OPTIONS[k].display} checked={priority === k} onChange={() => { setPriority(k); setErrs({}); }} />)}</div>
+                    <Err msg={errs.C1 ?? null} />
+                  </fieldset>
+                  <div className="as-q">
+                    <label className="as-legend" htmlFor="c2"><span className="id">C2</span>{C2_TEXT} <em>Optional</em></label>
+                    <textarea id="c2" className="as-in" rows={4} maxLength={2000} value={outcome} onChange={(e) => setOutcome(e.target.value)} />
+                  </div>
+                  <div className="as-nav">
+                    <button className="as-b2" onClick={() => { setBi(questions.length - 1); go("b"); }}>Back</button>
+                    <button className="as-b1" onClick={submitC}>Continue</button>
+                  </div>
+                </div>
+              )}
+
+              {step === "d" && scored && (
+                <div className="as-d">
+                  <section className="as-prev" aria-labelledby="prev-h">
+                    <h2 id="prev-h" className="qx-d3">Your Severity Map: Preview</h2>
+                    <ol>
+                      {scored.ranked_os.map((os) => (
+                        <li key={os}>
+                          <Dots n={scored.scores[os].dots} />
+                          <span className="os">{OS_LABELS[os]}</span>
+                          <span className="tl">{TIER_LABELS[scored.scores[os].tier]}</span>
+                        </li>
+                      ))}
+                    </ol>
+                    <p className="qx-body">The full report adds the analysis for each system, the answers that drove it, and what the pattern means for the company. Where should we send it?</p>
+                  </section>
+
+                  <form className="as-form" noValidate onSubmit={(e) => { e.preventDefault(); submitD(); }}>
+                    <h2 className="qx-d3">Your full Structural Pattern Report is ready. Where should we send it?</h2>
+                    <div className="as-fields">
+                      <Field id="first_name" label="First name" auto="given-name" v={d.first_name} set={(v) => setDF("first_name", v)} err={errs.first_name} />
+                      <Field id="last_name" label="Last name" auto="family-name" v={d.last_name} set={(v) => setDF("last_name", v)} err={errs.last_name} />
+                      <Field id="work_email" label="Work email" type="email" auto="email" v={d.work_email} set={(v) => setDF("work_email", v)} err={errs.work_email} />
+                      <Field id="phone" label="Phone" type="tel" auto="tel" v={d.phone} set={(v) => setDF("phone", v)} err={errs.phone} />
+                      <Field id="website" label="Company website" auto="url" v={d.website} set={(v) => setDF("website", v)} err={errs.website} ph="company.com" />
+                      <div className="as-field">
+                        <label htmlFor="role">Role</label>
+                        <select id="role" className="as-in" value={d.role} onChange={(e) => setDF("role", e.target.value as RespondentRole)} aria-invalid={!!errs.role}>
+                          <option value="" disabled>Select</option>
+                          {ROLE_OPTIONS.map((r) => <option key={r.key} value={r.key}>{r.label}</option>)}
+                        </select>
+                        <Err msg={errs.role ?? null} />
+                      </div>
+                      <Field id="location" label="Location" optional auto="address-level2" v={d.location} set={(v) => setDF("location", v)} ph="City, State" />
+                    </div>
+                    <p className="as-foot">We never sell your information. Our <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a> explains how we handle it.</p>
+                    {sendErr && <p className="as-err" role="alert">{sendErr}</p>}
+                    <div className="as-nav">
+                      <button type="button" className="as-b2" onClick={() => go("c")}>Back</button>
+                      <button type="submit" className="as-b1" disabled={sending}>{sending ? "Sending" : "Send My Report"}</button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {step === "done" && result && (
+                <div className="as-done">
+                  <div className="qx-lab">Sent</div>
+                  <h1 className="qx-d2"><Words text="Your Report Is On Its Way" /></h1>
+                  <p className="qx-body">Your Structural Pattern Report has been sent to <b>{sentTo}</b>. It should arrive within two minutes. If it does not, check your spam folder.</p>
+
+                  {result.brief_url && (
+                    <section className="as-inv">
+                      <div className="qx-lab">One more step, if you want the numbers</div>
+                      <h2 className="qx-d3">Put a Number on What This Is Costing</h2>
+                      <p className="qx-body">Your report shows where the gaps are. The Extended Operator Brief puts numbers on them, from your own figures: where the company stands against break-even and its profit target, what leadership time spent managing costs, and the annual cost of the current structure in {result.top_os_name} and {result.second_os_name}. It takes about 10 minutes and builds on what you already answered.</p>
+                      <div className="cta">
+                        <a className="as-b1" href={result.brief_url}>Continue to the Extended Operator Brief</a>
+                      </div>
+                      <p className="as-sub">You can also <a href={CALENDLY} target="_blank" rel="noopener">book a qualification conversation</a> now and come back to the brief later.</p>
+                    </section>
+                  )}
+
+                  <p className="as-sub">Your report also appears below. Scroll to read it.</p>
+                  <ReportFrame url={result.report_url} />
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </Page>
+  );
+}
+
+/** The site denies framing by URL, so the report is fetched and shown through srcdoc, sized to its content. */
+function ReportFrame({ url }: { url: string }) {
+  const [html, setHtml] = useState<string | null>(null);
+  const ref = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    fetch(url).then((r) => (r.ok ? r.text() : null)).then(setHtml).catch(() => setHtml(null));
+  }, [url]);
+  const fit = () => {
+    const f = ref.current;
+    const doc = f?.contentDocument;
+    if (!f || !doc?.body) return;
+    f.style.height = "0px"; // measure content, not the previous frame height
+    f.style.height = `${doc.documentElement.scrollHeight + 4}px`;
+  };
+  const onLoad = () => {
+    fit();
+    ref.current?.contentDocument?.fonts?.ready.then(fit);
+    window.setTimeout(fit, 600);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  });
+  if (!html) return <p className="as-sub"><a href={url} target="_blank" rel="noopener">Open the report in a new tab</a></p>;
+  return <iframe ref={ref} className="as-report" srcDoc={html} title="Structural Pattern Report" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" onLoad={onLoad} />;
+}
+
+function Field({ id, label, v, set, err, type = "text", auto, ph, optional }: { id: string; label: string; v: string; set: (v: string) => void; err?: string | null; type?: string; auto?: string; ph?: string; optional?: boolean }) {
+  return (
+    <div className="as-field">
+      <label htmlFor={id}>{label}{optional && <em> Optional</em>}</label>
+      <input id={id} className="as-in" type={type} autoComplete={auto} placeholder={ph} value={v} onChange={(e) => set(e.target.value)} aria-invalid={!!err} />
+      <Err msg={err ?? null} />
+    </div>
+  );
+}
+
+// ============================================================
+// LANDING (FRAMES section 1)
+// ============================================================
+
+function Intro({ onStart }: { onStart: () => void }) {
+  return (
+    <Page nav="dark">
+      <section className="qx-ink pg-hero">
+        <div className="wrap">
+          <div className="qx-lab">Structural Diagnostic</div>
+          <h1 className="qx-d2"><Words text="Where Is Your Company Under-Architected?" delay={0.1} /></h1>
+          <motion.p className="lead" initial={{ opacity: 0.01 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}>
+            Running a company takes operating, managing, and leading. This 6 to 9 minute diagnostic shows where managing is consuming the time leadership should spend leading, across Strategy, Platform, Operations, and Growth.
+          </motion.p>
+          <motion.div className="as-hcta" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.5 }}>
+            <button className="b1" onClick={onStart}>Start the Diagnostic</button>
+          </motion.div>
+        </div>
+      </section>
+      <section className="qx-paper sec tight">
+        <div className="wrap">
+          <div className="as-land">
+            {[
+              ["What you will receive", "A Structural Pattern Report that ranks the four operating systems by structural gap, analyzes the two creating the most drag, shows the answers that drove each finding, and reflects back what you said would change if they were resolved."],
+              ["Who this is for", "Owners, founders, and executives of established companies whose operations have outgrown the way they are run: where the numbers take effort to assemble, commitments live in people's memory, and leadership spends its week managing."],
+              ["Before you start", "The diagnostic takes 6 to 9 minutes. Answer for how the company runs today, not how you plan for it to run. Honest answers produce a useful report; there is no advantage in presenting the company as more or less structured than it is."],
+            ].map(([k, t], i) => (
+              <motion.div key={k} className="cd mx-glow" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.08, ease }}>
+                <div className="k">{k}</div>
+                <p>{t}</p>
+              </motion.div>
+            ))}
+          </div>
+          <div className="as-lcta"><button className="as-b1" onClick={onStart}>Begin the Diagnostic</button></div>
+        </div>
+      </section>
+    </Page>
+  );
 }

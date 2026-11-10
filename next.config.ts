@@ -15,7 +15,7 @@ const securityHeaders = [
       // Next.js requires unsafe-inline and unsafe-eval for its runtime.
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "img-src 'self' data: blob: https://www.google-analytics.com https://*.public.blob.vercel-storage.com",
+      "img-src 'self' data: blob: https://quantonlabs.com https://www.quantonlabs.com https://www.google-analytics.com https://*.public.blob.vercel-storage.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://*.public.blob.vercel-storage.com",
       "frame-src https://calendly.com",
