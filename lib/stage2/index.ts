@@ -78,13 +78,5 @@ export function processStage2Submission(
  * as the foreign key for the Sheet row update.
  */
 export function generateStage2Id(): string {
-  const now = new Date();
-  const yyyy = now.getUTCFullYear();
-  const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(now.getUTCDate()).padStart(2, "0");
-  const hh = String(now.getUTCHours()).padStart(2, "0");
-  const mi = String(now.getUTCMinutes()).padStart(2, "0");
-  const timestamp = `${yyyy}${mm}${dd}T${hh}${mi}`;
-  const randomSuffix = Math.random().toString(36).substring(2, 8);
-  return `QL-STG2-${timestamp}-${randomSuffix}`;
+  return globalThis.crypto.randomUUID();
 }

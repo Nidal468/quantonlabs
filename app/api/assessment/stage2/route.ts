@@ -3,8 +3,9 @@
 // Stage 2 Assessment - Submission Handler
 
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 
+import { putPrivateHtml } from "@/lib/assessment/privateStore";
+import { briefUrl as signedBriefUrl, briefPdfUrl as signedBriefPdfUrl } from "@/lib/assessment/linkToken";
 import {
   processStage2Submission,
   generateStage2Id,
@@ -70,11 +71,20 @@ const completedAt = new Date().toISOString().replace("T", " ").replace(/\.\d{3}Z
     // 3. Render the Extended Operator Brief HTML
     const briefHtml = renderBrief(profile, stage2Id);
 
-    // 4. Upload HTML and PDF to Blob in parallel
-    const [briefUrl, briefPdfUrl] = await Promise.all([
-      safeUploadBriefHtml(stage2Id, briefHtml),
-      safeUploadBriefPdf(stage2Id, briefHtml),
-    ]);
+    // 4. Store the HTML in the private Blob store, keyed to the Stage 1
+    //    submission so a retake overwrites the earlier brief in place.
+    //    The PDF renders on request at /brief/[token]?format=pdf.
+    try {
+      await putPrivateHtml("brief", submission.submission_id, briefHtml);
+    } catch (err) {
+      console.error("[Brief store failed]", err);
+      return NextResponse.json(
+        { error: "Brief could not be stored." },
+        { status: 500 }
+      );
+    }
+    const briefUrl = signedBriefUrl(submission.submission_id);
+    const briefPdfUrl = signedBriefPdfUrl(submission.submission_id);
 
     // 5. Fire Sheet update and Gmail notifications in parallel
     await Promise.allSettled([
@@ -567,40 +577,6 @@ function formatOsLabel(os: string): string {
     growth: "Growth",
   };
   return map[os] ?? os;
-}
-
-// ============================================================
-// BLOB UPLOADS
-// ============================================================
-
-async function safeUploadBriefHtml(id: string, html: string): Promise<string> {
-  try {
-    const blob = await put(`briefs/${id}.html`, html, {
-      access: "public",
-      contentType: "text/html; charset=utf-8",
-      addRandomSuffix: false,
-    });
-    return blob.url;
-  } catch (err) {
-    console.error("[Brief HTML upload failed]", err);
-    return "";
-  }
-}
-
-async function safeUploadBriefPdf(id: string, html: string): Promise<string> {
-  try {
-    const { renderPdf } = await import("@/lib/stage1/pdfRenderer");
-    const pdfBuffer = await renderPdf(html);
-    const blob = await put(`briefs/${id}.pdf`, pdfBuffer, {
-      access: "public",
-      contentType: "application/pdf",
-      addRandomSuffix: false,
-    });
-    return blob.url;
-  } catch (err) {
-    console.error("[Brief PDF upload failed]", err);
-    return "";
-  }
 }
 
 // ============================================================

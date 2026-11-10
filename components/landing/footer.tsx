@@ -217,7 +217,7 @@ export default function Footer() {
               <p>© {new Date().getFullYear()} Quanton Labs. All rights reserved.</p>
               <div className="flex gap-4">
                 <a
-                  href="https://linkedin.com/company/quantonlabs"
+                  href="https://www.linkedin.com/company/quanton-labs"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Quanton Labs on LinkedIn"
