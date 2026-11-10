@@ -28,9 +28,9 @@
 .ab-c1 .ab-pin{display:flex;align-items:center}
 .ab-c1 .gr{width:100%;max-width:var(--qx-max);margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:56px;align-items:center}
 .ab-words{display:flex;flex-direction:column;gap:clamp(10px,2.2vh,22px);margin-top:22px}
-.ab-word{display:flex;flex-direction:column;gap:6px}
+.ab-word{display:flex;flex-direction:column;gap:0}
 .ab-word .w{font-size:clamp(40px,min(6.4vw,9.4vh),108px);line-height:.92;letter-spacing:-.05em;font-weight:800;display:flex;align-items:baseline;gap:16px}
-.ab-word .own{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--qx-w55);height:22px}
+.ab-word .own{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--qx-w55);height:22px;margin-top:clamp(12px,1.9vh,20px)}
 .ab-word .own .who{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;border:1px solid var(--qx-w14);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--qx-w90)}
 .ab-word .own .who.os{border-color:rgba(141,153,255,.5);color:var(--qx-acc-xl);background:rgba(70,85,235,.14)}
 .ab-c1 .line{margin-top:28px;font-size:clamp(15px,1.25vw,18px);line-height:1.5;color:var(--qx-w72);min-height:3em;max-width:40ch}
