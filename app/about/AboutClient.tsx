@@ -220,7 +220,7 @@ function Model() {
 const CH = [
   { n: "Revenue growth", h: "A standard that depends on presence is not a standard.", p: "$1.5M-a-month rental operation grown 300% to $6M a month in one year, through upsell discipline, fleet utilization, branch KPIs, and customer service built into the process.", f: ["300%", "revenue growth in one year"] },
   { n: "Turnaround", h: "Controls that live in site visits fail between them.", p: "Lending region carrying $400K in losses from thin oversight, missing systems, and fraud, turned around and grown by more than $12M through KPIs, training, and compliance in every branch.", f: ["$12M+", "regional growth after $400K in losses"] },
-  { n: "Built from zero", h: "An owner who is the system caps the business at his own hours.", p: "Automotive facility built from zero to $1.9M in revenue, with pricing, scheduling, quality, and hiring running through the owner until the system carried them.", f: ["$1.9M", "revenue, built from zero"] },
+  { n: "Built from zero", h: "An owner who is the system caps the business at the owner's hours.", p: "Automotive facility built from zero to $1.9M in revenue, with pricing, scheduling, quality, and hiring running through the owner until the system carried them.", f: ["$1.9M", "revenue, built from zero"] },
   { n: "Margin expansion", h: "A diagnosis lasts as long as the consultant stays.", p: "Manufacturer diagnostic converted into a Quanton OS deployment. Trailing twelve months to April 2026: gross margin from 43.8% to 48.0%, operating profit from $115K to $316K.", f: ["+4.2 pts", "gross margin, trailing twelve months"] },
 ];
 function Leadership() {
