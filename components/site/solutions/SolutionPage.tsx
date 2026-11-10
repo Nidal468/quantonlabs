@@ -92,6 +92,12 @@ function Proof({ d }: { d: SolutionData }) {
             </motion.div>
           ))}
         </div>
+        {p.items && (
+          <motion.div className="items" {...rise}>
+            {p.itemsHead && <div className="ih">{p.itemsHead}</div>}
+            <ul>{p.items.map(([b, r]) => <li key={b}><b>{b}</b> {r}</li>)}</ul>
+          </motion.div>
+        )}
         <p className="note">{p.note}</p>
       </div>
     </section>
@@ -117,7 +123,7 @@ function Trace({ d, n }: { d: SolutionData; n: string }) {
     <section ref={ref} className={`qx-paper sx-trace${pinned ? "" : " free"}`} style={{ height: pinned ? `${100 + t.steps.length * 34}vh` : undefined }}>
       <div className="pin"><div className="wrap gr">
         <div className="lf">
-          <div className="qx-lab"><b>{n}</b> One {t.unit.split(" ")[0].toLowerCase()} through the system</div>
+          <div className="qx-lab"><b>{n}</b> One {t.noun} through the system</div>
           <h2 className="qx-d3">{t.h2}</h2>
           <p className="qx-body">{t.lead}</p>
           <ol className="steps">
@@ -149,7 +155,7 @@ function Trace({ d, n }: { d: SolutionData; n: string }) {
                     <div className="r"><b>{cur.dept}</b><span className={`gt ${cur.gate}`}>{cur.gateLabel ?? GATE[cur.gate]}</span></div>
                     <p>{cur.act}</p>
                   </>
-                ) : <p className="idle">Order received.</p>}
+                ) : <p className="idle">{t.idle}</p>}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -169,11 +175,11 @@ function Adds({ d, n }: { d: SolutionData; n: string }) {
   return (
     <section className="sx-adds">
       <div className="wrap">
-        <motion.div {...rise}><div className="qx-lab"><b>{n}</b> Built for the industry</div><h2 className="qx-d2">{d.adds.h2}</h2></motion.div>
+        <motion.div {...rise}><div className="qx-lab"><b>{n}</b> Built for {d.name.toLowerCase()}</div><h2 className="qx-d2">{d.adds.h2}</h2></motion.div>
         <div className="cards">
           {d.adds.cards.map(([h, p], i) => (
             <motion.div key={h} className="cd" {...rise} transition={{ ...rise.transition, delay: i * 0.08 }}>
-              <h3>{h}</h3><p>{p}</p>
+              <span className="cap">{h}</span><p>{p}</p>
             </motion.div>
           ))}
         </div>

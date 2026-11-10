@@ -1,47 +1,31 @@
-import Automotive from "@/components/solutions/Automotive";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
 import type { Metadata } from "next";
+import SolutionPage from "@/components/site/solutions/SolutionPage";
+import data from "@/content/solutions/automotive";
+
+const url = `https://quantonlabs.com/solutions/${data.slug}`;
 
 export const metadata: Metadata = {
-  title: "AI-Native Business System for Automotive | Quanton Labs",
-  description:
-    "Quanton OS deploys eight coordinated AI agents for independent repair shops, body shops, detailing, tint, PPF, and audio install businesses. Keep bays productive, convert more estimates, and eliminate parts delays.",
-  alternates: {
-    canonical: "https://quantonlabs.com/solutions/automotive",
-  },
-  openGraph: {
-    title: "AI-Native Business System for Automotive | Quanton Labs",
-    description:
-      "Eight coordinated AI agents built for automotive shops. Bay scheduling, estimate follow-up, parts inventory, customer communication, and invoicing, governed and automated.",
-    url: "https://quantonlabs.com/solutions/automotive",
-    siteName: "Quanton Labs",
-    type: "website",
-  },
+  title: data.meta.title,
+  description: data.meta.description,
+  alternates: { canonical: url },
+  openGraph: { title: data.meta.title, description: data.meta.description, url, siteName: "Quanton Labs", type: "website" },
 };
 
-export default function AutomotivePage() {
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
+    { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
+    { "@type": "ListItem", position: 3, name: data.name },
+  ],
+};
+
+export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
-              { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
-              { "@type": "ListItem", position: 3, name: "Automotive" },
-            ],
-          }),
-        }}
-      />
-      <Navbar isScrolled={true} />
-      <main style={{ paddingTop: "70px" }}>
-        <Automotive />
-      </main>
-      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <SolutionPage d={data} />
     </>
   );
 }

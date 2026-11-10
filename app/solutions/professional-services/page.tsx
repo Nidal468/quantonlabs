@@ -1,47 +1,31 @@
-import ProfessionalServices from "@/components/solutions/ProfessionalServices";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
 import type { Metadata } from "next";
+import SolutionPage from "@/components/site/solutions/SolutionPage";
+import data from "@/content/solutions/professional-services";
+
+const url = `https://quantonlabs.com/solutions/${data.slug}`;
 
 export const metadata: Metadata = {
-  title: "AI Operating System for Professional Services | Quanton Labs",
-  description:
-    "Quanton OS deploys eight coordinated AI agents for consulting, legal, accounting, and agency firms. Recover billable hours, standardise client delivery, and get real-time visibility across every engagement.",
-  alternates: {
-    canonical: "https://quantonlabs.com/solutions/professional-services",
-  },
-  openGraph: {
-    title: "AI Operating System for Professional Services | Quanton Labs",
-    description:
-      "Eight coordinated AI agents built for professional services firms. Client onboarding, proposal generation, invoice tracking, and practice visibility , governed and automated.",
-    url: "https://quantonlabs.com/solutions/professional-services",
-    siteName: "Quanton Labs",
-    type: "website",
-  },
+  title: data.meta.title,
+  description: data.meta.description,
+  alternates: { canonical: url },
+  openGraph: { title: data.meta.title, description: data.meta.description, url, siteName: "Quanton Labs", type: "website" },
 };
 
-export default function ProfessionalServicesPage() {
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
+    { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
+    { "@type": "ListItem", position: 3, name: data.name },
+  ],
+};
+
+export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
-              { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
-              { "@type": "ListItem", position: 3, name: "Professional Services" },
-            ],
-          }),
-        }}
-      />
-      <Navbar isScrolled={true} />
-      <main style={{ paddingTop: "70px" }}>
-        <ProfessionalServices />
-      </main>
-      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <SolutionPage d={data} />
     </>
   );
 }

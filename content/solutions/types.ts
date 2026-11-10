@@ -25,11 +25,16 @@ export interface SolutionData {
     lead: string;
     /** [figure, label] */
     figures: [string, string][];
+    /** Optional list of what the deployment puts in place: [bold lead, rest]. */
+    itemsHead?: string;
+    items?: [string, string][];
     note: string;
   };
   trace: {
     h2: string;
     lead: string;
+    /** Lowercase noun for the section label, e.g. "order". */
+    noun: string;
     unit: string; // "Order SO-2841"
     what: string; // "400 bracket assemblies"
     /** Fields on the job card; each step may change some of them. */
@@ -43,8 +48,11 @@ export interface SolutionData {
       note?: string;
       set?: Record<string, string>;
     }[];
+    /** Shown before the first step. */
+    idle: string;
     end: string;
   };
+  /** cards: [capability, what leadership gets from it] */
   adds: { h2: string; cards: [string, string][]; partner?: string };
   sources: { text: string; href: string; host: string }[];
 }

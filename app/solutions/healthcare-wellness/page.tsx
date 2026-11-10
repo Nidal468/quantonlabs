@@ -1,47 +1,31 @@
-import HealthWellness from "@/components/solutions/HealthWellness";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
 import type { Metadata } from "next";
+import SolutionPage from "@/components/site/solutions/SolutionPage";
+import data from "@/content/solutions/healthcare-wellness";
+
+const url = `https://quantonlabs.com/solutions/${data.slug}`;
 
 export const metadata: Metadata = {
-  title: "AI Operating System for Health and Wellness | Quanton Labs",
-  description:
-    "Quanton OS deploys eight coordinated AI agents for clinics, med spas, fitness studios, and wellness practices. Reduce no-shows, recover lapsed clients, and scale your front desk without adding headcount.",
-  alternates: {
-    canonical: "https://quantonlabs.com/solutions/healthcare-wellness",
-  },
-  openGraph: {
-    title: "AI Operating System for Health and Wellness | Quanton Labs",
-    description:
-      "Eight coordinated AI agents built for wellness practices. Appointment reminders, rebooking workflows, client retention, and practice visibility , governed and automated.",
-    url: "https://quantonlabs.com/solutions/healthcare-wellness",
-    siteName: "Quanton Labs",
-    type: "website",
-  },
+  title: data.meta.title,
+  description: data.meta.description,
+  alternates: { canonical: url },
+  openGraph: { title: data.meta.title, description: data.meta.description, url, siteName: "Quanton Labs", type: "website" },
 };
 
-export default function HealthWellnessPage() {
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
+    { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
+    { "@type": "ListItem", position: 3, name: data.name },
+  ],
+};
+
+export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
-              { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
-              { "@type": "ListItem", position: 3, name: "Healthcare and Wellness" },
-            ],
-          }),
-        }}
-      />
-      <Navbar isScrolled={true} />
-      <main style={{ paddingTop: "70px" }}>
-        <HealthWellness />
-      </main>
-      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <SolutionPage d={data} />
     </>
   );
 }

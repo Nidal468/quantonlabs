@@ -40,5 +40,29 @@
   "unsplash": "https://unsplash.com/photos/time-lapse-photography-of-welding-man-VW4xiLRr-do",
   "alt": "time lapse photography of welding man",
   "license": "Unsplash License"
+ },
+ {
+  "file": "home-services.jpg",
+  "unsplash": "https://unsplash.com/photos/selective-focus-photography-of-mechanics-tool-lot-60krlMMeWxU",
+  "alt": "selective focus photography of mechanics tool lot",
+  "license": "Unsplash License"
+ },
+ {
+  "file": "healthcare.jpg",
+  "unsplash": "https://unsplash.com/photos/a-dental-room-with-a-desk-and-chairs-Fdku_oMrDvk",
+  "alt": "a dental room with a desk and chairs",
+  "license": "Unsplash License"
+ },
+ {
+  "file": "professional.jpg",
+  "unsplash": "https://unsplash.com/photos/modern-office-space-with-desks-and-computers-DAjAgQBs9AY",
+  "alt": "Modern office space with desks and computers",
+  "license": "Unsplash License"
+ },
+ {
+  "file": "retail.jpg",
+  "unsplash": "https://unsplash.com/photos/blue-denim-jeans-on-brown-textile-gPrJi5R4RAk",
+  "alt": "blue denim jeans on brown textile",
+  "license": "Unsplash License"
  }
 ]
