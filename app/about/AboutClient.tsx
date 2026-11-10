@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useInView, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import { usePinned } from "@/components/site/useStage";
@@ -20,33 +20,37 @@ function useProgress(ref: React.RefObject<HTMLElement | null>) {
   return v;
 }
 
-/* A. Hero: one photograph, one sentence */
+/* A. Hero: type and facts, no imagery (the homepage carries the dashboard) */
+const FACTS: [string, string][] = [
+  ["System of record", "Owned by the company"],
+  ["Departments", "Seven, coordinated by a Governing Agent"],
+  ["Approval levels", "Full Autonomy, Silent Approval, Hard Block"],
+  ["Every figure", "Computed in code from the record"],
+];
 function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const o = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const words = "Quanton Labs builds the system that runs the company.".split(" ");
   return (
-    <section ref={ref} className="h2-hero">
-      <motion.div className="img" style={{ scale, y }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/site/photo/hero-sparks.jpg" alt="A fabricator cutting steel in a dark shop" />
-      </motion.div>
-      <div className="shade" />
-      <motion.div className="cn" style={{ opacity: o }}>
-        <div className="wrap gr">
-          <div>
-            <div className="qx-lab">About Quanton Labs</div>
-            <motion.h1 className="qx-d1" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.2, 0.7, 0.2, 1] }}>
-              Quanton Labs builds the system that runs the company.
-            </motion.h1>
-          </div>
-          <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.4 }}>
+    <section className="qx-ink h2-hero">
+      <div className="cn"><div className="wrap gr">
+        <div>
+          <div className="qx-lab">About Quanton Labs</div>
+          <h1 className="qx-d1">
+            {words.map((w, i) => (
+              <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.08 * i, ease: [0.2, 0.7, 0.2, 1] }}>{w}</motion.span>
+            ))}
+          </h1>
+          <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}>
             Quanton OS carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.
           </motion.p>
         </div>
-      </motion.div>
+        <dl className="facts">
+          {FACTS.map(([k, v], i) => (
+            <motion.div key={k} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 1 + i * 0.12 }}>
+              <dt>{k}</dt><dd>{v}</dd>
+            </motion.div>
+          ))}
+        </dl>
+      </div></div>
     </section>
   );
 }
@@ -119,27 +123,35 @@ function Board() {
   );
 }
 
-/* D. The record */
+/* D. The record: what lives on it, as the record itself */
+const RECORD: [string, string, string][] = [
+  ["Customers", "214 accounts", "09:14"],
+  ["Jobs and orders", "43 active", "09:14"],
+  ["Inventory", "312 SKUs", "09:14"],
+  ["General ledger", "84 postings today", "09:40"],
+  ["People", "14 on payroll", "09:21"],
+  ["Documents", "Contracts, bills, photos", "09:32"],
+  ["Obligations", "Act-by dates and owners", "08:55"],
+  ["Audit trail", "Every action and approval", "09:40"],
+];
 function Record() {
-  const ph = useRef<HTMLDivElement>(null);
-  const inView = useInView(ph, { once: true, margin: "0px 0px -20% 0px" });
   return (
     <section className="qx-paper h2-rec">
       <div className="wrap gr">
-        <motion.div ref={ph} className="ph" initial={{ clipPath: "inset(14% 14% 14% 14% round 6px)" }} animate={inView ? { clipPath: "inset(0% 0% 0% 0% round 6px)" } : {}} transition={{ duration: 1.2, ease: [0.2, 0.7, 0.2, 1] }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/site/photo/shop-hands.jpg" alt="A technician's hands working on an engine" />
-        </motion.div>
         <motion.div {...rise}>
           <div className="qx-lab"><b>03</b> The record</div>
           <h2 className="qx-d2" style={{ marginTop: 28 }}>Every transaction on one record the company owns.</h2>
-          <p className="qx-body" style={{ marginTop: 24, maxWidth: "44ch" }}>Bids and purchasing through payroll and the month-end close write to the same record. The client owns the delivered operational core and all of its data outright.</p>
-          <div className="facts">
-            <div className="fact"><b>One record</b><span>Every transaction, document, and obligation in one place.</span></div>
-            <div className="fact"><b>Computed figures</b><span>Code computes every number. A model never produces one.</span></div>
-            <div className="fact"><b>Owned outright</b><span>The operational core belongs to the client on completion and payment.</span></div>
-          </div>
+          <p className="qx-body" style={{ marginTop: 24, maxWidth: "44ch" }}>Bids and purchasing through payroll and the month-end close write to the same record, and code computes every figure from it. The client owns the delivered operational core and all of its data outright.</p>
         </motion.div>
+        <div className="rl" aria-label="Illustrative system of record">
+          <div className="rl-h"><span>System of record</span><span>Owned by the company</span></div>
+          {RECORD.map(([a, b, t], i) => (
+            <motion.div key={a} className="rl-r" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "0px 0px -10% 0px" }} transition={{ duration: 0.5, delay: i * 0.06 }}>
+              <b>{a}</b><span>{b}</span><em>last write {t}</em>
+            </motion.div>
+          ))}
+          <div className="rl-f">Illustrative data</div>
+        </div>
       </div>
     </section>
   );
@@ -180,41 +192,27 @@ function Rules() {
   );
 }
 
-/* F + G. The model */
+/* F + G. The model: type, then the three phases */
 function Model() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
   return (
-    <>
-      <section ref={ref} className="h2-band">
-        <motion.div className="img" style={{ y }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/images/site/photo/warehouse.jpg" alt="A forklift moving stock through a timber warehouse" />
+    <section className="qx-ink h2-ph">
+      <div className="wrap">
+        <motion.div className="mh" {...rise}>
+          <div className="qx-lab"><b>05</b> The model</div>
+          <h2 className="qx-d1" style={{ marginTop: 28, maxWidth: "12ch" }}>The consulting firm that stays.</h2>
+          <p className="qx-body" style={{ maxWidth: "44ch" }}>Quanton OS gives a leadership team what a consulting firm would, every day instead of once a year, and stays to run it.</p>
         </motion.div>
-        <div className="shade" />
-        <div className="cn"><div className="wrap">
-          <motion.div {...rise}>
-            <div className="qx-lab" style={{ color: "rgba(255,255,255,.7)" }}><b style={{ color: "#fff" }}>05</b> The model</div>
-            <h2 className="qx-d1" style={{ marginTop: 28 }}>The consulting firm that stays.</h2>
-            <p className="qx-body">Quanton OS gives a leadership team what a consulting firm would, every day instead of once a year, and stays to run it.</p>
+        {[
+          ["Phase 1", "Discovery and Diagnostic", "Operations mapped, books checked, baseline captured, and a Diagnostic Report the client owns regardless of what it decides next.", "Two weeks for a base footprint"],
+          ["Phase 2", "Infrastructure Deployment", "The operational core built and records migrated. Departments go live with their approval levels configured.", "8 to 16 weeks for most footprints"],
+          ["Phase 3", "Managed Services", "Quanton Labs runs and improves the system, with quarterly reviews against the baseline.", "Ongoing"],
+        ].map((r) => (
+          <motion.div key={r[0]} className="row" {...rise}>
+            <span className="n">{r[0]}</span><h3 className="qx-d3">{r[1]}</h3><p className="t">{r[2]}</p><span className="tm">{r[3]}</span>
           </motion.div>
-        </div></div>
-      </section>
-      <section className="qx-ink h2-ph">
-        <div className="wrap">
-          {[
-            ["Phase 1", "Discovery and Diagnostic", "Operations mapped, books checked, baseline captured, and a Diagnostic Report the client owns regardless of what it decides next.", "Two weeks for a base footprint"],
-            ["Phase 2", "Infrastructure Deployment", "The operational core built and records migrated. Departments go live with their approval levels configured.", "8 to 16 weeks for most footprints"],
-            ["Phase 3", "Managed Services", "Quanton Labs runs and improves the system, with quarterly reviews against the baseline.", "Ongoing"],
-          ].map((r) => (
-            <motion.div key={r[0]} className="row" {...rise}>
-              <span className="n">{r[0]}</span><h3 className="qx-d3">{r[1]}</h3><p className="t">{r[2]}</p><span className="tm">{r[3]}</span>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-    </>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -262,16 +260,11 @@ function Leadership() {
 /* I. Close */
 function Close() {
   return (
-    <section className="h2-close">
-      <div className="img">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/images/site/photo/crew.jpg" alt="A crew working on a site" />
-      </div>
-      <div className="shade" />
+    <section className="qx-ink h2-close">
       <div className="cn"><div className="wrap gr">
         <motion.div {...rise}>
           <h2 className="qx-d2">See where the operation stands.</h2>
-          <p className="qx-body" style={{ marginTop: 20, color: "rgba(255,255,255,.75)", maxWidth: "46ch" }}>A short assessment of how the business runs today, with a structural read of where operating and managing are consuming the people who should be leading.</p>
+          <p className="qx-body" style={{ marginTop: 20, maxWidth: "46ch" }}>A short assessment of how the business runs today, with a structural read of where operating and managing are consuming the people who should be leading.</p>
         </motion.div>
         <div className="cta">
           <Link className="b1" href="/assessment">Start the assessment</Link>
@@ -285,7 +278,7 @@ function Close() {
 export default function AboutClient() {
   return (
     <div className="qx ab2">
-      <SiteNav theme="overlay" />
+      <SiteNav theme="dark" />
       <main>
         <Hero />
         <Statement />
