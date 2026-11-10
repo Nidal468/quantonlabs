@@ -218,10 +218,10 @@ function Model() {
 
 /* H. Leadership */
 const CH = [
-  { n: "Rental", h: "A standard that depends on presence is not a standard.", p: "Running a $1.5M-a-month rental operation, he grew revenue 300% in his first year. Upsell discipline, fleet utilization, KPIs every branch reported against, and customer service built into the process did the work. Every rule in Quanton OS is enforced the same way.", f: ["300%", "first-year revenue growth"] },
-  { n: "Lending", h: "Controls that live in site visits fail between them.", p: "He took over a lending region carrying $400K in losses from thin oversight, missing systems, and fraud. KPIs, training, and compliance went into every branch, and revenue came from process instead of pressure. The region grew by more than $12M. The approval gates in Quanton OS come from that region.", f: ["$12M+", "regional growth after $400K in losses"] },
-  { n: "Automotive", h: "An owner who is the system caps the business at his own hours.", p: "He built an automotive facility from zero to $1.9M. Pricing, scheduling, quality, and hiring ran through him, and the business grew as far as his hours allowed. Quanton OS carries the managing work so the owner's hours stop being the ceiling.", f: ["$1.9M", "built from zero"] },
-  { n: "Consulting", h: "A diagnosis lasts as long as the consultant stays.", p: "As a consulting project director he found the same gap inside other owners' businesses: a succession after an owner's death, a founder handing the business to family, operating knowledge held by one or two people. At one manufacturer the diagnostic became a Quanton OS deployment that stayed. Over the trailing twelve months to April 2026, gross margin rose from 43.8% to 48.0% and operating profit went from $115K to $316K.", f: ["48.0%", "gross margin, up from 43.8%"] },
+  { n: "Revenue growth", h: "A standard that depends on presence is not a standard.", p: "$1.5M-a-month rental operation grown 300% to $6M a month in one year, through upsell discipline, fleet utilization, branch KPIs, and customer service built into the process.", f: ["300%", "revenue growth in one year"] },
+  { n: "Turnaround", h: "Controls that live in site visits fail between them.", p: "Lending region carrying $400K in losses from thin oversight, missing systems, and fraud, turned around and grown by more than $12M through KPIs, training, and compliance in every branch.", f: ["$12M+", "regional growth after $400K in losses"] },
+  { n: "Built from zero", h: "An owner who is the system caps the business at his own hours.", p: "Automotive facility built from zero to $1.9M in revenue, with pricing, scheduling, quality, and hiring running through the owner until the system carried them.", f: ["$1.9M", "revenue, built from zero"] },
+  { n: "Margin expansion", h: "A diagnosis lasts as long as the consultant stays.", p: "Manufacturer diagnostic converted into a Quanton OS deployment. Trailing twelve months to April 2026: gross margin from 43.8% to 48.0%, operating profit from $115K to $316K.", f: ["+4.2 pts", "gross margin, trailing twelve months"] },
 ];
 function Leadership() {
   const fig = useRef<HTMLElement>(null);
@@ -233,7 +233,7 @@ function Leadership() {
         <motion.div {...rise}>
           <div className="qx-lab"><b>06</b> Leadership</div>
           <h2 className="qx-d2" style={{ marginTop: 28, maxWidth: "18ch" }}>Each part of Quanton OS answers a problem solved by hand first.</h2>
-          <p className="intro">Ryan Remington built Quanton OS from what worked across 25 locations, his own business, and $68M in combined revenue growth.</p>
+          <p className="intro">Quanton OS is built from what worked across 25 locations, an owned business, and $68M in combined revenue growth.</p>
         </motion.div>
         <div className="gr">
           <figure ref={fig} className="ph" style={{ position: "sticky" }}>
