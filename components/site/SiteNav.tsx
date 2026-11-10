@@ -22,7 +22,7 @@ const LINKS = [
   { label: "Insights", href: "/insights" },
 ];
 
-export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" }) {
+export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" | "overlay" | "paper" }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [mobile, setMobile] = useState(false);
@@ -36,10 +36,18 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
     return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", esc); };
   }, []);
 
-  const dark = theme === "dark";
+  const [solid, setSolid] = useState(false);
+  useEffect(() => {
+    if (theme !== "overlay") return;
+    const on = () => setSolid(window.scrollY > window.innerHeight * 0.75);
+    const id = requestAnimationFrame(on); window.addEventListener("scroll", on, { passive: true });
+    return () => { cancelAnimationFrame(id); window.removeEventListener("scroll", on); };
+  }, [theme]);
+  const dark = theme === "dark" || (theme === "overlay" && !solid);
+  const cls = theme === "overlay" ? ` overlay${solid ? " solid" : ""}` : theme === "dark" ? " dark" : theme === "paper" ? " paper" : "";
   return (
     <>
-      <nav className={`qx qx-nav${dark ? " dark" : ""}`} aria-label="Main">
+      <nav className={`qx qx-nav${cls}`} aria-label="Main">
         <div className="in">
           <Link href="/" className="logo" aria-label="Quanton Labs home">
             {/* eslint-disable-next-line @next/next/no-img-element */}

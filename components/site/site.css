@@ -65,7 +65,7 @@
 }
 
 /* Footer */
-.qx-foot{padding:72px 0 32px;border-top:1px solid var(--qx-rule);background:#fff;color:var(--qx-ink)}
+.qx-foot{padding:72px 0 32px;border-top:1px solid var(--qx-line);background:var(--qx-paper);color:var(--qx-text)}
 .qx-foot.dark{background:var(--qx-bg);color:#fff;border-top-color:var(--qx-w08)}
 .qx-foot .g{display:grid;grid-template-columns:2fr 1.4fr 1.2fr 1fr;gap:32px}
 .qx-foot .b img{height:30px;width:auto}
@@ -92,3 +92,26 @@
 .qx-btn.p{background:var(--qx-acc);color:#fff}.qx-btn.p:hover{background:#3a48d6}
 .qx-btn.g{border:1px solid var(--qx-w14);color:#fff}.qx-btn.g:hover{background:var(--qx-w05)}
 @media (max-width:900px){.qx-close .box{grid-template-columns:1fr;padding:32px}}
+
+/* ===== v2 art direction: paper and ink ===== */
+.qx{--qx-paper:#f3f1ec;--qx-paper2:#ebe8e1;--qx-ink0:#0c0d10;--qx-ink1:#15171c;--qx-text:#16181d;--qx-text2:#4a4f59;--qx-text3:#7a7f88;--qx-line:#d9d5cc;--qx-line-d:rgba(255,255,255,.12)}
+.qx-paper{background:var(--qx-paper);color:var(--qx-text)}
+.qx-ink{background:var(--qx-ink0);color:#fff}
+.qx-d1{font-size:clamp(48px,min(7.2vw,11vh),120px);line-height:.98;letter-spacing:-.045em;font-weight:500}
+.qx-d2{font-size:clamp(36px,min(4.6vw,7.4vh),76px);line-height:1.02;letter-spacing:-.04em;font-weight:500}
+.qx-d3{font-size:clamp(26px,2.4vw,38px);line-height:1.12;letter-spacing:-.03em;font-weight:500}
+.qx-lab{font:500 12px var(--qx-mono);letter-spacing:.04em;color:var(--qx-text3);display:flex;gap:14px;align-items:center}
+.qx-ink .qx-lab{color:rgba(255,255,255,.5)}
+.qx-lab b{font-weight:500;color:var(--qx-text)}
+.qx-ink .qx-lab b{color:#fff}
+.qx-body{font-size:17px;line-height:1.65;color:var(--qx-text2)}
+.qx-ink .qx-body{color:rgba(255,255,255,.7)}
+.qx-rule{height:1px;background:var(--qx-line);border:0;margin:0}
+.qx-ink .qx-rule{background:var(--qx-line-d)}
+
+/* nav: overlay over a full-bleed image, solid paper once scrolled */
+.qx-nav.overlay{position:fixed;left:0;right:0;background:transparent;border-bottom-color:transparent;color:#fff;backdrop-filter:none;transition:background .3s,color .3s,border-color .3s}
+.qx-nav.overlay.solid{background:rgba(243,241,236,.94);color:var(--qx-text);border-bottom-color:var(--qx-line);backdrop-filter:blur(10px)}
+.qx-nav.overlay .login{border-color:rgba(255,255,255,.35)}
+.qx-nav.overlay.solid .login{border-color:var(--qx-line)}
+.qx-nav.paper{background:rgba(243,241,236,.94);border-bottom-color:var(--qx-line);color:var(--qx-text)}
