@@ -20,7 +20,19 @@ export default function HomeClient() {
     if (!el) return;
     const icons = () => createIcons({ icons: ICONS, attrs: { "stroke-width": 1.75 } });
     icons();
-    return runHome(el, icons);
+    const stop = runHome(el, icons);
+    /* phones: the dashboard previews at fit-to-width; the buttons open and close the full view */
+    const fit = () => el.style.setProperty("--mz", String(Math.max(0.2, (window.innerWidth - 40) / 1120)));
+    fit();
+    window.addEventListener("resize", fit);
+    const toggle = () => (el.querySelector("#expand") as HTMLButtonElement | null)?.click();
+    const btns = Array.from(el.querySelectorAll<HTMLButtonElement>(".m-open, .m-close"));
+    btns.forEach((b) => b.addEventListener("click", toggle));
+    return () => {
+      stop();
+      window.removeEventListener("resize", fit);
+      btns.forEach((b) => b.removeEventListener("click", toggle));
+    };
   }, []);
   return (
     <>

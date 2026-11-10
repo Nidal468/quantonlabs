@@ -464,6 +464,8 @@
 .hm .sticky,.hm.xpd .sticky{background:#0b0c0e}
 .hm .ctl{display:none}
 html:has(.hm.xpd) .qx-nav{visibility:hidden}
+.hm .m-open,.hm .m-close{display:none}
+html:has(.hm.xpd){overflow:hidden}
 .hm .hero{padding-top:9vh}
 .hm .eyebrow{font:500 12px var(--qx-mono,ui-monospace,Menlo,monospace);letter-spacing:.04em;text-transform:none;color:rgba(255,255,255,.5)}
 .hm .hero h1{color:#fff;font-weight:500;letter-spacing:-.04em;font-size:clamp(40px,min(4.6vw,7.4vh),72px);line-height:1.02;max-width:17ch}
@@ -483,7 +485,8 @@ html:has(.hm.xpd) .qx-nav{visibility:hidden}
 @media (max-width:900px){
   .hm .scene{height:auto!important}
   .hm .sticky{position:relative!important;top:0!important;height:auto!important;overflow:visible!important;perspective:none!important}
-  .hm .layer{position:relative!important;left:auto!important;top:auto!important;transform:none!important;opacity:1!important;width:auto!important;max-width:none!important;margin:0 20px}
+  .hm .layer{position:relative!important;left:auto!important;top:auto!important;transform:none!important;opacity:1!important;width:auto!important;max-width:none!important;margin:0 20px;will-change:auto!important}
+  .hm.xpd #l1{width:auto!important}
   .hm .hero{display:block;padding-top:56px}
   .hm .hero h1{font-size:40px;max-width:none}
   .hm .sub{font-size:16px}
@@ -491,9 +494,14 @@ html:has(.hm.xpd) .qx-nav{visibility:hidden}
   .hm .scrollcue{display:none}
   .hm .caps{display:none!important}
   .hm #l1{margin:40px 0 0;padding:0 0 64px}
-  .hm #l1::before{content:"Leadership Dashboard \B7  swipe to explore \B7  illustrative data";display:block;margin:0 20px 12px;font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.62)}
-  .hm .dashwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 20px 8px;scroll-padding:20px}
-  .hm .dash{width:1120px;max-width:none;zoom:1!important;transform:none!important}
+  .hm #l1::before{content:"Leadership Dashboard \B7  illustrative data";display:block;margin:0 20px 12px;font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.62)}
+  .hm .dashwrap{position:relative;overflow:hidden;padding:0 20px}
+  .hm .dash{width:1120px;max-width:none;zoom:var(--mz,.31)!important;transform:none!important;pointer-events:none}
+  .hm .m-open{display:flex;position:absolute;left:50%;top:50%;translate:-50% -50%;z-index:5;align-items:center;height:48px;padding:0 22px;border-radius:8px;background:#fff;color:#0b0c0e;font-weight:600;font-size:15px;border:0;box-shadow:0 0 0 1px rgba(255,255,255,.9),0 0 30px -4px rgba(70,85,235,.7)}
+  .hm.xpd .dashwrap{position:fixed!important;inset:0!important;width:auto!important;height:auto!important;transform:none!important;z-index:210;overflow:auto;-webkit-overflow-scrolling:touch;padding:64px 12px 32px;background:#0b0c0e}
+  .hm.xpd .dash{zoom:.62!important;pointer-events:auto;height:auto!important;min-height:0!important}
+  .hm.xpd .m-open{display:none}
+  .hm.xpd .m-close{display:flex;position:fixed;top:12px;right:12px;z-index:220;align-items:center;height:40px;padding:0 16px;border-radius:999px;background:#fff;color:#0b0c0e;font-weight:600;font-size:14px;border:0}
   .hm .dash.spot .part.in{opacity:1!important;box-shadow:none!important}
   .hm .reg,.hm .xlink{display:none!important}
   .hm .decide,.hm .dash .decide{min-height:32px!important}

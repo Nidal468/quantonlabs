@@ -279,7 +279,7 @@ function Leadership() {
           <p className="intro">Quanton OS is built from 21 years leading operations: 25 locations, an owned business, and $68M in combined revenue growth.</p>
         </motion.div>
         <div className="gr">
-          <figure ref={fig} className="ph" style={{ position: "sticky" }}>
+          <figure ref={fig} className="ph">
             <motion.img src="/images/site/founder-bw.jpg" alt="Ryan Remington, Founder and Managing Director of Quanton Labs" style={{ y }} />
             <figcaption><b>Ryan Remington</b><span>Founder and Managing Director</span></figcaption>
           </figure>

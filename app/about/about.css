@@ -129,13 +129,18 @@
 .h2-close .b2{display:inline-flex;align-items:center;height:52px;padding:0 24px;border-radius:8px;border:1px solid rgba(255,255,255,.35);color:#fff;font-weight:600;font-size:15px}
 
 @media (max-width:900px){
-  .h2-lead .ph{position:relative!important;top:auto!important;max-width:100%!important}
   .h2-hero .gr,.h2-board .gr,.h2-rec .gr,.h2-rules .hd,.h2-lead .gr,.h2-close .gr{grid-template-columns:1fr;gap:28px}
   .h2-say,.h2-board{height:auto}.h2-say .sg{grid-template-columns:1fr;gap:40px}.ab2 .pin{position:relative;height:auto;padding:14vh 0}
   .h2-rules .mo{grid-template-columns:1fr}
   .h2-ph .row{grid-template-columns:1fr;gap:10px}.h2-ph .tm{text-align:left}
-  .h2-lead .ph{position:relative;top:0;max-width:420px}
+  .h2-lead .ph{position:relative;top:0;max-width:100%}
   .rl-h{display:none}.rl-r{grid-template-columns:1fr;gap:4px}.dc .op-h,.dc .op-r{grid-template-columns:1fr 1fr}.dc .op-r .t,.dc .op-h span:first-child{grid-column:1/-1}.dc .fr{grid-template-columns:1fr}
   .h2-close .cta{justify-content:flex-start}
+  /* lag chart: label above a full-width track */
+  .lag{padding:18px 16px}
+  .lag-ax,.lag-r{grid-template-columns:1fr;gap:8px}
+  .lag-ax>span{display:none}
+  .lag-r{padding:12px 0}
+  .lag-t .none{font-size:10.5px}
 }
 
