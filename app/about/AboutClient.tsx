@@ -57,11 +57,17 @@ function Hero() {
 
 /* B. Statement: the sentence fills in as the reader scrolls */
 const SAY = "Running a company takes three kinds of work: operating it, managing it, and leading it. Managing carries the hidden load. Leadership carries it through reports, meetings, chasing, and memory, and leading gets whatever time is left.";
-/* One cell per working hour, 7a to 6p, Monday to Friday (55 hours).
-   o operating, r reports, m meetings, c chasing, y memory, L left for leading */
-const CAL = ["rcrco", "roLco", "rmoLm", "mmcmm", "mmLmm", "LoooL", "oomoc", "cLmco", "ocLor", "yocyr", "Lyyyy"];
-const MG: Record<string, string> = { r: "reports,", m: "meetings,", c: "chasing,", y: "memory," };
-const HRS = ["7a", "", "9a", "", "11a", "", "1p", "", "3p", "", "5p"];
+/* What leadership needs to know, and when a business run by hand knows it.
+   d = days after month end the figure is ready; null = never produced. Illustrative. */
+const KNOW: { k: string; d: number | null; why: string; at: string }[] = [
+  { k: "Revenue", d: 8, why: "Day 8", at: "operating" },
+  { k: "COGS and margin by job", d: 22, why: "Day 22", at: "managing" },
+  { k: "Net profit", d: 30, why: "Day 30", at: "reports," },
+  { k: "Labor productivity", d: null, why: "Not measured", at: "meetings," },
+  { k: "Cash, 13 weeks out", d: null, why: "Not produced", at: "chasing," },
+  { k: "Company value", d: null, why: "When a buyer asks", at: "memory," },
+];
+const SPAN = 45;
 function Statement() {
   const ref = useRef<HTMLElement>(null);
   const pinned = usePinned();
@@ -69,12 +75,7 @@ function Statement() {
   const words = SAY.split(" ");
   const lit = pinned ? Math.round(Math.min(1, Math.max(0, (p - 0.08) / 0.72)) * words.length) : words.length;
   const on = (w: string) => lit > words.indexOf(w);
-  const opOn = on("operating");
-  const hidden = on("load.");
   const leftOn = lit >= words.length;
-  const cells = CAL.flatMap((row, r) => row.split("").map((t, d) => ({ t, r, d })));
-  const state = (t: string) => t === "o" ? (opOn ? "op" : "e") : t === "L" ? (leftOn ? "ld" : "e") : on(MG[t]) ? "mg" : hidden ? "hd" : "e";
-  const mgHours = cells.filter((c) => MG[c.t] && on(MG[c.t])).length;
   return (
     <section ref={ref} className={`qx-paper stage h2-say${pinned ? "" : " free"}`}>
       <div className="pin"><div className="wrap sg">
@@ -82,20 +83,28 @@ function Statement() {
           <div className="qx-lab"><b>01</b> The work</div>
           <p className="txt">{words.map((w, i) => <span key={i} style={{ color: i < lit ? "var(--qx-text)" : "#c2c7ce" }}>{w}{i < words.length - 1 ? " " : ""}</span>)}</p>
         </div>
-        <figure className="cal" aria-label="Illustrative 55-hour week of a company President: 14 hours operating, 33 managing, 8 scattered hours left for leading">
-          <div className="cal-h"><span>The President&apos;s week</span><span>Illustrative</span></div>
-          <div className="cal-g">
-            <span />{["M", "T", "W", "T", "F"].map((d, i) => <span key={i} className="cal-d">{d}</span>)}
-            {CAL.map((row, r) => [
-              <span key={"h" + r} className="cal-t">{HRS[r]}</span>,
-              ...row.split("").map((t, d) => <i key={r + "-" + d} className={"c " + state(t)} style={{ transitionDelay: `${((r * 7 + d * 3) % 9) * 35}ms` }} />),
-            ])}
-          </div>
-          <div className="cal-k">
-            <span className={opOn ? "" : "dim"}><i className="op" />Operating <b>{opOn ? 14 : 0}h</b></span>
-            <span className={hidden ? "" : "dim"}><i className="mg" />Managing <b>{mgHours}h</b></span>
-            <span className={leftOn ? "hl" : "dim"}><i className="ld" />Leading <b>{leftOn ? 8 : 0}h</b></span>
-          </div>
+        <figure className="lag" aria-label="Illustrative: when a company run by hand knows its numbers. Revenue on day 8 after month end, margin by job on day 22, net profit on day 30. Labor productivity, a 13-week cash view, and company value are not produced.">
+          <div className="lag-h"><span>When leadership knows its numbers</span><span>Illustrative</span></div>
+          <div className="lag-ax"><span /><div><span>Month end</span><span>+15</span><span>+30</span><span>+45 days</span></div></div>
+          {KNOW.map((r) => {
+            const v = on(r.at);
+            return (
+              <div key={r.k} className={"lag-r" + (v ? " v" : "")}>
+                <span className="lag-k">{r.k}</span>
+                <div className="lag-t">
+                  {r.d !== null ? (
+                    <>
+                      <motion.i className="bar" initial={false} animate={{ width: v ? `${(r.d / SPAN) * 100}%` : "0%" }} transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }} />
+                      <motion.em initial={false} animate={{ opacity: v ? 1 : 0, left: v ? `${(r.d / SPAN) * 100}%` : "0%" }} transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }}>{r.why}</motion.em>
+                    </>
+                  ) : (
+                    <motion.b className="none" initial={false} animate={{ opacity: v ? 1 : 0 }} transition={{ duration: 0.5 }}>{r.why}</motion.b>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+          <motion.p className="lag-f" initial={false} animate={{ opacity: leftOn ? 1 : 0, y: leftOn ? 0 : 6 }} transition={{ duration: 0.5 }}>Every decision this month runs on last month.</motion.p>
         </figure>
       </div></div>
     </section>
