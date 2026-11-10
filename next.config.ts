@@ -41,7 +41,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   // Dev only: lets a phone or another machine on the local network load the dev server's scripts and styles.
-  allowedDevOrigins: ['192.168.*.*', '10.*.*.*', '172.*.*.*', '*.local'],
+  allowedDevOrigins: ['192.168.*.*', '10.*.*.*', '172.*.*.*', '*.local', '*.devtunnels.ms', '*.trycloudflare.com'],
   async redirects() {
     return [
       // Legacy URL structures, retired when routes moved to
