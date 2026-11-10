@@ -11,8 +11,8 @@ import {
   generateStage2Id,
   type Stage2Submission,
   type Stage2Profile,
-  type Stage2SheetUpdate,
 } from "@/lib/stage2";
+import { findSubmission, stage2Eligible, updateRecord, type FoundRecord } from "@/lib/assessment/sheet";
 import {
   formatCurrency,
   threeYearCost,
@@ -31,7 +31,6 @@ import {
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const GMAIL_SCOPE = "https://www.googleapis.com/auth/gmail.send";
 
 // ============================================================
@@ -41,25 +40,25 @@ const GMAIL_SCOPE = "https://www.googleapis.com/auth/gmail.send";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { submission, top_os, second_os } = body as {
-      submission: Stage2Submission;
-      top_os: string;
-      second_os: string;
-    };
+    const { submission } = body as { submission: Stage2Submission };
 
-    if (!submission || !top_os || !second_os) {
-      return NextResponse.json(
-        { error: "Incomplete Stage 2 submission." },
-        { status: 400 }
-      );
+    if (!submission?.submission_id || !submission.owner_profile || !submission.section2 || !submission.section3) {
+      return NextResponse.json({ error: "Missing required Stage 2 fields." }, { status: 400 });
     }
 
-    if (!submission.submission_id || !submission.owner_profile || !submission.section2 || !submission.section3) {
-      return NextResponse.json(
-        { error: "Missing required Stage 2 fields." },
-        { status: 400 }
-      );
+    // 0. Gate and context come from the stored Stage 1 record, never from the browser.
+    const found = await findSubmission(submission.submission_id);
+    if (!stage2Eligible(found)) {
+      return NextResponse.json({ error: "not_available" }, { status: 404 });
     }
+    const top_os = found.record.top_os ?? "";
+    const second_os = found.record.second_os ?? "";
+    const respondentEmail = (found.record.work_email ?? "").trim();
+    if (!top_os || !second_os || !respondentEmail) {
+      console.error("[Stage 2] stored record incomplete", submission.submission_id);
+      return NextResponse.json({ error: "Stage 1 record incomplete." }, { status: 409 });
+    }
+    submission.work_email = respondentEmail;
 
     // 1. Process submission - build profile and calculate cost of inaction
     const profile = processStage2Submission(submission, top_os, second_os);
@@ -88,7 +87,7 @@ const completedAt = new Date().toISOString().replace("T", " ").replace(/\.\d{3}Z
 
     // 5. Fire Sheet update and Gmail notifications in parallel
     await Promise.allSettled([
-      updateSheetRow(submission.submission_id, profile, briefUrl, briefPdfUrl, completedAt),
+      updateSheetRow(found, profile, briefUrl, briefPdfUrl, completedAt),
       sendOpsNotification(submission, profile, briefUrl, briefPdfUrl),
       sendBriefDeliveryEmail(submission, profile, briefUrl, briefPdfUrl),
     ]);
@@ -583,101 +582,16 @@ function formatOsLabel(os: string): string {
 // GOOGLE SHEETS UPDATE (appends to existing row by submission_id)
 // ============================================================
 
-async function getAccessToken(scope: string): Promise<string> {
-  const privateKeyRaw = process.env.GOOGLE_PRIVATE_KEY;
-  const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-  if (!privateKeyRaw || !clientEmail) throw new Error("Missing Google credentials.");
-
-  const now = Math.floor(Date.now() / 1000);
-  const payload = {
-    iss: clientEmail,
-    scope,
-    aud: "https://oauth2.googleapis.com/token",
-    exp: now + 3600,
-    iat: now,
-  };
-
-  const pemBody = privateKeyRaw
-    .replace(/-----BEGIN PRIVATE KEY-----/g, "")
-    .replace(/-----END PRIVATE KEY-----/g, "")
-    .replace(/\\n/g, "")
-    .replace(/\n/g, "")
-    .replace(/\r/g, "")
-    .replace(/\s/g, "");
-  const keyBuffer = Buffer.from(pemBody, "base64");
-
-  const cryptoKey = await crypto.subtle.importKey(
-    "pkcs8",
-    keyBuffer,
-    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-
-  const header = Buffer.from(JSON.stringify({ alg: "RS256", typ: "JWT" })).toString("base64url");
-  const body = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  const signingInput = `${header}.${body}`;
-  const signature = await crypto.subtle.sign("RSASSA-PKCS1-v1_5", cryptoKey, Buffer.from(signingInput));
-  const signedJwt = `${signingInput}.${Buffer.from(signature).toString("base64url")}`;
-
-  const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion: signedJwt,
-    }),
-  });
-
-  if (!tokenRes.ok) throw new Error(`Token exchange failed: ${await tokenRes.text()}`);
-  const { access_token } = await tokenRes.json();
-  return access_token;
-}
-
 async function updateSheetRow(
-  submissionId: string,
+  found: FoundRecord,
   profile: Stage2Profile,
   briefUrl: string,
   briefPdfUrl: string,
   completedAt: string
 ): Promise<void> {
   try {
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    if (!spreadsheetId) throw new Error("Missing GOOGLE_SHEET_ID.");
-
-    const accessToken = await getAccessToken(SHEETS_SCOPE);
-
-    // Find the row by submission_id across all three tabs
-    const tabs = ["Qualified", "Below_Threshold", "Above_Segment"];
-    let targetTab = "";
-    let targetRow = -1;
-
-    for (const tab of tabs) {
-      const res = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(tab + "!A:A")}`,
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-      if (!res.ok) continue;
-      const data = await res.json();
-      const rows: string[][] = data.values ?? [];
-      const rowIndex = rows.findIndex((r) => r[0] === submissionId);
-      if (rowIndex !== -1) {
-        targetTab = tab;
-        targetRow = rowIndex + 1; // Sheets is 1-indexed
-        break;
-      }
-    }
-
-  if (!targetTab || targetRow === -1) {
-  console.error("[Sheet update] submission_id not found in any tab:", submissionId);
-  console.error("[Sheet update] Searched tabs:", tabs.join(", "));
-  return;
-}
-console.log("[Sheet update] Found row", targetRow, "in tab", targetTab);
-
-    // Build the Stage 2 update object
-    const update: Stage2SheetUpdate = {
-      submission_id: submissionId,
+    // Columns located by header name; RAW so respondent text is stored as text.
+    await updateRecord(found, {
       identity_frame: profile.owner_profile.identity_frame,
       risk_style: profile.owner_profile.risk_style,
       time_horizon: profile.owner_profile.time_horizon,
@@ -699,65 +613,8 @@ console.log("[Sheet update] Found row", targetRow, "in tab", targetTab);
       stage_2_status: "completed",
       stage_2_completed_at: completedAt,
       recovery_impact_text: profile.section3.recovery_impact_text,
-    };
-
-    // Append Stage 2 columns starting after the last Stage 1 column
-    // Stage 1 writes columns A through BD (56 columns). Stage 2 starts at BE.
-    const startCol = "BE";
-    const values = [
-      update.identity_frame,
-      update.risk_style,
-      update.time_horizon,
-      update.emotional_driver,
-      update.decision_activator,
-      update.vision_category,
-      update.vision_proximity,
-      update.vision_open_text,
-      update.time_allocation,
-      update.urgency_rating,
-      update.owner_time_cost,
-      update.revenue_leakage,
-      update.operational_waste,
-      update.people_gap_cost,
-      update.opportunity_cost,
-      update.cost_of_inaction_total,
-      update.brief_url,
-      update.brief_pdf_url,
-      update.stage_2_status,
-      update.stage_2_completed_at,
-      update.recovery_impact_text,
-    ];
-
-    const range = `${targetTab}!${startCol}${targetRow}`;
-    const updateRes = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ values: [values] }),
-      }
-    );
-
-    if (!updateRes.ok) {
-      console.error("[Sheet update failed]", await updateRes.text());
-    }
-
-    // Also update stage_2_status in Stage 1 columns (column AV = index 47)
-    const statusRange = `${targetTab}!AV${targetRow}`;
-    await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(statusRange)}?valueInputOption=USER_ENTERED`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ values: [["completed"]] }),
-      }
-    );
+      last_updated: completedAt,
+    });
   } catch (err) {
     console.error("[Sheet update failed]", err);
   }
@@ -877,33 +734,10 @@ async function sendBriefDeliveryEmail(
       "quantonlabs.com",
     ].join("\n");
 
-    // Owner email: prefer the value threaded through the submission payload.
-    // Fall back to the context lookup, then to ops as a last resort so a
-    // delivery failure is always visible rather than silent.
-    let ownerEmail = submission.work_email ?? "";
-
-    if (!ownerEmail) {
-      try {
-        const ctx = await fetch(
-          `${process.env.NEXTAUTH_URL}/api/assessment/stage2/context?id=${submission.submission_id}`
-        );
-        if (ctx.ok) {
-          const ctxData = await ctx.json();
-          if (ctxData.work_email) ownerEmail = ctxData.work_email;
-        }
-      } catch (lookupErr) {
-        console.error("[Stage 2 context lookup failed]", lookupErr);
-      }
-    }
-
-    if (!ownerEmail) {
-      console.error(
-        "[Brief delivery] No owner email resolved for submission",
-        submission.submission_id,
-        "- routing to ops."
-      );
-      ownerEmail = sendAs;
-    }
+    // Respondent email comes from the stored Stage 1 record (set in POST).
+    // No fallback: a missing address fails the send instead of routing elsewhere.
+    const ownerEmail = (submission.work_email ?? "").trim();
+    if (!ownerEmail) throw new Error(`No respondent email on record for ${submission.submission_id}`);
     const subject = `Your Extended Operator Brief - Quanton Labs`;
     const raw = buildMime(sendAs, ownerEmail, subject, body);
 

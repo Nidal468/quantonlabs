@@ -228,8 +228,11 @@ export default function SectionDComponent({
         />
 
         <p className="text-sm text-gray-500 pt-2">
-          We use this to tailor your report and to prepare properly if we
-          speak. We do not share your information.
+          We never sell your information. Our{" "}
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline">
+            Privacy Policy
+          </a>{" "}
+          explains how we handle it.
         </p>
 
         <a

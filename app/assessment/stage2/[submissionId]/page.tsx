@@ -46,7 +46,7 @@ interface Stage1Context {
   top_os: OperatingSystem;
   second_os: OperatingSystem;
   first_name: string;
-  work_email: string;
+  company?: string;
 }
 
 interface ApiResponse {
@@ -137,7 +137,8 @@ export default function Stage2Page() {
   const [isMobile, setIsMobile] = useState(false);
   const [step, setStep] = useState<WizardStep>("inference");
   const [stage1Context, setStage1Context] = useState<Stage1Context | null>(null);
-  const [isLoadingContext, setIsLoadingContext] = useState(false);
+  const [isLoadingContext, setIsLoadingContext] = useState(true);
+  const [notAvailable, setNotAvailable] = useState(false);
 
   // Section 1 state
   const [inferenceAnswers, setInferenceAnswers] = useState<Partial<InferenceAnswers>>({});
@@ -215,12 +216,11 @@ export default function Stage2Page() {
     async function fetchContext() {
       try {
         const res = await fetch(`/api/assessment/stage2/context?id=${submissionId}`);
-        if (res.ok) {
-          const data = await res.json();
-          setStage1Context(data);
-        }
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.available) setStage1Context(data);
+        else setNotAvailable(true);
       } catch {
-        // Non-fatal - proceed without context
+        setNotAvailable(true);
       } finally {
         setIsLoadingContext(false);
       }
@@ -293,11 +293,7 @@ document.addEventListener("mouseleave", handleMouseLeave);
       const res = await fetch("/api/assessment/stage2", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          submission,
-          top_os: stage1Context?.top_os ?? "operations",
-          second_os: stage1Context?.second_os ?? "growth",
-        }),
+        body: JSON.stringify({ submission }),
       });
 
       if (!res.ok) {
@@ -316,6 +312,8 @@ document.addEventListener("mouseleave", handleMouseLeave);
     }
   };
 
+  if (isLoadingContext) return <div className="min-h-screen bg-white" aria-busy="true" />;
+  if (notAvailable || !stage1Context) return <NotAvailable />;
   if (isMobile) return <DeviceBlock />;
 
   const progress = computeProgress(step);
@@ -447,8 +445,8 @@ document.addEventListener("mouseleave", handleMouseLeave);
 
             {step === "section3_os" && (
               <Section3OS
-                topOs={stage1Context?.top_os ?? "operations"}
-                secondOs={stage1Context?.second_os ?? "growth"}
+                topOs={stage1Context.top_os}
+                secondOs={stage1Context.second_os}
                 inputs={section3Os}
                 recoveryImpactText={recoveryImpactText}
                 onUpdate={(key, val) => setSection3Os(prev => ({ ...prev, [key]: val }))}
@@ -1614,4 +1612,15 @@ function resolveClientValueMidpoint(band: string): number {
     case "over_150k": return 200000;
     default: return 0;
   }
+}
+// Governed copy: ASSESSMENT FRAMES AND TRANSITIONS, Stage 2 entry, Not available.
+function NotAvailable() {
+  return (
+    <main className="min-h-screen bg-white flex items-center justify-center px-6">
+      <p className="max-w-xl text-center text-lg text-gray-800">
+        This link is not active. If you completed the diagnostic, use the link in your report email, or contact{" "}
+        <a href="mailto:growth@quantonlabs.com" className="underline">growth@quantonlabs.com</a>.
+      </p>
+    </main>
+  );
 }

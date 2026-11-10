@@ -5,6 +5,7 @@
 //         STRUCTURAL INTELLIGENCE REPORT TEMPLATE v1.0 Apr2026
 
 import { NextRequest, NextResponse } from "next/server";
+import { appendRecord, TAB_NAMES, type Cell } from "@/lib/assessment/sheet";
 
 import {
   processSubmission,
@@ -31,15 +32,9 @@ export const runtime = "nodejs";
 // Vercel Pro default is 60s; Hobby is 10s which may be tight on cold starts
 export const maxDuration = 60;
 
-const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const GMAIL_SCOPE = "https://www.googleapis.com/auth/gmail.send";
 
-// Sheet tab names - must match the Google Sheet exactly
-const TAB_NAMES: Record<string, string> = {
-  qualified: "Qualified",
-  below_threshold: "Below_Threshold",
-  above_segment: "Above_Segment",
-};
+
 // ============================================================
 // POST HANDLER
 // ============================================================
@@ -235,41 +230,9 @@ async function writeToSheet(
   modular: ModularSelection | null
 ): Promise<void> {
   try {
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    if (!spreadsheetId) throw new Error("Missing GOOGLE_SHEET_ID.");
-
-    const accessToken = await getServiceAccountToken(SHEETS_SCOPE);
-    const tabName = TAB_NAMES[scored.closing_variant];
-    const range = `${tabName}!A1`;
-
-    const row = buildSheetRow(
-      submissionId,
-      submittedAt,
-      submission,
-      scored,
-      reportUrl,
-      pdfUrl,
-      modular
-    );
-
-    const response = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(
-        range
-      )}:append?valueInputOption=USER_ENTERED`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ values: [rowToArray(row)] }),
-      }
-    );
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Google Sheets API error: ${errorText}`);
-    }
+    const row = buildSheetRow(submissionId, submittedAt, submission, scored, reportUrl, pdfUrl, modular);
+    // Header-name columns, RAW values (lib/assessment/sheet.ts).
+    await appendRecord(TAB_NAMES[scored.closing_variant], row as unknown as Record<string, Cell>);
   } catch (err) {
     console.error("[Sheet write failed]", err);
   }
@@ -375,70 +338,6 @@ function buildSheetRow(
   };
 }
 
-function rowToArray(row: SheetRow): (string | number | boolean)[] {
-  return [
-    row.submission_id,
-    row.submitted_at,
-    row.closing_variant,
-    row.first_name,
-    row.last_name,
-    row.work_email,
-    row.phone,
-    row.website,
-    row.role,
-    row.location,
-    row.revenue_band,
-    row.team_size,
-    row.integration_categories,
-    row.integration_category_count,
-    row.priority_os,
-    row.outcome_text,
-    row.strategy_score,
-    row.platform_score,
-    row.operations_score,
-    row.growth_score,
-    row.strategy_tier,
-    row.platform_tier,
-    row.operations_tier,
-    row.growth_tier,
-    row.top_os,
-    row.top_os_score,
-    row.second_os,
-    row.second_os_score,
-    row.complexity_profile,
-    row.configuration_profile,
-    row.decision_maker,
-    row.free_email,
-    row.phone_captured,
-    row.website_verified,
-    row.above_threshold,
-    row.below_threshold,
-    row.owner_bottleneck,
-    row.fragmented_ai,
-    row.compliance,
-    row.atypical_profile,
-    row.report_url,
-    row.pdf_url,
-    row.report_accessed,
-    row.report_access_count,
-    row.stage_2_eligible,
-    row.stage_2_status,
-    row.stage_2_invited_at,
-    row.stage_2_completed_at,
-    row.call_booked,
-    row.call_booked_at,
-    row.discovery_brief_sent,
-    row.agreement_sent,
-    row.agreement_executed,
-    row.lifecycle_stage,
-    row.modular_agent,
-    row.modular_selected_by,
-    row.modular_filtered_out,
-    row.modular_fallback,
-    row.notes,
-    row.last_updated,
-  ];
-}
 
 // ============================================================
 // GMAIL NOTIFICATION
