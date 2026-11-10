@@ -479,4 +479,23 @@ html:has(.hm.xpd) .qx-nav{visibility:hidden}
 .hm .xlink{background:transparent;color:#fff;border-color:rgba(255,255,255,.3)}
 .hm .xlink:hover{background:rgba(255,255,255,.08)}
 .hm .decide,.hm .dash .decide{display:inline-flex!important;align-items:center;min-height:29px!important;min-width:29px;box-sizing:border-box}
+ /* mobile: no pinned scene; the dashboard sits in a swipeable frame at full size */
+@media (max-width:900px){
+  .hm .scene{height:auto!important}
+  .hm .sticky{position:relative!important;top:0!important;height:auto!important;overflow:visible!important;perspective:none!important}
+  .hm .layer{position:relative!important;left:auto!important;top:auto!important;transform:none!important;opacity:1!important;width:auto!important;max-width:none!important;margin:0 20px}
+  .hm .hero{display:block;padding-top:56px}
+  .hm .hero h1{font-size:40px;max-width:none}
+  .hm .sub{font-size:16px}
+  .hm .cta{flex-direction:column;align-items:flex-start;gap:16px}
+  .hm .scrollcue{display:none}
+  .hm .caps{display:none!important}
+  .hm #l1{margin:40px 0 0;padding:0 0 64px}
+  .hm #l1::before{content:"Leadership Dashboard  B7 swipe to explore  B7 illustrative data";display:block;margin:0 20px 12px;font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.62)}
+  .hm .dashwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 20px 8px;scroll-padding:20px}
+  .hm .dash{width:1120px;max-width:none;zoom:1!important;transform:none!important}
+  .hm .dash.spot .part.in{opacity:1!important;box-shadow:none!important}
+  .hm .reg,.hm .xlink{display:none!important}
+  .hm .decide,.hm .dash .decide{min-height:32px!important}
+}
 .hm .dash{box-shadow:0 0 0 1px rgba(255,255,255,.1),0 40px 80px -40px rgba(0,0,0,.8)}

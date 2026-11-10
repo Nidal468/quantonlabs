@@ -36,10 +36,10 @@ function Hero() {
           <div className="qx-lab">About Quanton Labs</div>
           <h1 className="qx-d1">
             {words.map((w, i) => (
-              <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.08 * i, ease: [0.2, 0.7, 0.2, 1] }}>{w}</motion.span>
+              <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0.01, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.08 * i, ease: [0.2, 0.7, 0.2, 1] }}>{w}</motion.span>
             ))}
           </h1>
-          <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}>
+          <motion.p className="lead" initial={{ opacity: 0.01 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}>
             Quanton OS carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.
           </motion.p>
         </div>

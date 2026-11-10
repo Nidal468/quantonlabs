@@ -41,7 +41,7 @@ export function PHero({ lab, h1, lead, children, side }: { lab: string; h1: stri
           <div>
             <motion.div className="qx-lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>{lab}</motion.div>
             <h1 className="qx-d2"><Words text={h1} delay={0.1} /></h1>
-            {lead && <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}>{lead}</motion.p>}
+            {lead && <motion.p className="lead" initial={{ opacity: 0.01 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}>{lead}</motion.p>}
           </div>
           {side && <motion.div className="side" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, ease }}>{side}</motion.div>}
         </div>
@@ -88,7 +88,7 @@ export function Table({ head, rows, cols, dark, hl }: { head: string[]; rows: Re
       {head.some(Boolean) && <div className="tr th" role="row" style={{ gridTemplateColumns: cols }}>{head.map((h, i) => <span key={i} className={c(i)} role="columnheader">{h}</span>)}</div>}
       {rows.map((r, i) => (
         <motion.div key={i} className="tr" role="row" style={{ gridTemplateColumns: cols }} {...stagger(i)}>
-          {r.map((v, j) => <span key={j} className={c(j)} role="cell">{v}</span>)}
+          {r.map((v, j) => <span key={j} className={c(j)} role="cell" data-label={j > 0 && head[j] ? head[j] : undefined}>{v}</span>)}
         </motion.div>
       ))}
     </div>

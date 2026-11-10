@@ -32,8 +32,8 @@ function Hero({ d, x }: { d: SolutionData; x: SolutionExtras }) {
           <div className="tx">
             <motion.div className="qx-lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>Solutions · {d.name}</motion.div>
             <h1 className="qx-d2"><Words text={d.hero.h1} delay={0.1} /></h1>
-            <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}>{d.hero.lead}</motion.p>
-            <motion.p className="for" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.55 }}><span>Built for</span>{d.hero.builtFor}</motion.p>
+            <motion.p className="lead" initial={{ opacity: 0.01 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}>{d.hero.lead}</motion.p>
+            <motion.p className="for" initial={{ opacity: 0.01 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.55 }}><span>Built for</span>{d.hero.builtFor}</motion.p>
           </div>
           <motion.figure className="ph" data-credit={d.hero.photo.credit} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.4, ease }}>
             <Image src={d.hero.photo.src} alt={d.hero.photo.alt} fill priority sizes="(max-width: 900px) 100vw, 40vw" />
@@ -165,7 +165,7 @@ function Trace({ d, n, x }: { d: SolutionData; n: string; x: SolutionExtras }) {
               <span>Decision</span><p>{decision.note}</p>
             </motion.div>
           )}
-          <motion.p className="end" initial={false} animate={{ opacity: at >= last ? 1 : 0, height: at >= last ? "auto" : 0 }} transition={{ duration: 0.4 }}>{t.end}</motion.p>
+          <motion.p className="end" initial={false} animate={{ opacity: at >= last ? 1 : 0, height: at >= last ? "auto" : 0 }} transition={{ duration: 0.4 }}><span>{t.end}</span></motion.p>
         </div>
       </div></div>
     </section>

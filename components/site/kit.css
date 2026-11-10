@@ -115,7 +115,10 @@
   .pg .figs>div,.pg .figs>div+div{padding:18px 16px 18px 0;border-left:0}
   .pg-tb .tr{grid-template-columns:1fr!important;gap:6px}
   .pg-tb .th{display:none}
-  .pg-tb.has-hl .tr span.hl::before{content:"Quanton OS";display:block;font:700 11px var(--qx-mono);letter-spacing:.05em;text-transform:uppercase;color:#3138b8;margin-bottom:6px}
+  .pg-tb .tr span[data-label]::before{content:attr(data-label);display:block;font:500 10.5px var(--qx-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--qx-text3);margin-bottom:4px}
+  .pg-tb.dk .tr span[data-label]::before{color:rgba(255,255,255,.62)}
+  .pg-tb.has-hl .tr span.hl::before{font-weight:700;color:#3138b8}
+  .pg-tb.dk.has-hl .tr span.hl::before{color:#a9b1ff}
   .pg-close .cta{justify-content:flex-start}
   .pg .qs .a .fq-th{display:none}.pg .qs .a .fq-tr{grid-template-columns:1fr!important;gap:4px}
 }

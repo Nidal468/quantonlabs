@@ -83,7 +83,8 @@
 .sx-trace .card .dec{overflow:hidden;background:#11131a;color:#fff}
 .sx-trace .card .dec span{display:block;padding:14px 22px 0;font:500 10.5px var(--qx-mono);color:#a9b1ff;text-transform:uppercase;letter-spacing:.05em}
 .sx-trace .card .dec p{padding:6px 22px 16px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.85)}
-.sx-trace .card .end{overflow:hidden;padding:0 22px;line-height:46px;border-top:1px solid var(--qx-line);font-size:14px;font-weight:600;color:var(--qx-acc)}
+.sx-trace .card .end span{display:block;padding:14px 0}
+.sx-trace .card .end{overflow:hidden;padding:0 22px;line-height:1.45;border-top:1px solid var(--qx-line);font-size:14px;font-weight:600;color:var(--qx-acc)}
 
 /* adds */
 .sx-adds{background:var(--qx-paper2);color:var(--qx-text);padding:16vh 0}
