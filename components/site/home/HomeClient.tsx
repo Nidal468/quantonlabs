@@ -7,6 +7,7 @@ import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import BODY from "./body";
 import { runHome } from "./script";
+import HomeSections from "./HomeSections";
 import "@/components/site/site.css";
 import "./home.css";
 
@@ -23,8 +24,9 @@ export default function HomeClient() {
   }, []);
   return (
     <>
-      <SiteNav theme="paper" />
+      <SiteNav theme="dark" />
       <div ref={ref} className="hm" dangerouslySetInnerHTML={{ __html: BODY }} />
+      <HomeSections />
       <SiteFooter />
     </>
   );

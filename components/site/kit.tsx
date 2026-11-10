@@ -73,7 +73,7 @@ export function Close({ second }: { second?: { label: string; href: string } }) 
 export function Table({ head, rows, cols, dark }: { head: string[]; rows: React.ReactNode[][]; cols: string; dark?: boolean }) {
   return (
     <div className={`pg-tb${dark ? " dk" : ""}`} role="table">
-      <div className="tr th" role="row" style={{ gridTemplateColumns: cols }}>{head.map((h) => <span key={h} role="columnheader">{h}</span>)}</div>
+      {head.some(Boolean) && <div className="tr th" role="row" style={{ gridTemplateColumns: cols }}>{head.map((h, i) => <span key={i} role="columnheader">{h}</span>)}</div>}
       {rows.map((r, i) => (
         <motion.div key={i} className="tr" role="row" style={{ gridTemplateColumns: cols }} {...stagger(i)}>
           {r.map((c, j) => <span key={j} role="cell">{c}</span>)}

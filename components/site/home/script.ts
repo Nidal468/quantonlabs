@@ -4,9 +4,14 @@
    against a mounted root and returns a cleanup that removes every listener, timer, and observer. */
 export function runHome(ROOT, __icons) {
   const __c = [];
-  const __on = (t, ev, fn, o) => { t.addEventListener(ev, fn, o); __c.push(() => t.removeEventListener(ev, fn, o)); };
+  const __on = (t, ev, fn, o) => { t.addEventListener(ev, fn, o); };
   const __iv = (fn, ms) => { const id = setInterval(fn, ms); __c.push(() => clearInterval(id)); return id; };
   const __obs = (C, cb, o) => { const ob = new C(cb, o); __c.push(() => ob.disconnect()); return ob; };
+  /* record every element listener registered during setup so a remount (React strict mode, route return) never doubles them */
+  const __ael = EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener = function (ev, fn, o) { __ael.call(this, ev, fn, o); const t = this; __c.push(() => t.removeEventListener(ev, fn, o)); };
+  try {
+  (function () {
 
   const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
   /* live calendar: every demo date derives from the visitor's clock */
@@ -302,5 +307,7 @@ export function runHome(ROOT, __icons) {
   $$('.wrow, .rv').forEach(r=>io.observe(r));
   const icons=()=>__icons(); icons(); 
 
+  })();
+  } finally { EventTarget.prototype.addEventListener = __ael; }
   return () => { __c.forEach((f) => { try { f(); } catch (e) {} }); ROOT.classList.remove("xpd"); };
 }
