@@ -491,7 +491,7 @@ html:has(.hm.xpd) .qx-nav{visibility:hidden}
   .hm .scrollcue{display:none}
   .hm .caps{display:none!important}
   .hm #l1{margin:40px 0 0;padding:0 0 64px}
-  .hm #l1::before{content:"Leadership Dashboard  B7 swipe to explore  B7 illustrative data";display:block;margin:0 20px 12px;font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.62)}
+  .hm #l1::before{content:"Leadership Dashboard \B7  swipe to explore \B7  illustrative data";display:block;margin:0 20px 12px;font:500 11px var(--qx-mono,ui-monospace,monospace);letter-spacing:.04em;color:rgba(255,255,255,.62)}
   .hm .dashwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 20px 8px;scroll-padding:20px}
   .hm .dash{width:1120px;max-width:none;zoom:1!important;transform:none!important}
   .hm .dash.spot .part.in{opacity:1!important;box-shadow:none!important}

@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 // Security headers. Closes the CSP, COOP, clickjacking, and HSTS findings
 // raised by Lighthouse. Trusted Types is deliberately omitted: it breaks
 // React without a dedicated migration.
+// HTTPS-only rules apply on Vercel. A local server reached over the network (a phone on
+// http://192.168.x.x) would otherwise have every script, style, and image forced to https and fail.
+const onVercel = process.env.VERCEL === "1";
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -19,13 +23,12 @@ const securityHeaders = [
       "base-uri 'self'",
       "form-action 'self'",
       "object-src 'none'",
-      "upgrade-insecure-requests",
+      ...(onVercel ? ["upgrade-insecure-requests"] : []),
     ].join("; "),
   },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  },
+  ...(onVercel
+    ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }]
+    : []),
   { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
   { key: "X-Frame-Options", value: "DENY" },
   { key: "X-Content-Type-Options", value: "nosniff" },
