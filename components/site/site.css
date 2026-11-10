@@ -115,3 +115,33 @@
 .qx-nav.overlay .login{border-color:rgba(255,255,255,.35)}
 .qx-nav.overlay.solid .login{border-color:var(--qx-line)}
 .qx-nav.paper{background:rgba(240,241,243,.94);border-bottom-color:var(--qx-line);color:var(--qx-text)}
+
+/* ---- site-wide motion layer (see components/site/motion.ts) ---- */
+.mx-glow{position:relative;isolation:isolate;transition:translate .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .25s}
+.mx-glow::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;opacity:0;transition:opacity .3s;z-index:2;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(70,85,235,.75),rgba(70,85,235,.18) 40%,transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.mx-glow::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;z-index:-1;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(70,85,235,.07),transparent 65%)}
+.mx-glow:hover::after,.mx-glow:hover::before{opacity:1}
+.mx-glow:hover{translate:0 -2px;box-shadow:0 22px 44px -28px rgba(11,12,14,.35)}
+.qx-ink .mx-glow::before,.qx-ink.mx-glow::before,.hs-ga.mx-glow::before,.dc.mx-glow::before{background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(143,153,255,.12),transparent 65%)}
+.qx-ink .mx-glow:hover,.dc.mx-glow:hover{box-shadow:0 22px 44px -28px rgba(0,0,0,.9)}
+.sx-trace .card.mx-glow:hover,.dc.mx-glow:hover,.lag.mx-glow:hover{translate:none}
+.ab2 .rl-r.mx-glow{border-radius:8px}
+.ab2 .rl-r.mx-glow:hover{translate:none;box-shadow:none}
+
+.mx-line{position:relative;border-top-color:transparent!important}
+.mx-line::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--lc);transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.2,.7,.2,1);z-index:1}
+.mx-line.in::before{transform:none}
+.mx-drift{transform:translateY(var(--py,0)) scale(1.07);will-change:transform}
+
+/* buttons and links: a small, consistent response */
+.qx .b1,.qx .b2,.pg .b1,.pg .b2,.sx-close .b1,.sx-close .b2,.h2-close .b1,.h2-close .b2{transition:background .2s,color .2s,border-color .2s,translate .25s}
+.qx .b1:hover,.pg .b1:hover,.sx-close .b1:hover,.h2-close .b1:hover{background:#dfe2e7}
+.qx .b2:hover,.pg .b2:hover,.sx-close .b2:hover,.h2-close .b2:hover{border-color:currentColor}
+.qx .b1:active,.qx .b2:active{translate:0 1px}
+.qx-nav ul a{position:relative}
+.qx-nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.qx-nav ul a:hover::after,.qx-nav ul a.on::after{transform:none}
+@media (prefers-reduced-motion:reduce){.mx-glow,.mx-glow::before,.mx-glow::after{transition:none}.mx-glow:hover{translate:none}}

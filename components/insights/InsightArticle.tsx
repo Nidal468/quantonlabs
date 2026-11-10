@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Close, Page, rise } from "@/components/site/kit";
+import { Close, Page, Words, rise } from "@/components/site/kit";
 import type { BlogPost } from "@/db/blogs";
 import "./insights.css";
 
@@ -20,7 +20,7 @@ export default function InsightArticle({ post, related }: { post: BlogPost; rela
       <section className="qx-ink in-hero">
         <div className="wrap">
           <Link href="/insights" className="qx-lab bk">Insights{post.category ? ` · ${post.category}` : ""}</Link>
-          <motion.h1 className="qx-d2" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>{post.title}</motion.h1>
+          <h1 className="qx-d2"><Words text={post.title} delay={0.1} /></h1>
           {post.excerpt && <p className="lead">{post.excerpt}</p>}
           <div className="m"><span>{post.author}</span><span>{fmt(post.date)}</span>{post.readTime && <span>{post.readTime} min read</span>}</div>
         </div>

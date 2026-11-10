@@ -9,6 +9,7 @@ import SiteFooter from "@/components/site/SiteFooter";
 import { usePinned } from "@/components/site/useStage";
 import type { Gate, SolutionData } from "@/content/solutions/types";
 import type { SolutionExtras } from "@/content/solutions/extras";
+import { Words } from "@/components/site/kit";
 import "@/components/site/site.css";
 import "./solution.css";
 
@@ -30,7 +31,7 @@ function Hero({ d, x }: { d: SolutionData; x: SolutionExtras }) {
         <div className="gr">
           <div className="tx">
             <motion.div className="qx-lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>Solutions · {d.name}</motion.div>
-            <motion.h1 className="qx-d2" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>{d.hero.h1}</motion.h1>
+            <h1 className="qx-d2"><Words text={d.hero.h1} delay={0.1} /></h1>
             <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}>{d.hero.lead}</motion.p>
             <motion.p className="for" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.55 }}><span>Built for</span>{d.hero.builtFor}</motion.p>
           </div>

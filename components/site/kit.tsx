@@ -22,6 +22,17 @@ export function Page({ children, nav = "dark" }: { children: React.ReactNode; na
   );
 }
 
+/** Headline that rises in word by word, as on About. */
+export function Words({ text, delay = 0 }: { text: string; delay?: number }) {
+  return (
+    <>
+      {text.split(" ").map((w, i) => (
+        <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: delay + 0.05 * i, ease }}>{w}</motion.span>
+      ))}
+    </>
+  );
+}
+
 export function PHero({ lab, h1, lead, children, side }: { lab: string; h1: string; lead?: string; children?: React.ReactNode; side?: React.ReactNode }) {
   return (
     <section className="qx-ink pg-hero">
@@ -29,7 +40,7 @@ export function PHero({ lab, h1, lead, children, side }: { lab: string; h1: stri
         <div className={side ? "gr" : ""}>
           <div>
             <motion.div className="qx-lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>{lab}</motion.div>
-            <motion.h1 className="qx-d2" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>{h1}</motion.h1>
+            <h1 className="qx-d2"><Words text={h1} delay={0.1} /></h1>
             {lead && <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}>{lead}</motion.p>}
           </div>
           {side && <motion.div className="side" initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5, ease }}>{side}</motion.div>}

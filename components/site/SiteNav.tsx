@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { installSiteMotion } from "./motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import "./site.css";
 
@@ -35,6 +36,13 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
     document.addEventListener("keydown", esc);
     return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", esc); };
   }, []);
+
+  /* site-wide motion layer: card glow, count-up figures, drawn lines, photo drift */
+  useEffect(() => {
+    const id = requestAnimationFrame(() => { off = installSiteMotion(); });
+    let off = () => {};
+    return () => { cancelAnimationFrame(id); off(); };
+  }, [path]);
 
   const [solid, setSolid] = useState(false);
   useEffect(() => {
