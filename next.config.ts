@@ -46,6 +46,8 @@ const nextConfig: NextConfig = {
       { source: "/blogs", destination: "/insights", permanent: true },
       { source: "/cases/:id", destination: "/case-studies/:id", permanent: true },
       { source: "/cases", destination: "/case-studies", permanent: true },
+      // The old single terms page was the website terms; Terms of Service now has its own page.
+      { source: "/terms", destination: "/terms-of-use", permanent: true },
     ];
   },
   async headers() {

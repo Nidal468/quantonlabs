@@ -157,3 +157,12 @@
 .qx-skip:focus{top:12px}
 .qx a:focus-visible,.qx button:focus-visible,.qx summary:focus-visible,.pg a:focus-visible,.pg summary:focus-visible{outline:2px solid #4655EB;outline-offset:3px;border-radius:4px}
 .qx-nav .logo img{width:auto}
+
+/* back to top */
+.qx-top{position:fixed;right:24px;bottom:24px;z-index:150;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:rgba(11,12,14,.72);color:#fff;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;translate:0 10px;pointer-events:none;transition:opacity .3s,translate .3s,background .2s,box-shadow .3s}
+.qx-top.on{opacity:1;translate:0 0;pointer-events:auto}
+.qx-top:hover{background:#0b0c0e;box-shadow:0 0 0 1px #6d7bff,0 0 22px rgba(70,85,235,.45)}
+.qx-top:focus-visible{outline:2px solid #4655EB;outline-offset:3px}
+html:has(.hm.xpd) .qx-top{display:none}

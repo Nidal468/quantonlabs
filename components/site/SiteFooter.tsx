@@ -12,8 +12,8 @@ const COMPANY = [
 ];
 const LEGAL = [
   { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-  { label: "Terms of Use", href: "/terms" },
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "Terms of Use", href: "/terms-of-use" },
 ];
 
 export default function SiteFooter({ theme = "light" }: { theme?: "light" | "dark" }) {

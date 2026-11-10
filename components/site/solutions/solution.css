@@ -111,12 +111,12 @@
 .sx-hero.flip .ph{order:-1}
 .sx-trace.flip .gr .card{order:-1}
 .sx-brk.rows .cards{grid-template-columns:1fr;gap:0;border-top:1px solid var(--qx-text)}
-.sx-brk.rows .cd{display:grid;grid-template-columns:200px minmax(0,1.3fr) minmax(0,1fr) 190px;gap:32px;align-items:baseline;min-height:0;background:none;border:0;border-bottom:1px solid var(--qx-line);border-radius:0;padding:28px 0}
-.sx-brk.rows .fig{margin:0;grid-column:1;grid-row:1}
-.sx-brk.rows .find{margin:0!important;grid-column:2;grid-row:1}
-.sx-brk.rows .cons{margin:0!important;padding:0;grid-column:3;grid-row:1}
-.sx-brk.rows .pth{grid-column:4;grid-row:1;flex-wrap:wrap}
-.sx-brk.rows .src{grid-column:4;grid-row:1;align-self:end;border:0;padding:0;margin-top:28px!important}
+.sx-brk.rows .cd{display:grid;grid-template-columns:200px minmax(0,1.3fr) minmax(0,1fr) 210px;column-gap:32px;row-gap:0;align-items:start;min-height:0;background:none;border:0;border-bottom:1px solid var(--qx-line);border-radius:0;padding:28px 0}
+.sx-brk.rows .fig{margin:0;grid-column:1;grid-row:1/span 2}
+.sx-brk.rows .find{margin:0!important;grid-column:2;grid-row:1/span 2}
+.sx-brk.rows .cons{margin:0!important;padding:0;grid-column:3;grid-row:1/span 2}
+.sx-brk.rows .pth{grid-column:4;grid-row:1;flex-wrap:wrap;row-gap:4px}
+.sx-brk.rows .src{grid-column:4;grid-row:2;border:0;padding:0;margin-top:10px!important;align-self:start}
 
 /* industry questions */
 .sx-faq{padding:16vh 0;border-top:1px solid var(--qx-line)}

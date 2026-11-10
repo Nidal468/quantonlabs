@@ -44,6 +44,16 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
     return () => { cancelAnimationFrame(id); off(); };
   }, [path]);
 
+  /* back to top: appears after one screen of scroll */
+  const [up, setUp] = useState(false);
+  useEffect(() => {
+    const on = () => setUp(window.scrollY > window.innerHeight);
+    const id = requestAnimationFrame(on);
+    window.addEventListener("scroll", on, { passive: true });
+    return () => { cancelAnimationFrame(id); window.removeEventListener("scroll", on); };
+  }, []);
+  const toTop = () => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+
   const [solid, setSolid] = useState(false);
   useEffect(() => {
     if (theme !== "overlay") return;
@@ -56,6 +66,9 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
   return (
     <>
       <a href="#main" className="qx-skip">Skip to content</a>
+      <button type="button" className={`qx-top${up ? " on" : ""}`} onClick={toTop} aria-label="Back to top" tabIndex={up ? 0 : -1}>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 19V5" /><path d="M6 11l6-6 6 6" /></svg>
+      </button>
       <nav className={`qx qx-nav${cls}`} aria-label="Main">
         <div className="in">
           <Link href="/" className="logo" aria-label="Quanton Labs home">
