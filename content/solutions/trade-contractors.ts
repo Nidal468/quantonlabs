@@ -14,7 +14,7 @@ const data: SolutionData = {
     "photo": {
       "src": "/images/site/photo/crew.jpg",
       "alt": "Construction workers in hard hats and reflective vests working with shovels on a site",
-      "credit": "Photo: Unsplash"
+      "credit": "Unsplash License, https://unsplash.com/photos/construction-workers-with-shovels-on-site-Un-6cY9lYpA"
     }
   },
   "gets": [

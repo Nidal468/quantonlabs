@@ -14,7 +14,7 @@ const data: SolutionData = {
     "photo": {
       "src": "/images/site/photo/professional.jpg",
       "alt": "An open office with desks and computers",
-      "credit": "Photo: Unsplash"
+      "credit": "Unsplash License, https://unsplash.com/photos/modern-office-space-with-desks-and-computers-DAjAgQBs9AY"
     }
   },
   "gets": [

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Page } from "@/components/site/kit";
 
 export const metadata = {
   title: "Terms of Use | Quanton Labs",
@@ -7,11 +8,12 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
+    <Page nav="paper">
     <div
       style={{
         backgroundColor: "#ffffff",
         minHeight: "100vh",
-        paddingTop: "120px",
+        paddingTop: "96px",
         paddingBottom: "120px",
       }}
     >
@@ -144,5 +146,6 @@ export default function TermsPage() {
         </div>
       </div>
     </div>
+    </Page>
   );
 }

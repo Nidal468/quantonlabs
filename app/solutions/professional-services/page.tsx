@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SolutionPage from "@/components/site/solutions/SolutionPage";
+import { EXTRAS } from "@/content/solutions/extras";
 import data from "@/content/solutions/professional-services";
 
 const url = `https://quantonlabs.com/solutions/${data.slug}`;
@@ -9,6 +10,25 @@ export const metadata: Metadata = {
   description: data.meta.description,
   alternates: { canonical: url },
   openGraph: { title: data.meta.title, description: data.meta.description, url, siteName: "Quanton Labs", type: "website" },
+};
+
+const x = EXTRAS[data.slug];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: x.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: `Quanton OS for ${data.name}`,
+  serviceType: "AI-native business system",
+  description: data.meta.description,
+  audience: { "@type": "BusinessAudience", audienceType: data.hero.builtFor },
+  provider: { "@type": "Organization", name: "Quanton Labs", url: "https://quantonlabs.com" },
+  url,
 };
 
 const breadcrumb = {
@@ -24,8 +44,8 @@ const breadcrumb = {
 export default function Page() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
-      <SolutionPage d={data} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumb, serviceSchema, faqSchema]) }} />
+      <SolutionPage d={data} x={x} />
     </>
   );
 }

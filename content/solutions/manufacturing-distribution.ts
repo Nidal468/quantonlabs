@@ -12,7 +12,7 @@ const data: SolutionData = {
     h1: "Every order, from quote to remittance, on one system of record.",
     lead: "The quote, the material, the schedule, the dock, and the invoice have to agree for a ship date to hold. Quanton OS carries that work as a system, so leadership can lead.",
     builtFor: "Light manufacturing, contract production, wholesale distribution",
-    photo: { src: "/images/site/photo/machining.jpg", alt: "A metal rod held in a lathe chuck being machined by a cutting tool", credit: "Photo: Unsplash" },
+    photo: { src: "/images/site/photo/machining.jpg", alt: "A metal rod held in a lathe chuck being machined by a cutting tool", credit: "Unsplash License, https://unsplash.com/photos/metal-rod-machining-on-lathe-eaanLTG7TCU" },
   },
   gets: [
     ["Margin", "On every order, kept current as cost posts"],

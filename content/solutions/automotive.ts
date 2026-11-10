@@ -14,7 +14,7 @@ const data: SolutionData = {
     "photo": {
       "src": "/images/site/photo/shop-hands.jpg",
       "alt": "Hands working on a car engine with a metal wrench",
-      "credit": "Photo: Unsplash"
+      "credit": "Unsplash License, https://unsplash.com/photos/hands-working-on-car-engine-Fd6osyVbtG4"
     }
   },
   "gets": [

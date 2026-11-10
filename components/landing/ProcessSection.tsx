@@ -28,7 +28,7 @@ const howItWorks = [
     title: "Infrastructure Deployment",
     duration: "8 to 16 weeks",
     description:
-      "Your operational core is built as the system of record for your business, absorbing what the fragmented stack used to hold: customer records, financials, inventory, workflows. All eight agents are configured against it. The Governing Agent goes live. Your leadership dashboard is built. Every workflow is tested, governed, and documented. Your team is trained on what the system handles and what requires their judgment.",
+      "Your operational core is built as the system of record for your business, absorbing what the fragmented stack used to hold: customer records, financials, inventory, workflows. The Governing Agent and all seven department leads are configured against it. Your leadership dashboard is built. Every workflow is tested, governed, and documented. Your team is trained on what the system handles and what requires their judgment.",
     detail: "Fixed investment. You own all deployed infrastructure on completion.",
   },
   {

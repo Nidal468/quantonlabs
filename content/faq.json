@@ -1,0 +1,146 @@
+[
+ {
+  "id": "system",
+  "title": "The system",
+  "qs": [
+   {
+    "q": "What is Quanton OS?",
+    "a": "<p><b>Quanton OS runs the company so its leadership can lead it.</b></p><p>Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.</p><p>Running a company takes three kinds of work: operating it, managing it, and leading it. Managing carries the hidden load: knowing what is true right now, catching problems early, making hundreds of small calls, and holding people to their commitments. Leadership carries that load through reports, meetings, chasing, and memory, and leading gets whatever time is left. Quanton OS carries operating and managing as a system.</p><p>A Governing Agent coordinates seven department leads, each directing specialist agents, across every function from bids and purchasing to payroll and the month-end close. Every transaction, document, and obligation lives in one system of record the company owns. Work runs inside the rules and approvals leadership sets, and each decision reaches the right person with the analysis already done.</p><p>Quanton Labs builds it, operates it, and improves it continuously. The client owns the delivered operational core and every configuration in it on completion of deployment and payment.</p>"
+   },
+   {
+    "q": "What does leadership get?",
+    "a": "<p>Leadership gets the read a consulting firm would deliver, kept current in the Leadership Dashboard: margin and cash on every job, engagement, and order, a forward view of cash, capacity, and demand, and problems surfaced while they are still small. Meetings decide instead of reconstructing status, and the hours managing used to consume go to deciding where the company goes.</p><p>Agents take on the administration, follow-ups, and handoffs that fill a team's week. People begin each day with their work laid out and the context to do it, spend their time on customers, craft, and judgment, and get coaching from the work itself.</p>"
+   },
+   {
+    "q": "How is that different from AI software?",
+    "a": "<p>Software is something a business operates. Quanton OS is operated for the business. Quanton Labs builds the system around how the business actually works, runs it on the client's behalf, and stays responsible for it.</p><p>The deeper difference is what sits underneath. Most AI products do one thing in one part of the business, working from records someone else holds. Quanton OS puts every function on one system of record the client owns, with shared engines that compute every number from that record and a Governing Agent coordinating across every department.</p>"
+   },
+   {
+    "q": "Why does everything need to be on one system?",
+    "a": "<p>Agents reasoning over scattered data produce scattered answers. When customer records live in one place, financials in another, and job history in a third, no agent can see how they relate. On one governed record, the system can show which customers are unprofitable, which jobs are slipping, and where cash is actually going.</p><p>One record is also what lets every figure be computed instead of estimated. Margin on a job, cash next month, and capacity next week all come from the same transactions, so everyone works from one version of the truth.</p>"
+   },
+   {
+    "q": "Who does the work?",
+    "a": "<p>A Governing Agent and seven department leads, each directing a standard team of specialist agents. The agents are the managing layer. They work on the client's system of record and call shared engines for every calculation and check.</p><div class=\"fq-t c2\"><div class=\"fq-th\"><span>Department lead</span><span>What its specialist agents carry</span></div><div class=\"fq-tr\"><span>Marketing and Content</span><span>Campaign planning, local presence and listings, email and messaging lists, social, and website content.</span></div><div class=\"fq-tr\"><span>Sales</span><span>Lead intake and response, estimating and quotes, and pipeline management. Bid management for contractors and manufacturers.</span></div><div class=\"fq-tr\"><span>Customer Experience</span><span>Inquiry intake, scheduling, status updates, case resolution, warranty and returns, and reviews and reputation.</span></div><div class=\"fq-tr\"><span>People and Team</span><span>Recruiting, employee onboarding and records, time and attendance, payroll and payroll tax, benefits, and training and credentials.</span></div><div class=\"fq-tr\"><span>Operations</span><span>Job control, scheduling and dispatch with daily task assignment, quality and inspection, equipment upkeep, safety records, and SOPs.</span></div><div class=\"fq-tr\"><span>Inventory and Supply Chain</span><span>Replenishment, purchasing and supplier communication, receiving and invoice matching, stock accuracy, returns and credits, and shipping and freight. Material planning for manufacturers and trades.</span></div><div class=\"fq-tr\"><span>Finance</span><span>General ledger, bookkeeping, and the month-end close, payables, receivables and collections, billing, and sales and use tax and vendor 1099s.</span></div><div class=\"fq-tr\"><span>Governing Agent</span><span>Directs all seven. Detects conflicts between departments, routes every exception to the right person, enforces governance, and feeds the Leadership Dashboard.</span></div></div><p>Which specialist agents are active is set to fit the operation in Phase 1. Standard specialists can be switched on or off, and a specialist built for a need outside the standard set is added by change order.</p>"
+   },
+   {
+    "q": "Can we start with just part of the system?",
+    "a": "<p>No. Every engagement deploys the whole system: the system of record, the shared engines, the Governing Agent, and all seven department leads. Coordination across every function is what the system delivers, and it depends on every function running on the same record.</p><p>What fits each business is depth: which specialist agents are active and how far the analysis goes. Depth is set in Phase 1 and expands by change order as volume or need grows.</p><p>Quanton Labs also runs a separate Modular Agent Program that deploys individual agents for specific functions. It is its own program with its own scope, not an entry version of Quanton OS.</p>"
+   },
+   {
+    "q": "What if we already have systems in place?",
+    "a": "<p>They are consolidated. Existing platforms stay connected during the build and are retired as each function goes live on the operational core. Where a service is genuinely better handled by a specialist, such as payment processing, tax computation, shipping, payroll filing and money movement, bank and card feeds, or phone and email, it stays connected permanently.</p><p>A platform that is working well can stay. In Phase 1, Quanton Labs recommends a path for every system the business runs, and the client decides. A kept platform feeds the operational core through a governed connection and stays the record for its function until the client chooses to move it. It is reviewed each quarter, and moving it is always the client's call.</p><p>Consolidation is the value being delivered. One governed record is what the rest of the system runs on.</p>"
+   },
+   {
+    "q": "What if we have almost no systems?",
+    "a": "<p>That is the fastest and cleanest deployment Quanton Labs does. Nothing to untangle and no legacy structure to work around. The system is built directly around how the business operates. Businesses running on spreadsheets, paper, and a single accounting package are excellent candidates, not poor ones.</p>"
+   },
+   {
+    "q": "Do we have to replace our accounting software?",
+    "a": "<p>Quanton Labs recommends it in most deployments. Financial data is the backbone of operational reasoning, and the general ledger and books are kept on the operational core. A business not ready to move it can keep its accounting platform connected and move later, once it has seen the system run.</p><p>Migration is included in every engagement: opening balances plus two years of history by default. Phase 1 includes a books check, a review of the accounting file, reconciliations, and reporting accuracy, and its findings set the migration scope before the Phase 2 quote. Reconciliation criteria are agreed in writing before any migration begins, and the client's accountant or bookkeeper confirms the result. Nothing moves until the client and its accountant agree what a correct migration looks like.</p>"
+   },
+   {
+    "q": "How do field crews and subcontractors use it?",
+    "a": "<p>Employees use the worker mobile app: clock in and out, pay stubs, time off requests, the daily task list, and photo and report capture from the job. It works offline and syncs when connected. Photos are of the work only; a photo with a person in frame is rejected at capture.</p><p>Subcontractors need no app and no account. They work by text: an assignment text, a start-day text, and a completion text, each with a link to the job. What a subcontractor can do is limited to the job's punch list. Any free-form message to a subcontractor and any subcontractor payment waits for approval.</p>"
+   }
+  ]
+ },
+ {
+  "id": "control",
+  "title": "Control and governance",
+  "qs": [
+   {
+    "q": "Will AI be making decisions in my business?",
+    "a": "<p>Not without leadership on anything that matters. Every action that affects customers, revenue, or compliance requires approval or a review window leadership controls. The agent handles volume, consistency, and analysis. Leadership keeps approval authority over consequential decisions.</p><div class=\"fq-t c3\"><div class=\"fq-th\"><span>Approval level</span><span>What happens</span><span>Default use</span></div><div class=\"fq-tr\"><span>Full Autonomy</span><span>The agent acts without review.</span><span>Deterministic, low-risk internal work: scheduled reports, internal notifications, data categorization, log entries, internal status updates, and ledger postings the accounting rules already map.</span></div><div class=\"fq-tr\"><span>Silent Approval</span><span>The agent prepares and queues the action. It proceeds after a review window unless leadership steps in.</span><span>Draft content, scheduled follow-ups, routine supplier communication, messages sent from approved templates (acknowledgments, confirmations, reminders, status updates, collection reminders at set aging points), purchase orders released against agreed supplier terms under a set threshold, and recurring ledger adjustments.</span></div><div class=\"fq-tr\"><span>Hard Block</span><span>The agent prepares and presents. Nothing happens until leadership explicitly approves.</span><span>Free-form customer communications, quotes, proposals, invoices, contracts, changes to pricing, financial decisions, compliance filings, hiring decisions, all other purchase orders, and one-off manual ledger entries.</span></div><div class=\"fq-tr\"><span>Fixed for every client</span><span>Cannot be configured away.</span><span>Any action on an obligation, such as a filing, a renewal, or a contract notice, always waits for explicit approval. Any outbound output that breaks a business rule always goes to a person: the system corrects it first, then the person approves the correction, approves the original with the warning acknowledged, or edits it.</span></div></div><p>These are the starting defaults. Approval levels are set per function during the engagement and recorded in the Engagement Agreement. After go-live, they change only by a signed change order. They are enforced in the system at the point of action, not left to agent instructions, and agents cannot change their own governance settings.</p>"
+   },
+   {
+    "q": "What stops an agent from sending something wrong?",
+    "a": "<p>Before any output reaches its approval level, it is checked against the business's rules: brand, pricing, promised dates and quantities against capacity and stock, contract terms, financial documents, people and safety, and outbound communication standards. The check always runs. An outbound output that breaks a rule always goes to a person, and inbound data that breaks a rule is held for confirmation.</p>"
+   },
+   {
+    "q": "How are deadlines and commitments kept?",
+    "a": "<p>Every commitment the business owes or is owed is tracked: contract terms, regulatory filings, financial deadlines, insurance, licenses and certificates, equipment, and what others owe the business. A person confirms each commitment against its source document before tracking starts. Each one has an act-by date, escalating reminders, and a named responsible person. The system prepares the action as soon as its inputs exist, and the action always waits for approval. A missed date becomes an exception routed to the right person.</p>"
+   },
+   {
+    "q": "What happens when an agent encounters something unexpected?",
+    "a": "<p>It stops and escalates. The Governing Agent classifies the exception, identifies who should decide, assembles the full context including any similar past decisions, and routes it to that person. No exception resolves itself automatically. Every resolution is logged.</p>"
+   },
+   {
+    "q": "How do I know what the agents are doing?",
+    "a": "<p>The Leadership Dashboard gives a live view across every department: agent activity, exceptions waiting on a decision, approvals in the queue, and performance against the baseline captured before deployment. Every action and approval is recorded in an audit trail available for review at any time, and audit records cannot be altered after the fact.</p>"
+   },
+   {
+    "q": "What about accuracy? AI makes things up.",
+    "a": "<p>It does, which is why AI never produces a number in Quanton OS. Code computes every figure from the record. AI drafts, classifies, extracts, and explains, and any AI output containing a number that does not come from the record is discarded.</p><p>Details extracted from documents, such as a vendor bill or a contract, are confirmed by a person against the source before use. Every output is checked against the business rules before it moves. Consequential work waits for approval with its context and reasoning presented alongside it.</p>"
+   }
+  ]
+ },
+ {
+  "id": "ownership",
+  "title": "Ownership and commitment",
+  "qs": [
+   {
+    "q": "What do we actually own?",
+    "a": "<p>On completion of deployment and payment, the client owns the delivered operational core and every configuration in it, outright. The client can operate it, extend it, or bring in anyone it chooses to work on it, during or after the engagement, without asking Quanton Labs.</p><p>Quanton Labs retains the underlying framework and methodology, the architecture and orchestration logic it brings to every deployment. The client holds a permanent license to use it within its system.</p>"
+   },
+   {
+    "q": "What happens if we stop the monthly service?",
+    "a": "<p>The system the client owns keeps running as delivered. What ends is Quanton Labs' operation of it: monitoring, optimization, governance enforcement, and continuous improvement.</p><p>Continuous improvement is the part that changes over time. AI models improve constantly, and the ongoing work applies those improvements to the client's system. When the service stops, the system stops getting better. It does not stop working, and nothing is held back.</p>"
+   },
+   {
+    "q": "Do we have to pay for upgrades?",
+    "a": "<p>No. There are no version upgrades to purchase and no upgrade decisions to make. Continuous improvement is what the monthly service buys. Anything structurally new, a new capability class or a new service category, is scoped as its own project with its own investment, and it is never required to keep what the client has running.</p>"
+   },
+   {
+    "q": "How long do we have to commit?",
+    "a": "<p>Managed Services carries an initial six-month period, then continues month to month with 30 days' notice. A client can also elect a committed term of 12, 24, or 36 months, which locks the monthly investment for the duration and accrues credits toward future capability expansion. Longer terms accrue faster. Details are in the Engagement Agreement.</p>"
+   },
+   {
+    "q": "Who owns our data?",
+    "a": "<p>The client does, always and without qualification. Client data is never shared with another client and stays in the client's deployment, apart from the trade documents the client chooses to exchange with confirmed partners and the processing the Engagement Agreement sets out: requests to AI models on the client's own model accounts, and the hosting and storage that run the deployment. Quanton Labs does not claim ownership of any of it and does not sell it.</p><p>Beyond trading partners the client confirms, it is shared only with subcontractors under equivalent confidentiality obligations, AI providers processing the client's own agents' requests through the client's accounts, services the client has specifically elected to use, and where law requires.</p><p>When a trading partner also runs Quanton OS, the two deployments can exchange the transaction documents their trade runs on: purchase orders, acknowledgments, delivery notices, invoices, remittances, and change orders. Nothing else moves. A connection starts only by invitation and both sides confirm it, and inbound documents are held for confirmation before they touch the client's records. It is on by default, and the client can opt out at signing or at any time.</p><p>Quanton Labs studies de-identified system performance across deployments to improve Quanton OS for every client. No client records leave a deployment. It is on by default, and the client can opt out at signing or at any time. Both terms are set out in the Engagement Agreement.</p><p>A complete export is available on request at any time, provided in a documented format within 15 business days.</p>"
+   },
+   {
+    "q": "Where does our data live?",
+    "a": "<p>Each deployment runs in its own dedicated environment: its own code repository, application environment, database, and file storage. Where that environment is hosted, on infrastructure the client controls or on Quanton Labs infrastructure, is elected at signing and recorded in the agreement. Where Quanton Labs hosts, the client can export everything at any time and on termination. Where the client hosts, Quanton Labs holds coordination state, the audit log, and synthesized reporting only.</p>"
+   },
+   {
+    "q": "How is our data secured?",
+    "a": "<ul><li>Encrypted transmission on all connections</li><li>A dedicated deployment per client; no client's data is shared with another client</li><li>Credential-controlled access limited exclusively to the orchestration layer, with platform credentials never exposed in the client's environment</li><li>Audit log records are append-only and cannot be altered or deleted by any process or person after being written</li><li>Notification within 72 hours of any confirmed security incident affecting client data</li></ul>"
+   }
+  ]
+ },
+ {
+  "id": "engagement",
+  "title": "Engagement and investment",
+  "qs": [
+   {
+    "q": "How does an engagement work?",
+    "a": "<div class=\"fq-t c3\"><div class=\"fq-th\"><span>Phase</span><span>What happens</span><span>Timeline</span></div><div class=\"fq-tr\"><span>Phase 1: Discovery and Diagnostic</span><span>Quanton Labs maps operations across all eight functional domains, recommends a path for every system the business runs today, checks the books, captures baseline measurements, quantifies where value is leaking, and defines exactly what a deployment involves. The books check reviews the accounting file, reconciliations, and reporting accuracy; its findings set the migration scope before the Phase 2 quote. The client owns the Diagnostic Report regardless of what it decides next.</span><span>Two weeks for a base footprint, longer for larger ones. The clock starts when the client returns the document and access request list issued at signing.</span></div><div class=\"fq-tr\"><span>Phase 2: Infrastructure Deployment</span><span>The operational core is built and records migrated, opening balances plus two years of history by default. The shared engines run, the Governing Agent and all seven department leads go live with their specialist agents, approval levels are configured per function, the worker mobile app and Leadership Dashboard go live, SOPs are documented, and the team is trained. The client owns the delivered operational core on completion and payment.</span><span>8 to 16 weeks for most footprints. Multi-entity footprints are scheduled in the Phase 2 scope.</span></div><div class=\"fq-tr\"><span>Phase 3: Managed Services</span><span>Quanton Labs runs and improves the system on the client's behalf: operation, hosting where elected, monitoring, optimization, governance enforcement, continuous improvement, and quarterly strategic reviews. A fixed monthly investment that starts at the first go-live. Each entity and location adds to it when it goes live, and it is reviewed at each quarterly review.</span><span>Ongoing, with a six-month initial commitment.</span></div></div><p>Phase 1 does not commit the client to Phase 2. Many clients use the diagnostic to understand their operation before deciding anything.</p>"
+   },
+   {
+    "q": "How is the investment set?",
+    "a": "<p>By scope, never by revenue. Every phase is a fixed investment quoted from the footprint: entities, locations, people on the system, systems replaced, connections to systems kept, and operating volume. People on the system are the people with accounts. Subcontractors who work by text have no account.</p><p>Phase 1 is quoted from the footprint confirmed before signing. Phase 2 is quoted from what the diagnostic finds. Managed Services is a fixed monthly investment for the footprint in operation.</p><p>The honest comparison is not software. It is what the business already pays for outsourced bookkeeping, managed IT, agency retainers, and administrative capacity. Quanton OS displaces spend across several of those at once.</p>"
+   },
+   {
+    "q": "How is the investment paid?",
+    "a": "<p>Phase 1 is due in full on execution. Phase 2 is billed 50% on execution, 25% at a midpoint milestone defined in the scope before signing, and 25% on completion and handoff. A build scheduled beyond 16 weeks bills 50% on execution and the remaining 50% across milestones named in the Phase 2 scope before signing, one per entity or go-live wave. Managed Services is invoiced on the 1st of each month and due within 15 days.</p>"
+   },
+   {
+    "q": "Why is the investment higher than the AI tools we have seen?",
+    "a": "<p>They are products and this is a service. A subscription in the hundreds buys software the business operates itself. Quanton OS covers building the system, running it, monitoring it, governing it, improving it continuously, and being accountable when something goes wrong.</p>"
+   },
+   {
+    "q": "What else is paid directly to providers?",
+    "a": "<p>Six categories, all identified before signing. None of them is resold or marked up by Quanton Labs.</p><ul><li><b>AI model and API usage.</b> Agents run on model and API accounts the client owns, billed to the client directly at every phase. Quanton Labs routes and governs that usage, and the system is engineered to keep it low by handling routine decisions without a model call. Models are chosen from an approved list per task, the projected monthly amount is shown before any change saves, and every function carries a monthly spend ceiling with alerts.</li><li><b>Specialist connections.</b> Services that stay connected permanently, such as payment processing, tax computation, shipping, payroll filing, bank and card feeds, and phone and email, are licensed on the client's accounts.</li><li><b>Platform API access.</b> Some platforms charge for the API access required to connect to them. Quanton Labs audits this during Phase 1 and documents the annual amount. It is paid directly to those vendors.</li><li><b>Document storage.</b> Documents and field photos are stored in a storage account the client funds.</li><li><b>Platforms the client keeps.</b> Any platform the client elects to keep stays connected to the operational core. Its subscription and API charges stay with the client, paid directly to the vendor.</li><li><b>Optional add-on services,</b> such as generative media, contact data, high-volume telephony, or an after-hours AI voice agent. These run on accounts the client owns and are billed to the client directly. Quanton Labs configures and governs them.</li></ul>"
+   },
+   {
+    "q": "How do we measure whether this worked?",
+    "a": "<p>Baseline measurements are captured during Phase 1, before anything is built. Quarterly reviews compare current performance against that baseline. ROI is a documented comparison, not a projection, which is why the baseline gets captured first.</p>"
+   },
+   {
+    "q": "Is this a fit for a regulated industry?",
+    "a": "<p>Sometimes, and it requires a compliance review before scoping. Regulated data handling brings platform-level obligations that have to be resolved or explicitly excluded before an engagement begins. Quanton Labs says directly if part of an operation cannot be covered responsibly.</p><p>Emergency dispatch and any decision pathway requiring sub-second life-safety judgment are outside scope entirely. Human approval architecture is incompatible with that kind of timeline.</p>"
+   }
+  ]
+ }
+]

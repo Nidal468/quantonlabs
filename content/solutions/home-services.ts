@@ -14,7 +14,7 @@ const data: SolutionData = {
     "photo": {
       "src": "/images/site/photo/home-services.jpg",
       "alt": "Mechanic's hand tools laid out on a bench",
-      "credit": "Photo: Unsplash"
+      "credit": "Unsplash License, https://unsplash.com/photos/selective-focus-photography-of-mechanics-tool-lot-60krlMMeWxU"
     }
   },
   "gets": [

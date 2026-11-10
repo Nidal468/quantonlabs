@@ -14,7 +14,7 @@ const data: SolutionData = {
     "photo": {
       "src": "/images/site/photo/retail.jpg",
       "alt": "Clothing on a rack in a store",
-      "credit": "Photo: Unsplash"
+      "credit": "Unsplash License, https://unsplash.com/photos/blue-denim-jeans-on-brown-textile-gPrJi5R4RAk"
     }
   },
   "gets": [

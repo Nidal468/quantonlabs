@@ -14,7 +14,7 @@ const data: SolutionData = {
     "photo": {
       "src": "/images/site/photo/healthcare.jpg",
       "alt": "An empty treatment room with a desk and chairs",
-      "credit": "Photo: Unsplash"
+      "credit": "Unsplash License, https://unsplash.com/photos/a-dental-room-with-a-desk-and-chairs-Fdku_oMrDvk"
     }
   },
   "gets": [

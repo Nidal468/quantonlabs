@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(productionUrl),
   title: "AI-Native Business System for Established Operators | Quanton Labs",
   description:
-    "Quanton OS is an AI-native business system. Eight coordinated AI agents run on one governed operational core built as your system of record, with a governing intelligence layer connecting every function and giving leadership real-time visibility. Built and operated for businesses generating $1M to $20M annually.",
+    "Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead. The consulting firm that stays.",
   keywords:
     "AI-native business system, AI agents for business operations, governed AI system, AI system of record, business AI infrastructure, AI operating system for business",
   alternates: {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Quanton OS | The AI-Native Business System",
     description:
-      "Eight coordinated AI agents. One governing intelligence layer. Complete business infrastructure built as your system of record, consolidating a fragmented stack into one governed system you own.",
+      "Quanton OS runs the company so its leadership can lead it. A Governing Agent and seven department leads on one system of record the company owns.",
     url: productionUrl,
     siteName: "Quanton Labs",
     type: "website",
@@ -92,7 +92,7 @@ const schemaProduct = {
   name: "Quanton OS",
   serviceType: "AI-native business system deployment and managed operations",
   description:
-    "An AI-native business system that deploys eight coordinated AI agents against a governed operational core built as the client's system of record. Consolidates a fragmented stack into one system the client owns.",
+    "An AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.",
   areaServed: "US",
   offers: {
     "@type": "Offer",

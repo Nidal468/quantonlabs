@@ -8,6 +8,7 @@ import SiteNav from "@/components/site/SiteNav";
 import SiteFooter from "@/components/site/SiteFooter";
 import { usePinned } from "@/components/site/useStage";
 import type { Gate, SolutionData } from "@/content/solutions/types";
+import type { SolutionExtras } from "@/content/solutions/extras";
 import "@/components/site/site.css";
 import "./solution.css";
 
@@ -22,9 +23,9 @@ function useProgress(ref: React.RefObject<HTMLElement | null>) {
   return v;
 }
 
-function Hero({ d }: { d: SolutionData }) {
+function Hero({ d, x }: { d: SolutionData; x: SolutionExtras }) {
   return (
-    <section className="qx-ink sx-hero">
+    <section className={`qx-ink sx-hero${x.flip ? " flip" : ""}`}>
       <div className="wrap">
         <div className="gr">
           <div className="tx">
@@ -33,9 +34,8 @@ function Hero({ d }: { d: SolutionData }) {
             <motion.p className="lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }}>{d.hero.lead}</motion.p>
             <motion.p className="for" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.55 }}><span>Built for</span>{d.hero.builtFor}</motion.p>
           </div>
-          <motion.figure className="ph" initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.4, ease }}>
+          <motion.figure className="ph" data-credit={d.hero.photo.credit} initial={{ opacity: 0, scale: 1.04 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.4, ease }}>
             <Image src={d.hero.photo.src} alt={d.hero.photo.alt} fill priority sizes="(max-width: 900px) 100vw, 40vw" />
-            <figcaption>{d.hero.photo.credit}</figcaption>
           </motion.figure>
         </div>
         <dl className="gets">
@@ -50,9 +50,9 @@ function Hero({ d }: { d: SolutionData }) {
   );
 }
 
-function Breaks({ d }: { d: SolutionData }) {
+function Breaks({ d, x }: { d: SolutionData; x: SolutionExtras }) {
   return (
-    <section className="qx-paper sx-brk">
+    <section className={`qx-paper sx-brk ${x.breaks}`}>
       <div className="wrap">
         <motion.div className="hd" {...rise}>
           <div><div className="qx-lab"><b>01</b> Where the margin goes</div><h2 className="qx-d2">{d.breaks.h2}</h2></div>
@@ -104,7 +104,7 @@ function Proof({ d }: { d: SolutionData }) {
   );
 }
 
-function Trace({ d, n }: { d: SolutionData; n: string }) {
+function Trace({ d, n, x }: { d: SolutionData; n: string; x: SolutionExtras }) {
   const ref = useRef<HTMLElement>(null);
   const pinned = usePinned();
   const p = useProgress(ref);
@@ -120,7 +120,7 @@ function Trace({ d, n }: { d: SolutionData; n: string }) {
   const decision = t.steps.find((s) => s.note);
   const decisionAt = decision ? t.steps.indexOf(decision) : -1;
   return (
-    <section ref={ref} className={`qx-paper sx-trace${pinned ? "" : " free"}`} style={{ height: pinned ? `${100 + t.steps.length * 34}vh` : undefined }}>
+    <section ref={ref} className={`qx-paper sx-trace${pinned ? "" : " free"}${x.traceFlip ? " flip" : ""}`} style={{ height: pinned ? `${100 + t.steps.length * 34}vh` : undefined }}>
       <div className="pin"><div className="wrap gr">
         <div className="lf">
           <div className="qx-lab"><b>{n}</b> One {t.noun} through the system</div>
@@ -189,6 +189,24 @@ function Adds({ d, n }: { d: SolutionData; n: string }) {
   );
 }
 
+function Faq({ d, x, n }: { d: SolutionData; x: SolutionExtras; n: string }) {
+  return (
+    <section className="qx-paper sx-faq">
+      <div className="wrap gr">
+        <motion.div {...rise}><div className="qx-lab"><b>{n}</b> Questions</div><h2 className="qx-d3">What {d.name.toLowerCase()} leaders ask first.</h2></motion.div>
+        <div className="qs">
+          {x.faq.map(([q, a], i) => (
+            <details key={q} open={i === 0}>
+              <summary>{q}<i /></summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Close({ d }: { d: SolutionData }) {
   return (
     <>
@@ -218,18 +236,20 @@ function Close({ d }: { d: SolutionData }) {
   );
 }
 
-export default function SolutionPage({ d }: { d: SolutionData }) {
+export default function SolutionPage({ d, x }: { d: SolutionData; x: SolutionExtras }) {
   const traceN = d.proof ? "03" : "02";
   const addsN = d.proof ? "04" : "03";
+  const faqN = d.proof ? "05" : "04";
   return (
     <div className="qx sx">
       <SiteNav theme="dark" />
       <main>
-        <Hero d={d} />
-        <Breaks d={d} />
+        <Hero d={d} x={x} />
+        <Breaks d={d} x={x} />
         <Proof d={d} />
-        <Trace d={d} n={traceN} />
+        <Trace d={d} n={traceN} x={x} />
         <Adds d={d} n={addsN} />
+        <Faq d={d} x={x} n={faqN} />
         <Close d={d} />
       </main>
       <SiteFooter />
