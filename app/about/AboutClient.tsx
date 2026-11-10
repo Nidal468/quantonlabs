@@ -261,10 +261,10 @@ function Model() {
 
 /* H. Leadership */
 const CH = [
-  { n: "Revenue growth", h: "A standard that depends on presence is not a standard.", p: "$1.5M-a-month rental operation grown 300% to $6M a month in one year, through upsell discipline, fleet utilization, branch KPIs, and customer service built into the process.", f: ["300%", "revenue growth in one year"] },
-  { n: "Turnaround", h: "Controls that live in site visits fail between them.", p: "Lending region carrying $400K in losses from thin oversight, missing systems, and fraud, turned around and grown by more than $12M through KPIs, training, and compliance in every branch.", f: ["$12M+", "regional growth after $400K in losses"] },
+  { n: "Revenue growth", h: "A standard that depends on presence is not a standard.", p: "12-location, $1.5M-a-month rental operation grown 300% to $6M a month in one year, through upsell discipline, fleet utilization, branch KPIs, and customer service built into the process.", f: ["300%", "revenue growth in one year"] },
+  { n: "Turnaround", h: "Controls that live in site visits fail between them.", p: "13-branch lending region carrying $400K in losses from thin oversight, missing systems, and fraud, turned around and grown by more than $12M through KPIs, training, and compliance in every branch.", f: ["$12M+", "regional growth after $400K in losses"] },
   { n: "Built from zero", h: "An owner who is the system caps the business at the owner's hours.", p: "Automotive facility built from zero to $1.9M in revenue, with pricing, scheduling, quality, and hiring running through the owner until the system carried them.", f: ["$1.9M", "revenue, built from zero"] },
-  { n: "Margin expansion", h: "A diagnosis lasts as long as the consultant stays.", p: "Manufacturer diagnostic converted into a Quanton OS deployment. Trailing twelve months to April 2026: gross margin from 43.8% to 48.0%, operating profit from $115K to $316K.", f: ["+4.2 pts", "gross margin, trailing twelve months"] },
+  { n: "Margin expansion", h: "A diagnosis lasts as long as the consultant stays.", p: "Equipment manufacturer diagnostic converted into a Quanton OS deployment. Trailing twelve months to April 2026: gross margin from 43.8% to 48.0%, operating profit from $115K to $316K.", f: ["+4.2 pts", "gross margin, trailing twelve months"] },
 ];
 function Leadership() {
   const fig = useRef<HTMLElement>(null);
@@ -276,7 +276,7 @@ function Leadership() {
         <motion.div {...rise}>
           <div className="qx-lab"><b>06</b> Leadership</div>
           <h2 className="qx-d2" style={{ marginTop: 28, maxWidth: "18ch" }}>Each part of Quanton OS answers a problem solved by hand first.</h2>
-          <p className="intro">Quanton OS is built from what worked across 25 locations, an owned business, and $68M in combined revenue growth.</p>
+          <p className="intro">Quanton OS is built from 21 years leading operations: 25 locations, an owned business, and $68M in combined revenue growth.</p>
         </motion.div>
         <div className="gr">
           <figure ref={fig} className="ph" style={{ position: "sticky" }}>
@@ -292,7 +292,7 @@ function Leadership() {
                 <div className="f"><strong>{c.f[0]}</strong><span>{c.f[1]}</span></div>
               </motion.div>
             ))}
-            <dl className="cred2"><dt>Education</dt><dd>MBA, The Citadel<br />B.A., Organizational Leadership and Communication, Marist College</dd><dt>Service</dt><dd>Veteran</dd><dt>Languages</dt><dd>English, Spanish</dd></dl>
+            <dl className="cred2"><dt>Education</dt><dd>MBA, The Citadel<br />B.S., Organizational Leadership and Communication, Marist College, Honors</dd><dt>Service</dt><dd>Veteran</dd><dt>Languages</dt><dd>English, Spanish</dd></dl>
           </div>
         </div>
       </div>
