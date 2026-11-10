@@ -173,3 +173,7 @@ html:has(.hm.xpd) .qx-top{display:none}
 .qx-foot .soc a:hover{color:#4655EB;border-color:#4655EB;box-shadow:0 0 18px -4px rgba(70,85,235,.5)}
 .qx-foot.dark .soc a{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.75)}
 @media (max-width:900px){.qx-foot{padding-bottom:88px}.qx-top{right:16px;bottom:16px}}
+
+/* Progressive enhancement: until React is running, nothing waits on an animation to be seen.
+   Scroll reveals render with inline opacity 0; this keeps them visible if scripts are slow, blocked, or off. */
+html:not(.hy) .qx [style*="opacity:0"],html:not(.hy) .qx[style*="opacity:0"]{opacity:1!important;transform:none!important}

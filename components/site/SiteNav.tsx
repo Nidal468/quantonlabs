@@ -39,6 +39,7 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
 
   /* site-wide motion layer: card glow, count-up figures, drawn lines, photo drift */
   useEffect(() => {
+    document.documentElement.classList.add("hy");
     const id = requestAnimationFrame(() => { off = installSiteMotion(); });
     let off = () => {};
     return () => { cancelAnimationFrame(id); off(); };
