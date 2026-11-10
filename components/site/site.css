@@ -166,3 +166,9 @@
 .qx-top:hover{background:#0b0c0e;box-shadow:0 0 0 1px #6d7bff,0 0 22px rgba(70,85,235,.45)}
 .qx-top:focus-visible{outline:2px solid #4655EB;outline-offset:3px}
 html:has(.hm.xpd) .qx-top{display:none}
+
+/* footer social */
+.qx-foot .soc{display:flex;gap:10px;margin-top:18px}
+.qx-foot .soc a{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;border:1px solid var(--qx-line);color:var(--qx-text2);transition:color .2s,border-color .2s,box-shadow .3s}
+.qx-foot .soc a:hover{color:#4655EB;border-color:#4655EB;box-shadow:0 0 18px -4px rgba(70,85,235,.5)}
+.qx-foot.dark .soc a{border-color:rgba(255,255,255,.18);color:rgba(255,255,255,.75)}
