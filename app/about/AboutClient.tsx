@@ -57,13 +57,11 @@ function Hero() {
 
 /* B. Statement: the sentence fills in as the reader scrolls */
 const SAY = "Running a company takes three kinds of work: operating it, managing it, and leading it. Managing carries the hidden load. Leadership carries it through reports, meetings, chasing, and memory, and leading gets whatever time is left.";
-const LOAD: { at: string; t: string; m: string }[] = [
-  { at: "reports,", t: "Monday report", m: "Rebuilt by hand from four spreadsheets" },
-  { at: "meetings,", t: "Status meeting", m: "Nine people, sixty minutes, no decision" },
-  { at: "chasing,", t: "Crew start times", m: "Three texts sent, one answered" },
-  { at: "memory,", t: "Hartwell delivery date", m: "Promised on a call, written nowhere" },
-];
-const WEEK: [string, number, string][] = [["Operating", 14, "op"], ["Managing", 33, "mg"], ["Leading", 8, "ld"]];
+/* One cell per working hour, 7a to 6p, Monday to Friday (55 hours).
+   o operating, r reports, m meetings, c chasing, y memory, L left for leading */
+const CAL = ["rcrco", "roLco", "rmoLm", "mmcmm", "mmLmm", "LoooL", "oomoc", "cLmco", "ocLor", "yocyr", "Lyyyy"];
+const MG: Record<string, string> = { r: "reports,", m: "meetings,", c: "chasing,", y: "memory," };
+const HRS = ["7a", "", "9a", "", "11a", "", "1p", "", "3p", "", "5p"];
 function Statement() {
   const ref = useRef<HTMLElement>(null);
   const pinned = usePinned();
@@ -71,9 +69,12 @@ function Statement() {
   const words = SAY.split(" ");
   const lit = pinned ? Math.round(Math.min(1, Math.max(0, (p - 0.08) / 0.72)) * words.length) : words.length;
   const on = (w: string) => lit > words.indexOf(w);
-  const weekOn = lit > words.indexOf("work:");
+  const opOn = on("operating");
+  const hidden = on("load.");
   const leftOn = lit >= words.length;
-  const total = WEEK.reduce((a, w) => a + w[1], 0);
+  const cells = CAL.flatMap((row, r) => row.split("").map((t, d) => ({ t, r, d })));
+  const state = (t: string) => t === "o" ? (opOn ? "op" : "e") : t === "L" ? (leftOn ? "ld" : "e") : on(MG[t]) ? "mg" : hidden ? "hd" : "e";
+  const mgHours = cells.filter((c) => MG[c.t] && on(MG[c.t])).length;
   return (
     <section ref={ref} className={`qx-paper stage h2-say${pinned ? "" : " free"}`}>
       <div className="pin"><div className="wrap sg">
@@ -81,30 +82,21 @@ function Statement() {
           <div className="qx-lab"><b>01</b> The work</div>
           <p className="txt">{words.map((w, i) => <span key={i} style={{ color: i < lit ? "var(--qx-text)" : "#c2c7ce" }}>{w}{i < words.length - 1 ? " " : ""}</span>)}</p>
         </div>
-        <div className="say-v" aria-label="Illustrative week of a company President">
-          <motion.div className="wk" animate={{ opacity: weekOn ? 1 : 0, y: weekOn ? 0 : 12 }} transition={{ duration: 0.5 }}>
-            <div className="wk-h"><span>The President&apos;s week</span><span>{total} hours · illustrative</span></div>
-            <div className="wk-bar">
-              {WEEK.map(([k, h, c], i) => (
-                <motion.i key={k} className={c + (c === "ld" && leftOn ? " hl" : "")} initial={false} animate={{ width: weekOn ? `${(h / total) * 100}%` : "0%" }} transition={{ duration: 0.8, delay: i * 0.12, ease: [0.2, 0.7, 0.2, 1] }} />
-              ))}
-            </div>
-            <div className="wk-k">
-              {WEEK.map(([k, h, c]) => (
-                <span key={k} className={c === "ld" && leftOn ? "hl" : ""}><i className={c} />{k} <b>{h}h</b></span>
-              ))}
-            </div>
-          </motion.div>
-          <div className="ld">
-            {LOAD.map((x) => (
-              <motion.div key={x.at} className="li" initial={false} animate={{ opacity: on(x.at) ? 1 : 0, x: on(x.at) ? 0 : 16 }} transition={{ duration: 0.45, ease: [0.2, 0.7, 0.2, 1] }}>
-                <span className="lk">{x.at.replace(",", "")}</span>
-                <b>{x.t}</b><em>{x.m}</em>
-              </motion.div>
-            ))}
+        <figure className="cal" aria-label="Illustrative 55-hour week of a company President: 14 hours operating, 33 managing, 8 scattered hours left for leading">
+          <div className="cal-h"><span>The President&apos;s week</span><span>Illustrative</span></div>
+          <div className="cal-g">
+            <span />{["M", "T", "W", "T", "F"].map((d, i) => <span key={i} className="cal-d">{d}</span>)}
+            {CAL.map((row, r) => [
+              <span key={"h" + r} className="cal-t">{HRS[r]}</span>,
+              ...row.split("").map((t, d) => <i key={r + "-" + d} className={"c " + state(t)} style={{ transitionDelay: `${((r * 7 + d * 3) % 9) * 35}ms` }} />),
+            ])}
           </div>
-          <motion.p className="left" animate={{ opacity: leftOn ? 1 : 0 }} transition={{ duration: 0.4 }}>Eight hours left for leading.</motion.p>
-        </div>
+          <div className="cal-k">
+            <span className={opOn ? "" : "dim"}><i className="op" />Operating <b>{opOn ? 14 : 0}h</b></span>
+            <span className={hidden ? "" : "dim"}><i className="mg" />Managing <b>{mgHours}h</b></span>
+            <span className={leftOn ? "hl" : "dim"}><i className="ld" />Leading <b>{leftOn ? 8 : 0}h</b></span>
+          </div>
+        </figure>
       </div></div>
     </section>
   );
