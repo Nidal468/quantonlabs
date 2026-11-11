@@ -50,6 +50,7 @@ export default function Stage2Page() {
         setAnswers(d.answers ?? {});
         setStep(d.step ?? 1);
         setIndex(d.index ?? 0);
+        latest.current = { step: d.step ?? 1, index: d.index ?? 0, answers: d.answers ?? {} };
         setState("ready");
       })
       .catch(() => setState("na"));
@@ -60,19 +61,59 @@ export default function Stage2Page() {
   const q = step < 4 ? sectionItems[Math.min(index, sectionItems.length - 1)] : undefined;
   const value = q ? answers[q.id] ?? q.defaultValue ?? "" : "";
 
+  // Latest position and answers, including text typed but not yet continued.
+  const latest = useRef<{ step: Step; index: number; answers: S2Answers } | null>(null);
+  const dirty = useRef(false);
+
+  const send = useCallback(
+    (next: { step: Step; index: number; answers: S2Answers }, keepalive = false) =>
+      fetch("/api/assessment/stage2/progress", { method: "PUT", keepalive, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, ...next }) })
+        .then((r) => r.json())
+        .then((d) => d.preview && setPreview(d.preview))
+        .catch(() => undefined),
+    [id]
+  );
+
   const save = useCallback(
     (next: { step: Step; index: number; answers: S2Answers }, immediate = false) => {
       window.clearTimeout(saveTimer.current);
-      const run = () =>
-        fetch("/api/assessment/stage2/progress", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, ...next }) })
-          .then((r) => r.json())
-          .then((d) => d.preview && setPreview(d.preview))
-          .catch(() => undefined);
+      latest.current = next;
+      dirty.current = true;
+      const run = () => { dirty.current = false; send(next); };
       if (immediate) run();
       else saveTimer.current = window.setTimeout(run, 400);
     },
-    [id]
+    [send]
   );
+
+  /** Sends any pending save at once; keepalive lets it finish after the tab closes. */
+  const flush = useCallback(() => {
+    if (!dirty.current || !latest.current) return;
+    window.clearTimeout(saveTimer.current);
+    dirty.current = false;
+    send(latest.current, true);
+  }, [send]);
+
+  // Track typed text so a close mid-answer keeps it.
+  useEffect(() => {
+    if (state !== "ready" || !latest.current) return;
+    const cur = latest.current;
+    if (cur.answers !== answers) {
+      latest.current = { ...cur, answers };
+      dirty.current = true;
+    }
+  }, [answers, state]);
+
+  useEffect(() => {
+    const onHide = () => flush();
+    const onVis = () => document.visibilityState === "hidden" && flush();
+    window.addEventListener("pagehide", onHide);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("pagehide", onHide);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [flush]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -165,7 +206,7 @@ export default function Stage2Page() {
             <div className="wrap">
               <div className="row">
                 <span className="lab">{sec.tracker}</span>
-                <button className="as-exit" onClick={() => setExitOpen(true)}>Exit</button>
+                <button className="as-exit" onClick={() => { flush(); setExitOpen(true); }}>Exit</button>
               </div>
               <div className="bar"><motion.i animate={{ width: `${progress}%` }} transition={{ duration: 0.5, ease }} /></div>
             </div>
