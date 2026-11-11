@@ -7,7 +7,7 @@
 import { siteBase } from "@/lib/assessment/linkToken";
 import { NextRequest, NextResponse } from "next/server";
 import { appendRecord, TAB_NAMES } from "@/lib/assessment/sheet";
-import { putPrivateHtml } from "@/lib/assessment/privateStore";
+import { deleteDraft, putPrivateHtml } from "@/lib/assessment/privateStore";
 import { reportUrl as signedReportUrl, reportPdfUrl as signedReportPdfUrl } from "@/lib/assessment/linkToken";
 import { escHtml, sendMail, SENDER, SIGNATURE_HTML, SIGNATURE_TEXT } from "@/lib/assessment/gmail";
 import { renderPdf } from "@/lib/stage1/pdfRenderer";
@@ -70,7 +70,9 @@ export async function POST(req: NextRequest) {
     const reportUrl = signedReportUrl(submissionId);
     const pdfUrl = signedReportPdfUrl(submissionId);
 
+    const draftId = (submission as { draft_id?: unknown }).draft_id;
     await Promise.allSettled([
+      typeof draftId === "string" && /^[0-9a-f-]{36}$/i.test(draftId) ? deleteDraft(draftId) : Promise.resolve(),
       appendRecord(TAB_NAMES[scored.closing_variant], sheetRow(submissionId, submittedAt, submission, scored, reportUrl, modular)).catch((e) =>
         console.error("[Sheet write failed]", e)
       ),

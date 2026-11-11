@@ -28,12 +28,15 @@ interface Result {
 }
 
 const CALENDLY = "https://calendly.com/quantonlabs/30min";
+const IDLE_MS = 30 * 60 * 1000;
+const d0 = { first_name: "", last_name: "", work_email: "", phone: "", website: "", role: "" as RespondentRole | "", location: "" };
 
 const MSG = {
   required: "This one is required to move forward. Choose what comes closest to how the company runs today.",
   email: "That email address does not look valid. Check the format and try again.",
   phone: "That phone number format is not recognized. Any standard format works, with or without country code, dashes, parentheses, or spaces.",
   website: "That website does not resolve to a live domain. Check for typos or try another address.",
+  timeout: (email: string) => `Your session timed out. Your answers are saved, and we sent a link to ${email} so you can pick up where you left off.`,
   a3: "Select at least one to continue: the functions closest to how the company runs today, even where they run on spreadsheets or by hand.",
 };
 
@@ -65,12 +68,15 @@ export default function AssessmentClient() {
   const [bi, setBi] = useState(0);
   const [priority, setPriority] = useState<PriorityOption | null>(null);
   const [outcome, setOutcome] = useState("");
-  const [d, setD] = useState({ first_name: "", last_name: "", work_email: "", phone: "", website: "", role: "" as RespondentRole | "", location: "" });
+  const [d, setD] = useState(d0);
   const [errs, setErrs] = useState<Record<string, string | null>>({});
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState<string | null>(null);
   const [result, setResult] = useState<Result | null>(null);
   const [sentTo, setSentTo] = useState("");
+  const [timedOut, setTimedOut] = useState(false);
+  const draftId = useRef<string>("");
+  const draftSaved = useRef(false);
   const aStart = useRef(0);
   const pace = useRef(15);
   const topRef = useRef<HTMLDivElement>(null);
@@ -82,6 +88,61 @@ export default function AssessmentClient() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [step, bi]);
+
+  // Resume from the save-and-return email (FRAMES section 7)
+  useEffect(() => {
+    draftId.current = crypto.randomUUID();
+    const token = new URLSearchParams(window.location.search).get("resume");
+    if (!token) return;
+    fetch(`/api/assessment/draft?token=${encodeURIComponent(token)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        const p = d?.payload;
+        if (!d?.available || !p?.section_a) return;
+        draftId.current = d.draft_id;
+        draftSaved.current = true;
+        setA(p.section_a);
+        setB(p.section_b ?? {});
+        setPriority(p.section_c?.priority ?? null);
+        setOutcome(p.section_c?.outcome_text ?? "");
+        setD({ ...d0, ...(p.section_d ?? {}) });
+        setStep("d");
+      })
+      .catch(() => undefined)
+      .finally(() => window.history.replaceState(null, "", "/assessment"));
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Draft: saved only after a valid email is entered in Section D
+  useEffect(() => {
+    if (step !== "d" || !validEmail(d.work_email)) return;
+    const t = window.setTimeout(() => {
+      fetch("/api/assessment/draft", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ draft_id: draftId.current, payload: { section_a: a, section_b: b, section_c: { priority, outcome_text: outcome }, section_d: d } }),
+      })
+        .then((r) => { if (r.ok) draftSaved.current = true; })
+        .catch(() => undefined);
+    }, 800);
+    return () => window.clearTimeout(t);
+  }, [step, d, a, b, priority, outcome]);
+
+  // Session timeout: 30 minutes without input
+  useEffect(() => {
+    if (step === "intro" || step === "done") return;
+    let t = 0;
+    const reset = () => {
+      window.clearTimeout(t);
+      t = window.setTimeout(() => {
+        if (draftSaved.current) setTimedOut(true);
+        else { setA({ functions: [] }); setB({}); setPriority(null); setOutcome(""); setD(d0); setStep("intro"); }
+      }, IDLE_MS);
+    };
+    const evs = ["pointerdown", "keydown", "scroll", "touchstart"] as const;
+    evs.forEach((e) => window.addEventListener(e, reset, { passive: true }));
+    reset();
+    return () => { window.clearTimeout(t); evs.forEach((e) => window.removeEventListener(e, reset)); };
+  }, [step]);
 
   // Supplementary tracker line, from the respondent's own pace through Section A.
   const remaining = (() => {
@@ -159,6 +220,7 @@ export default function AssessmentClient() {
     try {
       if (!(await checkD())) return;
       const payload = {
+        draft_id: draftId.current,
         section_a: a,
         section_b: Object.fromEntries(questions.map((x) => [x.id, b[x.id]])),
         section_c: { priority, outcome_text: outcome.trim() || null },
@@ -187,6 +249,13 @@ export default function AssessmentClient() {
   // ============================================================
   // RENDER
   // ============================================================
+
+  if (timedOut)
+    return (
+      <Page nav="paper">
+        <div className="as qx-paper"><div className="wrap as-body"><p className="as-na">{MSG.timeout(d.work_email.trim())}</p></div></div>
+      </Page>
+    );
 
   if (step === "intro") return <Intro onStart={() => { aStart.current = Date.now(); go("a"); }} />;
 

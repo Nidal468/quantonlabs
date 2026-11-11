@@ -3,7 +3,7 @@
 // Assessment - Private Blob Store
 // Source: DEVELOPER BRIEF ASSESSMENT, Launch Blocker 1
 
-import { put, get, del } from "@vercel/blob";
+import { put, get, del, list } from "@vercel/blob";
 
 // ============================================================
 // CONFIG
@@ -124,4 +124,43 @@ export async function getProgress<T>(submissionId: string): Promise<T | null> {
 
 export async function deleteProgress(submissionId: string): Promise<void> {
   await del(progressPath(submissionId), { storeId: storeId() });
+}
+
+// ============================================================
+// STAGE 1 SAVE AND RETURN (drafts after email capture, 72 hours)
+// ============================================================
+
+const draftPath = (draftId: string) => `drafts/${draftId}.json`;
+
+export async function putDraft(draftId: string, data: unknown): Promise<void> {
+  await put(draftPath(draftId), JSON.stringify(data), { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true, storeId: storeId() });
+}
+
+export async function getDraft<T>(draftId: string): Promise<T | null> {
+  try {
+    const result = await get(draftPath(draftId), { access: "private", useCache: false, storeId: storeId() });
+    if (!result || result.statusCode !== 200 || !result.stream) return null;
+    return JSON.parse(await new Response(result.stream).text()) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteDraft(draftId: string): Promise<void> {
+  await del(draftPath(draftId), { storeId: storeId() });
+}
+
+/** Every stored draft ID. */
+export async function listDraftIds(): Promise<string[]> {
+  const ids: string[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix: "drafts/", cursor, limit: 1000, storeId: storeId() });
+    for (const b of page.blobs) {
+      const m = b.pathname.match(/^drafts\/([0-9a-f-]{36})\.json$/i);
+      if (m) ids.push(m[1]);
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return ids;
 }

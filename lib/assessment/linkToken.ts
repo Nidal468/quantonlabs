@@ -9,7 +9,7 @@ import { createHmac, timingSafeEqual } from "crypto";
 // TYPES
 // ============================================================
 
-export type LinkPurpose = "report" | "brief";
+export type LinkPurpose = "report" | "brief" | "resume";
 
 // ============================================================
 // SECRET
