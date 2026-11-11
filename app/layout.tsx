@@ -51,10 +51,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://quantonlabs.com/images/assets/og-image.png",
+        url: "https://quantonlabs.com/images/site/og-card.png",
         width: 1200,
         height: 630,
-        alt: "Quanton Labs | The Architecture of Intelligent Business",
+        alt: "Quanton OS runs the company so its leadership can lead it.",
       },
     ],
   },
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Quanton OS | The AI-Native Business System",
     description:
-      "Quanton OS consolidates strategy, operations, and intelligence into a single governed architecture built as your system of record. For owner-led businesses generating $1M to $20M that need infrastructure, not more tools.",
-    images: ["https://quantonlabs.com/images/assets/og-image.png"],
+      "Quanton OS runs the company so its leadership can lead it. A Governing Agent and seven department leads on one system of record the company owns.",
+    images: ["https://quantonlabs.com/images/site/og-card.png"],
   },
   verification: {
     google: "VH98L-PLDlbMMnphknhdQWCZ1xoL8ClYr7wsxRLyUxo",
