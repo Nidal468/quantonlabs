@@ -42,7 +42,7 @@ const alternatives = [
 
 const quantonPoints = [
   "One operational core, built as your system of record",
-  "Eight coordinated agents under one Governing Agent",
+  "Seven department leads under one Governing Agent",
   "Approval gates on anything touching customers or revenue",
   "Deployed and operated by us, owned outright by you",
 ];

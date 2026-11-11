@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import FAQClient from "./FAQClient";
-import { faqs } from "./faqData";
+import FaqPage from "@/components/site/pages/FaqPage";
+import faq from "@/content/faq.json";
+
+const strip = (h: string) => h.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
 export const metadata: Metadata = {
   title: "FAQ | Quanton Labs",
   description:
-    "Answers to common questions about Quanton OS, the AI-native business system: what it is, how the operational core works, approval gates and governance, what you own, pricing, and the three-phase engagement.",
+    "Answers to common questions about Quanton OS, the AI-native business system: what it is, how the operational core works, approval levels and governance, what the company owns, and the three-phase engagement.",
   alternates: {
     canonical: "https://quantonlabs.com/faq",
   },
   openGraph: {
     title: "FAQ | Quanton Labs",
     description:
-      "Clear answers about what Quanton OS is, how it works, what you own, and what the engagement looks like.",
+      "What Quanton OS is, how it is governed, what the company owns, and what an engagement involves.",
     url: "https://quantonlabs.com/faq",
     siteName: "Quanton Labs",
     type: "website",
@@ -22,13 +24,10 @@ export const metadata: Metadata = {
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faqs.map(faq => ({
+  mainEntity: faq.flatMap((c) => c.qs).map((q) => ({
     "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
+    name: q.q,
+    acceptedAnswer: { "@type": "Answer", text: strip(q.a) },
   })),
 };
 
@@ -52,7 +51,7 @@ export default function FAQPageWrapper() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <FAQClient />
+      <FaqPage />
     </>
   );
 }

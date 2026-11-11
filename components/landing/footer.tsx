@@ -243,7 +243,7 @@ export default function Footer() {
                 <Link href="/privacy" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
                   Privacy
                 </Link>
-                <Link href="/terms" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
+                <Link href="/terms-of-use" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
                   Terms
                 </Link>
               </div>

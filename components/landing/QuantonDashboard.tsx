@@ -66,7 +66,7 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   { chapter: 3, scene: "resolved", anchor: "governing", title: "On the record", body: "Every action, escalation, and approval is recorded. You can reconstruct any decision later." },
 ];
 
-const IDLE_NARRATION = "Eight agents coordinating in real time. Watch a major sale and a staffing exception move through the system.";
+const IDLE_NARRATION = "Seven departments coordinating in real time. Watch a major sale and a staffing exception move through the system.";
 
 const SHIMMER_CSS = `
 @keyframes bsh {

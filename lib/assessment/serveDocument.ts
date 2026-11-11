@@ -37,7 +37,7 @@ function notFound(): NextResponse {
 
 export async function serveSignedDocument(
   req: NextRequest,
-  purpose: LinkPurpose,
+  purpose: "report" | "brief",
   token: string,
   pdfFilename: string
 ): Promise<NextResponse> {

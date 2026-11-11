@@ -4,14 +4,14 @@ import AboutClient from "./AboutClient";
 export const metadata: Metadata = {
   title: "About | Quanton Labs",
   description:
-    "Quanton Labs is a business infrastructure company that builds and operates Quanton OS, an AI-native business system for established operators generating $1M to $20M annually. Founded on 18 years of multi-site operating experience.",
+    "Quanton Labs builds and operates Quanton OS, an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.",
   alternates: {
     canonical: "https://quantonlabs.com/about",
   },
   openGraph: {
     title: "About | Quanton Labs",
     description:
-      "Built by an operator, for operators. Quanton Labs builds and operates the AI-native business system behind established operators generating $1M to $20M.",
+      "Quanton OS runs the company so its leadership can lead it. The consulting firm that stays.",
     url: "https://quantonlabs.com/about",
     siteName: "Quanton Labs",
     type: "website",

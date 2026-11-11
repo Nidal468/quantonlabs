@@ -3,26 +3,31 @@
 // Assessment - Private Blob Store
 // Source: DEVELOPER BRIEF ASSESSMENT, Launch Blocker 1
 
-import { put, get, del } from "@vercel/blob";
+import { put, get, del, list } from "@vercel/blob";
 
 // ============================================================
 // CONFIG
 // ============================================================
 
 /**
- * The project carries two Blob stores. The public one holds brand assets
- * (logo) and is referenced by the report templates and the CSP. Reports and
- * briefs live in a separate private store. Every call here passes that
- * store's token explicitly so the SDK can never fall back to the public
- * store's BLOB_READ_WRITE_TOKEN.
+ * The project carries two Blob stores. The public one (quantonlabs-blob)
+ * holds brand assets and still uses the legacy BLOB_READ_WRITE_TOKEN. The
+ * private one (ql-assessment-private) holds reports and briefs and is
+ * connected through OIDC: Vercel injects BLOB_STORE_ID and a short-lived
+ * VERCEL_OIDC_TOKEN that the SDK reads on its own.
  *
- * Set PRIVATE_BLOB_READ_WRITE_TOKEN in Vercel to the token Vercel generated
- * when the private store was connected. If the generated variable has a
- * different name, map it: PRIVATE_BLOB_READ_WRITE_TOKEN=${THAT_NAME}.
+ * Every call here passes storeId explicitly and no token. The SDK resolves
+ * credentials as explicit token, then OIDC with the store ID, then
+ * BLOB_READ_WRITE_TOKEN, so naming the store keeps these calls off the
+ * public store. Requires @vercel/blob 2.8.0 or later.
+ *
+ * Local development: `vercel env pull .env.local` writes BLOB_STORE_ID and a
+ * VERCEL_OIDC_TOKEN that expires after some hours; pull again when writes
+ * start failing with an authentication error.
  */
-function token(): string {
-  const value = process.env.PRIVATE_BLOB_READ_WRITE_TOKEN;
-  if (!value) throw new Error("PRIVATE_BLOB_READ_WRITE_TOKEN is missing.");
+function storeId(): string {
+  const value = process.env.BLOB_STORE_ID;
+  if (!value) throw new Error("BLOB_STORE_ID is missing.");
   return value;
 }
 
@@ -52,7 +57,7 @@ export async function putPrivateHtml(
     contentType: "text/html; charset=utf-8",
     addRandomSuffix: false,
     allowOverwrite: true,
-    token: token(),
+    storeId: storeId(),
   });
 }
 
@@ -72,7 +77,7 @@ export async function getPrivateHtml(
   const result = await get(documentPath(kind, submissionId), {
     access: "private",
     useCache: false,
-    token: token(),
+    storeId: storeId(),
   });
 
   if (!result || result.statusCode !== 200 || !result.stream) return null;
@@ -88,5 +93,74 @@ export async function deletePrivateHtml(
   kind: StoredDocument,
   submissionId: string
 ): Promise<void> {
-  await del(documentPath(kind, submissionId), { token: token() });
+  await del(documentPath(kind, submissionId), { storeId: storeId() });
+}
+
+// ============================================================
+// STAGE 2 PROGRESS (saved answers, keyed to the submission)
+// ============================================================
+
+const progressPath = (submissionId: string) => `progress/${submissionId}.json`;
+
+export async function putProgress(submissionId: string, data: unknown): Promise<void> {
+  await put(progressPath(submissionId), JSON.stringify(data), {
+    access: "private",
+    contentType: "application/json",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    storeId: storeId(),
+  });
+}
+
+export async function getProgress<T>(submissionId: string): Promise<T | null> {
+  try {
+    const result = await get(progressPath(submissionId), { access: "private", useCache: false, storeId: storeId() });
+    if (!result || result.statusCode !== 200 || !result.stream) return null;
+    return JSON.parse(await new Response(result.stream).text()) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteProgress(submissionId: string): Promise<void> {
+  await del(progressPath(submissionId), { storeId: storeId() });
+}
+
+// ============================================================
+// STAGE 1 SAVE AND RETURN (drafts after email capture, 72 hours)
+// ============================================================
+
+const draftPath = (draftId: string) => `drafts/${draftId}.json`;
+
+export async function putDraft(draftId: string, data: unknown): Promise<void> {
+  await put(draftPath(draftId), JSON.stringify(data), { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true, storeId: storeId() });
+}
+
+export async function getDraft<T>(draftId: string): Promise<T | null> {
+  try {
+    const result = await get(draftPath(draftId), { access: "private", useCache: false, storeId: storeId() });
+    if (!result || result.statusCode !== 200 || !result.stream) return null;
+    return JSON.parse(await new Response(result.stream).text()) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteDraft(draftId: string): Promise<void> {
+  await del(draftPath(draftId), { storeId: storeId() });
+}
+
+/** Every stored draft ID. */
+export async function listDraftIds(): Promise<string[]> {
+  const ids: string[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix: "drafts/", cursor, limit: 1000, storeId: storeId() });
+    for (const b of page.blobs) {
+      const m = b.pathname.match(/^drafts\/([0-9a-f-]{36})\.json$/i);
+      if (m) ids.push(m[1]);
+    }
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return ids;
 }

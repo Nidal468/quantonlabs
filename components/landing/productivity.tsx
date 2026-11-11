@@ -120,7 +120,7 @@ export default function GoverningAgent() {
               marginBottom: "18px",
             }}
           >
-            Without coordination, eight agents are just eight automations.
+            Without coordination, agents are just automations.
           </h2>
 
           <p
@@ -409,7 +409,7 @@ export default function GoverningAgent() {
                 fontSize: "14px",
               }}
             >
-              8 agents. 1 governing layer. Zero fragmentation.
+              7 department leads. 1 Governing Agent. One record.
             </div>
           </div>
         </motion.div>

@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
-import ArchitectureClient from "@/components/architecture/ArchitectureClient";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
+import ArchitecturePage from "@/components/site/pages/ArchitecturePage";
 
 const SITE = "https://quantonlabs.com";
 
 export const metadata: Metadata = {
   title: "How Quanton OS Is Built | Architecture | Quanton Labs",
   description:
-    "The architecture behind Quanton OS: eight coordinated AI agents running on a governed operational core, a Governing Agent that coordinates across every function, approval gates on anything touching customers or revenue, and a system that compounds as the model layer advances.",
+    "How Quanton OS is built: one system of record the company owns, shared engines that compute every number, and a Governing Agent coordinating seven department leads under approval levels leadership sets.",
   keywords:
-    "AI-native business system architecture, AI agent coordination, governing agent, approval gates, AI governance, operational core, system of record",
+    "AI-native business system architecture, governing agent, approval levels, AI governance, operational core, system of record",
   alternates: {
     canonical: `${SITE}/architecture`,
   },
   openGraph: {
     title: "How Quanton OS Is Built",
     description:
-      "Eight coordinated agents on one governed operational core. How the architecture works, how decisions are made, and how you stay in control.",
+      "Three planes on one system of record, a Governing Agent above seven department leads, and approval levels enforced in the system.",
     url: `${SITE}/architecture`,
     siteName: "Quanton Labs",
     type: "article",
@@ -29,7 +27,7 @@ const techArticleSchema = {
   "@type": "TechArticle",
   headline: "How Quanton OS Is Built",
   description:
-    "The architecture behind Quanton OS: eight coordinated AI agents running on a governed operational core, with a Governing Agent coordinating across every function and approval gates on every consequential action.",
+    "How Quanton OS is built: three planes on one system of record, shared engines that compute every number, and a Governing Agent above seven department leads, with approval levels on every consequential action.",
   author: {
     "@type": "Organization",
     name: "Quanton Labs",
@@ -64,7 +62,7 @@ const breadcrumbSchema = {
   ],
 };
 
-export default function ArchitecturePage() {
+export default function Page() {
   return (
     <>
       <script
@@ -75,9 +73,7 @@ export default function ArchitecturePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Navbar isScrolled={true} />
-      <ArchitectureClient />
-      <Footer />
+      <ArchitecturePage />
     </>
   );
 }

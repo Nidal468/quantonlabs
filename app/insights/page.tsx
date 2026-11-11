@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import InsightsIndex from "@/components/insights/InsightsIndex";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
 import { blogPosts } from "@/db/blogs";
 
 export const metadata: Metadata = {
   title: "Insights | Quanton Labs",
   description:
-    "Writing on business architecture, operational intelligence, and why AI initiatives fail without infrastructure. Written for owner-led businesses generating $1M to $20M annually.",
+    "Writing on business architecture, operational intelligence, and why AI initiatives fail without infrastructure. Written for leaders of established companies.",
   alternates: {
     canonical: "https://quantonlabs.com/insights",
   },
@@ -67,9 +65,7 @@ export default function InsightsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Navbar isScrolled={true} />
       <InsightsIndex />
-      <Footer />
     </>
   );
 }

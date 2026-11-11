@@ -1,26 +1,19 @@
 import type { Metadata } from "next";
-import CaseStudiesIndex from "@/components/case-studies/CaseStudiesIndex";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
+import CaseStudiesPage from "@/components/site/pages/CaseStudiesPage";
+
+const url = "https://quantonlabs.com/case-studies";
+const title = "Case Studies | Quanton Labs";
+const description = "Quanton OS deployments and Modular Agent Program engagements: a precision manufacturer's margin and operating profit, a trade contractor's crews, and agent results measured after launch.";
+
 export const metadata: Metadata = {
-  title: "Case Studies | Quanton Labs",
-  description:
-    "Live Quanton OS deployments across manufacturing, professional services, hospitality, property management, and real estate. Real operational failures, real infrastructure built to fix them.",
-  alternates: {
-    canonical: "https://quantonlabs.com/case-studies",
-  },
-  openGraph: {
-    title: "Case Studies | Quanton Labs",
-    description:
-      "Live Quanton OS deployments across five industries, each starting from the same discipline: quantify the loss, then deploy the system that removes it.",
-    url: "https://quantonlabs.com/case-studies",
-    siteName: "Quanton Labs",
-    type: "website",
-  },
+  title,
+  description,
+  alternates: { canonical: url },
+  openGraph: { title, description, url, siteName: "Quanton Labs", type: "website" },
 };
 
-export default function CaseStudiesPage() {
-return (
+export default function Page() {
+  return (
     <>
       <script
         type="application/ld+json"
@@ -35,8 +28,7 @@ return (
           }),
         }}
       />
-      <Navbar isScrolled={false} />
-      <CaseStudiesIndex />
-      <Footer />
+      <CaseStudiesPage />
     </>
-  );}
+  );
+}

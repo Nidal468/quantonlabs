@@ -9,7 +9,7 @@ import { createHmac, timingSafeEqual } from "crypto";
 // TYPES
 // ============================================================
 
-export type LinkPurpose = "report" | "brief";
+export type LinkPurpose = "report" | "brief" | "resume";
 
 // ============================================================
 // SECRET
@@ -84,8 +84,15 @@ export function verifyToken(purpose: LinkPurpose, token: string): string | null 
 // URL HELPERS
 // ============================================================
 
-function siteBase(): string {
-  return process.env.NEXTAUTH_URL ?? "https://quantonlabs.com";
+/**
+ * Absolute site address for every assessment link, report asset, and email.
+ * On a Vercel preview it is the preview's own address, so links sent from a
+ * preview open there. Everywhere else: NEXTAUTH_URL, defaulting to quantonlabs.com.
+ */
+
+export function siteBase(): string {
+  if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return (process.env.NEXTAUTH_URL ?? "https://quantonlabs.com").replace(/\/+$/, "");
 }
 
 export function reportUrl(submissionId: string): string {

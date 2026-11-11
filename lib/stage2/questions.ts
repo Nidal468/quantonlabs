@@ -1,353 +1,168 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 2 Assessment — Question Definitions
+// Stage 2 Extended Operator Brief - Question Bank and Activation
+// Source: ASSESSMENT STAGE 2 QUESTION BANK (copy verbatim);
+//         ASSESSMENT FRAMES AND TRANSITIONS (sections 11 to 13)
 
-import type {
-  IdentityFrame,
-  RiskStyle,
-  TimeHorizon,
-  EmotionalDriver,
-  DecisionActivator,
-  VisionCategory,
-  OperatingSystem,
-} from "./types";
+import type { OperatingSystem } from "@/lib/stage1/types";
 
-// ============================================================
-// INFERENCE QUESTION MAPS
-// ============================================================
-// Each inference question maps answer index (0-3) to a profile value.
-// These run silently. The owner never sees the mapping.
+export type S2Section = 1 | 2 | 3;
 
-export const INFERENCE_Q1_MAP: Record<number, IdentityFrame> = {
-  0: "operator",
-  1: "builder",
-  2: "steward",
-  3: "visionary",
-};
-
-export const INFERENCE_Q2_MAP: Record<number, RiskStyle> = {
-  0: "loss_averse",
-  1: "opportunity_driven",
-  2: "pragmatic",
-  3: "growth_oriented",
-};
-
-export const INFERENCE_Q3_MAP: Record<number, TimeHorizon> = {
-  0: "short_term",
-  1: "medium_term",
-  2: "long_term",
-  3: "exit_legacy",
-};
-
-export const INFERENCE_Q4_MAP: Record<number, EmotionalDriver> = {
-  0: "financial_security",
-  1: "time_and_lifestyle",
-  2: "independence_and_legacy",
-  3: "achievement_and_scale",
-};
-
-export const INFERENCE_Q5_MAP: Record<number, DecisionActivator> = {
-  0: "loss_averse",
-  1: "vision",
-  2: "data",
-  3: "relationship",
-};
-
-export const VISION_CATEGORY_MAP: Record<number, VisionCategory> = {
-  0: "financial_freedom",
-  1: "time_and_lifestyle",
-  2: "family_and_legacy",
-  3: "exit_and_independence",
-  4: "growth_and_scale",
-  5: "proof_and_achievement",
-};
-
-// ============================================================
-// INFERENCE QUESTION CONTENT
-// ============================================================
-
-export interface InferenceQuestion {
-  id: string;
-  prompt: string;
-  options: [string, string, string, string];
+export interface S2Option {
+  key: string;
+  label: string;
 }
 
-export const INFERENCE_QUESTIONS: InferenceQuestion[] = [
-  {
-    id: "IQ1",
-    prompt:
-      "What would have to be true for you to feel like this business is finally working the way it should?",
-    options: [
-      "I would have clear visibility into what is happening across the business and feel genuinely in control of outcomes.",
-      "The business would run and grow without requiring my constant presence or involvement.",
-      "My team would be performing consistently and the culture would reflect what I originally built this for.",
-      "We would be moving measurably and deliberately toward something larger than where we are today.",
-    ],
-  },
-  {
-    id: "IQ2",
-    prompt:
-      "When you think about where your business is right now, what sits heaviest on you?",
-    options: [
-      "Protecting what we have built. Things are working but I am aware of how quickly that can change.",
-      "Recovering ground. We have lost momentum somewhere and I want it back.",
-      "Finding the ceiling. I know we can perform better than we are and I cannot identify exactly why we are not.",
-      "Accelerating. The foundation is there and I want to move faster toward where we are going.",
-    ],
-  },
-  {
-    id: "IQ3",
-    prompt:
-      "When you are making decisions about the business, what time frame is most present in your thinking?",
-    options: [
-      "The next 30 to 90 days. Cash flow, immediate problems, what needs to happen this quarter.",
-      "The next one to two years. Building systems, growing the team, getting ahead of where we are.",
-      "The next three to five years. What this business looks like when it is running at its real potential.",
-      "The longer horizon. What this business becomes, what it is worth, and what it means beyond me.",
-    ],
-  },
-  {
-    id: "IQ4",
-    prompt:
-      "What would make the next 12 months feel like a genuine success to you personally, not just for the business?",
-    options: [
-      "Significantly less financial stress and more certainty about where the money is coming from.",
-      "Getting real time back. Fewer nights and weekends consumed by problems the business should be solving itself.",
-      "Knowing the business could sustain and grow without everything running through me.",
-      "Being able to point to measurable progress toward a goal that actually matters to me.",
-    ],
-  },
-  {
-    id: "IQ5",
-    prompt:
-      "When something important in your life or business has been broken or underperforming for a while, what finally moved you to do something about it?",
-    options: [
-      "When the cost of staying where I was became impossible to ignore.",
-      "When someone showed me a clear picture of what things could look like on the other side.",
-      "After doing my own research and finally understanding the real source of the problem.",
-      "When a trusted advisor, whether an accountant, attorney, or mentor, helped me see something I had been too close to recognize.",
-    ],
-  },
-];
-
-// ============================================================
-// VISION QUESTION CONTENT
-// ============================================================
-
-export const VISION_QUESTION = {
-  id: "VQ1",
-  prompt:
-    "When you are honest with yourself about why you started this business, or why you are still building it, which of these comes closest to what drives you?",
-  options: [
-    "Financial freedom. I want income and wealth that gives me real options, not just a salary I work for.",
-    "Time and lifestyle. I want control over how I spend my days. The business should serve my life, not consume it.",
-    "Family and legacy. I am building something that outlasts me, provides for the people I care about, and means something beyond revenue.",
-    "Exit and independence. I am building an asset. At some point I want to step back, sell, or hand it off and have something to show for it.",
-    "Growth and scale. I want to build something genuinely significant. The goal is not stability, it is momentum.",
-    "Proof and achievement. I started this to prove something to myself or to others, and I am not done yet.",
-  ] as const,
-};
-
-// ============================================================
-// SECTION 2 QUESTION CONTENT
-// ============================================================
-
-export interface Section2Question {
+export interface S2Question {
   id: string;
-  os: OperatingSystem | "universal";
-  prompt: string;
-  options: string[];
-  conditional_on?: { question_id: string; answers: string[] };
+  section: S2Section;
+  text: string;
+  kind: "choice" | "number" | "text";
+  options?: S2Option[];
+  /** Operating system block; absent for universal items. */
+  os?: OperatingSystem;
+  optional?: boolean;
+  min?: number; // characters for text, value for number
+  max?: number;
+  placeholder?: string;
+  defaultValue?: string;
 }
 
-export const SECTION2_QUESTIONS: Section2Question[] = [
-  // Universal bridge
-  {
-    id: "S2.Universal.1",
-    os: "universal",
-    prompt:
-      "Thinking about what you just shared, how much of your current week as an owner is actually spent working toward the vision you described, versus managing the day to day demands of keeping the business running?",
-    options: [
-      "Almost all of my time goes toward the vision. I have built enough structure that the business largely runs itself.",
-      "More than half of my time is directed toward growth and the things that matter most.",
-      "It is roughly split. I move between strategic and operational constantly and neither gets my full attention.",
-      "Most of my time is consumed by the day to day. The vision is something I think about but rarely have time to act on.",
-      "Nearly all of my time is operational. I am in the business almost entirely, not working on it.",
-    ],
-  },
+const opts = (...pairs: [string, string][]): S2Option[] => pairs.map(([key, label]) => ({ key, label }));
 
-  // Operations OS
-  {
-    id: "S2.Ops.1",
-    os: "operations",
-    prompt:
-      "When a process breaks down in your business, whether a delivery goes wrong, a job gets reworked, or a deadline is missed, how does your team typically respond?",
-    options: [
-      "We have a clear process for identifying the cause and correcting it. It rarely happens twice.",
-      "We address it case by case. Some things get fixed, others recur.",
-      "It depends on who is involved. Some people handle it well, others do not.",
-      "We are mostly reactive. We fix the immediate problem but the underlying cause usually remains.",
-    ],
-  },
-  {
-    id: "S2.Ops.2",
-    os: "operations",
-    prompt:
-      "How would you describe the visibility you currently have into what is actually happening in your business on any given day?",
-    options: [
-      "Strong. I have reliable data and reporting that tells me where things stand without having to ask.",
-      "Adequate. I can get the information I need but it requires effort to pull it together.",
-      "Limited. I rely heavily on conversations and gut feel rather than data.",
-      "Minimal. Most of what I know comes from problems surfacing rather than systems reporting.",
-    ],
-  },
-  {
-    id: "S2.Ops.3",
-    os: "operations",
-    prompt:
-      "When something goes wrong in the business and you find out about it, how did you typically learn?",
-    options: [
-      "A team member told me directly.",
-      "A customer told me before my team did.",
-      "I noticed it myself when reviewing something.",
-      "It had already become a significant problem before I was aware of it.",
-    ],
-    conditional_on: { question_id: "S2.Ops.2", answers: ["c", "d"] },
-  },
-  {
-    id: "S2.Ops.4",
-    os: "operations",
-    prompt:
-      "If you were completely removed from your business for 30 days with no contact, what would you expect to find when you returned?",
-    options: [
-      "The business would have run well. My team has what they need to operate without me.",
-      "Most things would be fine but a few important things would have slipped.",
-      "There would be meaningful problems that required my direct attention to resolve.",
-      "It is difficult to imagine. My involvement is woven into too many things for that to work right now.",
-    ],
-  },
+const MONEY_BANDS = opts(["u25k", "Under $25K"], ["25k_50k", "$25K to $50K"], ["50k_100k", "$50K to $100K"], ["100k_250k", "$100K to $250K"], ["250k_500k", "$250K to $500K"], ["o500k", "Over $500K"]);
 
-  // Growth OS
-  {
-    id: "S2.Growth.1",
-    os: "growth",
-    prompt:
-      "Think about the last time a real opportunity came into your business and did not convert. Not because the fit was wrong, but because something on your end broke down. How often does that happen?",
-    options: [
-      "Rarely. We lose business but it is usually on price or fit, not on our process.",
-      "Occasionally. I can think of specific instances where we left real money on the table.",
-      "Regularly. I know we are losing convertible opportunities and it bothers me more than I let on.",
-      "I honestly do not have enough visibility to know for certain, which is a problem in itself.",
-    ],
-  },
-  {
-    id: "S2.Growth.2",
-    os: "growth",
-    prompt:
-      "How would you describe your business's ability to generate new revenue independent of your personal relationships and direct involvement?",
-    options: [
-      "Strong. We have channels and processes that bring in business without requiring me to be the driver.",
-      "Developing. We have some structure but I am still central to most new revenue conversations.",
-      "Limited. Most new business comes through my relationships or my direct effort.",
-      "Almost entirely dependent on me. If I stepped back from business development, new revenue would slow significantly.",
-    ],
-  },
-  {
-    id: "S2.Growth.3",
-    os: "growth",
-    prompt:
-      "When you think about the clients or customers you have lost or never converted in the past 12 months, what was the most common reason?",
-    options: [
-      "Price. We lost on cost.",
-      "Speed. We were not responsive enough.",
-      "Awareness. They did not know enough about us to choose us.",
-      "Follow through. We had the opportunity but did not pursue it consistently enough.",
-      "I do not have clear visibility into why we lose business.",
-    ],
-  },
+export const S2_QUESTIONS: S2Question[] = [
+  // ---------------- Section 1: Why ----------------
+  { id: "IQ1", section: 1, kind: "choice", text: "What would have to be true for this company to be working the way it should?", options: opts(
+    ["operator", "Leadership sees what is happening across the company and is in control of outcomes"],
+    ["builder", "The company runs and grows without depending on a few people"],
+    ["steward", "The team performs consistently and the culture reflects what the company stands for"],
+    ["visionary", "The company is moving deliberately toward something larger than where it is today"]) },
+  { id: "IQ2", section: 1, kind: "choice", text: "Where the company is right now, what weighs on you most?", options: opts(
+    ["protecting", "Protecting what has been built: it works, and I know how quickly that can change"],
+    ["recovering", "Recovering ground: we lost momentum somewhere and I want it back"],
+    ["ceiling", "Finding the ceiling: I know we can perform better and cannot pin down why we are not"],
+    ["accelerating", "Accelerating: the foundation is there and I want to move faster"]) },
+  { id: "IQ3", section: 1, kind: "choice", text: "When you make decisions about the company, what time frame is most present?", options: opts(
+    ["d30_90", "The next 30 to 90 days"],
+    ["y1_2", "The next one to two years"],
+    ["y3_5", "The next three to five years"],
+    ["longer", "The longer horizon: what the company becomes, what it is worth, and what it means beyond the people running it today"]) },
+  { id: "IQ4", section: 1, kind: "choice", text: "What would make the next 12 months a genuine success for you personally, not just for the company?", options: opts(
+    ["pressure", "Less financial pressure and more certainty about where the money comes from"],
+    ["time", "Real time back: fewer nights and weekends spent on problems the company should solve itself"],
+    ["without_me", "Knowing the company could sustain and grow without everything running through me or a few people"],
+    ["progress", "Measurable progress toward a goal that matters to me"]) },
+  { id: "IQ5", section: 1, kind: "choice", text: "When something important has been broken or underperforming for a while, what finally moves you to act?", options: opts(
+    ["cost", "When the cost of staying put becomes impossible to ignore"],
+    ["picture", "When someone shows me a clear picture of the other side"],
+    ["research", "When my own research shows me the real source of the problem"],
+    ["advisor", "When a trusted advisor helps me see what I was too close to recognize"]) },
+  // VQ1: option wording as in the prior build, with "business" read as "company";
+  // Exit and independence carries the question bank wording.
+  { id: "VQ1", section: 1, kind: "choice", text: "When you are honest about why you built or lead this company, which comes closest to what drives you?", options: opts(
+    ["financial_freedom", "Financial freedom: I want income and wealth that gives me real options, not just a salary I work for"],
+    ["time_lifestyle", "Time and lifestyle: I want control over how I spend my days. The company should serve my life, not consume it"],
+    ["family_legacy", "Family and legacy: I am building something that outlasts me, provides for the people I care about, and means something beyond revenue"],
+    ["exit_independence", "Exit and independence: building an asset I can step back from, sell, or hand off"],
+    ["growth_scale", "Growth and scale: I want to build something genuinely significant. The goal is not stability, it is momentum"],
+    ["proof_achievement", "Proof and achievement: I started this to prove something to myself or to others, and I am not done yet"]) },
+  { id: "VQ2", section: 1, kind: "choice", text: "How close does the company feel to delivering that right now?", options: opts(
+    ["further", "Further away than when I started"],
+    ["see_path", "Not close, but I can see the path"],
+    ["middle", "Somewhere in the middle"],
+    ["closer", "Closer, but not there yet"],
+    ["very_close", "Very close, which is why I want to protect it"]) },
+  { id: "VQ3", section: 1, kind: "text", min: 12, max: 280, text: "What would have to change in the next 12 months for the company to be genuinely moving toward that?" },
 
-  // Strategy OS
-  {
-    id: "S2.Strategy.1",
-    os: "strategy",
-    prompt:
-      "How clearly defined are the one to three year goals for your business, and how confident are you that your current operational structure can actually deliver them?",
-    options: [
-      "Goals are clearly defined and I am confident the structure can support them.",
-      "Goals are clear but I have real uncertainty about whether the structure can keep up.",
-      "Goals exist but they are not specific enough to drive meaningful decisions day to day.",
-      "We operate mostly on shorter time frames. Longer term planning is difficult given how much of my time the business requires.",
-    ],
-  },
-  {
-    id: "S2.Strategy.2",
-    os: "strategy",
-    prompt:
-      "If your business continued operating exactly as it does today for the next three years, where would you expect to be relative to the vision you described earlier?",
-    options: [
-      "Closer to it. The trajectory feels right even if the pace could be faster.",
-      "About where I am now. We would maintain but not meaningfully advance.",
-      "Further behind. The gap between where I am and where I want to be would widen.",
-      "I would have burned out or made a significant change before three years passed.",
-    ],
-  },
+  // ---------------- Section 2: Reality check ----------------
+  { id: "R.Time", section: 2, kind: "choice", text: "How much of your own week goes toward the direction you just described, versus keeping the company running?", options: opts(
+    ["almost_all", "Almost all toward the direction"], ["more_half", "More than half"], ["split", "Roughly split"], ["mostly_running", "Mostly keeping it running"], ["nearly_all_running", "Nearly all keeping it running"]) },
+  { id: "R.Ops.1", section: 2, os: "operations", kind: "choice", text: "When a process breaks (a delivery goes wrong, work is redone, a deadline is missed), how does the team respond?", options: opts(
+    ["clear", "A clear process finds the cause and fixes it"], ["case", "Case by case"], ["depends", "Depends on who is involved"], ["reactive", "Mostly reactive: the cause remains"]) },
+  { id: "R.Ops.2", section: 2, os: "operations", kind: "choice", text: "If you and your senior people were unreachable for 30 days, what would you find on return?", options: opts(
+    ["ran_well", "It ran well"], ["slipped", "Mostly fine, a few important things slipped"], ["problems", "Meaningful problems needing leadership to resolve"], ["hard", "Hard to imagine: leadership is woven into too much"]) },
+  { id: "R.Ops.3", section: 2, os: "operations", kind: "choice", text: "How does leadership usually learn that something went wrong?", options: opts(
+    ["team", "A team member flags it"], ["customer", "A customer tells us first"], ["notices", "Leadership notices it reviewing something"], ["significant", "It is already a significant problem by then"]) },
+  { id: "R.Growth.1", section: 2, os: "growth", kind: "choice", text: "How often does a real opportunity fail to convert because something broke down on your side?", options: opts(
+    ["rarely", "Rarely"], ["occasionally", "Occasionally"], ["regularly", "Regularly"], ["unknown", "We do not have the visibility to know"]) },
+  { id: "R.Growth.2", section: 2, os: "growth", kind: "choice", text: "How much new revenue comes in without depending on a few people's relationships?", options: opts(
+    ["most", "Most of it"], ["some", "Some"], ["little", "Little"], ["almost_none", "Almost none"]) },
+  { id: "R.Growth.3", section: 2, os: "growth", kind: "choice", text: "What is the most common reason you lose or fail to convert customers?", options: opts(
+    ["price", "Price"], ["speed", "Speed"], ["awareness", "Awareness"], ["follow_through", "Follow-through"], ["unknown", "We do not know why"]) },
+  { id: "R.Strat.1", section: 2, os: "strategy", kind: "choice", text: "How clear are the one to three year goals, and can the current structure deliver them?", options: opts(
+    ["clear_can", "Clear, and the structure can"], ["clear_may_not", "Clear, but the structure may not keep up"], ["not_specific", "Not specific enough to drive decisions"], ["shorter", "We run on shorter time frames"]) },
+  { id: "R.Strat.2", section: 2, os: "strategy", kind: "choice", text: "If the company ran exactly as it does today for three years, where would it be against the vision you described?", options: opts(
+    ["closer", "Closer"], ["about", "About where it is"], ["further", "Further behind"], ["burnout", "Someone would burn out or make a major change first"]) },
+  { id: "R.Strat.3", section: 2, os: "strategy", kind: "choice", text: "What share of the week's decisions need leadership's direct approval?", options: opts(
+    ["u25", "Under 25%"], ["25_50", "25 to 50%"], ["51_75", "51 to 75%"], ["o75", "Over 75%"]) },
+  { id: "R.Plat.1", section: 2, os: "platform", kind: "choice", text: "How many places does a customer's full history live (orders, invoices, messages, job records)?", options: opts(
+    ["one", "One"], ["two_three", "Two or three"], ["four_plus", "Four or more"], ["cannot", "We could not assemble it reliably"]) },
+  { id: "R.Plat.2", section: 2, os: "platform", kind: "choice", text: "How many hours a week does a typical team member spend re-entering, copying, or reconciling information?", options: opts(
+    ["u1", "Under 1"], ["1_3", "1 to 3"], ["4_8", "4 to 8"], ["o8", "Over 8"]) },
+  { id: "R.Urgency", section: 2, kind: "choice", text: "Given everything you just reflected on, how urgent does this feel right now?", options: opts(
+    ["critical", "Critical"], ["important", "Important, not yet urgent"], ["unsure", "Significant, but unsure of the right move"], ["understand", "I came to understand the picture"]) },
 
-  // People OS (mapped to platform gaps)
-  {
-    id: "S2.People.1",
-    os: "platform",
-    prompt:
-      "When you think about the people-related decisions and conversations you have had in the last 30 days, how many of them should have been handled by a system, a process, or a capable team member rather than requiring your direct involvement?",
-    options: [
-      "Very few. My involvement in people issues is strategic, not operational.",
-      "Some. There are recurring situations that I handle personally that probably should not require me.",
-      "Many. A significant portion of my week involves people issues that a better structure would eliminate.",
-      "Almost all of them. People management is one of the largest consumers of my time and attention right now.",
-    ],
-  },
-  {
-    id: "S2.People.2",
-    os: "platform",
-    prompt:
-      "When you think about your team right now, which best describes where most of your energy goes?",
-    options: [
-      "Developing people who are already performing well.",
-      "Managing performance gaps in people who are not meeting expectations.",
-      "Filling roles or managing the impact of positions that are vacant or underperforming.",
-      "Dealing with the same issues repeatedly because the underlying structure to resolve them does not exist yet.",
-    ],
-  },
-
-  // Urgency — universal closing
-  {
-    id: "S2.Urgency",
-    os: "universal",
-    prompt:
-      "Given everything you just reflected on, how urgent does addressing these gaps feel to you right now?",
-    options: [
-      "Critical. This needs to change and I know it. I have been putting it off and I should not be.",
-      "Important but not yet urgent. I know it matters but I have not felt the pressure to act yet.",
-      "Significant but uncertain. I know something needs to change but I am not sure what the right move is.",
-      "I came here to understand the picture better. I did not expect it to feel this pressing.",
-    ],
-  },
+  // ---------------- Section 3: The numbers ----------------
+  { id: "N.Rate", section: 3, kind: "number", min: 1, max: 100000, defaultValue: "150", text: "What is an hour of leadership time worth to the company?" },
+  { id: "N.Leaders", section: 3, kind: "choice", text: "How many people are in leadership?", options: opts(["1", "1"], ["2_3", "2 to 3"], ["4_6", "4 to 6"], ["7p", "7 or more"]) },
+  { id: "N.Managing", section: 3, kind: "choice", text: "Hours per week each leader spends on managing work a system or capable team member should handle", options: opts(
+    ["u5", "Under 5"], ["5_10", "5 to 10"], ["11_20", "11 to 20"], ["o20", "Over 20"]) },
+  { id: "N.Overhead", section: 3, kind: "choice", text: "Monthly overhead: costs that do not change with the work (rent, office salaries, insurance, vehicles, software)", options: [...MONEY_BANDS, { key: "not_sure", label: "Not sure" }] },
+  { id: "N.Margin", section: 3, kind: "choice", text: "Gross margin: what is left of each sales dollar after the direct cost of the work", options: opts(
+    ["u20", "Under 20%"], ["20_30", "20 to 30%"], ["31_40", "31 to 40%"], ["41_50", "41 to 50%"], ["o50", "Over 50%"], ["not_sure", "Not sure"]) },
+  { id: "N.Miss", section: 3, kind: "choice", text: "Share of jobs, orders, or engagements that miss their target margin", options: opts(
+    ["u10", "Under 10%"], ["10_25", "10 to 25%"], ["26_50", "26 to 50%"], ["o50", "Over 50%"], ["no_track", "We do not track margin per job"]) },
+  { id: "N.MissBy", section: 3, kind: "choice", text: "When one misses, by how much, typically?", options: opts(
+    ["u5", "Under 5 points"], ["5_10", "5 to 10 points"], ["11_20", "11 to 20 points"], ["o20", "Over 20 points"], ["not_sure", "Not sure"]) },
+  { id: "N.Profit", section: 3, kind: "choice", text: "What net profit should the company earn, as a share of revenue?", options: opts(
+    ["5", "5%"], ["10", "10%"], ["15", "15%"], ["20p", "20% or more"], ["none", "No target set"]) },
+  { id: "N.Burden", section: 3, kind: "choice", text: "Average hourly cost of a team member, including payroll taxes, benefits, and insurance", options: opts(
+    ["u25", "Under $25"], ["25_40", "$25 to $40"], ["41_60", "$41 to $60"], ["o60", "Over $60"], ["not_sure", "Not sure"]) },
+  { id: "N.Ops.1", section: 3, os: "operations", kind: "choice", text: "Monthly payroll, all employees and regular contractors", options: MONEY_BANDS },
+  { id: "N.Ops.2", section: 3, os: "operations", kind: "choice", text: "Share of paid team time that is genuinely productive", options: opts(["90p", "90% or more"], ["75_89", "75 to 89%"], ["60_74", "60 to 74%"], ["u60", "Under 60%"]) },
+  { id: "N.Ops.3", section: 3, os: "operations", kind: "choice", text: "How often significant errors or rework happen", options: opts(["rarely", "Rarely"], ["monthly", "Once or twice a month"], ["weekly", "Weekly"], ["several_weekly", "Several times a week"]) },
+  { id: "N.Ops.4", section: 3, os: "operations", kind: "choice", text: "Typical cost of one rework event", options: opts(["u500", "Under $500"], ["500_2k", "$500 to $2,000"], ["2k_5k", "$2,000 to $5,000"], ["o5k", "Over $5,000"]) },
+  { id: "N.Growth.1", section: 3, os: "growth", kind: "number", min: 0, max: 10000, text: "Qualified opportunities lost each month to breakdowns on your side" },
+  { id: "N.Growth.2", section: 3, os: "growth", kind: "choice", text: "Lifetime value of a typical customer", options: opts(["u5k", "Under $5K"], ["5k_15k", "$5K to $15K"], ["15k_50k", "$15K to $50K"], ["50k_150k", "$50K to $150K"], ["o150k", "Over $150K"]) },
+  { id: "N.Growth.3", section: 3, os: "growth", kind: "choice", text: "Share of revenue from active outbound effort", options: opts(["u10", "Under 10%"], ["10_30", "10 to 30%"], ["31_60", "31 to 60%"], ["o60", "Over 60%"]) },
+  { id: "N.Strat.1", section: 3, os: "strategy", kind: "choice", text: "Cash not working toward growth or infrastructure", options: opts(["u100k", "Under $100K"], ["100k_250k", "$100K to $250K"], ["250k_500k", "$250K to $500K"], ["500k_1m", "$500K to $1M"], ["o1m", "Over $1M"]) },
+  { id: "N.Close", section: 3, kind: "text", optional: true, max: 280, text: "If the company recovered even half of what this brief shows, what would that change for you personally?" },
 ];
 
-// ============================================================
-// HELPERS
-// ============================================================
+export type S2Answers = Record<string, string>;
 
-/**
- * Returns the Section 2 questions active for a given respondent
- * based on their top two OS from Stage 1.
- * Universal questions always appear. OS questions appear only
- * if that OS is in the top two. Conditional questions are
- * filtered at render time based on prior answers.
- */
-export function getSection2Questions(
-  topOs: OperatingSystem,
-  secondOs: OperatingSystem
-): Section2Question[] {
-  const activeOs = new Set<string>([topOs, secondOs, "universal"]);
-  return SECTION2_QUESTIONS.filter((q) => activeOs.has(q.os));
+/** Items shown for this respondent, in order, given the top two systems and the answers so far. */
+export function activeS2(focus: OperatingSystem[], answers: S2Answers): S2Question[] {
+  return S2_QUESTIONS.filter((q) => {
+    if (q.os && !focus.includes(q.os)) return false;
+    if (q.id === "N.MissBy" && answers["N.Miss"] === "no_track") return false;
+    if (q.id === "N.Ops.4" && answers["N.Ops.3"] === "rarely") return false;
+    return true;
+  });
+}
+
+export const S2_SECTIONS: Record<1 | 2 | 3 | 4, { tracker: string; intro: string }> = {
+  1: { tracker: "Step 1 of 4: Why", intro: "There are no right or wrong answers. These shape how your brief is written." },
+  2: { tracker: "Step 2 of 4: The Reality Check", intro: "Now the company itself. The more honest the answers, the more useful the brief." },
+  3: { tracker: "Step 3 of 4: The Numbers", intro: "Estimates are fine. \"Not sure\" is an answer too, and it tells us something." },
+  4: { tracker: "Step 4 of 4: Your Picture", intro: "Here is the start of your picture. Your full brief is one click away." },
+};
+
+/** Returns the first invalid item ID, or null when every shown item is answered validly. */
+export function invalidS2(focus: OperatingSystem[], answers: S2Answers): string | null {
+  for (const q of activeS2(focus, answers)) {
+    const v = (answers[q.id] ?? "").trim();
+    if (q.kind === "choice") {
+      if (!q.options!.some((o) => o.key === v)) return q.id;
+    } else if (q.kind === "number") {
+      const n = Number(v);
+      if (v === "" || !Number.isFinite(n) || n < (q.min ?? 0) || n > (q.max ?? Infinity)) return q.id;
+    } else {
+      if (!v && q.optional) continue;
+      if (v.length < (q.min ?? 0) || v.length > (q.max ?? Infinity)) return q.id;
+    }
+  }
+  return null;
 }
