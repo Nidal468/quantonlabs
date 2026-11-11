@@ -5,10 +5,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function Dots({ n }: { n: number }) {
+export function Dots({ n, color }: { n: number; color: string }) {
   return (
     <span className="as-dots" aria-label={`${n} of 5`}>
-      {Array.from({ length: 5 }, (_, i) => <i key={i} className={i < n ? "on" : undefined} />)}
+      {Array.from({ length: 5 }, (_, i) => <i key={i} style={i < n ? { background: color } : undefined} />)}
     </span>
   );
 }

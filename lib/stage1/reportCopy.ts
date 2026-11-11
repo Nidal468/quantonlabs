@@ -12,6 +12,26 @@ export const TIER_LABELS: Record<SeverityTier, string> = {
   critical_gap: "Unstructured: Leadership-Dependent",
 };
 
+/**
+ * Severity colours by tier, as in the previous assessment. Managing Director
+ * decision, 10 Nov 2026, replacing the template's single Blue-Indigo dot;
+ * flagged for the template revision.
+ */
+export const TIER_COLORS: Record<SeverityTier, string> = {
+  architected: "#22C55E",
+  functional_gap: "#EAB308",
+  structural_gap: "#F97316",
+  critical_gap: "#EF4444",
+};
+
+/** Same hues, dark enough for text on white (4.5:1). */
+export const TIER_TEXT_COLORS: Record<SeverityTier, string> = {
+  architected: "#15803D",
+  functional_gap: "#A16207",
+  structural_gap: "#C2410C",
+  critical_gap: "#B91C1C",
+};
+
 export const OS_LABELS: Record<OperatingSystem, string> = {
   strategy: "Strategy",
   platform: "Platform",

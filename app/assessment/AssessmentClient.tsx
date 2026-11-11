@@ -14,7 +14,7 @@ import {
   type CompanyFunction, type Locations, type PriorityOption, type RespondentRole,
   type RevenueBand, type SectionA, type SectionB, type TeamSize,
 } from "@/lib/stage1";
-import { OS_LABELS, TIER_LABELS } from "@/lib/stage1/reportCopy";
+import { OS_LABELS, TIER_COLORS, TIER_LABELS } from "@/lib/stage1/reportCopy";
 import { Choice, Dots, Err, ReportFrame } from "./ui";
 import "./assessment.css";
 
@@ -350,9 +350,9 @@ export default function AssessmentClient() {
                     <ol>
                       {scored.ranked_os.map((os) => (
                         <li key={os}>
-                          <Dots n={scored.scores[os].dots} />
+                          <Dots n={scored.scores[os].dots} color={TIER_COLORS[scored.scores[os].tier]} />
                           <span className="os">{OS_LABELS[os]}</span>
-                          <span className="tl">{TIER_LABELS[scored.scores[os].tier]}</span>
+                          <span className="tl" style={{ color: TIER_COLORS[scored.scores[os].tier] }}>{TIER_LABELS[scored.scores[os].tier]}</span>
                         </li>
                       ))}
                     </ol>

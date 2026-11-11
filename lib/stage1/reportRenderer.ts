@@ -19,7 +19,9 @@ import {
   SUMMARY_PENDING,
   SYSTEM_FRAMINGS,
   TIER_BLOCKS,
+  TIER_COLORS,
   TIER_LABELS,
+  TIER_TEXT_COLORS,
 } from "./reportCopy";
 
 const COLORS = {
@@ -85,8 +87,8 @@ function summary(company: string, scored: ScoredPayload, priority: string): stri
     </section>`;
 }
 
-function dots(n: number): string {
-  return Array.from({ length: 5 }, (_, i) => `<span class="dot ${i < n ? "filled" : "empty"}"></span>`).join("");
+function dots(n: number, color: string): string {
+  return Array.from({ length: 5 }, (_, i) => (i < n ? `<span class="dot filled" style="background:${color}"></span>` : `<span class="dot empty"></span>`)).join("");
 }
 
 function severityMap(scored: ScoredPayload): string {
@@ -95,9 +97,9 @@ function severityMap(scored: ScoredPayload): string {
       const s = scored.scores[os];
       return `
         <div class="severity-row">
-          <div class="severity-dots" aria-label="${s.dots} of 5">${dots(s.dots)}</div>
+          <div class="severity-dots" aria-label="${s.dots} of 5">${dots(s.dots, TIER_COLORS[s.tier])}</div>
           <div class="severity-body">
-            <div class="severity-title">${esc(OS_LABELS[os])} <span class="severity-tier">${esc(TIER_LABELS[s.tier])}</span></div>
+            <div class="severity-title">${esc(OS_LABELS[os])} <span class="severity-tier" style="color:${TIER_TEXT_COLORS[s.tier]}">${esc(TIER_LABELS[s.tier])}</span></div>
             <div class="severity-diagnostic">${esc(DIAGNOSTIC_LINES[os][s.tier])}</div>
           </div>
         </div>`;

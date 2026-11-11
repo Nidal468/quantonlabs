@@ -57,7 +57,7 @@ textarea.as-in{resize:vertical;line-height:1.55}
 .as-prev .qx-body{color:rgba(255,255,255,.7);font-size:15.5px}
 .as-dots{display:inline-flex;gap:4px}
 .as-dots i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.18)}
-.as-dots i.on{background:#4655EB}
+
 
 .as-form h2{max-width:24ch}
 .as-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 16px;margin-top:28px}

@@ -21,13 +21,17 @@ export function assignTier(n: number): SeverityTier {
   return "critical_gap";
 }
 
-/** Dots and tiers are independent scales. */
+/**
+ * Dots show how much structure is in place: five for the smallest gap, one for
+ * the largest. Managing Director decision, 10 Nov 2026, reversing the template's
+ * direction (more dots meant a larger gap); flagged for the template revision.
+ */
 export function scoreToDots(n: number): 1 | 2 | 3 | 4 | 5 {
-  if (n <= 20) return 1;
-  if (n <= 40) return 2;
+  if (n <= 20) return 5;
+  if (n <= 40) return 4;
   if (n <= 60) return 3;
-  if (n <= 80) return 4;
-  return 5;
+  if (n <= 80) return 2;
+  return 1;
 }
 
 /**
