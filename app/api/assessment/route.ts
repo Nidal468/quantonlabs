@@ -4,12 +4,12 @@
 // Source: ASSESSMENT STAGE 1 QUESTION BANK; STRUCTURAL PATTERN REPORT TEMPLATE;
 //         ASSESSMENT FRAMES AND TRANSITIONS (section 9); DEVELOPER BRIEF ASSESSMENT
 
-import { siteBase, publicBase } from "@/lib/assessment/linkToken";
+import { siteBase } from "@/lib/assessment/linkToken";
 import { NextRequest, NextResponse } from "next/server";
 import { appendRecord, TAB_NAMES } from "@/lib/assessment/sheet";
 import { deleteDraft, putPrivateHtml } from "@/lib/assessment/privateStore";
 import { reportUrl as signedReportUrl, reportPdfUrl as signedReportPdfUrl } from "@/lib/assessment/linkToken";
-import { escHtml, sendMail, SENDER, SIGNATURE_HTML, SIGNATURE_TEXT } from "@/lib/assessment/gmail";
+import { escHtml, sendMail, SENDER, SIGNATURE_HTML, SIGNATURE_TEXT, EMAIL_LOGO_URL } from "@/lib/assessment/gmail";
 import { renderPdf } from "@/lib/stage1/pdfRenderer";
 import { renderReport } from "@/lib/stage1/reportRenderer";
 import { OS_LABELS } from "@/lib/stage1/reportCopy";
@@ -250,7 +250,7 @@ async function sendReportEmail(s: AssessmentSubmission, scored: ScoredPayload, r
 <body style="margin:0;padding:0;background-color:#ffffff;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="padding:32px 16px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-  <tr><td style="padding:0 0 28px;"><img src="${publicBase()}/images/site/logo-ink@2x.png" width="120" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
+  <tr><td style="padding:0 0 28px;"><img src="${EMAIL_LOGO_URL}" width="160" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
   <tr><td>${p(intro)}</td></tr>
   <tr><td style="padding:4px 0 28px;">${button(reportUrl, "View Your Structural Pattern Report", true)}</td></tr>
   ${brief ? `<tr><td style="padding:20px 0 28px;border-top:1px solid #E5E7EB;">${p(briefLine)}${button(briefUrl, "Continue to the Extended Operator Brief", false)}</td></tr>` : ""}

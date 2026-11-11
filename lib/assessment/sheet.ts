@@ -85,12 +85,30 @@ async function writeValues(token: string, range: string, values: (string | numbe
   if (!res.ok) throw new Error(`Sheet write failed (${range}): ${await res.text()}`);
 }
 
+/** Widens a tab's grid when a write needs more columns than it has; Sheets rejects writes past the grid. */
+async function ensureColumns(token: string, tab: string, needed: number): Promise<void> {
+  const res = await fetch(`${API}/${sheetId()}?fields=sheets.properties(sheetId,title,gridProperties.columnCount)`, { headers: { Authorization: `Bearer ${token}` } });
+  if (!res.ok) throw new Error(`Sheet metadata read failed: ${await res.text()}`);
+  const sheets: { properties: { sheetId: number; title: string; gridProperties?: { columnCount?: number } } }[] = (await res.json()).sheets ?? [];
+  const p = sheets.find((x) => x.properties.title === tab)?.properties;
+  if (!p) throw new Error(`Sheet tab not found: ${tab}`);
+  const have = p.gridProperties?.columnCount ?? 26;
+  if (have >= needed) return;
+  const up = await fetch(`${API}/${sheetId()}:batchUpdate`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ requests: [{ appendDimension: { sheetId: p.sheetId, dimension: "COLUMNS", length: needed - have + 20 } }] }),
+  });
+  if (!up.ok) throw new Error(`Sheet column expansion failed: ${await up.text()}`);
+}
+
 /** Header row of a tab, extended with any keys it does not yet have. Returns normalised headers in column order. */
 async function ensureHeaders(token: string, tab: string, keys: string[]): Promise<string[]> {
   const [row = []] = await readValues(token, `${tab}!1:1`);
   const norm = row.map(normaliseHeader);
   const missing = keys.filter((k) => !norm.includes(normaliseHeader(k)));
   if (missing.length) {
+    await ensureColumns(token, tab, row.length + missing.length);
     const start = row.length;
     await writeValues(token, `${tab}!${colLetter(start)}1:${colLetter(start + missing.length - 1)}1`, [missing]);
     norm.push(...missing.map(normaliseHeader));
@@ -126,8 +144,9 @@ export async function findSubmission(submissionId: string): Promise<FoundRecord 
   for (const [variant, tab] of Object.entries(TAB_NAMES) as [ClosingVariant, string][]) {
     let rows: string[][];
     try {
-      rows = await readValues(token, `${tab}!A:ZZ`);
-    } catch {
+      rows = await readValues(token, tab);
+    } catch (err) {
+      console.error(`[Sheet] read failed for ${tab}`, err);
       continue;
     }
     if (!rows.length) continue;
@@ -165,7 +184,7 @@ export const stage2Eligible = (f: FoundRecord | null): f is FoundRecord => !!f &
 /** Every data row of a tab as header-keyed records, with their sheet row numbers. */
 export async function readTab(tab: string): Promise<{ rowNumber: number; record: RecordRow }[]> {
   const token = await getAccessToken();
-  const rows = await readValues(token, `${tab}!A:ZZ`);
+  const rows = await readValues(token, tab);
   if (!rows.length) return [];
   const headers = rows[0].map(normaliseHeader);
   return rows.slice(1).map((r, i) => {
