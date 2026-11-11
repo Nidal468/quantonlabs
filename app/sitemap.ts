@@ -1,12 +1,12 @@
 import { MetadataRoute } from "next";
 import { blogPosts } from "@/db/blogs";
-import { caseStudies } from "@/db/caseStudy";
+import { CASES } from "@/content/case-studies";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://quantonlabs.com";
   const lastModified = new Date();
   const insightIds = blogPosts.map(p => p.id);
-  const caseStudyIds = caseStudies.map(c => c.id);
+  const caseStudyIds = CASES.map(c => c.id);
 
   return [
     {
@@ -94,6 +94,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: `${baseUrl}/solutions/trade-contractors`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/modular-agent-program`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/insights`,
       lastModified,
       changeFrequency: "weekly",
@@ -112,7 +124,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/terms`,
+      url: `${baseUrl}/terms-of-service`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terms-of-use`,
       lastModified,
       changeFrequency: "yearly",
       priority: 0.3,

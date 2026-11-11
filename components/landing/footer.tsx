@@ -217,7 +217,7 @@ export default function Footer() {
               <p>© {new Date().getFullYear()} Quanton Labs. All rights reserved.</p>
               <div className="flex gap-4">
                 <a
-                  href="https://linkedin.com/company/quantonlabs"
+                  href="https://www.linkedin.com/company/quanton-labs"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Quanton Labs on LinkedIn"
@@ -243,7 +243,7 @@ export default function Footer() {
                 <Link href="/privacy" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
                   Privacy
                 </Link>
-                <Link href="/terms" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
+                <Link href="/terms-of-use" style={{ color: "rgba(255,255,255,0.75)" }} className="hover:text-white transition">
                   Terms
                 </Link>
               </div>

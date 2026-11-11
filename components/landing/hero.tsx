@@ -110,8 +110,8 @@ export function HeroSection() {
             lineHeight: 1.65,
           }}
         >
-          You built a business. Now the business runs you. Quanton OS deploys eight
-          coordinated AI agents on an operational core you own outright.
+          Quanton OS runs the company so its leadership can lead it, on a system
+          of record the company owns.
         </p>
 
         <div className="flex flex-col items-center gap-4">

@@ -1,47 +1,51 @@
-import ManufacturingDistribution from "@/components/solutions/ManufacturingDistribution";
-import Navbar from "@/components/landing/navbar";
-import Footer from "@/components/landing/footer";
 import type { Metadata } from "next";
+import SolutionPage from "@/components/site/solutions/SolutionPage";
+import { EXTRAS } from "@/content/solutions/extras";
+import data from "@/content/solutions/manufacturing-distribution";
+
+const url = `https://quantonlabs.com/solutions/${data.slug}`;
 
 export const metadata: Metadata = {
-  title: "AI Operating System for Manufacturing and Distribution | Quanton Labs",
-  description:
-    "Quanton OS deploys eight coordinated AI agents for manufacturing and distribution businesses. Govern production scheduling, materials inventory, order fulfillment, and customer communication from one coordinated system.",
-  alternates: {
-    canonical: "https://quantonlabs.com/solutions/manufacturing-distribution",
-  },
-  openGraph: {
-    title: "AI Operating System for Manufacturing and Distribution | Quanton Labs",
-    description:
-      "Eight coordinated AI agents built for manufacturing and distribution. Production scheduling, inventory reorder, order fulfillment, and real-time financial visibility , governed and automated.",
-    url: "https://quantonlabs.com/solutions/manufacturing-distribution",
-    siteName: "Quanton Labs",
-    type: "website",
-  },
+  title: data.meta.title,
+  description: data.meta.description,
+  alternates: { canonical: url },
+  openGraph: { title: data.meta.title, description: data.meta.description, url, siteName: "Quanton Labs", type: "website" },
 };
 
-export default function ManufacturingDistributionPage() {
+const x = EXTRAS[data.slug];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: x.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: `Quanton OS for ${data.name}`,
+  serviceType: "AI-native business system",
+  description: data.meta.description,
+  audience: { "@type": "BusinessAudience", audienceType: data.hero.builtFor },
+  provider: { "@type": "Organization", name: "Quanton Labs", url: "https://quantonlabs.com" },
+  url,
+};
+
+const breadcrumb = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
+    { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
+    { "@type": "ListItem", position: 3, name: data.name },
+  ],
+};
+
+export default function Page() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "https://quantonlabs.com" },
-              { "@type": "ListItem", position: 2, name: "Solutions", item: "https://quantonlabs.com/solutions" },
-              { "@type": "ListItem", position: 3, name: "Manufacturing and Distribution" },
-            ],
-          }),
-        }}
-      />
-      <Navbar isScrolled={true} />
-      <main style={{ paddingTop: "70px" }}>
-        <ManufacturingDistribution />
-      </main>
-      <Footer />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([breadcrumb, serviceSchema, faqSchema]) }} />
+      <SolutionPage d={data} x={x} />
     </>
   );
 }

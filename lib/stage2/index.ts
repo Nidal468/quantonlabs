@@ -1,90 +1,41 @@
 // Property of Remington Enterprises LLC
 // Quanton OS Proprietary Orchestration Layer
-// Stage 2 Assessment — Module Orchestrator
+// Stage 2 Extended Operator Brief - Module surface and server-side context
 
-import type {
-  Stage2Submission,
-  Stage2Profile,
-  CostOfInaction,
-} from "./types";
-import { calculateCostOfInaction } from "./scoring";
-import { buildOwnerProfile } from "./profile";
-import type { InferenceAnswers } from "./profile";
+import type { OperatingSystem, RevenueBand, TeamSize } from "@/lib/stage1/types";
+import { getQuestionById, weightOf } from "@/lib/stage1/questions";
+import { OPERATING_SYSTEMS } from "@/lib/stage1/types";
+import type { FoundRecord } from "@/lib/assessment/sheet";
 
-// ============================================================
-// RE-EXPORTS
-// ============================================================
+export * from "./questions";
+export * from "./engine";
 
-export * from "./types";
-export { calculateCostOfInaction, formatCurrency, threeYearCost } from "./scoring";
-export {
-  buildOwnerProfile,
-  getCostFraming,
-  getIdentityLanguage,
-  getVisionParagraph,
-  getVisionCostConnection,
-  getCtaCopy,
-  getInactionLine,
-} from "./profile";
-export type { InferenceAnswers } from "./profile";
-export { getSection2Questions } from "./questions";
-export {
-  INFERENCE_QUESTIONS,
-  VISION_QUESTION,
-  SECTION2_QUESTIONS,
-} from "./questions";
-
-// ============================================================
-// FULL STAGE 2 PROCESSING PIPELINE
-// ============================================================
-
-/**
- * End-to-end processing of a Stage 2 submission.
- * Called from the route handler after validating the payload.
- *
- * Input: raw Stage 2 submission + top two OS from Stage 1.
- * Output: complete Stage 2 profile with cost of inaction,
- *         ready for brief generation, Sheet update, and delivery.
- */
-export function processStage2Submission(
-  submission: Stage2Submission,
-  topOs: string,
-  secondOs: string
-): Stage2Profile {
-  const { owner_profile, section2, section3 } = submission;
-
-  // 1. Calculate cost of inaction from Section 3 inputs
-  const cost_of_inaction = calculateCostOfInaction(section3);
-
-  // 2. Return complete profile
-  return {
-    owner_profile,
-    section2,
-    section3,
-    cost_of_inaction,
-    top_os: topOs as any,
-    second_os: secondOs as any,
-  };
+export interface Stage1Context {
+  revenue: RevenueBand;
+  team_size: TeamSize;
+  focus: OperatingSystem[]; // top OS, second OS
+  first_name: string;
+  last_name: string;
+  company: string;
+  email: string;
+  stage1: { "B.Core.6"?: number; "B.Core.11"?: number };
 }
 
-// ============================================================
-// SUBMISSION ID GENERATOR
-// ============================================================
-
-/**
- * Generates a Stage 2 submission ID linked to the Stage 1 ID.
- * Format: QL-STG2-{timestamp}-{random}
- * The Stage 1 submission_id is stored separately in the payload
- * as the foreign key for the Sheet row update.
- */
-export function generateStage2Id(): string {
-  const now = new Date();
-  const yyyy = now.getUTCFullYear();
-  const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(now.getUTCDate()).padStart(2, "0");
-  const hh = String(now.getUTCHours()).padStart(2, "0");
-  const mi = String(now.getUTCMinutes()).padStart(2, "0");
-  const timestamp = `${yyyy}${mm}${dd}T${hh}${mi}`;
-  const randomSuffix = Math.random().toString(36).substring(2, 8);
-  return `QL-STG2-${timestamp}-${randomSuffix}`;
+/** Reads the Stage 1 record (normalised headers) into the context Stage 2 carries. Null when incomplete. */
+export function contextFromRecord(found: FoundRecord): Stage1Context | null {
+  const r = found.record;
+  const top = r.top_os as OperatingSystem;
+  const second = r.second_os as OperatingSystem;
+  if (!OPERATING_SYSTEMS.includes(top) || !OPERATING_SYSTEMS.includes(second) || !r.revenue_band || !r.team_size || !r.work_email) return null;
+  const w = (id: string) => weightOf(getQuestionById(id)!, r[id.toLowerCase().replace(/[^a-z0-9]+/g, "_")]);
+  return {
+    revenue: r.revenue_band as RevenueBand,
+    team_size: r.team_size as TeamSize,
+    focus: [top, second],
+    first_name: r.first_name ?? "",
+    last_name: r.last_name ?? "",
+    company: r.company_name || "Your Company",
+    email: r.work_email.trim(),
+    stage1: { "B.Core.6": w("B.Core.6"), "B.Core.11": w("B.Core.11") },
+  };
 }

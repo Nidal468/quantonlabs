@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -17,11 +17,17 @@ const manrope = Manrope({
 
 const productionUrl = "https://quantonlabs.com";
 
+export const viewport: Viewport = {
+  themeColor: "#0b0c0e",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(productionUrl),
   title: "AI-Native Business System for Established Operators | Quanton Labs",
   description:
-    "Quanton OS is an AI-native business system. Eight coordinated AI agents run on one governed operational core built as your system of record, with a governing intelligence layer connecting every function and giving leadership real-time visibility. Built and operated for businesses generating $1M to $20M annually.",
+    "Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead. The consulting firm that stays.",
   keywords:
     "AI-native business system, AI agents for business operations, governed AI system, AI system of record, business AI infrastructure, AI operating system for business",
   alternates: {
@@ -29,19 +35,17 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/assets/ql-favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: [
-      { url: "/images/assets/ql-favicon-180.png", sizes: "180x180", type: "image/png" },
-    ],
-    other: [
-      { rel: "mask-icon", url: "/images/assets/ql-favicon.svg" },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: "Quanton OS | The AI-Native Business System",
     description:
-      "Eight coordinated AI agents. One governing intelligence layer. Complete business infrastructure built as your system of record, consolidating a fragmented stack into one governed system you own.",
+      "Quanton OS runs the company so its leadership can lead it. A Governing Agent and seven department leads on one system of record the company owns.",
     url: productionUrl,
     siteName: "Quanton Labs",
     type: "website",
@@ -81,7 +85,7 @@ const schemaOrg = {
     contactType: "sales",
   },
   sameAs: [
-    "https://www.linkedin.com/company/quantonlabs",
+    "https://www.linkedin.com/company/quanton-labs",
     "https://www.youtube.com/@QuantonLabsOfficial",
   ],
 };
@@ -92,14 +96,8 @@ const schemaProduct = {
   name: "Quanton OS",
   serviceType: "AI-native business system deployment and managed operations",
   description:
-    "An AI-native business system that deploys eight coordinated AI agents against a governed operational core built as the client's system of record. Consolidates a fragmented stack into one system the client owns.",
+    "An AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.",
   areaServed: "US",
-  offers: {
-    "@type": "Offer",
-    price: "7500",
-    priceCurrency: "USD",
-    description: "Discovery and Diagnostic engagement starting at $7,500",
-  },
   provider: {
     "@type": "Organization",
     name: "Quanton Labs",
