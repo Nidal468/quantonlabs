@@ -127,7 +127,7 @@ async function sendBriefEmail(ctx: Stage1Context, html: string, briefUrl: string
 <body style="margin:0;padding:0;background-color:#ffffff;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="padding:32px 16px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-  <tr><td style="padding:0 0 28px;"><img src="${EMAIL_LOGO_URL}" width="160" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
+  <tr><td style="padding:0 0 28px;"><img src="${EMAIL_LOGO_URL}" width="109" height="30" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
   <tr><td>${p(escHtml(intro))}</td></tr>
   <tr><td style="padding:4px 0 28px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-radius:8px;background-color:#4655EB;">
     <a href="${briefUrl}" style="display:inline-block;padding:13px 26px;font-family:Manrope,Arial,Helvetica,sans-serif;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">View Your Extended Operator Brief</a>

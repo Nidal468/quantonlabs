@@ -96,8 +96,11 @@ export function escHtml(s: string): string {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-/** Email logo: the brand file in the public Blob store, reachable from any mail client before and after launch. */
-export const EMAIL_LOGO_URL = "https://eru8zvxsrt6fabfe.public.blob.vercel-storage.com/QL%20LOGO%20BLACK%20VERSION%20WITH%20TAGLINE%20v1.0%20Feb2026.png";
+/**
+ * Email logo: the site's transparent ink logo (2x file, shown at 109 x 30).
+ * Always from quantonlabs.com: it loads once the redesign is live there.
+ */
+export const EMAIL_LOGO_URL = "https://quantonlabs.com/images/site/logo-ink@2x.png";
 
 /** Standard signature per the BRAND GUIDE email signature spec. */
 export const SIGNATURE_TEXT = ["Quanton Labs", "growth@quantonlabs.com | (929) 298-2162 | quantonlabs.com"].join("\n");
