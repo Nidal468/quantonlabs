@@ -15,6 +15,7 @@ import {
   type RevenueBand, type SectionA, type SectionB, type TeamSize,
 } from "@/lib/stage1";
 import { OS_LABELS, TIER_LABELS } from "@/lib/stage1/reportCopy";
+import { Choice, Dots, Err, ReportFrame } from "./ui";
 import "./assessment.css";
 
 type Step = "intro" | "a" | "b" | "c" | "d" | "done";
@@ -52,28 +53,6 @@ const validPhone = (p: string) => { const n = p.replace(/\D/g, "").length; retur
 const normPhone = (p: string) => { const d = p.replace(/\D/g, ""); return d.length === 10 ? `+1${d}` : `+${d}`; };
 const validDomain = (u: string) => /^([a-z0-9]([a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(u.trim().replace(/^https?:\/\//i, "").replace(/\/.*$/, ""));
 const normUrl = (u: string) => (/^https?:\/\//i.test(u.trim()) ? u.trim().toLowerCase() : `https://${u.trim().toLowerCase()}`);
-
-function Dots({ n }: { n: number }) {
-  return (
-    <span className="as-dots" aria-label={`${n} of 5`}>
-      {Array.from({ length: 5 }, (_, i) => <i key={i} className={i < n ? "on" : undefined} />)}
-    </span>
-  );
-}
-
-function Choice({ name, label, checked, onChange, multi }: { name: string; label: string; checked: boolean; onChange: () => void; multi?: boolean }) {
-  return (
-    <label className={`as-opt${checked ? " on" : ""}`}>
-      <input type={multi ? "checkbox" : "radio"} name={name} checked={checked} onChange={onChange} />
-      <span className="mk" aria-hidden="true" />
-      <span className="tx">{label}</span>
-    </label>
-  );
-}
-
-function Err({ msg }: { msg: string | null }) {
-  return msg ? <p className="as-err" role="alert">{msg}</p> : null;
-}
 
 // ============================================================
 // WIZARD
@@ -367,33 +346,6 @@ export default function AssessmentClient() {
       </div>
     </Page>
   );
-}
-
-/** The site denies framing by URL, so the report is fetched and shown through srcdoc, sized to its content. */
-function ReportFrame({ url }: { url: string }) {
-  const [html, setHtml] = useState<string | null>(null);
-  const ref = useRef<HTMLIFrameElement>(null);
-  useEffect(() => {
-    fetch(url).then((r) => (r.ok ? r.text() : null)).then(setHtml).catch(() => setHtml(null));
-  }, [url]);
-  const fit = () => {
-    const f = ref.current;
-    const doc = f?.contentDocument;
-    if (!f || !doc?.body) return;
-    f.style.height = "0px"; // measure content, not the previous frame height
-    f.style.height = `${doc.documentElement.scrollHeight + 4}px`;
-  };
-  const onLoad = () => {
-    fit();
-    ref.current?.contentDocument?.fonts?.ready.then(fit);
-    window.setTimeout(fit, 600);
-  };
-  useEffect(() => {
-    window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
-  });
-  if (!html) return <p className="as-sub"><a href={url} target="_blank" rel="noopener">Open the report in a new tab</a></p>;
-  return <iframe ref={ref} className="as-report" srcDoc={html} title="Structural Pattern Report" sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" onLoad={onLoad} />;
 }
 
 function Field({ id, label, v, set, err, type = "text", auto, ph, optional }: { id: string; label: string; v: string; set: (v: string) => void; err?: string | null; type?: string; auto?: string; ph?: string; optional?: boolean }) {

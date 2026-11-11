@@ -183,11 +183,11 @@ function closing(company: string, scored: ScoredPayload, submissionId: string): 
     </section>`;
 }
 
-function esc(text: string): string {
+export function esc(text: string): string {
   return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
-function wrapInPage({ title, body, submissionId }: { title: string; body: string; submissionId: string }): string {
+export function wrapInPage({ title, body, submissionId, extraCss = "", footerMeta }: { title: string; body: string; submissionId: string; extraCss?: string; footerMeta?: string }): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,6 +200,7 @@ function wrapInPage({ title, body, submissionId }: { title: string; body: string
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 ${reportStyles()}
+${extraCss}
 </style>
 </head>
 <body>
@@ -207,7 +208,7 @@ ${reportStyles()}
 ${body}
 <footer class="report-footer">
   <div class="wordmark">QUANTON LABS</div>
-  <div class="meta">Report ID: ${esc(submissionId)}</div>
+  <div class="meta">${footerMeta ? esc(footerMeta) : `Report ID: ${esc(submissionId)}`}</div>
 </footer>
 </main>
 </body>

@@ -95,3 +95,33 @@ export async function deletePrivateHtml(
 ): Promise<void> {
   await del(documentPath(kind, submissionId), { storeId: storeId() });
 }
+
+// ============================================================
+// STAGE 2 PROGRESS (saved answers, keyed to the submission)
+// ============================================================
+
+const progressPath = (submissionId: string) => `progress/${submissionId}.json`;
+
+export async function putProgress(submissionId: string, data: unknown): Promise<void> {
+  await put(progressPath(submissionId), JSON.stringify(data), {
+    access: "private",
+    contentType: "application/json",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    storeId: storeId(),
+  });
+}
+
+export async function getProgress<T>(submissionId: string): Promise<T | null> {
+  try {
+    const result = await get(progressPath(submissionId), { access: "private", useCache: false, storeId: storeId() });
+    if (!result || result.statusCode !== 200 || !result.stream) return null;
+    return JSON.parse(await new Response(result.stream).text()) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function deleteProgress(submissionId: string): Promise<void> {
+  await del(progressPath(submissionId), { storeId: storeId() });
+}
