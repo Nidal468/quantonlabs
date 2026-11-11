@@ -161,3 +161,16 @@ export async function updateRecord(found: Pick<FoundRecord, "tab" | "rowNumber">
 
 /** Stage 2 opens only for qualified and above-segment submissions that exist in the record. */
 export const stage2Eligible = (f: FoundRecord | null): f is FoundRecord => !!f && (f.variant === "qualified" || f.variant === "above_segment");
+
+/** Every data row of a tab as header-keyed records, with their sheet row numbers. */
+export async function readTab(tab: string): Promise<{ rowNumber: number; record: RecordRow }[]> {
+  const token = await getAccessToken();
+  const rows = await readValues(token, `${tab}!A:ZZ`);
+  if (!rows.length) return [];
+  const headers = rows[0].map(normaliseHeader);
+  return rows.slice(1).map((r, i) => {
+    const record: RecordRow = {};
+    headers.forEach((h, c) => { if (h) record[h] = r[c] ?? ""; });
+    return { rowNumber: i + 2, record };
+  });
+}
