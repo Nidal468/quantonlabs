@@ -89,6 +89,11 @@ export function verifyToken(purpose: LinkPurpose, token: string): string | null 
  * On a Vercel preview it is the preview's own address, so links sent from a
  * preview open there. Everywhere else: NEXTAUTH_URL, defaulting to quantonlabs.com.
  */
+/** Public site address for email assets: never a protected preview, so mail clients can load images. */
+export function publicBase(): string {
+  return (process.env.NEXTAUTH_URL ?? "https://quantonlabs.com").replace(/\/+$/, "");
+}
+
 export function siteBase(): string {
   if (process.env.VERCEL_ENV === "preview" && process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return (process.env.NEXTAUTH_URL ?? "https://quantonlabs.com").replace(/\/+$/, "");

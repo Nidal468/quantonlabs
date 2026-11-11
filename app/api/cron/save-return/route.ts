@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { deleteDraft, getDraft, listDraftIds, putDraft } from "@/lib/assessment/privateStore";
-import { signToken, siteBase } from "@/lib/assessment/linkToken";
+import { signToken, siteBase, publicBase } from "@/lib/assessment/linkToken";
 import { escHtml, sendMail, SIGNATURE_HTML, SIGNATURE_TEXT } from "@/lib/assessment/gmail";
 import { DRAFT_QUIET_MS, DRAFT_TTL_MS, type Draft } from "@/lib/assessment/drafts";
 
@@ -46,7 +46,7 @@ async function sendResumeEmail(d: Draft, link: string) {
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:32px 16px;background:#ffffff;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;margin:0 auto;">
-  <tr><td style="padding:0 0 28px;"><img src="${siteBase()}/images/site/logo-ink@2x.png" width="120" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
+  <tr><td style="padding:0 0 28px;"><img src="${publicBase()}/images/site/logo-ink@2x.png" width="120" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
   <tr><td><p style="margin:0 0 20px;font-family:Manrope,Arial,Helvetica,sans-serif;font-size:16px;line-height:26px;color:#374151;">${escHtml(body)}</p></td></tr>
   <tr><td style="padding:0 0 28px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-radius:8px;background-color:#4655EB;">
     <a href="${link}" style="display:inline-block;padding:13px 26px;font-family:Manrope,Arial,Helvetica,sans-serif;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">Finish Your Structural Pattern Report</a>

@@ -4,7 +4,7 @@
 // Source: ASSESSMENT STAGE 1 QUESTION BANK; STRUCTURAL PATTERN REPORT TEMPLATE;
 //         ASSESSMENT FRAMES AND TRANSITIONS (section 9); DEVELOPER BRIEF ASSESSMENT
 
-import { siteBase } from "@/lib/assessment/linkToken";
+import { siteBase, publicBase } from "@/lib/assessment/linkToken";
 import { NextRequest, NextResponse } from "next/server";
 import { appendRecord, TAB_NAMES } from "@/lib/assessment/sheet";
 import { deleteDraft, putPrivateHtml } from "@/lib/assessment/privateStore";
@@ -250,7 +250,7 @@ async function sendReportEmail(s: AssessmentSubmission, scored: ScoredPayload, r
 <body style="margin:0;padding:0;background-color:#ffffff;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="padding:32px 16px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
-  <tr><td style="padding:0 0 28px;"><img src="${SITE}/images/site/logo-ink@2x.png" width="120" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
+  <tr><td style="padding:0 0 28px;"><img src="${publicBase()}/images/site/logo-ink@2x.png" width="120" alt="Quanton Labs" style="display:block;border:0;"></td></tr>
   <tr><td>${p(intro)}</td></tr>
   <tr><td style="padding:4px 0 28px;">${button(reportUrl, "View Your Structural Pattern Report", true)}</td></tr>
   ${brief ? `<tr><td style="padding:20px 0 28px;border-top:1px solid #E5E7EB;">${p(briefLine)}${button(briefUrl, "Continue to the Extended Operator Brief", false)}</td></tr>` : ""}
