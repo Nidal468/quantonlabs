@@ -55,6 +55,8 @@ export type RespondentRole = "owner_founder" | "ceo_president" | "executive" | "
 export interface SectionD {
   first_name: string;
   last_name: string;
+  /** Managing Director decision, 10 Nov 2026: asked directly instead of read from the website domain. */
+  company_name: string;
   work_email: string;
   phone: string;
   website: string;

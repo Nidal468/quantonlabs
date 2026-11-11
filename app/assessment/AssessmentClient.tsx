@@ -29,7 +29,7 @@ interface Result {
 
 const CALENDLY = "https://calendly.com/quantonlabs/30min";
 const IDLE_MS = 30 * 60 * 1000;
-const d0 = { first_name: "", last_name: "", work_email: "", phone: "", website: "", role: "" as RespondentRole | "", location: "" };
+const d0 = { first_name: "", last_name: "", company_name: "", work_email: "", phone: "", website: "", role: "" as RespondentRole | "", location: "" };
 
 const MSG = {
   required: "This one is required to move forward. Choose what comes closest to how the company runs today.",
@@ -196,6 +196,7 @@ export default function AssessmentClient() {
     const e: Record<string, string | null> = {
       first_name: d.first_name.trim() ? null : MSG.required,
       last_name: d.last_name.trim() ? null : MSG.required,
+      company_name: d.company_name.trim() ? null : MSG.required,
       work_email: !d.work_email.trim() ? MSG.required : validEmail(d.work_email) ? null : MSG.email,
       phone: !d.phone.trim() ? MSG.required : validPhone(d.phone) ? null : MSG.phone,
       website: !d.website.trim() ? MSG.required : validDomain(d.website) ? null : MSG.website,
@@ -227,6 +228,7 @@ export default function AssessmentClient() {
         section_d: {
           first_name: d.first_name.trim(),
           last_name: d.last_name.trim(),
+          company_name: d.company_name.trim(),
           work_email: d.work_email.trim().toLowerCase(),
           phone: normPhone(d.phone),
           website: normUrl(d.website),
@@ -364,6 +366,7 @@ export default function AssessmentClient() {
                     <div className="as-fields">
                       <Field id="first_name" label="First name" auto="given-name" v={d.first_name} set={(v) => setDF("first_name", v)} err={errs.first_name} />
                       <Field id="last_name" label="Last name" auto="family-name" v={d.last_name} set={(v) => setDF("last_name", v)} err={errs.last_name} />
+                      <Field id="company_name" label="Company name" auto="organization" v={d.company_name} set={(v) => setDF("company_name", v)} err={errs.company_name} />
                       <Field id="work_email" label="Work email" type="email" auto="email" v={d.work_email} set={(v) => setDF("work_email", v)} err={errs.work_email} />
                       <Field id="phone" label="Phone" type="tel" auto="tel" v={d.phone} set={(v) => setDF("phone", v)} err={errs.phone} />
                       <Field id="website" label="Company website" auto="url" v={d.website} set={(v) => setDF("website", v)} err={errs.website} ph="company.com" />

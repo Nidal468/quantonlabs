@@ -16,7 +16,7 @@ import { OS_LABELS } from "@/lib/stage1/reportCopy";
 import { validateSubmission } from "@/lib/stage1/validate";
 import {
   AGENT_NAME_PROVISIONAL,
-  companyNameFromWebsite,
+  companyName,
   footprintLabel,
   generateSubmissionId,
   getActiveQuestions,
@@ -121,7 +121,7 @@ function sheetRow(
     work_email: d.work_email.trim(),
     phone: d.phone,
     website: d.website,
-    company_name: companyNameFromWebsite(d.website),
+    company_name: companyName(d),
     role: d.role,
     location: d.location ?? "",
     revenue_band: a.revenue,
@@ -212,7 +212,7 @@ async function sendOpsNotification(s: AssessmentSubmission, scored: ScoredPayloa
     reportUrl,
     `PDF: ${pdfUrl}`,
   ].join("\n");
-  await sendMail({ to: process.env.GMAIL_SEND_AS ?? SENDER, subject: `Stage 1 completed: ${companyNameFromWebsite(d.website)}`, text });
+  await sendMail({ to: process.env.GMAIL_SEND_AS ?? SENDER, subject: `Stage 1 completed: ${companyName(d)}`, text });
 }
 
 // ============================================================
@@ -221,7 +221,7 @@ async function sendOpsNotification(s: AssessmentSubmission, scored: ScoredPayloa
 
 async function sendReportEmail(s: AssessmentSubmission, scored: ScoredPayload, reportHtml: string, reportUrl: string, submissionId: string) {
   const d = s.section_d;
-  const company = companyNameFromWebsite(d.website);
+  const company = companyName(d);
   const brief = scored.closing_variant !== "below_threshold";
   const briefUrl = `${SITE}/assessment/stage2/${encodeURIComponent(submissionId)}`;
 

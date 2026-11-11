@@ -6,7 +6,7 @@
 import { siteBase } from "@/lib/assessment/linkToken";
 import type { AssessmentSubmission, OperatingSystem, ScoredPayload, SectionB, SeverityTier } from "./types";
 import { getQuestionById, weightOf, C1_OPTIONS } from "./questions";
-import { companyNameFromWebsite } from "./index";
+import { companyName } from "./index";
 import {
   CALLOUTS,
   CLOSING_VARIANTS,
@@ -41,7 +41,7 @@ const LINKEDIN = "https://www.linkedin.com/company/quanton-labs";
 /** Report assembly steps 1 to 8. The route stores the result and sends the email (step 9). */
 export function renderReport(submission: AssessmentSubmission, scored: ScoredPayload, submissionId: string): string {
   const { section_b, section_c, section_d } = submission;
-  const company = companyNameFromWebsite(section_d.website);
+  const company = companyName(section_d);
   const body = [
     cover(`${section_d.first_name} ${section_d.last_name}`, company, scored),
     summary(company, scored, section_c.priority),

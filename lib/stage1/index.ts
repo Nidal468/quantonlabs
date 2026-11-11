@@ -60,7 +60,12 @@ export async function verifyWebsite(url: string): Promise<boolean> {
   }
 }
 
-/** Company name for respondent copy, from the website domain. */
+/** Company name for respondent copy: as entered, or from the website domain for older records. */
+export function companyName(d: { company_name?: string; website: string }): string {
+  const n = (d.company_name ?? "").trim();
+  return n || companyNameFromWebsite(d.website);
+}
+
 export function companyNameFromWebsite(website: string): string {
   if (!website) return "Your Company";
   const host = website.trim().replace(/^https?:\/\//i, "").replace(/^www\./i, "").split(/[/?#]/)[0];
