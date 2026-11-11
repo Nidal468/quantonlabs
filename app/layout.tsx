@@ -51,10 +51,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://quantonlabs.com/images/site/og-card.png",
+        url: "https://quantonlabs.com/images/site/og-logo.png",
         width: 1200,
         height: 630,
-        alt: "Quanton OS runs the company so its leadership can lead it.",
+        alt: "Quanton Labs",
       },
     ],
   },
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "Quanton OS | The AI-Native Business System",
     description:
       "Quanton OS runs the company so its leadership can lead it. A Governing Agent and seven department leads on one system of record the company owns.",
-    images: ["https://quantonlabs.com/images/site/og-card.png"],
+    images: ["https://quantonlabs.com/images/site/og-logo.png"],
   },
   verification: {
     google: "VH98L-PLDlbMMnphknhdQWCZ1xoL8ClYr7wsxRLyUxo",
