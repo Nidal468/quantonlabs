@@ -3,6 +3,7 @@
 // Stage 1 Structural Pattern Report - HTML Renderer
 // Source: STRUCTURAL PATTERN REPORT TEMPLATE (Report Structure, Render Specification, Report Assembly)
 
+import { siteBase } from "@/lib/assessment/linkToken";
 import type { AssessmentSubmission, OperatingSystem, ScoredPayload, SectionB, SeverityTier } from "./types";
 import { getQuestionById, weightOf, C1_OPTIONS } from "./questions";
 import { companyNameFromWebsite } from "./index";
@@ -31,7 +32,7 @@ const COLORS = {
   white: "#FFFFFF",
 };
 const GRADIENT = "linear-gradient(to right, #2B60EB, #4655EB, #584DEB, #7341EA, #8B37EA)";
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quantonlabs.com";
+const SITE = siteBase();
 const CALENDLY = "https://calendly.com/quantonlabs/30min";
 const LINKEDIN = "https://www.linkedin.com/company/quanton-labs";
 

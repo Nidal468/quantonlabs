@@ -4,6 +4,7 @@
 // Source: ASSESSMENT STAGE 1 QUESTION BANK; STRUCTURAL PATTERN REPORT TEMPLATE;
 //         ASSESSMENT FRAMES AND TRANSITIONS (section 9); DEVELOPER BRIEF ASSESSMENT
 
+import { siteBase } from "@/lib/assessment/linkToken";
 import { NextRequest, NextResponse } from "next/server";
 import { appendRecord, TAB_NAMES } from "@/lib/assessment/sheet";
 import { putPrivateHtml } from "@/lib/assessment/privateStore";
@@ -30,7 +31,7 @@ import {
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quantonlabs.com";
+const SITE = siteBase();
 
 // ============================================================
 // POST

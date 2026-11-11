@@ -84,8 +84,9 @@ export function verifyToken(purpose: LinkPurpose, token: string): string | null 
 // URL HELPERS
 // ============================================================
 
-function siteBase(): string {
-  return process.env.NEXTAUTH_URL ?? "https://quantonlabs.com";
+/** Absolute site address for every assessment link, report asset, and email. One setting: NEXTAUTH_URL. */
+export function siteBase(): string {
+  return (process.env.NEXTAUTH_URL ?? "https://quantonlabs.com").replace(/\/+$/, "");
 }
 
 export function reportUrl(submissionId: string): string {

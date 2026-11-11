@@ -7,7 +7,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { findSubmission, stage2Eligible, updateRecord } from "@/lib/assessment/sheet";
 import { putPrivateHtml, deleteProgress } from "@/lib/assessment/privateStore";
-import { briefUrl as signedBriefUrl, briefPdfUrl as signedBriefPdfUrl } from "@/lib/assessment/linkToken";
+import { briefUrl as signedBriefUrl, briefPdfUrl as signedBriefPdfUrl, siteBase } from "@/lib/assessment/linkToken";
 import { escHtml, sendMail, SENDER, SIGNATURE_HTML, SIGNATURE_TEXT } from "@/lib/assessment/gmail";
 import { renderPdf } from "@/lib/stage1/pdfRenderer";
 import { activeS2, contextFromRecord, invalidS2, runEngine, S2_QUESTIONS, type EngineResult, type Stage1Context } from "@/lib/stage2";
@@ -121,7 +121,7 @@ async function sendBriefEmail(ctx: Stage1Context, html: string, briefUrl: string
   const intro = `${ctx.first_name}, your Extended Operator Brief is ready. It puts numbers on what your Structural Pattern Report found, built from your own figures. The link stays active for 24 months. A PDF copy is attached.`;
   const closeText = `If you want to talk it through, reply to this email or book a 30-minute conversation: ${CALENDLY}`;
   const text = [intro, "", `View Your Extended Operator Brief: ${briefUrl}`, "", closeText, "", SIGNATURE_TEXT].join("\n");
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? "https://quantonlabs.com";
+  const site = siteBase();
   const p = (t: string) => `<p style="margin:0 0 18px;font-family:Manrope,Arial,Helvetica,sans-serif;font-size:16px;line-height:26px;color:#374151;">${t}</p>`;
   const htmlBody = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background-color:#ffffff;">
