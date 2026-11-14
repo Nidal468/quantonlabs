@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { installSiteMotion } from "./motion";
+import { installNoOrphans } from "./noOrphans";
 import { ChevronDown, Menu, X } from "lucide-react";
 import "./site.css";
 
@@ -40,9 +41,10 @@ export default function SiteNav({ theme = "light" }: { theme?: "light" | "dark" 
   /* site-wide motion layer: card glow, count-up figures, drawn lines, photo drift */
   useEffect(() => {
     document.documentElement.classList.add("hy");
-    const id = requestAnimationFrame(() => { off = installSiteMotion(); });
     let off = () => {};
-    return () => { cancelAnimationFrame(id); off(); };
+    let offGlue = () => {};
+    const id = requestAnimationFrame(() => { off = installSiteMotion(); offGlue = installNoOrphans(); });
+    return () => { cancelAnimationFrame(id); off(); offGlue(); };
   }, [path]);
 
   /* back to top: appears after one screen of scroll */

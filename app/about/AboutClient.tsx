@@ -28,7 +28,7 @@ const FACTS: [string, string][] = [
   ["Company value", "Ready for a lender or buyer at any moment"],
 ];
 function Hero() {
-  const words = "Quanton Labs builds the system that runs the company.".split(" ");
+  const words = ["Quanton", "Labs", "builds", "the", "system", "that", "runs", "the\u00a0company."];
   return (
     <section className="qx-ink h2-hero">
       <div className="cn"><div className="wrap gr">
@@ -36,7 +36,10 @@ function Hero() {
           <div className="qx-lab">About Quanton Labs</div>
           <h1 className="qx-d1">
             {words.map((w, i) => (
-              <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0.01, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.08 * i, ease: [0.2, 0.7, 0.2, 1] }}>{w}</motion.span>
+              <span key={i}>
+                {i > 0 && " "}
+                <motion.span style={{ display: "inline-block" }} initial={{ opacity: 0.01, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.08 * i, ease: [0.2, 0.7, 0.2, 1] }}>{w}</motion.span>
+              </span>
             ))}
           </h1>
           <motion.p className="lead" initial={{ opacity: 0.01 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }}>
