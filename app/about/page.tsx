@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About | Quanton Labs",
     description:
-      "Quanton OS runs the company so its leadership can lead it. The consulting firm that stays.",
+      "Quanton OS runs the company so its leadership can lead it.",
     url: "https://quantonlabs.com/about",
     siteName: "Quanton Labs",
     type: "website",

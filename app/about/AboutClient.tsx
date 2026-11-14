@@ -245,8 +245,8 @@ function Model() {
       <div className="wrap">
         <motion.div className="mh" {...rise}>
           <div className="qx-lab"><b>05</b> The model</div>
-          <h2 className="qx-d1" style={{ marginTop: 28, maxWidth: "12ch" }}>The consulting firm that stays.</h2>
-          <p className="qx-body" style={{ maxWidth: "44ch" }}>Quanton OS gives a leadership team what a consulting firm would, every day instead of once a year, and stays to run it.</p>
+          <h2 className="qx-d1" style={{ marginTop: 28, maxWidth: "12ch" }}>The system that stays.</h2>
+          <p className="qx-body" style={{ maxWidth: "44ch" }}>Quanton Labs builds Quanton OS, operates it, and improves it every month, and the operational core it builds belongs to the company.</p>
         </motion.div>
         {[
           ["Phase 1", "Discovery and Diagnostic", "Operations mapped, books checked, baseline captured, and a Diagnostic Report the client owns regardless of what it decides next.", "Two weeks for a base footprint"],

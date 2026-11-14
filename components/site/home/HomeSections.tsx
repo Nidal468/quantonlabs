@@ -118,8 +118,8 @@ export default function HomeSections() {
         <div className="wrap">
           <motion.div {...rise}>
             <div className="qx-lab">Quanton Labs</div>
-            <h2 className="qx-d1">The consulting firm that stays.</h2>
-            <p className="qx-body">Quanton OS gives a leadership team what a consulting firm would, every day instead of once a year, and stays to run it.</p>
+            <h2 className="qx-d1">The system that stays.</h2>
+            <p className="qx-body">Quanton Labs builds Quanton OS, operates it, and improves it every month, and the operational core it builds belongs to the company.</p>
           </motion.div>
         </div>
       </section>
