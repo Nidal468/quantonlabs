@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(productionUrl),
   title: "AI-Native Business System for Established Operators | Quanton Labs",
   description:
-    "Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead. The consulting firm that stays.",
+    "Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.",
   keywords:
     "AI-native business system, AI agents for business operations, governed AI system, AI system of record, business AI infrastructure, AI operating system for business",
   alternates: {
