@@ -155,3 +155,13 @@ svg {
   .sol-dashboard-grid { grid-template-columns: 1fr !important; }
   .sol-wide-grid { grid-template-columns: 1fr !important; }
 }
+/* Line breaking: no single word stranded on a last line.
+   Headings balance across their lines; running text avoids a short last line.
+   Chrome 117+, Safari 26+, Firefox 121+ (balance); browsers without support ignore it. */
+h1, h2, h3, h4, h5, h6, legend, summary, button, .lead,
+.qx-d1, .qx-d2, .qx-d3, .qx-lab {
+  text-wrap: balance;
+}
+p, li, dd, dt, blockquote, figcaption, td, th, label {
+  text-wrap: pretty;
+}

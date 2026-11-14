@@ -1,6 +1,7 @@
 "use client";
 
 /* Shared page kit for interior pages: paper and ink, regular-weight display type. */
+import { Fragment, useLayoutEffect, useRef } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import SiteNav from "@/components/site/SiteNav";
@@ -24,10 +25,38 @@ export function Page({ children, nav = "dark" }: { children: React.ReactNode; na
 
 /** Headline that rises in word by word, as on About. */
 export function Words({ text, delay = 0 }: { text: string; delay?: number }) {
+  // Real spaces between words so the browser can balance the lines. The final
+  // pair shares one box and stays on one line whenever it fits the column, so a
+  // headline does not end on a single word; on a column too narrow for the pair
+  // it wraps normally instead of overflowing.
+  const parts = text.split(" ");
+  const words = parts.length > 2 ? [...parts.slice(0, -2), `${parts[parts.length - 2]} ${parts[parts.length - 1]}`] : parts;
+  const tail = useRef<HTMLSpanElement>(null);
+  useLayoutEffect(() => {
+    const el = tail.current;
+    const box = el?.parentElement?.closest("h1, h2, h3, p, div") as HTMLElement | null;
+    if (!el || !box || parts.length < 3) return;
+    const fit = () => {
+      el.style.display = "inline-block";
+      el.style.whiteSpace = "nowrap";
+      const fits = el.scrollWidth <= box.clientWidth * 0.95;
+      // Too wide: dissolve the box so the two words wrap as ordinary text.
+      el.style.whiteSpace = fits ? "nowrap" : "normal";
+      el.style.display = fits ? "inline-block" : "inline";
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(box);
+    document.fonts?.ready.then(fit).catch(() => undefined);
+    return () => ro.disconnect();
+  }, [text]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
-      {text.split(" ").map((w, i) => (
-        <motion.span key={i} style={{ display: "inline-block", marginRight: "0.24em" }} initial={{ opacity: 0.01, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: delay + 0.05 * i, ease }}>{w}</motion.span>
+      {words.map((w, i) => (
+        <Fragment key={i}>
+          {i > 0 && " "}
+          <motion.span ref={parts.length > 2 && i === words.length - 1 ? tail : undefined} style={{ display: "inline-block" }} initial={{ opacity: 0.01, y: "0.4em" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: delay + 0.05 * i, ease }}>{w}</motion.span>
+        </Fragment>
       ))}
     </>
   );
