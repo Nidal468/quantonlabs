@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: "Quanton OS | The AI-Native Business System",
     description:
       "Quanton OS runs the company so its leadership can lead it. An AI-native business system that carries the operating and managing work of an established company on a system of record the company owns.",
-    images: ["https://quantonlabs.com/images/assets/og-image.png"],
+    images: ["https://quantonlabs.com/images/site/og-logo.png"],
   },
   verification: {
     google: "VH98L-PLDlbMMnphknhdQWCZ1xoL8ClYr7wsxRLyUxo",
