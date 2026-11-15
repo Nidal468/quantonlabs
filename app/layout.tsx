@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Quanton OS | The AI-Native Business System",
     description:
-      "Quanton OS consolidates strategy, operations, and intelligence into a single governed architecture built as your system of record. For owner-led businesses generating $1M to $20M that need infrastructure, not more tools.",
+      "Quanton OS runs the company so its leadership can lead it. An AI-native business system that carries the operating and managing work of an established company on a system of record the company owns.",
     images: ["https://quantonlabs.com/images/assets/og-image.png"],
   },
   verification: {
@@ -77,7 +77,7 @@ const schemaOrg = {
   url: "https://quantonlabs.com",
   logo: "https://quantonlabs.com/images/assets/QL_LOGO_WHITE_TRANSPARENT_v1_0_Feb2026.png",
   description:
-    "Quanton Labs builds and operates Quanton OS, a governed AI-native business system for established operators generating $1M to $20M annually.",
+    "Quanton Labs builds and operates Quanton OS, an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead.",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+1-929-298-2162",

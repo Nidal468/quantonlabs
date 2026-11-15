@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { blogPosts, isLive } from "@/db/blogs";
+import { blogPosts, isLive, livePosts } from "@/db/blogs";
 
 // Re-check hourly so a scheduled post goes live on its date without a redeploy.
 export const revalidate = 3600;
 import InsightArticle from "@/components/insights/InsightArticle";
+import InsightScheduled from "@/components/insights/InsightScheduled";
 
 const SITE = "https://quantonlabs.com";
 
 export function generateStaticParams() {
-  return blogPosts.map(post => ({ id: String(post.id) }));
+  return blogPosts.filter(post => !post.draft).map(post => ({ id: String(post.id) }));
 }
 
 export async function generateMetadata({
@@ -18,10 +19,18 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const post = blogPosts.find(p => String(p.id) === id && isLive(p));
+  const post = blogPosts.find(p => String(p.id) === id && !p.draft);
 
   if (!post) {
     return { title: "Insight Not Found | Quanton Labs" };
+  }
+
+  if (!isLive(post)) {
+    return {
+      title: `Scheduled: ${post.title} | Quanton Labs`,
+      description: post.excerpt,
+      robots: { index: false, follow: true },
+    };
   }
 
   const description = post.excerpt ?? post.introduction?.slice(0, 155) ?? "";
@@ -58,9 +67,17 @@ export default async function InsightPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = blogPosts.find(p => String(p.id) === id && isLive(p));
+  const post = blogPosts.find(p => String(p.id) === id && !p.draft);
 
   if (!post) notFound();
+
+  if (!isLive(post)) {
+    const latest = livePosts()
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .slice(0, 3)
+      .map(p => ({ id: p.id, title: p.title }));
+    return <InsightScheduled post={post} latest={latest} />;
+  }
 
   const articleSchema = {
     "@context": "https://schema.org",

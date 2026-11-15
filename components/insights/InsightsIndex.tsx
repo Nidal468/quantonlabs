@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Close, Page, PHero, stagger } from "@/components/site/kit";
-import { livePosts } from "@/db/blogs";
+import { livePosts, scheduledPosts } from "@/db/blogs";
 import "./insights.css";
 
 const fmt = (v: string) => {
@@ -13,6 +13,7 @@ const fmt = (v: string) => {
 
 export default function InsightsIndex() {
   const posts = livePosts().sort((a, b) => b.date.localeCompare(a.date));
+  const upcoming = scheduledPosts();
   const [lead, ...rest] = posts;
   return (
     <Page>
@@ -28,6 +29,25 @@ export default function InsightsIndex() {
                 <span className="go">Read</span>
               </Link>
             </motion.div>
+          )}
+          {upcoming.length > 0 && (
+            <div className="in-up">
+              <div className="in-up-h">
+                <div className="qx-lab">Scheduled</div>
+                <p>Planned as a series and released on a set calendar.</p>
+              </div>
+              <ol>
+                {upcoming.map((p) => (
+                  <li key={p.id}>
+                    <Link href={`/insights/${p.id}`}>
+                      <span className="d">{fmt(p.date)}</span>
+                      <span className="t">{p.title}</span>
+                      <span className="c">{p.category}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </div>
           )}
           <div className="in-grid">
             {rest.map((p, i) => (
