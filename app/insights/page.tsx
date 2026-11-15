@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import InsightsIndex from "@/components/insights/InsightsIndex";
-import { blogPosts } from "@/db/blogs";
+import { livePosts } from "@/db/blogs";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Insights | Quanton Labs",
@@ -24,14 +26,14 @@ const blogSchema = {
   "@type": "Blog",
   name: "Quanton Labs Insights",
   description:
-    "Writing on business architecture, operational intelligence, and AI infrastructure for owner-led businesses.",
+    "Writing on business architecture, operational intelligence, and AI infrastructure for leaders of established companies.",
   url: "https://quantonlabs.com/insights",
   publisher: {
     "@type": "Organization",
     name: "Quanton Labs",
     url: "https://quantonlabs.com",
   },
-  blogPost: blogPosts.map(post => ({
+  blogPost: livePosts().map(post => ({
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
