@@ -51,10 +51,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://quantonlabs.com/images/assets/og-image.png",
+        url: "https://quantonlabs.com/images/site/og-logo.png",
         width: 1200,
         height: 630,
-        alt: "Quanton Labs | The Architecture of Intelligent Business",
+        alt: "Quanton Labs",
       },
     ],
   },
