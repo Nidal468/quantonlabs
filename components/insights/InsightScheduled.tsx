@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Close, Page, Words, rise } from "@/components/site/kit";
-import type { BlogPost } from "@/db/blogs";
+import type { PostSummary } from "@/db/blogs";
 import "./insights.css";
 
 const fmt = (v: string) => {
@@ -13,7 +13,7 @@ const fmt = (v: string) => {
 
 type Live = { id: number; title: string };
 
-export default function InsightScheduled({ post, latest }: { post: BlogPost; latest: Live[] }) {
+export default function InsightScheduled({ post, latest }: { post: PostSummary; latest: Live[] }) {
   return (
     <Page>
       <section className="qx-ink in-hero">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import InsightsIndex from "@/components/insights/InsightsIndex";
-import { livePosts } from "@/db/blogs";
+import { livePosts, scheduledPosts, summarize } from "@/db/blogs";
 
 export const revalidate = 3600;
 
@@ -67,7 +67,10 @@ export default function InsightsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <InsightsIndex />
+      <InsightsIndex
+        live={livePosts().sort((a, b) => b.date.localeCompare(a.date)).map(summarize)}
+        upcoming={scheduledPosts().map(summarize)}
+      />
     </>
   );
 }
