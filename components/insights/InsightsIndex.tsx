@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Close, Page, PHero, stagger } from "@/components/site/kit";
-import { blogPosts } from "@/db/blogs";
+import { livePosts } from "@/db/blogs";
 import "./insights.css";
 
 const fmt = (v: string) => {
@@ -12,7 +12,7 @@ const fmt = (v: string) => {
 };
 
 export default function InsightsIndex() {
-  const posts = blogPosts.filter((p) => !p.draft).sort((a, b) => b.date.localeCompare(a.date));
+  const posts = livePosts().sort((a, b) => b.date.localeCompare(a.date));
   const [lead, ...rest] = posts;
   return (
     <Page>

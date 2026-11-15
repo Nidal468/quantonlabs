@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { blogPosts } from "@/db/blogs";
+import { blogPosts, isLive } from "@/db/blogs";
+
+// Re-check hourly so a scheduled post goes live on its date without a redeploy.
+export const revalidate = 3600;
 import InsightArticle from "@/components/insights/InsightArticle";
 
 const SITE = "https://quantonlabs.com";
@@ -15,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const post = blogPosts.find(p => String(p.id) === id);
+  const post = blogPosts.find(p => String(p.id) === id && isLive(p));
 
   if (!post) {
     return { title: "Insight Not Found | Quanton Labs" };
@@ -55,7 +58,7 @@ export default async function InsightPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = blogPosts.find(p => String(p.id) === id);
+  const post = blogPosts.find(p => String(p.id) === id && isLive(p));
 
   if (!post) notFound();
 
@@ -102,7 +105,7 @@ export default async function InsightPage({
   };
 
   const related = (post.relatedPosts ?? [])
-    .map(rid => blogPosts.find(p => p.id === rid))
+    .map(rid => blogPosts.find(p => p.id === rid && isLive(p)))
     .filter((p): p is (typeof blogPosts)[0] => Boolean(p))
     .slice(0, 3)
     .map(p => ({ id: p.id, title: p.title }));

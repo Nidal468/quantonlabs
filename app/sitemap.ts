@@ -1,11 +1,13 @@
 import { MetadataRoute } from "next";
-import { blogPosts } from "@/db/blogs";
+import { livePosts } from "@/db/blogs";
+
+export const revalidate = 3600;
 import { CASES } from "@/content/case-studies";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://quantonlabs.com";
   const lastModified = new Date();
-  const insightIds = blogPosts.map(p => p.id);
+  const insightIds = livePosts().map(p => p.id);
   const caseStudyIds = CASES.map(c => c.id);
 
   return [
