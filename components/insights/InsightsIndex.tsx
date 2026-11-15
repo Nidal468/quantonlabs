@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Close, Page, PHero, stagger } from "@/components/site/kit";
-import { livePosts, scheduledPosts } from "@/db/blogs";
+import type { PostSummary } from "@/db/blogs";
 import "./insights.css";
 
 const fmt = (v: string) => {
@@ -11,9 +11,8 @@ const fmt = (v: string) => {
   return Number.isNaN(d.getTime()) ? v : d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 };
 
-export default function InsightsIndex() {
-  const posts = livePosts().sort((a, b) => b.date.localeCompare(a.date));
-  const upcoming = scheduledPosts();
+export default function InsightsIndex({ live, upcoming }: { live: PostSummary[]; upcoming: PostSummary[] }) {
+  const posts = live;
   const [lead, ...rest] = posts;
   return (
     <Page>

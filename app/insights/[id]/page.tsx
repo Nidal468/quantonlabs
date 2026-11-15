@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { blogPosts, isLive, livePosts } from "@/db/blogs";
+import { blogPosts, isLive, livePosts, summarize } from "@/db/blogs";
 
 // Re-check hourly so a scheduled post goes live on its date without a redeploy.
 export const revalidate = 3600;
@@ -76,7 +76,7 @@ export default async function InsightPage({
       .sort((a, b) => b.date.localeCompare(a.date))
       .slice(0, 3)
       .map(p => ({ id: p.id, title: p.title }));
-    return <InsightScheduled post={post} latest={latest} />;
+    return <InsightScheduled post={summarize(post)} latest={latest} />;
   }
 
   const articleSchema = {

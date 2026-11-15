@@ -294,3 +294,16 @@ export const livePosts = (now: Date = new Date()): BlogPost[] => blogPosts.filte
 
 export const scheduledPosts = (now: Date = new Date()): BlogPost[] =>
     blogPosts.filter(p => !p.draft && !isLive(p, now)).sort((a, b) => a.date.localeCompare(b.date));
+
+// Card-level fields only. Client components receive these, never full post content,
+// so a scheduled post's text cannot be read from the page source before its date.
+export type PostSummary = Pick<BlogPost, "id" | "title" | "date" | "excerpt" | "category" | "readTime">;
+
+export const summarize = (p: BlogPost): PostSummary => ({
+    id: p.id,
+    title: p.title,
+    date: p.date,
+    excerpt: p.excerpt,
+    category: p.category,
+    readTime: p.readTime,
+});
