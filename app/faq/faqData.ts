@@ -10,7 +10,7 @@ export const faqs: FaqItem[] = [
     category: "The System",
     question: "What is Quanton OS?",
     answer:
-      "Quanton OS is an AI-native business system that carries the operating and managing work of an established company on a system of record the company owns, so its leadership can lead. A Governing Agent coordinates seven department leads, each directing specialist agents, across every function from bids and purchasing to payroll and the month-end close. Every transaction, document, and obligation lives in one system of record the company owns. Work runs inside the rules and approvals leadership sets, and each decision reaches the right person with the analysis already done. Quanton Labs builds it, operates it, and improves it continuously. You own the delivered operational core and every configuration in it on completion of deployment and payment.",
+      "Quanton OS is an AI-native business system. Eight coordinated AI agents run on Quanton Labs infrastructure against an operational core built as your system of record: one governed layer holding your customer, financial, inventory, and workflow data. Quanton Labs builds it, operates it, and improves it continuously. You own it.",
   },
   {
     category: "The System",
@@ -166,7 +166,7 @@ export const faqs: FaqItem[] = [
     category: "Engagement and Investment",
     question: "Who is Quanton OS built for?",
     answer:
-      "Established companies generating $2M to $100M annually with 10 to 250 employees, where three or more business functions have to coordinate to deliver. Leadership is founder-led or operator-led, with authority to change how the business runs. Any starting point works: existing platforms, a single accounting package, or nothing formal at all. The strongest signal is fragmented AI usage alongside work falling between functions. The tools are in place. What is missing is the architecture.",
+      "Owner-led and operator-led businesses generating $1M to $20M annually with 5 to 50 employees, across professional services, home services, automotive, healthcare and wellness, manufacturing and distribution, and retail. The common thread is operational complexity that has outgrown how the business currently runs, where work falls between functions and the owner is the coordination layer. Your existing tooling does not qualify or disqualify you. Established platforms, a single accounting package, or nothing formal at all are all workable starting points.",
   },
   {
     category: "Engagement and Investment",
